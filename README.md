@@ -1,2 +1,3 @@
-# Aliases
+# dotfiles
+
 Aliases I use
