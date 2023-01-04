@@ -8,6 +8,7 @@ alias ff='find . | grep -i '
 
 # Git
 alias co='git commit -a -m'
+alias coa='git add -A && co'
 alias gs='git status'
 alias gl='git log'
 alias gc='git restore --staged $(git rev-parse --show-toplevel) && git checkout $(git rev-parse --show-toplevel) && git clean -f && gs'
@@ -30,3 +31,10 @@ alias ra='source ~/.bash_profile'
 
 # Editors
 alias e='vim'
+
+# Cargo
+alias cb='cargo build'
+alias ct='cargo test'
+alias cr='cargo run'
+alias cf='cargo fmt'
+alias rt='./run_tests.sh'
