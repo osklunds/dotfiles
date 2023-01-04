@@ -27,8 +27,8 @@ grt() {
 alias gb='git branch'
 
 # Aliases
-alias ra='source ~/.bash_profile'
-
+alias ra='source ~/.aliases.sh'
+alias ea='e ~/.aliases.sh && ra'
 # Editors
 alias e='vim'
 
