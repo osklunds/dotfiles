@@ -11,6 +11,7 @@ let NERDTreeShowHidden=1
 
 autocmd BufNew * execute ":tabmove"
 
+set noswapfile
 augroup autosave
      autocmd!
 "     autocmd BufRead * if &filetype == "" | setlocal ft=text | endif
