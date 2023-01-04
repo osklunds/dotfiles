@@ -1,3 +1,3 @@
 # dotfiles
 
-Aliases I use
+dotfiles I use
