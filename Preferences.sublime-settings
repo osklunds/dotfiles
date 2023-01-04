@@ -1,0 +1,29 @@
+{
+	"auto_complete": true,
+	"auto_match_enabled": false,
+	"color_scheme": "Packages/Color Scheme - Default/Breakers.sublime-color-scheme",
+	"detect_indentation": false,
+	"enable_tab_scrolling": false,
+	"enable_telemetry": false,
+	"find_selected_text": true,
+	"font_size": 12,
+	"hot_exit": false,
+	"ignored_packages":
+	[
+		"ASP",
+		"LSP",
+		"Vintage"
+	],
+	"open_files_in_new_window": false,
+	"rulers":
+	[
+		80
+	],
+	"scroll_past_end": true,
+	"show_definitions": false,
+	"tab_completion": false,
+	"tab_size": 4,
+	"theme": "Default.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"word_wrap": "true"
+}
