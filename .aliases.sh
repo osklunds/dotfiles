@@ -1,6 +1,4 @@
 
-export GREP_OPTIONS='--color=always'
-
 # Files
 alias ll='ls -la'
 alias ft='grep -nr . -ie '
@@ -26,9 +24,12 @@ grt() {
 
 alias gb='git branch'
 
-# Aliases
-alias ra='source ~/.aliases.sh'
+# Editing dotfiles
+alias ev='e ~/.vimrc'
+alias eb='e ~/.bashrc'
 alias ea='e ~/.aliases.sh && ra'
+alias ra='source ~/.aliases.sh'
+
 # Editors
 alias e='vim'
 
