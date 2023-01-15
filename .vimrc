@@ -5,7 +5,6 @@ set sw=4
 
 set ignorecase
 set colorcolumn=80
-colorscheme one
 
 set formatoptions-=r
 set formatoptions-=o
@@ -31,6 +30,11 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
 set langmap=Ö:,-/,&^,€$
+
+syntax enable
+colorscheme morning
+highlight Constant ctermbg=15
+highlight Normal ctermbg=15
 
 " Plugins will be downloaded under the specified directory.
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
