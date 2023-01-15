@@ -15,7 +15,7 @@ alias gd='git diff'
 alias gpl='git pull'
 alias gps='git push --all origin'
 alias guc='git reset "HEAD^"'
-alias ga='git add -A'
+alias ga='git add'
 alias gm='git merge'
 
 grt() {

@@ -6,17 +6,24 @@ set ignorecase
 set colorcolumn=80
 colorscheme one
 
+set formatoptions-=r
+set formatoptions-=o
+
 let NERDTreeShowHidden=1
 " au VimEnter *  NERDTree
 
 autocmd BufNew * execute ":tabmove"
 
+set autoread
+
 set noswapfile
-augroup autosave
-     autocmd!
-"     autocmd BufRead * if &filetype == "" | setlocal ft=text | endif
-     autocmd FileType * autocmd TextChanged,InsertLeave * if &readonly == 0 | silent write | endif
-augroup END
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_silent = 1  " do not display the auto-save notification
+" augroup autosave
+"      autocmd!
+" "     autocmd BufRead * if &filetype == "" | setlocal ft=text | endif
+"      autocmd FileType * autocmd TextChanged,InsertLeave * if &readonly == 0 | silent write | endif
+" augroup END
 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -33,7 +40,7 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 " Declare the list of plugins.
 Plug 'preservim/nerdtree'
-
+Plug 'https://github.com/907th/vim-auto-save'
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
