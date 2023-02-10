@@ -16,3 +16,6 @@
 [submodule ".vim/plugins/vim-pathogen"]
 	path = .vim/plugins/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen.git
+[submodule ".vim/plugins/vim-auto-save"]
+	path = .vim/plugins/vim-auto-save
+	url = https://github.com/907th/vim-auto-save.git
