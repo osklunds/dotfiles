@@ -17,12 +17,12 @@ alias gps='git push --all origin'
 alias guc='git reset "HEAD^"'
 alias ga='git add'
 alias gm='git merge'
+alias gb='git branch'
+alias gr='cd $(git rev-parse --show-toplevel)'
 
 grt() {
     git revert --no-commit "$1"..HEAD && co "Reverted to $1"
 }
-
-alias gb='git branch'
 
 # Editing dotfiles
 alias ev='e ~/.vim/vimrc'
