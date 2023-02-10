@@ -25,7 +25,7 @@ grt() {
 alias gb='git branch'
 
 # Editing dotfiles
-alias ev='e ~/.vimrc'
+alias ev='e ~/.vim/vimrc'
 alias eb='e ~/.bashrc'
 alias ea='e ~/.aliases.sh && ra'
 alias ra='source ~/.aliases.sh'
