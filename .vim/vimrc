@@ -26,7 +26,7 @@ inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
-set langmap=Ö:,-/,&^,€$,(*
+set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copied from (and somtimes modified) amix/vimrc
