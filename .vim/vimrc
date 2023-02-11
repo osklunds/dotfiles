@@ -28,7 +28,6 @@ inoremap <Right> <Nop>
 
 set langmap=Ö:,-/,&^,€$,(*
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copied from (and somtimes modified) amix/vimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -404,7 +403,7 @@ map <leader>nf :NERDTreeFind<cr>
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
-      \ 'colorscheme': 'PaperColor',
+      \ 'colorscheme': 'PaperColorLightlineCustom',
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
       \             ['fugitive', 'readonly', 'filename', 'modified'] ],
