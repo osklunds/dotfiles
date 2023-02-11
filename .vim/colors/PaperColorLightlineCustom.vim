@@ -14,6 +14,8 @@ let s:navy = '#005f87'
 let s:orange = '#d75f00'
 let s:purple = '#8959a8'
 let s:aqua = '#3e999f'
+let s:lime = '#9ef542'
+let s:light_orange = '#faad69'
 
 " Basics:
 let s:foreground = '#4d4d4c'
@@ -42,9 +44,9 @@ let s:p.normal.middle = [ [ s:statusline_active_fg, s:statusline_active_bg ]]
 let s:p.inactive.right = [ [ s:foreground, s:background ], [ s:foreground, s:background ] ]
 let s:p.inactive.left = [ [ s:foreground, s:background ], [ s:foreground, s:background ] ]
 let s:p.inactive.middle = [ [ s:foreground, s:background ], ]
-let s:p.insert.left = [ [ s:blue, s:background ], [ s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
+let s:p.insert.left = [ [ s:foreground, s:lime ], [s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
 let s:p.replace.left = [ [ s:background, s:pink ], [s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
-let s:p.visual.left = [ [ s:background, s:orange ], [s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
+let s:p.visual.left = [ [ s:foreground, s:light_orange], [s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
 let s:p.tabline.left = [ [s:tabline_inactive_fg, s:tabline_inactive_bg ]]
 let s:p.tabline.tabsel = [ [s:tabline_active_fg, s:tabline_active_bg ] ]
 let s:p.tabline.middle = [ [s:tabline_bg, s:tabline_bg]]
