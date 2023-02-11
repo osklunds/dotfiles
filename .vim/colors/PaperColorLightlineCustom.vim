@@ -17,7 +17,7 @@ let s:aqua = '#3e999f'
 
 " Basics:
 let s:foreground = '#4d4d4c'
-let s:background = '#F5F5F5'
+let s:background = '#dddddd'
 let s:window = '#efefef'
 let s:status = s:aqua
 let s:error = '#ffafdf'
