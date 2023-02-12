@@ -28,8 +28,17 @@ inoremap <Right> <Nop>
 
 set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 
+map # *
+nmap <enter> o<esc>
+
 map ff :CtrlP<cr>
 let g:ctrlp_max_height = 20
+
+let g:ale_default_navigation='buffer'
+map gd :ALEGoToDefinition<cr>
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
+let g:ale_linters = {'rust': ['rls']}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copied from (and somtimes modified) amix/vimrc
