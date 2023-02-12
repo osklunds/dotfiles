@@ -28,6 +28,9 @@ inoremap <Right> <Nop>
 
 set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 
+map ff :CtrlP<cr>
+let g:ctrlp_max_height = 20
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copied from (and somtimes modified) amix/vimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
