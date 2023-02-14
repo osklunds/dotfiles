@@ -13,9 +13,6 @@ set formatoptions-=o
 colorscheme PaperColor
 set background=light
 
-let g:auto_save = 1  " enable AutoSave on Vim startup
-let g:auto_save_silent = 1  " do not display the auto-save notification
-
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
@@ -26,7 +23,7 @@ inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
-
+" Custom keybindings
 let s:uname = system("uname")
 if s:uname == "Darwin\n"
     set langmap=Ö:,-/,&^,€$,(*,Ä},*{
@@ -36,10 +33,18 @@ endif
 
 map # *
 nmap <enter> o<esc>
+nmap m ge
+nmap M gE
 
+" Auto save
+let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save_silent = 1  " do not display the auto-save notification
+
+" CtrlP
 map ff :CtrlP<cr>
 let g:ctrlp_max_height = 20
 
+" Ale
 let g:ale_default_navigation='buffer'
 map gd :ALEGoToDefinition<cr>
 " Only run linters named in ale_linters settings.
