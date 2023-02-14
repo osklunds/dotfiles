@@ -462,11 +462,11 @@ let g:lightline = {
 " => conflcit marker
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-highlight ConflictMarkerBegin ctermbg=40
-highlight ConflictMarkerOurs ctermbg=118
+highlight ConflictMarkerBegin ctermbg=155
+highlight ConflictMarkerOurs ctermbg=155
 highlight ConflictMarkerCommonAncestors ctermbg=7
-highlight ConflictMarkerCommonAncestorsHunk ctermbg=8
+highlight ConflictMarkerCommonAncestorsHunk ctermbg=7
 highlight ConflictMarkerSeparator ctermbg=7
-highlight ConflictMarkerTheirs ctermbg=45
-highlight ConflictMarkerEnd ctermbg=51
+highlight ConflictMarkerTheirs ctermbg=159
+highlight ConflictMarkerEnd ctermbg=159
 
