@@ -36,6 +36,10 @@ nmap <enter> o<esc>
 nmap m ge
 nmap M gE
 
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1  " do not display the auto-save notification
@@ -52,6 +56,9 @@ let g:ale_linters_explicit = 1
 let g:ale_linters = {'rust': ['rls']}
 
 " conflict marker
+nmap <leader>ct :ConflictMarkerThemselves<CR>
+nmap <leader>co :ConflictMarkerOurselves<CR>
+
 " disable the default highlight group
 let g:conflict_marker_highlight_group = ''
 
@@ -81,10 +88,6 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * checktime
-
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
 
 " Fast saving
 nmap <leader>w :w!<cr>
