@@ -51,6 +51,18 @@ map gd :ALEGoToDefinition<cr>
 let g:ale_linters_explicit = 1
 let g:ale_linters = {'rust': ['rls']}
 
+" conflict marker
+" disable the default highlight group
+let g:conflict_marker_highlight_group = ''
+
+" Include text after begin and end markers
+let g:conflict_marker_begin = '^<<<<<<< .*$'
+let g:conflict_marker_end   = '^>>>>>>> .*$'
+
+" See EOF for colors. They had to be there for some reaosn. Conflicts
+" with colorscheme somehow
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Copied from (and somtimes modified) amix/vimrc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -445,4 +457,16 @@ let g:lightline = {
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => conflcit marker
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+highlight ConflictMarkerBegin ctermbg=40
+highlight ConflictMarkerOurs ctermbg=118
+highlight ConflictMarkerCommonAncestors ctermbg=7
+highlight ConflictMarkerCommonAncestorsHunk ctermbg=8
+highlight ConflictMarkerSeparator ctermbg=7
+highlight ConflictMarkerTheirs ctermbg=45
+highlight ConflictMarkerEnd ctermbg=51
 
