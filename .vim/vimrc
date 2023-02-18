@@ -52,6 +52,7 @@ nmap <leader>p :CtrlP<cr>
 " Ale
 let g:ale_default_navigation='buffer'
 map gd :ALEGoToDefinition<cr>
+map gD :ALEGoToTypeDefinition<cr>
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
