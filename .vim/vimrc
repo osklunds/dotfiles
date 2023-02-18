@@ -54,6 +54,8 @@ map gd :ALEGoToDefinition<cr>
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
 let g:ale_linters = {'rust': ['rls']}
+let g:ale_set_signs = 0
+let g:ale_set_highlights = 0
 
 " conflict marker
 nmap <leader>ct :ConflictMarkerThemselves<CR>
