@@ -26,12 +26,11 @@ inoremap <Right> <Nop>
 " Custom keybindings
 let s:uname = system("uname")
 if s:uname == "Darwin\n"
-    set langmap=Ö:,-/,&^,€$,(*,Ä},*{,_?
+    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 else
-    set langmap=Ö:,-/,&^,€$,(*,Ä},*{,_?
+    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 endif
 
-map # *
 nmap m ge
 nmap M gE
 
@@ -43,7 +42,9 @@ let mapleader = ","
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1  " do not display the auto-save notification
 
-nmap ? :noh<cr>
+" Would be better to map ?, but _? in langmap interfers
+" with vim-commentary
+nmap _ :noh<cr>
 
 " CtrlP
 let g:ctrlp_max_height = 20
