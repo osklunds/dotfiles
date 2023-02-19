@@ -7,9 +7,6 @@
 set number relativenumber
 set colorcolumn=80
 
-set formatoptions-=r
-set formatoptions-=o
-
 colorscheme PaperColor
 set background=light
 
@@ -468,8 +465,7 @@ let g:lightline = {
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => conflcit marker
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Stuff that needs to be in the end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 highlight ConflictMarkerBegin ctermbg=155
@@ -479,4 +475,9 @@ highlight ConflictMarkerCommonAncestorsHunk ctermbg=7
 highlight ConflictMarkerSeparator ctermbg=7
 highlight ConflictMarkerTheirs ctermbg=159
 highlight ConflictMarkerEnd ctermbg=159
+
+augroup NoAutoComment
+  au!
+  au FileType * setlocal formatoptions-=cro
+augroup end
 
