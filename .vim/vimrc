@@ -20,12 +20,14 @@ inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
+set cursorline
+
 " Custom keybindings
 let s:uname = system("uname")
 if s:uname == "Darwin\n"
     set langmap=Ö:,-/,&^,€$,(*,Ä},*{
 else
-    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
+    set langmap=Ö:,-/,&^,¤$,(*,Ä},*{
 endif
 
 nmap m ge
@@ -258,10 +260,8 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <C-space> ?
 
+map <space> /
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -427,9 +427,11 @@ endfunction
 " => Load pathogen paths
 """"""""""""""""""""""""""""""
 
-call pathogen#infect('~/.vim/plugins/{}')
-call pathogen#helptags()
-
+try
+    call pathogen#infect('~/.vim/plugins/{}')
+    call pathogen#helptags()
+catch
+endtry
 
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
