@@ -40,9 +40,9 @@ fun! s:register_default_theme()
         \       'color00' : ['#eeeeee', '231'],
         \       'color01' : ['#af0000', '124'],
         \       'color02' : ['#008700', '28'],
-        \       'color03' : ['#5f8700', '64'],
+        \       'color03' : ['#5f8700', '172'],
         \       'color04' : ['#0087af', '31'],
-        \       'color05' : ['#878787', '102'],
+        \       'color05' : ['#878787', '64'],
         \       'color06' : ['#005f87', '24'],
         \       'color07' : ['#444444', '0'],
         \       'color08' : ['#bcbcbc', '250'],
@@ -1159,7 +1159,7 @@ fun! s:apply_syntax_highlightings()
   exec 'hi StatusLineNC' . s:fg_statusline_inactive_bg . s:bg_statusline_inactive_fg
   exec 'hi StatusLineTerm' . s:fg_statusline_active_bg . s:bg_statusline_active_fg
   exec 'hi StatusLineTermNC' . s:fg_statusline_inactive_bg . s:bg_statusline_inactive_fg
-  exec 'hi Visual' . s:fg_visual_fg . s:bg_visual_bg
+  exec 'hi Visual' . s:bg_cursorline . s:ft_none
   exec 'hi Directory' . s:fg_blue
   exec 'hi ModeMsg' . s:fg_olive
   exec 'hi MoreMsg' . s:fg_olive
@@ -1993,9 +1993,9 @@ fun! s:apply_syntax_highlightings()
 
   " Erlang Highlighting
   exec 'hi erlangBIF' . s:fg_purple . s:ft_bold
-  exec 'hi erlangBracket' . s:fg_pink
+  exec 'hi erlangBracket' . s:fg_foreground
   exec 'hi erlangLocalFuncCall' . s:fg_foreground
-  exec 'hi erlangVariable' . s:fg_foreground
+  exec 'hi erlangVariable' . s:fg_aqua
   exec 'hi erlangAtom' . s:fg_navy
   exec 'hi erlangAttribute' . s:fg_blue . s:ft_bold
   exec 'hi erlangRecordDef' . s:fg_blue . s:ft_bold
