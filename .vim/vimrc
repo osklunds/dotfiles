@@ -62,6 +62,7 @@ let g:ale_set_signs = 0
 let g:ale_set_highlights = 0
 let g:ale_virtualtext_cursor = 0
 let g:ale_echo_cursor = 0
+let g:ale_hover_cursor = 0
 
 " asyncomplete
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ale#get_source_options({
