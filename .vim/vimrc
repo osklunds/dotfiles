@@ -53,7 +53,8 @@ let g:ctrlp_match_window = 'top,order:ttb'
 " Ale
 let g:ale_default_navigation='buffer'
 map gd :ALEGoToDefinition<cr>
-map gD :ALEGoToTypeDefinition<cr>
+map <leader>gtd :ALEGoToTypeDefinition<cr>
+map <leader>gti :ALEGoToImplementation<cr>
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
