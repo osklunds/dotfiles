@@ -5,8 +5,8 @@ alias ft='grep -nr . -ie '
 alias ff='find . | grep -i '
 
 # Git
-alias co='git commit -a -m'
-alias coa='git add -A && co'
+alias co='git add -A && coa'
+alias coa='git commit -m'
 alias gs='git status'
 alias gl='git log'
 alias gc='git restore --staged $(git rev-parse --show-toplevel) && git checkout $(git rev-parse --show-toplevel) && git clean -f && gs'
