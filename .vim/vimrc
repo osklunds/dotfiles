@@ -55,6 +55,7 @@ let g:ale_default_navigation='buffer'
 map gd :ALEGoToDefinition<cr>
 map <leader>gtd :ALEGoToTypeDefinition<cr>
 map <leader>gti :ALEGoToImplementation<cr>
+map <leader>rs :ALERename<cr>
 
 " Only run linters named in ale_linters settings.
 let g:ale_linters_explicit = 1
