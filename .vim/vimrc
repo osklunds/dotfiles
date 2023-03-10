@@ -23,6 +23,9 @@ inoremap <Right> <Nop>
 set cursorline
 
 " Custom keybindings
+
+let mapleader = ","
+
 let s:uname = system("uname")
 if s:uname == "Darwin\n"
     set langmap=Ö:,-/,&^,€$,(*,Ä},*{
@@ -33,9 +36,8 @@ endif
 nmap m ge
 nmap M gE
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
+nmap <leader>ev :e ~/.vim/vimrc<cr>
+nmap <leader>sv :so ~/.vim/vimrc<cr>
 
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
