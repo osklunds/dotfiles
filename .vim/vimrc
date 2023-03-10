@@ -41,6 +41,8 @@ nmap <leader>sv :so ~/.vim/vimrc<cr>
 
 nmap <leader>v <C-w>o<cr><C-w>v<cr>
 
+nmap <script> <Leader>be :ToggleBufExplorer<CR>
+
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1  " do not display the auto-save notification
@@ -450,7 +452,7 @@ endtry
 let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
+let g:bufExplorerReverseSort=1
 map <leader>o :BufExplorer<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
