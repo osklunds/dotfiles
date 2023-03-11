@@ -42,6 +42,7 @@ nmap <leader>sv :so ~/.vim/vimrc<cr>
 nmap <leader>v <C-w>o<cr><C-w>v<cr>
 
 nmap <script> <Leader>be :ToggleBufExplorer<CR>
+nnoremap <leader>b :ls<cr>:b<space>
 
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
