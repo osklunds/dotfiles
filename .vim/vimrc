@@ -28,9 +28,9 @@ let mapleader = ","
 
 let s:uname = system("uname")
 if s:uname == "Darwin\n"
-    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
+    set langmap=Ö:,-/,&^,€$,(*,Ä},*{,+-
 else
-    set langmap=Ö:,-/,&^,¤$,(*,Ä},*{
+    set langmap=Ö:,-/,&^,¤$,(*,Ä},*{,+-
 endif
 
 nmap m ge
@@ -463,6 +463,7 @@ let g:NERDTreeWinPos = "right"
 let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=35
+let g:NERDTreeQuitOnOpen = 3
 map <leader>nn :NERDTreeToggle<cr>
 map <leader>nb :NERDTreeFromBookmark<Space>
 map <leader>nf :NERDTreeFind<cr>
