@@ -44,6 +44,8 @@ nmap <leader>v <C-w>o<cr><C-w>v<cr>
 nmap <script> <Leader>be :ToggleBufExplorer<CR>
 nnoremap <leader>b :ls<cr>:b<space>
 
+map <space> :%s/
+
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1  " do not display the auto-save notification
@@ -275,7 +277,6 @@ vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-map <space> /
 
 " Smart way to move between windows
 map <C-j> <C-W>j
