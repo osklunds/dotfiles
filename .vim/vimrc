@@ -46,6 +46,7 @@ nnoremap <leader>b :ls<cr>:b<space>
 
 map <space> :%s/
 
+
 " Auto save
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1  " do not display the auto-save notification
@@ -494,7 +495,8 @@ let g:lightline = {
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" Stuff that needs to be in the end
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Stuff that needs to be in the end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 highlight ConflictMarkerBegin ctermbg=155
@@ -511,3 +513,4 @@ augroup NoAutoComment
   au FileType * setlocal formatoptions-=t
 augroup end
 
+set showtabline=0
