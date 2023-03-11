@@ -55,6 +55,7 @@ nmap _ :noh<cr>
 " CtrlP
 let g:ctrlp_max_height = 20
 nmap <leader>p :CtrlP cwd<cr>
+nmap <leader>o :CtrlPBuffer<cr>
 let g:ctrlp_match_window = 'top,order:ttb'
 let g:ctrlp_show_hidden = 1
 
@@ -455,7 +456,6 @@ let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
 let g:bufExplorerFindActive=1
 let g:bufExplorerReverseSort=1
-map <leader>o :BufExplorer<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
