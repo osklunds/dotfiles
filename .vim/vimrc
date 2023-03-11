@@ -53,8 +53,9 @@ nmap _ :noh<cr>
 
 " CtrlP
 let g:ctrlp_max_height = 20
-nmap <leader>p :CtrlP<cr>
+nmap <leader>p :CtrlP cwd<cr>
 let g:ctrlp_match_window = 'top,order:ttb'
+let g:ctrlp_show_hidden = 1
 
 " Ale
 let g:ale_default_navigation='buffer'
