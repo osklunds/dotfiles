@@ -93,10 +93,10 @@ fun! s:register_default_theme()
         \       'diffadd_bg':    ['#afffaf', '157'],
         \       'diffdelete_fg': ['#af0000', '124'],
         \       'diffdelete_bg': ['#ffd7ff', '225'],
-        \       'difftext_fg':   ['#0087af', '31'],
-        \       'difftext_bg':   ['#ffffd7', '230'],
+        \       'difftext_fg':   ['#0087af', '0'],
+        \       'difftext_bg':   ['#ffffd7', '222'],
         \       'diffchange_fg': ['#444444', '0'],
-        \       'diffchange_bg': ['#ffd787', '222'],
+        \       'diffchange_bg': ['#ffd787', '15'],
         \       'tabline_bg':          ['#005f87', '24'],
         \       'tabline_active_fg':   ['#444444', '0'],
         \       'tabline_active_bg':   ['#e4e4e4', '254'],
@@ -2158,10 +2158,10 @@ fun! s:apply_syntax_highlightings()
   exec 'hi TagbarSignature' . s:fg_aqua
 
   " Plugin: Vimdiff
-  exec 'hi DiffAdd' . s:fg_diffadd_fg . s:bg_diffadd_bg . s:ft_none
-  exec 'hi DiffChange' . s:fg_diffchange_fg . s:bg_diffchange_bg . s:ft_none
-  exec 'hi DiffDelete' . s:fg_diffdelete_fg . s:bg_diffdelete_bg . s:ft_none
-  exec 'hi DiffText' . s:fg_difftext_fg . s:bg_difftext_bg . s:ft_none
+  exec 'hi DiffAdd' . s:bg_diffadd_bg . s:ft_none
+  exec 'hi DiffChange' . s:bg_diffchange_bg . s:ft_none
+  exec 'hi DiffDelete' . s:bg_diffdelete_bg . s:ft_none
+  exec 'hi DiffText' . s:bg_difftext_bg . s:ft_none
 
   " Plugin: vim-gitgutter
   exec 'hi GitGutterAdd' . s:fg_diffadd_fg
