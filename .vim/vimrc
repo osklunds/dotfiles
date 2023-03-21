@@ -5,7 +5,12 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 set number relativenumber
-set colorcolumn=80
+
+if &diff
+    set diffopt=internal,filler,closeoff,context:10
+else
+    set colorcolumn=80
+endif
 
 colorscheme PaperColor
 set background=light
