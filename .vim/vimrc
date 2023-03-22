@@ -93,6 +93,7 @@ let g:lsp_diagnostics_highlights_insert_mode_enabled = 0
 let g:lsp_diagnostics_signs_insert_mode_enabled = 0
 let g:lsp_diagnostics_virtual_text_enabled = 0
 let g:lsp_document_code_action_signs_enabled = 0
+let g:lsp_document_highlight_enabled = 0
 
 " Key bindings
 nmap gd :LspDefinition<cr>
@@ -109,6 +110,7 @@ nmap <leader>gi :LspImplementation<cr>
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? asyncomplete#close_popup() . "\<cr>" : "\<cr>"
+let g:asyncomplete_popup_delay = 0
 
 " conflict marker
 nmap <leader>ct :ConflictMarkerThemselves<CR>
