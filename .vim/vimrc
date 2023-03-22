@@ -196,11 +196,14 @@ set noswapfile
 " CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Config
+let g:ctrlp_switch_buffer = ''
 let g:ctrlp_max_height = 20
+let g:ctrlp_show_hidden = 1
+
+" Key bindings
 nmap <leader>p :CtrlP cwd<cr>
 nmap <leader>o :CtrlPBuffer<cr>
-let g:ctrlp_match_window = 'top,order:ttb'
-let g:ctrlp_show_hidden = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
