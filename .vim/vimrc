@@ -67,6 +67,7 @@ nmap <leader>o :CtrlPBuffer<cr>
 let g:ctrlp_match_window = 'top,order:ttb'
 let g:ctrlp_show_hidden = 1
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-lsp
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -87,6 +88,11 @@ let g:lsp_diagnostics_virtual_text_enabled = 0
 let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_signature_help_enabled = 0
 let g:lsp_fold_enabled = 0
+let g:lsp_diagnostics_highlights_enabled = 0
+let g:lsp_diagnostics_highlights_insert_mode_enabled = 0
+let g:lsp_diagnostics_signs_insert_mode_enabled = 0
+let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_document_code_action_signs_enabled = 0
 
 " Key bindings
 nmap gd :LspDefinition<cr>
@@ -95,13 +101,10 @@ nmap <leader>Q :CtrlPLspWorkspaceSymbol<cr>
 nmap <leader>gt :LspTypeDefinition<cr>
 nmap <leader>gi :LspImplementation<cr>
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " asyncomplete
-augroup AsynComplete
-    au!
-    au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ale#get_source_options({
-      \ 'priority': 10, 
-      \ }))
-augroup end
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

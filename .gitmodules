@@ -1,6 +1,3 @@
-[submodule ".vim/plugins/ale"]
-	path = .vim/plugins/ale
-	url = https://github.com/dense-analysis/ale.git
 [submodule ".vim/plugins/bufexplorer"]
 	path = .vim/plugins/bufexplorer
 	url = https://github.com/jlanzarotta/bufexplorer.git
