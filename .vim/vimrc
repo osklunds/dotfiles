@@ -83,6 +83,15 @@ let g:ale_virtualtext_cursor = 0
 let g:ale_echo_cursor = 0
 let g:ale_hover_cursor = 0
 
+" vim-lsp
+if executable('rust-analyzer')
+  au User lsp_setup call lsp#register_server({
+        \   'name': 'Rust Language Server',
+        \   'cmd': {server_info->['rust-analyzer']},
+        \   'whitelist': ['rust'],
+        \ })
+endif
+
 " asyncomplete
 augroup AsynComplete
     au!

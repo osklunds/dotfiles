@@ -28,3 +28,9 @@
 [submodule ".vim/plugins/asyncomplete.vim"]
 	path = .vim/plugins/asyncomplete.vim
 	url = https://github.com/prabirshrestha/asyncomplete.vim.git
+[submodule ".vim/plugins/vim-lsp"]
+	path = .vim/plugins/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp.git
+[submodule ".vim/plugins/ctrlp-lsp"]
+	path = .vim/plugins/ctrlp-lsp
+	url = https://github.com/mattn/ctrlp-lsp.git
