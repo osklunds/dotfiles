@@ -2164,7 +2164,7 @@ fun! s:apply_syntax_highlightings()
   " Plugin: Vimdiff
   exec 'hi DiffAdd' . s:bg_diffadd_bg . s:ft_none
   exec 'hi DiffChange' . s:bg_diffchange_bg . s:ft_none
-  exec 'hi DiffDelete' . s:bg_diffdelete_bg . s:ft_none
+  exec 'hi DiffDelete' . s:fg_diffdelete_bg . s:bg_diffdelete_bg . s:ft_none
   exec 'hi DiffText' . s:bg_difftext_bg . s:ft_none
 
   " Plugin: vim-gitgutter
