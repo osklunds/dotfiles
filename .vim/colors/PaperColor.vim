@@ -2006,6 +2006,10 @@ fun! s:apply_syntax_highlightings()
   exec 'hi erlangKeyword' . s:fg_pink
   exec 'hi erlangGlobalFuncCall' . s:fg_foreground
 
+  " CtrlP Highlighting
+  hi CtrlPMatch ctermbg=24 ctermfg=15
+  " 24 is navy, 15 is white
+
   " Cucumber Highlighting
   exec 'hi cucumberFeature' . s:fg_blue . s:ft_bold
   exec 'hi cucumberBackground' . s:fg_pink . s:ft_bold
