@@ -67,23 +67,11 @@ nmap <leader>o :CtrlPBuffer<cr>
 let g:ctrlp_match_window = 'top,order:ttb'
 let g:ctrlp_show_hidden = 1
 
-" Ale
-let g:ale_default_navigation='buffer'
-map gd :ALEGoToDefinition<cr>
-map <leader>gtd :ALEGoToTypeDefinition<cr>
-map <leader>gti :ALEGoToImplementation<cr>
-map <leader>rs :ALERename<cr>
-
-" Only run linters named in ale_linters settings.
-let g:ale_linters_explicit = 1
-let g:ale_linters = {'rust': ['analyzer']}
-let g:ale_set_signs = 0
-let g:ale_set_highlights = 0
-let g:ale_virtualtext_cursor = 0
-let g:ale_echo_cursor = 0
-let g:ale_hover_cursor = 0
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-lsp
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Server
 if executable('rust-analyzer')
   au User lsp_setup call lsp#register_server({
         \   'name': 'Rust Language Server',
@@ -91,6 +79,21 @@ if executable('rust-analyzer')
         \   'whitelist': ['rust'],
         \ })
 endif
+
+" Settings
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_highlights_enabled = 0
+let g:lsp_diagnostics_virtual_text_enabled = 0
+let g:lsp_document_code_action_signs_enabled = 0
+let g:lsp_signature_help_enabled = 0
+let g:lsp_fold_enabled = 0
+
+" Key bindings
+nmap gd :LspDefinition<cr>
+nmap <leader>q :CtrlPLspDocumentSymbol<cr>
+nmap <leader>Q :CtrlPLspWorkspaceSymbol<cr>
+nmap <leader>gt :LspTypeDefinition<cr>
+nmap <leader>gi :LspImplementation<cr>
 
 " asyncomplete
 augroup AsynComplete
@@ -391,9 +394,6 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scribble
-map <leader>q :e ~/buffer<cr>
 
 " Quickly open a markdown buffer for scribble
 map <leader>x :e ~/buffer.md<cr>
