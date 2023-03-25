@@ -28,7 +28,7 @@ set foldcolumn=1
 set so=7
 set ruler
 set cmdheight=1
-set showtabline=0
+set showtabline=1
 
 set history=500
 set hid
