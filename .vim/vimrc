@@ -129,7 +129,7 @@ map <space> :%s/
 
 " Would be better to map ?, but _? in langmap interfers
 " with vim-commentary
-nmap _ :noh<cr> 
+nnoremap _ :noh<cr> 
 
 " No arrow keys
 noremap <Up> <Nop>
