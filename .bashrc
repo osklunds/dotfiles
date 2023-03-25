@@ -5,6 +5,8 @@ export SHELL_SESSION_HISTORY=0
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export GREP_OPTIONS='--color=always'
 
+export DOTFILES_REPO="$HOME/dotfiles"
+
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 . "$HOME/.cargo/env"
 
