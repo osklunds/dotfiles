@@ -1,0 +1,19 @@
+#!/bin/bash
+
+BASE="$1"
+LOCAL="$2"
+REMOTE="$3"
+MERGED="$4"
+
+arg=" edit $MERGED                                                 \
+    | tabe $LOCAL  | vert diffsplit $BASE                          \
+    | tabe $REMOTE | vert diffsplit $BASE                          \
+    | tabe $REMOTE | vert diffsplit $BASE   | vert diffsplit $LOCAL\
+    | tabe $MERGED | vert diffsplit $LOCAL                         \
+    | tabe $MERGED | vert diffsplit $REMOTE                        \
+    | tabe $REMOTE | vert diffsplit $MERGED | vert diffsplit $LOCAL\
+    "
+
+vim -f -c "$arg"
+
+
