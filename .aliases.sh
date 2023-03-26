@@ -31,7 +31,7 @@ alias ea='e ~/.aliases.sh && ra'
 alias ra='source ~/.bashrc'
 
 # Editors
-alias e='vim'
+alias e='nvim'
 
 # Cargo
 alias cb='cargo build'
