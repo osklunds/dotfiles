@@ -39,3 +39,7 @@ alias ct='cargo test'
 alias cr='cargo run'
 alias cf='cargo fmt'
 alias rt='./run_tests.sh'
+
+# Misc
+alias lc='find . -name "*" | xargs wc -l'
+
