@@ -1,9 +1,6 @@
 [submodule ".vim/pack/plugins_as_submodules/start/lightline.vim"]
 	path = .vim/pack/plugins_as_submodules/start/lightline.vim
 	url = https://github.com/itchyny/lightline.vim
-[submodule ".vim/pack/plugins_as_submodules/start/nerdtree"]
-	path = .vim/pack/plugins_as_submodules/start/nerdtree
-	url = https://github.com/preservim/nerdtree.git
 [submodule ".vim/pack/plugins_as_submodules/start/vim-commentary"]
 	path = .vim/pack/plugins_as_submodules/start/vim-commentary
 	url = https://github.com/tpope/vim-commentary.git
@@ -19,12 +16,6 @@
 [submodule ".vim/pack/plugins_as_submodules/start/asyncomplete.vim"]
 	path = .vim/pack/plugins_as_submodules/start/asyncomplete.vim
 	url = https://github.com/prabirshrestha/asyncomplete.vim.git
-[submodule ".vim/pack/plugins_as_submodules/start/vim-lsp"]
-	path = .vim/pack/plugins_as_submodules/start/vim-lsp
-	url = https://github.com/prabirshrestha/vim-lsp.git
-[submodule ".vim/pack/plugins_as_submodules/start/ctrlp-lsp"]
-	path = .vim/pack/plugins_as_submodules/start/ctrlp-lsp
-	url = https://github.com/mattn/ctrlp-lsp.git
-[submodule ".vim/pack/plugins_as_submodules/start/asyncomplete-lsp.vim"]
-	path = .vim/pack/plugins_as_submodules/start/asyncomplete-lsp.vim
-	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
+[submodule ".vim/pack/plugins_as_submodules/start/nvim-lspconfig"]
+	path = .vim/pack/plugins_as_submodules/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
