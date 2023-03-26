@@ -41,5 +41,7 @@ alias cf='cargo fmt'
 alias rt='./run_tests.sh'
 
 # Misc
-alias lc='find . -name "*" | xargs wc -l'
+lc() {
+    rg --files | rg "\.$1" | xargs wc -l
+}
 
