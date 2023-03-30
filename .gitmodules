@@ -28,3 +28,6 @@
 [submodule ".vim/pack/plugins_as_submodules/start/asyncomplete-lsp.vim"]
 	path = .vim/pack/plugins_as_submodules/start/asyncomplete-lsp.vim
 	url = https://github.com/prabirshrestha/asyncomplete-lsp.vim.git
+[submodule ".vim/pack/plugins_as_submodules/start/vim-ripgrep"]
+	path = .vim/pack/plugins_as_submodules/start/vim-ripgrep
+	url = https://github.com/jremmen/vim-ripgrep.git
