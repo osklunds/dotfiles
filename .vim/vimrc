@@ -105,7 +105,6 @@ syntax enable
 " Misc
 let mapleader = ","
 
-nmap <leader>w :w!<cr>
 nmap <leader>v <C-w>o<cr><C-w>v<cr>
 map 0 ^
 
@@ -215,6 +214,13 @@ if executable('rust-analyzer')
         \   'name': 'Rust Language Server',
         \   'cmd': {server_info->['rust-analyzer']},
         \   'whitelist': ['rust'],
+        \   'initialization_options': {
+        \     'completion': {
+        \       'autoimport': {
+        \         'enable': v:false
+        \       },
+        \     },
+        \   },
         \ })
 endif
 
