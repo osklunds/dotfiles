@@ -166,6 +166,30 @@ nmap <leader>1 2<C-h>
 nmap <leader>2 2<C-h><C-l>
 nmap <leader>3 2<C-h><C-l><C-l>
 
+let t:merged_visible = 0
+
+function! OpenMerged(merged_file)
+    wincmd l
+    wincmd l
+    execute ':split ' . a:merged_file
+    wincmd J
+endfunction
+
+function! CloseMerged()
+    wincmd j
+    execute ':q'
+endfunction
+
+function! ToggleMerged(merged_file)
+    if t:merged_visible == 0
+        let t:merged_visible = 1
+        call OpenMerged(a:merged_file)
+    else
+        let t:merged_visible = 0
+        call CloseMerged()
+    endif
+endfunction
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Auto read and write/save
