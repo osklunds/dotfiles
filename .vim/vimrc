@@ -166,8 +166,6 @@ nmap <leader>1 2<C-h>
 nmap <leader>2 2<C-h><C-l>
 nmap <leader>3 2<C-h><C-l><C-l>
 
-let t:merged_visible = 0
-
 function! OpenMerged(merged_file)
     wincmd l
     wincmd l
@@ -181,6 +179,10 @@ function! CloseMerged()
 endfunction
 
 function! ToggleMerged(merged_file)
+    if !exists("t:merged_visible")
+        let t:merged_visible = 0
+    endif
+
     if t:merged_visible == 0
         let t:merged_visible = 1
         call OpenMerged(a:merged_file)

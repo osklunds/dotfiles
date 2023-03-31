@@ -13,6 +13,7 @@ arg=" edit $MERGED                                                 \
     | tabe $MERGED | vert diffsplit $LOCAL                         \
     | tabe $MERGED | vert diffsplit $REMOTE                        \
     | tabe $REMOTE | vert diffsplit $MERGED | vert diffsplit $LOCAL\
+    | nnoremap ,m :call ToggleMerged(\"$MERGED\")<cr> \
     "
 
 vim -f -c "$arg"
