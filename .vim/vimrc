@@ -162,9 +162,9 @@ else
 endif
 
 set diffopt=internal,filler,closeoff,context:10
-nmap <leader>1 2<C-h>
-nmap <leader>2 2<C-h><C-l>
-nmap <leader>3 2<C-h><C-l><C-l>
+nmap <leader>1 2<C-k><C-h>
+nmap <leader>2 2<C-k><C-h><C-l>
+nmap <leader>3 2<C-k><C-h><C-l><C-l>
 
 function! OpenMerged(merged_file)
     wincmd l
