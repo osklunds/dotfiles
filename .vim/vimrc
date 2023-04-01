@@ -294,8 +294,12 @@ let g:asyncomplete_popup_delay = 0
 " conflict marker
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <leader>ct :ConflictMarkerThemselves<CR>
-nmap <leader>co :ConflictMarkerOurselves<CR>
+let g:conflict_marker_enable_mappings = 0
+nmap <leader>cr :ConflictMarkerThemselves<CR>
+nmap <leader>cl :ConflictMarkerOurselves<CR>
+nmap <leader>cn :ConflictMarkerNextHunk<CR>
+nmap <leader>cp :ConflictMarkerPrevHunk<CR>
+
 
 let g:conflict_marker_highlight_group = ''
 
