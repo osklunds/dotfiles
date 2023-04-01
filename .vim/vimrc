@@ -339,11 +339,45 @@ let g:lightline = {
       \ 'component_visible_condition': {
       \   'readonly': '(&filetype!="help"&& &readonly)',
       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*FugitiveHead") && ""!=FugitiveHead())'
+      \   'fugitive': '(exists("*FugitiveHead") && ""!=FugitiveHead())',
       \ },
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
+
+let g:lightline.tab = {
+		    \ 'active': [ 'tabnum',  'tabname', 'modified' ],
+		    \ 'inactive': [ 'tabnum',  'tabname', 'modified' ] }
+
+let g:lightline.tab_component_function = {
+            \  'tabname': 'TabName',
+            \ }
+
+function! TabName(n)
+    if exists("g:is_merging")
+        if a:n == 1
+            return 'MERGED'
+        elseif a:n == 2
+            return 'BASE LOCAL'
+        elseif a:n == 3
+            return 'BASE REMOTE'
+        elseif a:n == 4
+            return 'LOCAL REMOTE'
+        elseif a:n == 5
+            return 'LOCAL BASE REMOTE'
+        elseif a:n == 6
+            return 'LOCAL MERGED'
+        elseif a:n == 7
+            return 'REMOTE MERGED'
+        elseif a:n == 8
+            return 'LOCAL MERGED REMOTE'
+        else
+            return 'error'
+        endif
+    else
+        return lightline#tab#filename(a:n)
+    endif
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
