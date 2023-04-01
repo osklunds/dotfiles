@@ -1747,6 +1747,15 @@ fun! s:apply_syntax_highlightings()
   exec 'hi haskellImportKeywords' . s:fg_pink
   exec 'hi haskellStatement' . s:fg_purple . s:ft_bold
 
+  " Conflict marker highlighting
+  highlight ConflictMarkerBegin ctermbg=155
+  highlight ConflictMarkerOurs ctermbg=155
+  highlight ConflictMarkerCommonAncestors ctermbg=7
+  highlight ConflictMarkerCommonAncestorsHunk ctermbg=7
+  highlight ConflictMarkerSeparator ctermbg=7
+  highlight ConflictMarkerTheirs ctermbg=159
+  highlight ConflictMarkerEnd ctermbg=159
+
 
   " SQL/MySQL Highlighting
   exec 'hi sqlStatement' . s:fg_pink . s:ft_bold

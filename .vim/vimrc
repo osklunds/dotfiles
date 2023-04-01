@@ -388,14 +388,6 @@ endfunction
 " Stuff that needs to be in the end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-highlight ConflictMarkerBegin ctermbg=155
-highlight ConflictMarkerOurs ctermbg=155
-highlight ConflictMarkerCommonAncestors ctermbg=7
-highlight ConflictMarkerCommonAncestorsHunk ctermbg=7
-highlight ConflictMarkerSeparator ctermbg=7
-highlight ConflictMarkerTheirs ctermbg=159
-highlight ConflictMarkerEnd ctermbg=159
-
 augroup NoAutoComment
   au!
   au FileType * setlocal formatoptions-=cro
