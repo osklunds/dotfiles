@@ -2005,7 +2005,7 @@ fun! s:apply_syntax_highlightings()
   exec 'hi erlangBracket' . s:fg_foreground
   exec 'hi erlangLocalFuncCall' . s:fg_foreground
   exec 'hi erlangVariable' . s:fg_aqua
-  exec 'hi erlangAtom' . s:fg_navy
+  exec 'hi erlangAtom' . s:fg_orange
   exec 'hi erlangAttribute' . s:fg_blue . s:ft_bold
   exec 'hi erlangRecordDef' . s:fg_blue . s:ft_bold
   exec 'hi erlangRecord' . s:fg_blue
