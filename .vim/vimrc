@@ -227,8 +227,11 @@ if executable('rg')
 endif
 
 " Key bindings
-nmap <leader>p :CtrlP cwd<cr>
+nmap <leader>p :CtrlPLspDocumentSymbol<cr>
 nmap <leader>o :CtrlPBuffer<cr>
+
+nmap <leader>q :CtrlP cwd<cr>
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -274,8 +277,6 @@ let g:lsp_document_highlight_enabled = 0
 
 " Key bindings
 nmap gd :LspDefinition<cr>
-nmap <leader>q :CtrlPLspDocumentSymbol<cr>
-nmap <leader>Q :CtrlPLspWorkspaceSymbol<cr>
 nmap <leader>gt :LspTypeDefinition<cr>
 nmap <leader>gi :LspImplementation<cr>
 
