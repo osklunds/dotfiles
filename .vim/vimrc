@@ -133,7 +133,7 @@ inoremap <Right> <Nop>
 if has("mac") || has("macunix")
     set langmap=Ö:,-/,&^,€$,(*,Ä},*{,+-
 else
-    set langmap=Ö:,-/,&^,¤$,(*,Ä},*{,+-
+    set langmap=Ö:,-/,&^,¤$,(*,Ä\",+-
 endif
 
 " Windows
