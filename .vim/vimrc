@@ -279,6 +279,7 @@ let g:lsp_document_highlight_enabled = 0
 nmap gd :LspDefinition<cr>
 nmap <leader>gt :LspTypeDefinition<cr>
 nmap <leader>gi :LspImplementation<cr>
+nmap <leader>rs :LspRename<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
