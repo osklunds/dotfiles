@@ -390,8 +390,7 @@ endfunction
 
 augroup NoAutoComment
   au!
-  au FileType * setlocal formatoptions-=cro
-  au FileType * setlocal formatoptions-=t
+  au FileType * setlocal formatoptions=q
 augroup end
 
 
