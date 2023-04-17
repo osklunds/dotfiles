@@ -56,6 +56,8 @@ augroup LastEditPos
 augroup end
 endif
 
+set splitright
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Status Line
