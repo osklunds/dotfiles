@@ -322,6 +322,7 @@ let g:asyncomplete_popup_delay = 0
 let g:conflict_marker_enable_mappings = 0
 nmap <leader>cr :ConflictMarkerThemselves<CR>
 nmap <leader>cl :ConflictMarkerOurselves<CR>
+nmap <leader>cb :ConflictMarkerBoth<CR>
 nmap <leader>cn :ConflictMarkerNextHunk<CR>
 nmap <leader>cp :ConflictMarkerPrevHunk<CR>
 
