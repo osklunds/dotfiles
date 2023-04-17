@@ -216,10 +216,18 @@ let g:auto_save = 1
 let g:auto_save_silent = 1
 
 set autoread
-augroup AutoRead
-    au!
-    au FocusGained,BufEnter * checktime
-augroup end
+if ! exists("g:CheckUpdateStarted")
+    let g:CheckUpdateStarted=1
+    call timer_start(1,'CheckUpdate')
+endif
+function! CheckUpdate(timer)
+    silent! checktime
+    call timer_start(1000,'CheckUpdate')
+endfunction
+" augroup AutoRead
+"     au!
+"     au FocusGained,BufEnter * checktime
+" augroup end
 
 set nobackup
 set nowb
