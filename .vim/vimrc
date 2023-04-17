@@ -127,7 +127,8 @@ nmap <leader>ev :e ~/.vim/vimrc<cr>
 nmap <leader>sv :so ~/.vim/vimrc<cr>
 
 " Search and replace
-map <space> :%s/
+nmap <space> :,$s/
+vnoremap <C-r> "hy:,$s/<C-r>h/<C-r>h/gc<left><left><left>
 
 " Would be better to map ?, but _? in langmap interfers
 " with vim-commentary
