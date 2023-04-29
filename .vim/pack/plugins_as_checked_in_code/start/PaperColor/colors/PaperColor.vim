@@ -94,9 +94,9 @@ fun! s:register_default_theme()
         \       'diffdelete_fg': ['#af0000', '124'],
         \       'diffdelete_bg': ['#ffd7ff', '225'],
         \       'difftext_fg':   ['#0087af', '0'],
-        \       'difftext_bg':   ['#ffffd7', '222'],
+        \       'difftext_bg':   ['#ffffd7', '215'],
         \       'diffchange_fg': ['#444444', '0'],
-        \       'diffchange_bg': ['#ffd787', '15'],
+        \       'diffchange_bg': ['#ffd787', '223'],
         \       'tabline_bg':          ['#005f87', '24'],
         \       'tabline_active_fg':   ['#444444', '0'],
         \       'tabline_active_bg':   ['#e4e4e4', '254'],
@@ -1171,11 +1171,7 @@ fun! s:apply_syntax_highlightings()
 
   if version >= 700
     exec 'hi CursorLine'  . s:bg_cursorline . s:ft_none
-    if s:mode == s:MODE_16_COLOR
-      exec 'hi CursorLineNr' . s:fg_cursorlinenr_fg . s:bg_cursorlinenr_bg
-    else
-      exec 'hi CursorLineNr' . s:fg_cursorlinenr_fg . s:bg_cursorlinenr_bg . s:ft_none
-    endif
+    exec 'hi CursorLineNr'  . s:bg_cursorline . s:ft_none
     exec 'hi CursorColumn'  . s:bg_cursorcolumn . s:ft_none
     exec 'hi PMenu' . s:fg_popupmenu_fg . s:bg_popupmenu_bg . s:ft_none
     exec 'hi PMenuSel' . s:fg_popupmenu_fg . s:bg_popupmenu_bg . s:ft_reverse
