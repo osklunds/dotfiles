@@ -133,7 +133,7 @@ vnoremap <C-r> "hy:,$s/<C-r>h/<C-r>h/gc<left><left><left>
 
 " Would be better to map ?, but _? in langmap interfers
 " with vim-commentary
-nnoremap _ :noh<cr> 
+nnoremap <silent> _ :noh<cr> 
 
 " No arrow keys
 noremap <Up> <Nop>
