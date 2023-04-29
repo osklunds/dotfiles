@@ -356,8 +356,13 @@ map <leader>nn :NERDTreeToggle<cr>
 let g:lightline = {
       \ 'colorscheme': 'PaperColorLightlineCustom',
       \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+      \   'left': [ ['mode'],
+      \             ['readonly', 'filename', 'modified'] ],
+      \   'right': [ [ 'lineinfo' ], ['percent'] ]
+      \ },
+      \ 'inactive': {
+      \   'left': [ ['mode'],
+      \             ['readonly', 'filename', 'modified'] ],
       \   'right': [ [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component': {
