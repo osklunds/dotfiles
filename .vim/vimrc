@@ -172,7 +172,7 @@ map <leader>s? z=
 
 
 if &diff
-    " Nothing
+    set cursorlineopt=number
 else
     set colorcolumn=80
 endif
