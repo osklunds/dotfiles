@@ -337,7 +337,7 @@ noremap <leader>nn :NERDTreeToggle<cr>
 
 augroup NerdTreeKeymap
   au!
-  au FileType nerdtree nnoremap <buffer> <C-v> s
+  au FileType nerdtree nmap <buffer> <C-v> s
 augroup end
 
 
