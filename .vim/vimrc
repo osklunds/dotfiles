@@ -120,15 +120,15 @@ syntax enable
 " Misc
 let mapleader = ","
 
-nmap <leader>v <C-w>o<cr><C-w>v<cr>
-map 0 ^
+nnoremap <leader>v <C-w>o<cr><C-w>v<cr>
+noremap 0 ^
 
 " vimrc
-nmap <leader>ev :e ~/.vim/vimrc<cr>
-nmap <leader>sv :so ~/.vim/vimrc<cr>
+nnoremap <leader>ev :e ~/.vim/vimrc<cr>
+nnoremap <leader>sv :so ~/.vim/vimrc<cr>
 
 " Search and replace
-nmap <space> :,$s/
+nnoremap <space> :,$s/
 vnoremap <C-r> "hy:,$s/<C-r>h/<C-r>h/gc<left><left><left>
 
 " Would be better to map ?, but _? in langmap interfers
@@ -153,17 +153,17 @@ else
 endif
 
 " Windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
 
 " Spell Checking
-map <leader>ss :setlocal spell!<cr>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+noremap <leader>ss :setlocal spell!<cr>
+noremap <leader>sn ]s
+noremap <leader>sp [s
+noremap <leader>sa zg
+noremap <leader>s? z=
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -251,10 +251,10 @@ if executable('rg')
 endif
 
 " Key bindings
-nmap <leader>p :CtrlPLspDocumentSymbol<cr>
-nmap <leader>o :CtrlPBuffer<cr>
+nnoremap <leader>p :CtrlPLspDocumentSymbol<cr>
+nnoremap <leader>o :CtrlPBuffer<cr>
 
-nmap <leader>q :CtrlP cwd<cr>
+nnoremap <leader>q :CtrlP cwd<cr>
 
 
 
@@ -300,10 +300,10 @@ let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_document_highlight_enabled = 0
 
 " Key bindings
-nmap gd :LspDefinition<cr>
-nmap <leader>gt :LspTypeDefinition<cr>
-nmap <leader>gi :LspImplementation<cr>
-nmap <leader>rs :LspRename<cr>
+nnoremap gd :LspDefinition<cr>
+nnoremap <leader>gt :LspTypeDefinition<cr>
+nnoremap <leader>gi :LspImplementation<cr>
+nnoremap <leader>rs :LspRename<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -321,11 +321,11 @@ let g:asyncomplete_popup_delay = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let g:conflict_marker_enable_mappings = 0
-nmap <leader>cr :ConflictMarkerThemselves<CR>
-nmap <leader>cl :ConflictMarkerOurselves<CR>
-nmap <leader>cb :ConflictMarkerBoth<CR>
-nmap <leader>cn :ConflictMarkerNextHunk<CR>
-nmap <leader>cp :ConflictMarkerPrevHunk<CR>
+nnoremap <leader>cr :ConflictMarkerThemselves<CR>
+nnoremap <leader>cl :ConflictMarkerOurselves<CR>
+nnoremap <leader>cb :ConflictMarkerBoth<CR>
+nnoremap <leader>cn :ConflictMarkerNextHunk<CR>
+nnoremap <leader>cp :ConflictMarkerPrevHunk<CR>
 
 
 let g:conflict_marker_highlight_group = ''
@@ -346,7 +346,7 @@ let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=70
 let g:NERDTreeQuitOnOpen = 3
-map <leader>nn :NERDTreeToggle<cr>
+noremap <leader>nn :NERDTreeToggle<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
