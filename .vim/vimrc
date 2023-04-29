@@ -346,7 +346,13 @@ let NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 let g:NERDTreeWinSize=70
 let g:NERDTreeQuitOnOpen = 3
+
 noremap <leader>nn :NERDTreeToggle<cr>
+
+augroup NerdTreeKeymap
+  au!
+  au FileType nerdtree nnoremap <buffer> <C-v> s
+augroup end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
