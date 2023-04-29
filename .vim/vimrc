@@ -33,6 +33,7 @@ set incsearch
 
 set magic
 set lazyredraw
+set redrawtime=10000
 set showmatch
 set mat=2 " How many tenths of a second to blink when matching brackets
 
