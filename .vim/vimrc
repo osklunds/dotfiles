@@ -170,7 +170,7 @@ noremap <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if &diff
-    set cursorlineopt=number
+    " Nothing
 else
     set colorcolumn=80
 endif
