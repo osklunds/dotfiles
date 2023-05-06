@@ -8,10 +8,11 @@ alias ff='find . | grep -i '
 
 ## Misc
 alias ga='git add'
+alias gA='ga -A'
 alias gr='cd $(git rev-parse --show-toplevel)'
 
 ## Commit
-alias co='ga -A && coa'
+alias co='gA && coa'
 alias coa='git commit -m'
 
 ## Info
