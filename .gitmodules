@@ -34,3 +34,6 @@
 [submodule ".vim/pack/plugins_as_submodules/start/fzf"]
 	path = .vim/pack/plugins_as_submodules/start/fzf
 	url = https://github.com/junegunn/fzf
+[submodule ".vim/pack/plugins_as_submodules/start/vim-fugitive"]
+	path = .vim/pack/plugins_as_submodules/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
