@@ -118,7 +118,14 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 command! Ev :e ~/.vim/vimrc
-command! Ra :so ~/.vim/vimrc<cr>
+command! Ra :so ~/.vim/vimrc
+
+command! Gd :call GitDiff()
+
+function! GitDiff()
+    execute 'wincmd o'
+    execute 'Gvdiffsplit'
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
