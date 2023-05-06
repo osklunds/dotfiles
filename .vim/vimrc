@@ -114,6 +114,14 @@ syntax enable
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Terminal equivalents
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+command! Ev :e ~/.vim/vimrc
+command! Ra :so ~/.vim/vimrc<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key bindings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -123,16 +131,11 @@ let mapleader = ","
 nnoremap <leader>v <C-w>o<cr><C-w>v<cr>
 noremap 0 ^
 
-" vimrc
-nnoremap <leader>ev :e ~/.vim/vimrc<cr>
-nnoremap <leader>sv :so ~/.vim/vimrc<cr>
-
 " Find and replace
 vnoremap <leader>f "hy/<C-r>h
 
 vnoremap <leader>r "hy:,$s/<C-r>h/<C-r>h/gc<left><left><left>
 vnoremap <leader>R "hy:%s/<C-r>h/<C-r>h/gc<left><left><left>
-
 
 " Would be better to map ?, but _? in langmap interfers
 " with vim-commentary
