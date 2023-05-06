@@ -13,6 +13,7 @@ filetype indent on
 
 set number relativenumber
 set cursorline
+set colorcolumn=80
 set foldcolumn=1
 set so=7
 set ruler
@@ -168,12 +169,6 @@ noremap <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vimdiff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if &diff
-    " Nothing
-else
-    set colorcolumn=80
-endif
 
 set diffopt=internal,filler,closeoff,context:10,algorithm:patience
 nmap <leader>1 2<C-k><C-h>
