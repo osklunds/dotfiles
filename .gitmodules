@@ -31,3 +31,9 @@
 [submodule ".vim/pack/plugins_as_submodules/start/vim-ripgrep"]
 	path = .vim/pack/plugins_as_submodules/start/vim-ripgrep
 	url = https://github.com/jremmen/vim-ripgrep.git
+[submodule ".vim/pack/plugins_as_submodules/start/fzf.vim"]
+	path = .vim/pack/plugins_as_submodules/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim
+[submodule ".vim/pack/plugins_as_submodules/start/fzf"]
+	path = .vim/pack/plugins_as_submodules/start/fzf
+	url = https://github.com/junegunn/fzf
