@@ -178,6 +178,9 @@ nmap <leader>1 2<C-k><C-h>
 nmap <leader>2 2<C-k><C-h><C-l>
 nmap <leader>3 2<C-k><C-h><C-l><C-l>
 
+nnoremap <leader>dn ]c
+nnoremap <leader>dp [c
+
 function! OpenMerged(merged_file)
     wincmd l
     wincmd l
