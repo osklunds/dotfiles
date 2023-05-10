@@ -269,7 +269,7 @@ nnoremap <leader>q :CtrlP cwd<cr>
 if executable('fzf')
     let g:fzf_history_dir = '~/.fzf_history'
     
-    nnoremap <leader>q :Files<cr>
+    nnoremap <silent> <leader>q :Files<cr>
     nnoremap <silent> <leader>w :FileContents<cr>
     nnoremap <silent> <leader>W :Rg<cr>
     nnoremap <silent> <leader>e :BLines<cr>
