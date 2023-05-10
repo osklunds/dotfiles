@@ -447,6 +447,22 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" The command and function wrappers for diffsplit are ugly, but I found no better
+" way
+exe 'command! -bar -bang -nargs=* -complete=customlist,fugitive#EditComplete Gd exe MyDiffsplit(0, <bang>0, "vertical <mods>", <q-args>)'
+
+function! MyDiffsplit(...) abort
+    set nosplitright
+    call call("fugitive#Diffsplit", a:000)
+    set splitright
+    wincmd l
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Stuff that needs to be in the end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
