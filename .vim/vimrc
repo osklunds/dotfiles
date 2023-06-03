@@ -129,7 +129,6 @@ command! Ra :so ~/.vim/vimrc
 " Misc
 let mapleader = ","
 
-nnoremap <leader>v <C-w>o<cr><C-w>v<cr>
 noremap 0 ^
 
 " Find and replace
@@ -164,6 +163,9 @@ noremap <C-j> <C-W>j
 noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
+
+nnoremap <leader>v <C-w>v<cr>
+nnoremap <leader>V <C-w>o<cr><C-w>v<cr>
 
 " Spell Checking
 noremap <leader>ss :setlocal spell!<cr>
