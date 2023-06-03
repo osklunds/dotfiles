@@ -45,6 +45,7 @@ set t_vb=
 set tm=500
 
 set wildmenu
+set wildmode=list:longest
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
