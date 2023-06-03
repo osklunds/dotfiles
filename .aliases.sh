@@ -1,8 +1,8 @@
 
 # Files
 alias ll='ls -la'
-alias ft='grep -nr . -ie '
-alias ff='find . | grep -i '
+alias ft='rg'
+alias ff='rg --files | rg'
 
 # Git
 
