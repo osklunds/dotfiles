@@ -6,6 +6,7 @@
 " =============================================================================
 
 let s:red = '#df0000'
+let s:light_red = '#fe9a9a'
 let s:green = '#008700'
 let s:blue = '#4271ae'
 let s:pink = '#d7005f'
@@ -37,7 +38,7 @@ let s:statusline_active_bg = s:navy
 let s:statusline_inactive_fg = s:foreground
 let s:statusline_inactive_bg = '#dadada'
 
-let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
+let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}, 'terminal': {}}
 let s:p.normal.left = [ [ s:foreground, s:background ], [ s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
 let s:p.normal.right = [ [ s:foreground, s:background ], [ s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
 let s:p.normal.middle = [ [ s:statusline_active_fg, s:statusline_active_bg ]]
@@ -53,5 +54,6 @@ let s:p.tabline.middle = [ [s:tabline_bg, s:tabline_bg]]
 let s:p.tabline.right = copy(s:p.normal.right)
 let s:p.normal.error = [ [ s:background, s:error ] ]
 let s:p.normal.warning = [ [ s:background, s:olive ] ]
+let s:p.terminal.left = [ [ s:foreground, s:light_red ], [s:statusline_active_fg, s:status ], [ s:statusline_active_fg, s:statusline_active_bg ] ]
 
 let g:lightline#colorscheme#PaperColorLightlineCustom#palette = lightline#colorscheme#fill(s:p)
