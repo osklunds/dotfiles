@@ -168,11 +168,6 @@ noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
-" tnoremap <C-j> <C-W>j
-" tnoremap <C-k> <C-W>k
-" tnoremap <C-h> <C-W>h
-" tnoremap <C-l> <C-W>l
-
 nnoremap <leader>v <C-w>v<cr>
 nnoremap <leader>V <C-w>o<cr><C-w>v<cr>
 
@@ -326,10 +321,17 @@ let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_document_highlight_enabled = 0
 
 " Key bindings
-nnoremap gd :LspDefinition<cr>
-nnoremap <leader>gt :LspTypeDefinition<cr>
-nnoremap <leader>gi :LspImplementation<cr>
-nnoremap <leader>rs :LspRename<cr>
+augroup lsp_install
+    au!
+    autocmd FileType rust call OnLspBufferEnabled()
+augroup END
+
+function! OnLspBufferEnabled() abort
+    nnoremap <buffer> gd :LspDefinition<cr>
+    nnoremap <buffer> <leader>gt :LspTypeDefinition<cr>
+    nnoremap <buffer> <leader>gi :LspImplementation<cr>
+    nnoremap <buffer> <leader>rs :LspRename<cr>
+endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
