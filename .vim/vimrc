@@ -168,6 +168,14 @@ noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
+augroup TermNav
+    au!
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-j> <C-W>j
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-k> <C-W>k
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-h> <C-W>h
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-l> <C-W>l
+augroup end
+
 nnoremap <leader>v <C-w>v<cr>
 nnoremap <leader>V <C-w>o<cr><C-w>v<cr>
 
