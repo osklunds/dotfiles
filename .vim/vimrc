@@ -496,6 +496,23 @@ endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Terminal
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! Terminal(TerminalName, StartActions)
+    let BufferNumber = bufnr(a:TerminalName)
+    if BufferNumber > 0
+        execute 'buffer ' . BufferNumber
+    else
+        " TODO: Don't hard code shell
+        let NewTermName = "TERM: " . a:TerminalName
+        call term_start('tcsh', {'term_name': NewTermName, 'curwin': 1})
+        call feedkeys(a:StartActions . "\<CR>", 't')
+    endif
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Stuff that needs to be in the end
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
