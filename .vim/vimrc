@@ -264,8 +264,15 @@ if executable('rg')
 endif
 
 " Key bindings
-nnoremap <leader>p :CtrlPLspDocumentSymbol<cr>
 nnoremap <leader>o :CtrlPBuffer<cr>
+nnoremap <C-p> :CtrlPBuffer<cr>
+tnoremap <C-p> <C-w>:CtrlPBuffer<cr>
+let g:ctrlp_prompt_mappings = {
+    \ 'PrtSelectMove("k")': ['<c-k>', '<c-p>'],
+    \ 'PrtHistory(1)': []
+    \ }
+
+nnoremap <leader>p :CtrlPLspDocumentSymbol<cr>
 
 nnoremap <leader>q :CtrlP cwd<cr>
 
