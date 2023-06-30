@@ -186,6 +186,9 @@ noremap <leader>sp [s
 noremap <leader>sa zg
 noremap <leader>s? z=
 
+" Terminal
+tnoremap <Esc><Esc> <C-W>N
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vimdiff
