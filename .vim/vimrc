@@ -156,11 +156,11 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
 " Keyboard language layout
-if has("mac") || has("macunix")
-    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
-else
-    set langmap=Ö:,-/,&^,Ä\",¤$,(*
-endif
+"if has("mac") || has("macunix")
+"    set langmap=Ö:,-/,&^,€$,(*,Ä},*{
+"else
+"    set langmap=Ö:,-/,&^,Ä\",¤$,(*
+"endif
 
 " Windows
 noremap <C-j> <C-W>j
