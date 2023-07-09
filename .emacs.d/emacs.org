@@ -1,7 +1,9 @@
 #+title: Emacs config
 #+PROPERTY: header-args:emacs-lisp
 
-* Config
+* User Interface
+
+** No GUI
 
 #+begin_src emacs-lisp
 
@@ -17,6 +19,12 @@
   (setq visible-bell       nil
 	ring-bell-function #'ignore)
 
+#+end_src
+
+** Key bindings
+
+#+begin_src emacs-lisp
+
   ;; Make ESC quit prompts
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -25,8 +33,15 @@
 	mac-command-modifier 'meta
 	mac-option-modifier 'n)
 
-  ;; Initialize package sources
-  (require 'package)
+#+end_src
+
+** Misc
+
+#+begin_src emacs-lisp
+
+  ;; Vertical splits
+  (setq split-width-threshold 0)
+  (setq split-height-threshold nil)
 
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
