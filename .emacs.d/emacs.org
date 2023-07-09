@@ -1,7 +1,7 @@
 #+title: Emacs config
 #+PROPERTY: header-args:emacs-lisp
 
-* User Interface
+* General
 
 ** No GUI
 
@@ -46,6 +46,28 @@
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
 
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+  (global-hl-line-mode 1)
+
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 2))
+
+  ;; No ~ files
+  (setq make-backup-files nil)
+
+#+end_src
+
+* Ivy and counsel
+
+#+begin_src emacs-lisp
+
   (use-package ivy
     :bind (("C-x C-b" . ivy-switch-buffer)
 	   :map ivy-minibuffer-map
@@ -63,14 +85,7 @@
     :config
     (ivy-mode 1))
 
-  (column-number-mode)
-  (global-display-line-numbers-mode t)
-  (global-hl-line-mode 1)
-
   (use-package counsel)
-
-  (use-package rainbow-delimiters
-    :hook (prog-mode . rainbow-delimiters-mode))
 
   (use-package ivy-rich
     :init
@@ -83,6 +98,11 @@
 	   :map minibuffer-local-map
 	   ("C-r" . counsel-minibuffer-history)))
 
+#+end_src
+
+* Modeline
+
+#+begin_src emacs-lisp
   (use-package doom-modeline
     :ensure t
     :init
@@ -102,14 +122,6 @@
 
   (doom-modeline-set-modeline 'ol-simple-line t)
 
-  ;; Set default mode-line
-  ;(add-hook 'doom-modeline-mode-hook
-  ;          (lambda ()
-  ;            (doom-modeline-set-modeline 'ol-simple-line 'default)))
-
-  ;; Or disable other mode-lines
-  ;(setq 'doom-modeline-mode-alist nil)
-
   (setq doom-modeline-icon nil)
   (setq doom-modeline-buffer-encoding nil)
   (setq doom-modeline-lsp nil)
@@ -117,14 +129,15 @@
   (setq doom-modeline-minor-modes nil)
   (setq doom-modeline-lsp nil)
 
-  (setq make-backup-files nil) ; stop creating ~ files
+#+end_src
 
-  (use-package haskell-mode)
+* Languages
 
-  (add-hook 'haskell-mode-hook #'lsp)
+** All languages
 
-  (use-package rust-mode
-    :hook (rust-mode . lsp))
+*** LSP
+
+#+begin_src emacs-lisp
 
   (use-package lsp-mode
     :config
@@ -151,6 +164,14 @@
   ;; TODO: Disable lsp diagnostics. Can use above log to inspect
   ;; TODO: Get functions from ivy-lsp
 
+  (use-package lsp-ivy)
+  
+#+end_src
+
+*** Completion
+
+#+begin_src emacs-lisp
+
   (use-package company
     :after lsp-mode
     :hook
@@ -167,9 +188,55 @@
   (use-package company-box
     :hook (company-mode . company-box-mode))
 
-  (use-package lsp-ivy)
 
-  ; Copied from lsp-mode (I think), will be adjusted
+#+end_src
+
+*** Snippets
+
+#+begin_src emacs-lisp
+
+  (use-package yasnippet)
+  (use-package yasnippet-snippets)
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook #'yas-minor-mode)
+
+  ;; (defun ol-rust-mode-hook ()
+  ;;   (setq-local company-backends
+  ;;               '((company-capf company-yasnippet :separate))
+  ;; 	      ))
+
+  ;; (add-hook 'rust-mode-hook #'ol-rust-mode-hook)
+
+#+end_src
+
+*** Misc
+
+#+begin_src emacs-lisp
+
+  (use-package evil-nerd-commenter)
+
+#+end_src
+
+** Language specific
+
+*** Haskell
+
+#+begin_src emacs-lisp
+
+  (use-package haskell-mode)
+
+  (add-hook 'haskell-mode-hook #'lsp)
+
+#+end_src
+
+*** Rust
+
+#+begin_src emacs-lisp
+
+  (use-package rust-mode
+    :hook (rust-mode . lsp))
+
+    ; Copied from lsp-mode (I think), will be adjusted
   (defun ol-lsp-rust-analyzer--make-init-options ()
     "Init options for rust-analyzer"
     `(:diagnostics (:enable ,(lsp-json-bool lsp-rust-analyzer-diagnostics-enable)
@@ -235,16 +302,20 @@
   (advice-add 'lsp-rust-analyzer--make-init-options :override
 	      (lambda () (ol-lsp-rust-analyzer--make-init-options)))
 
-  ;; (use-package evil)
+#+end_src
+
+* Theme
+
+#+begin_src emacs-lisp
 
   (use-package doom-themes)
   (load-theme 'doom-one-light t)
 
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config
-    (setq which-key-idle-delay 2))
+#+end_src
+
+* Projectile
+
+#+begin_src emacs-lisp
 
   (use-package projectile
     :config (projectile-mode)
@@ -261,14 +332,24 @@
   ;; This command is interactive
   ;; C-x C-o to open results in a buffer
 
-
   (use-package projectile-ripgrep)
 
   ;(use-package counsel-projectile
   ;  :config (counsel-projectile-mode))
 
+#+end_src
+
+* Magit
+
+#+begin_src emacs-lisp
+
   (use-package magit)
 
+#+end_src
+
+* Org mode
+
+#+begin_src emacs-lisp
     ;; Set faces for heading levels
 
   (defun ol/org-font-setup ()
@@ -303,20 +384,18 @@
 
   (use-package visual-fill-column
     :hook (org-mode . ol/org-mode-visual-fill))
+  
+  (setq org-support-shift-select 'always)
 
-  (use-package evil-nerd-commenter)
+#+end_src
 
-  (use-package yasnippet)
-  (use-package yasnippet-snippets)
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook #'yas-minor-mode)
+* Ediff
 
-  ;; (defun ol-rust-mode-hook ()
-  ;;   (setq-local company-backends
-  ;;               '((company-capf company-yasnippet :separate))
-  ;; 	      ))
+** Colors
 
-  ;; (add-hook 'rust-mode-hook #'ol-rust-mode-hook)
+*** Used colors
+
+#+begin_src emacs-lisp
 
   (require 'ediff)
 
@@ -348,6 +427,11 @@
   (ol-set-ediff-face-attribute 'ediff-odd-diff-B        'magit-diff-added)
   (ol-set-ediff-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
 
+#+end_src
+
+*** Old ways for colors
+
+#+begin_src emacs-lisp
 
   ;; ;; -----------------------------------------------------------------------------
   ;; (set-face-attribute 'ediff-current-diff-A nil
@@ -431,8 +515,14 @@
   ;; TODO Put in a better place. For some reason, these settings are overwritten
   ;; if put earlier in the file
 
-  (setq org-support-shift-select 'always)
+#+end_src
 
+* Stuff that has to be in the end
+
+General TODO: Move things here to a better place when you know how to make it work the proper way.
+
+#+begin_src emacs-lisp
+  
   (set-face-attribute 'mode-line nil
 		      :background "#bfbfbf"
 		      :overline nil
