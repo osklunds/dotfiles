@@ -366,12 +366,6 @@
     (ol/org-font-setup)
     )
 
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("●" "●" "●" "●" "●" "●" "●")))
-
   (defun ol/org-mode-visual-fill ()
     (setq visual-fill-column-width 150
 	  visual-fill-column-center-text t)
@@ -532,7 +526,6 @@ General TODO: Move things here to a better place when you know how to make it wo
 		      :underline nil)
 
 #+end_src
-
 
 * Misc todos
 
