@@ -533,3 +533,9 @@ General TODO: Move things here to a better place when you know how to make it wo
 
 #+end_src
 
+
+* Misc todos
+
+- window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
+- fix list indentation
+- Maybe if possible: company mode only in source blocks
