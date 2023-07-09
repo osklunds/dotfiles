@@ -2,7 +2,6 @@
 #+PROPERTY: header-args:emacs-lisp
 
 * General
-
 ** No GUI
 
 #+begin_src emacs-lisp
@@ -132,9 +131,7 @@
 #+end_src
 
 * Languages
-
 ** All languages
-
 *** LSP
 
 #+begin_src emacs-lisp
@@ -218,7 +215,6 @@
 #+end_src
 
 ** Language specific
-
 *** Haskell
 
 #+begin_src emacs-lisp
@@ -353,14 +349,15 @@
     ;; Set faces for heading levels
 
   (defun ol/org-font-setup ()
-  (dolist (face '((org-level-1 . 1.5)
-		    (org-level-2 . 1.4)
-		    (org-level-3 . 1.3)
-		    (org-level-4 . 1.2)
-		    (org-level-5 . 1.1)
-		    (org-level-6 . 1.1)
-		    (org-level-7 . 1.1)
-		    (org-level-8 . 1.1)))
+  ;; I don't actually change any font sizes, but I keep this in case I change my mind.
+  (dolist (face '((org-level-1 . 1.0)
+		    (org-level-2 . 1.0)
+		    (org-level-3 . 1.0)
+		    (org-level-4 . 1.0)
+		    (org-level-5 . 1.0)
+		    (org-level-6 . 1.0)
+		    (org-level-7 . 1.0)
+		    (org-level-8 . 1.0)))
       (set-face-attribute (car face) nil :weight 'regular :height (cdr face))))
 
   (use-package org
@@ -384,7 +381,7 @@
 
   (use-package visual-fill-column
     :hook (org-mode . ol/org-mode-visual-fill))
-  
+
   (setq org-support-shift-select 'always)
 
 #+end_src
