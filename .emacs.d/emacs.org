@@ -533,4 +533,5 @@ General TODO: Move things here to a better place when you know how to make it wo
 - fix list indentation in org-mode
 - Maybe if possible: company mode only in source blocks
 - maybe only company-mode for "programming" org-mode
+- always make windows same size
  
