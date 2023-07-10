@@ -166,14 +166,6 @@ noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
-augroup TermNav
-    au!
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-j> <C-W>j
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-k> <C-W>k
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-h> <C-W>h
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" |  tnoremap <buffer> <C-l> <C-W>l
-augroup end
-
 nnoremap <leader>v <C-w>v<cr>
 nnoremap <leader>V <C-w>o<cr><C-w>v<cr>
 
@@ -183,9 +175,6 @@ noremap <leader>sn ]s
 noremap <leader>sp [s
 noremap <leader>sa zg
 noremap <leader>s? z=
-
-" Terminal
-tnoremap <Esc><Esc> <C-W>N
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -499,6 +488,16 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+augroup TermButNotFzf
+    au!
+    " TODO: Make a function for this
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-j> <C-W>j
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-k> <C-W>k
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-h> <C-W>h
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-l> <C-W>l
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <Esc><Esc> <C-W>N
+augroup end
 
 command! -nargs=1 Term call Terminal(<f-args>, "ll")
 
