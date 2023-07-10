@@ -140,9 +140,7 @@ vnoremap <leader>R "hy:%s/<C-r>h/<C-r>h/gc<left><left><left>
 nnoremap <leader>r "hyiw:,$s/<C-r>h/<C-r>h/gc<left><left><left>
 nnoremap <leader>R "hyiw:,%s/<C-r>h/<C-r>h/gc<left><left><left>
 
-" Would be better to map ?, but _? in langmap interfers
-" with vim-commentary
-nnoremap <silent> _ :noh<cr> 
+nnoremap <silent> ? :noh<cr> 
 
 " No arrow keys
 noremap <Up> <Nop>
