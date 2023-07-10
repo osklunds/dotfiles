@@ -362,6 +362,7 @@
 
   (use-package org
     :config
+    (setq org-ellipsis " ▾")
     (ol/org-font-setup)
     )
 
