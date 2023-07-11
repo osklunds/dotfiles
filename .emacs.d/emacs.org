@@ -341,13 +341,15 @@
 
   (use-package magit)
 
+  (set-face-attribute 'magit-blame-margin nil
+		      :background "#e4e4e4")
+  ;; TODO: Possibly change org mode background to the above as well.
 
   (setq magit-blame-styles '((margin
-   (margin-format    . (" %s%f %C"))
-;;   (margin-format    . (" %s%f" " %C"))
+   (margin-format    . ("%C %s%f"))
    (margin-width     . 80)
    (margin-face      . magit-blame-margin)
-   (margin-body-face . (magit-blame-dimmed)))))
+   (margin-body-face . magit-blame-margin))))
 
 #+end_src
 
