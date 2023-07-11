@@ -341,7 +341,17 @@
 
   (use-package magit)
 
+
+  (setq magit-blame-styles '((margin
+   (margin-format    . (" %s%f" " %C"))
+;;   (margin-format    . (" %s%f" " %C"))
+   (margin-width     . 80)
+   (margin-face      . magit-blame-margin)
+   (margin-body-face . (magit-blame-dimmed)))))
+
 #+end_src
+
+Idea: have one style with date and summary, and others styles with e.g. hash and committer
 
 * Org mode
 
