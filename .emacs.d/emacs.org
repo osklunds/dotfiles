@@ -347,9 +347,7 @@
 
   (setq magit-blame-styles '((margin
    (margin-format    . ("%C %s%f"))
-   (margin-width     . 80)
-   (margin-face      . magit-blame-margin)
-   (margin-body-face . magit-blame-margin))))
+   (margin-width     . 80))))
 
 #+end_src
 
