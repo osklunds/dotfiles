@@ -345,9 +345,23 @@
 		      :background "#e4e4e4")
   ;; TODO: Possibly change org mode background to the above as well.
 
-  (setq magit-blame-styles '((margin
-   (margin-format    . ("%C %s%f"))
-   (margin-width     . 80))))
+  ;; TODO it only works to cycle once, and even that cycling seems broken.
+  (setq magit-blame-styles
+    '(
+      (margin
+         (margin-format . ("%C %s%f"))
+         (margin-width  . 50)
+      )
+      (margin
+         (margin-format . ("%C %s%f"))
+         (margin-width  . 80)
+      )
+      (margin
+         (margin-format . ("%H %c%f"))
+         (margin-width  . 80)
+      )
+    )
+  )
 
 #+end_src
 
