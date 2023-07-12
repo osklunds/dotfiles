@@ -346,19 +346,12 @@
   ;; TODO: Possibly change org mode background to the above as well.
 
   ;; TODO it only works to cycle once, and even that cycling seems broken.
+  ;; Maybe add more styles, for example the same but longer width.
   (setq magit-blame-styles
     '(
       (margin
-         (margin-format . ("%C %s%f"))
-         (margin-width  . 50)
-      )
-      (margin
-         (margin-format . ("%C %s%f"))
-         (margin-width  . 80)
-      )
-      (margin
-         (margin-format . ("%H %c%f"))
-         (margin-width  . 80)
+	 (margin-format . ("%C %s%f"))
+	 (margin-width  . 60)
       )
     )
   )
