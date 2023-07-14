@@ -34,13 +34,26 @@
 
 #+end_src
 
-** Misc
+** Windows
 
 #+begin_src emacs-lisp
 
+  (use-package balanced-windows
+    :config
+    (balanced-windows-mode))
+
   ;; Vertical splits
-  (setq split-width-threshold 0)
+  (setq split-width-threshold 100)
   (setq split-height-threshold nil)
+
+  ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
+  ;; 					    display-buffer-same-window)))
+  
+#+end_src
+
+** Misc
+
+#+begin_src emacs-lisp
 
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
@@ -434,18 +447,22 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
   (ol-set-ediff-face-attribute 'ediff-current-diff-A        'magit-diff-removed)
   (ol-set-ediff-face-attribute 'ediff-current-diff-B        'magit-diff-added)
+  (ol-set-ediff-face-attribute 'ediff-current-diff-C        'magit-diff-added)
   (ol-set-ediff-face-attribute 'ediff-current-diff-Ancestor 'magit-diff-base)
 
   (ol-set-ediff-face-attribute 'ediff-fine-diff-A        'magit-diff-removed-highlight)
   (ol-set-ediff-face-attribute 'ediff-fine-diff-B        'magit-diff-added-highlight)
+  (ol-set-ediff-face-attribute 'ediff-fine-diff-C        'magit-diff-added-highlight)
   (ol-set-ediff-face-attribute 'ediff-fine-diff-Ancestor 'magit-diff-base-highlight)
 
   (ol-set-ediff-face-attribute 'ediff-even-diff-A        'magit-diff-removed)
   (ol-set-ediff-face-attribute 'ediff-even-diff-B        'magit-diff-added)
+  (ol-set-ediff-face-attribute 'ediff-even-diff-C        'magit-diff-added)
   (ol-set-ediff-face-attribute 'ediff-even-diff-Ancestor 'magit-diff-base)
 
   (ol-set-ediff-face-attribute 'ediff-odd-diff-A        'magit-diff-removed)
   (ol-set-ediff-face-attribute 'ediff-odd-diff-B        'magit-diff-added)
+  (ol-set-ediff-face-attribute 'ediff-odd-diff-C        'magit-diff-added)
   (ol-set-ediff-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
 
 #+end_src
