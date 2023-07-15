@@ -383,6 +383,18 @@
 
 Idea: have one style with date and summary, and others styles with e.g. hash and committer
 
+#+begin_src emacs-lisp
+
+  ;; TODO: Use main first, if doesn't exist, use master
+  ;; TODO: analyze if should use origin or not
+  ;; TODO: Include summary of changes files and num lines
+  (defun ol-diff-main ()
+    "Diff against the merge base with main/master"
+    (interactive)
+    (magit-diff-range "master..."))
+
+#+end_src
+
 * Org mode
 
 #+begin_src emacs-lisp
