@@ -431,6 +431,8 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
       (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase)
 
       (ol--ediff bufferBase bufferLocal "BASE LOCAL")
+      (ol--ediff bufferBase bufferRemote "BASE REMOTE")
+      (ol--ediff bufferLocal bufferRemote "LOCAL REMOTE")
 
       ))
     
