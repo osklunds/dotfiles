@@ -406,29 +406,46 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
 #+begin_src emacs-lisp
 
-    ;; Copied and modified from magit. TODO: Copyright
-    (defun ol-merge-survival-knife (file)
-      (let* ((dir (magit-gitdir))
-	     (revLocal  (or (magit-name-branch "HEAD")
-			    (magit-commit-p "HEAD")))
-	     (revRemote  (cl-find-if (lambda (head)
-				       (file-exists-p (expand-file-name head dir)))
-				     '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
-	     (revRemote  (or (magit-name-branch revRemote)
-			     (magit-commit-p revRemote)))
-	     (revBase  (magit-commit-p (magit-git-string "merge-base" revLocal revRemote)))
-	     (fileLocal (magit--rev-file-name file revLocal revRemote))
-	     (fileRemote (magit--rev-file-name file revRemote revLocal))
-	     (fileBase (or (magit--rev-file-name file revBase revLocal)
-			   (magit--rev-file-name file revBase revRemote))))
+  ;; Copied and modified from magit. TODO: Copyright
+  (defun ol-merge-survival-knife (file)
+    (let* ((dir (magit-gitdir))
+	   (revLocal  (or (magit-name-branch "HEAD")
+			  (magit-commit-p "HEAD")))
+	   (revRemote  (cl-find-if (lambda (head)
+				     (file-exists-p (expand-file-name head dir)))
+				   '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
+	   (revRemote  (or (magit-name-branch revRemote)
+			   (magit-commit-p revRemote)))
+	   (revBase  (magit-commit-p (magit-git-string "merge-base" revLocal revRemote)))
+	   (fileLocal (magit--rev-file-name file revLocal revRemote))
+	   (fileRemote (magit--rev-file-name file revRemote revLocal))
+	   (fileBase (or (magit--rev-file-name file revBase revLocal)
+			 (magit--rev-file-name file revBase revRemote)))
 
-      (message "Variables: %s %s %s %s %s %s"
-	       revLocal revRemote revBase fileLocal fileRemote fileBase)))
+	   (bufferLocal  (ol--get-revision-buffer revLocal   fileLocal))
+	   (bufferRemote (ol--get-revision-buffer revRemote fileRemote))
+	   (bufferBase   (ol--get-revision-buffer revBase    fileBase)))
+
+    (message "Revs: %s %s %s" revLocal revRemote revBase)
+    (message "Files: %s %s %s %s" file fileLocal fileRemote fileBase)
+    (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase)
+  ))
+
+  (defun ol--get-revision-buffer (rev file)
+    (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
 
 
-    (defun ol-test (file)
-      (let* ((hej file))
-	(message "hejj %s" hej)))
+
+
+
+
+
+
+
+
+  (defun ol-test (file)
+    (let* ((hej file))
+      (message "hejj %s" hej)))
 
 
 
