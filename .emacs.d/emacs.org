@@ -105,6 +105,8 @@
     :config
     (ivy-mode 1))
 
+  (setq ivy-height 20)
+
   (use-package counsel)
 
   (use-package ivy-rich
