@@ -406,28 +406,29 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
 #+begin_src emacs-lisp
 
-  ;; Copied and modified from magit. TODO: Copyright
-  (defun ol-merge-survival-knife (file)
-    (let* ((dir (magit-gitdir))
-	   (revA  (or (magit-name-branch "HEAD")
-		      (magit-commit-p "HEAD")))
-	   (revB  (cl-find-if (lambda (head)
-				(file-exists-p (expand-file-name head dir)))
-			      '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
-	   (revB  (or (magit-name-branch revB)
-		      (magit-commit-p revB)))
-	   (revC  (magit-commit-p (magit-git-string "merge-base" revA revB)))
-	   (fileA (magit--rev-file-name file revA revB))
-	   (fileB (magit--rev-file-name file revB revA))
-	   (fileC (or (magit--rev-file-name file revC revA)
-		      (magit--rev-file-name file revC revB))))
+    ;; Copied and modified from magit. TODO: Copyright
+    (defun ol-merge-survival-knife (file)
+      (let* ((dir (magit-gitdir))
+	     (revLocal  (or (magit-name-branch "HEAD")
+			    (magit-commit-p "HEAD")))
+	     (revRemote  (cl-find-if (lambda (head)
+				       (file-exists-p (expand-file-name head dir)))
+				     '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
+	     (revRemote  (or (magit-name-branch revRemote)
+			     (magit-commit-p revRemote)))
+	     (revBase  (magit-commit-p (magit-git-string "merge-base" revLocal revRemote)))
+	     (fileLocal (magit--rev-file-name file revLocal revRemote))
+	     (fileRemote (magit--rev-file-name file revRemote revLocal))
+	     (fileBase (or (magit--rev-file-name file revBase revLocal)
+			   (magit--rev-file-name file revBase revRemote))))
 
-    (message "hejjj %s" revA)))
+      (message "Variables: %s %s %s %s %s %s"
+	       revLocal revRemote revBase fileLocal fileRemote fileBase)))
 
 
-  (defun ol-test (file)
-    (let* ((hej file))
-      (message "hejj %s" hej)))
+    (defun ol-test (file)
+      (let* ((hej file))
+	(message "hejj %s" hej)))
 
 
 
