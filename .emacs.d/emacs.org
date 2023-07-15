@@ -358,7 +358,7 @@
 
 #+end_src
 
-* Magit
+* Magit and git
 
 #+begin_src emacs-lisp
 
