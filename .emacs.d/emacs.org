@@ -20,6 +20,18 @@
 
 #+end_src
 
+** UI
+
+#+begin_src emacs-lisp
+
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+  (global-hl-line-mode 1)
+
+  (set-face-attribute 'default nil :height 110)
+  
+#+end_src
+
 ** Key bindings
 
 #+begin_src emacs-lisp
@@ -65,10 +77,6 @@
 
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
-
-  (column-number-mode)
-  (global-display-line-numbers-mode t)
-  (global-hl-line-mode 1)
 
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
