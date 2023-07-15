@@ -51,6 +51,14 @@
   
 #+end_src
 
+** Navigation
+
+#+begin_src emacs-lisp
+
+  (global-set-key (kbd "M--") 'pop-tag-mark)
+
+#+end_src
+
 ** Misc
 
 #+begin_src emacs-lisp
