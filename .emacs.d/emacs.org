@@ -424,22 +424,19 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
 	   (bufferLocal  (ol--get-revision-buffer revLocal  fileLocal))
 	   (bufferRemote (ol--get-revision-buffer revRemote fileRemote))
-	   (bufferBase   (ol--get-revision-buffer revBase   fileBase)))
+	   (bufferBase   (ol--get-revision-buffer revBase   fileBase))
+	   (bufferMerged (current-buffer)))
 
       (message "Revs: %s %s %s" revLocal revRemote revBase)
       (message "Files: %s %s %s %s" file fileLocal fileRemote fileBase)
-      (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase)
+      (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase bufferMerged)
 
-      (ol--ediff bufferBase bufferLocal "BASE LOCAL")
-      (ol--ediff bufferBase bufferRemote "BASE REMOTE")
-      (ol--ediff bufferLocal bufferRemote "LOCAL REMOTE")
-
+      (ol--ediff bufferBase   bufferLocal  "BASE   LOCAL")
+      (ol--ediff bufferBase   bufferRemote "BASE   REMOTE")
+      (ol--ediff bufferLocal  bufferRemote "LOCAL  REMOTE")
+      (ol--ediff bufferLocal  bufferMerged "LOCAL  MERGED")
+      (ol--ediff bufferRemote bufferMerged "REMOTE MERGED")
       ))
-    
-;    (ediff-buffers bufferBase bufferLocal)
-;    (ediff-buffers bufferBase bufferRemote)
-;    (ediff-buffers bufferLocal bufferRemote)
-    
 
   (defun ol--get-revision-buffer (rev file)
     (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
@@ -478,7 +475,6 @@ Reminder: M-RET for new bullet
 - Local-Remote
 - Local-Merged
 - Remote-Merged
-
 
 * Org mode
 
