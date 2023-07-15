@@ -486,6 +486,8 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
   (setq org-support-shift-select 'always)
 
+  (setq org-src-preserve-indentation t)
+
 #+end_src
 
 * Ediff
