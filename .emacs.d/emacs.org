@@ -407,8 +407,10 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 #+begin_src emacs-lisp
 
   ;; Copied and modified from magit. TODO: Copyright
-  (defun ol-merge-survival-knife (file)
-    (let* ((dir (magit-gitdir))
+  (defun ol-merge-survival-knife ()
+    (interactive)
+    (let* ((file (magit-current-file))
+	   (dir (magit-gitdir))
 	   (revLocal  (or (magit-name-branch "HEAD")
 			  (magit-commit-p "HEAD")))
 	   (revRemote  (cl-find-if (lambda (head)
