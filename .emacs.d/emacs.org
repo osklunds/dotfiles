@@ -426,13 +426,28 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 	   (bufferRemote (ol--get-revision-buffer revRemote fileRemote))
 	   (bufferBase   (ol--get-revision-buffer revBase   fileBase)))
 
-    (message "Revs: %s %s %s" revLocal revRemote revBase)
-    (message "Files: %s %s %s %s" file fileLocal fileRemote fileBase)
-    (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase)
-  ))
+      (message "Revs: %s %s %s" revLocal revRemote revBase)
+      (message "Files: %s %s %s %s" file fileLocal fileRemote fileBase)
+      (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase)
+
+      (ol--ediff bufferBase bufferLocal "BASE LOCAL")
+
+      ))
+    
+;    (ediff-buffers bufferBase bufferLocal)
+;    (ediff-buffers bufferBase bufferRemote)
+;    (ediff-buffers bufferLocal bufferRemote)
+    
 
   (defun ol--get-revision-buffer (rev file)
     (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
+
+  (defun ol--ediff (bufferLeft bufferRight name)
+    (let* ((bufferName (format "*Ediff Control Panel %s*" name))
+           (startup-hook (lambda() (rename-buffer bufferName))))
+      
+      (ediff-buffers bufferLeft bufferRight (cons startup-hook ()))))
+    
 
 
 
