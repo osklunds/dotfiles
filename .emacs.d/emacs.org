@@ -591,6 +591,14 @@ Reminder: M-RET for new bullet
 #+end_src
 
 * Ediff
+** Vdiff
+
+#+begin_src emacs-lisp
+
+(use-package vdiff)
+(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
+
+#+end_src
 
 ** Misc
 
