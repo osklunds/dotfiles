@@ -425,13 +425,13 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
 #+begin_src emacs-lisp
 
-  (defvar msk-merge-survival-knife-buffers ())
+  (defvar msk-state ())
 
   ;; Copied and modified from magit.
   (defun msk-merge-survival-knife-start ()
     (interactive)
     ;; TODO: Check if () first
-    (setq msk-merge-survival-knife-buffers ())
+    (setq msk-state ())
     (msk--put-value 'window-configuration (current-window-configuration))
     (let* ((file (magit-current-file))
 	   (dir (magit-gitdir))
@@ -485,7 +485,7 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
     (set-window-configuration (msk--get-value 'window-configuration))
 
-    (setq msk-merge-survival-knife-buffers ()))
+    (setq msk-state ()))
 
   (defun msk-base-local ()
     (interactive)
@@ -525,10 +525,10 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
       (ediff-buffers bufferLeft bufferRight startup-hooks)))
 
   (defun msk--put-value (key value)
-    (setq msk-merge-survival-knife-buffers (plist-put msk-merge-survival-knife-buffers key value)))
+    (setq msk-state (plist-put msk-state key value)))
 
   (defun msk--get-value (key)
-    (plist-get msk-merge-survival-knife-buffers key))
+    (plist-get msk-state key))
 
 #+end_src
 
