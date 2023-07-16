@@ -406,9 +406,13 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
 #+begin_src emacs-lisp
 
+  (defvar ol-merge-survival-knife-buffers ())
+
   ;; Copied and modified from magit. TODO: Copyright
-  (defun ol-merge-survival-knife ()
+  (defun ol-merge-survival-knife-start ()
     (interactive)
+    ;; TODO: Check if () first
+    (setq ol-merge-survival-knife-buffers ())
     (let* ((file (magit-current-file))
 	   (dir (magit-gitdir))
 	   (revLocal  (or (magit-name-branch "HEAD")
@@ -427,30 +431,60 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 	   (bufferLocal  (ol--get-revision-buffer revLocal  fileLocal))
 	   (bufferRemote (ol--get-revision-buffer revRemote fileRemote))
 	   (bufferBase   (ol--get-revision-buffer revBase   fileBase))
-	   (bufferMerged (current-buffer)))
+	   (bufferMerged (current-buffer))
 
-      (message "Revs: %s %s %s" revLocal revRemote revBase)
-      (message "Files: %s %s %s %s" file fileLocal fileRemote fileBase)
-      (message "Buffers: %s %s %s" bufferLocal bufferRemote bufferBase bufferMerged)
+	   (bufferBaseLocal (ol--ediff bufferBase bufferLocal "BASE LOCAL"))
+   	   (bufferBaseRemote (ol--ediff bufferBase bufferRemote "BASE REMOTE"))
+	   (bufferLocalRemote (ol--ediff bufferLocal bufferRemote "LOCAL REMOTE"))
+	   (bufferLocalMerged (ol--ediff bufferLocal bufferMerged "LOCAL MERGED"))
+   	   (bufferRemoteMerged (ol--ediff bufferRemote bufferMerged "REMOTE MERGED")))
+      
+      ;; (message "EDIFF %s" bufferBaseLocal)
 
-      (ol--ediff bufferBase   bufferLocal  "BASE   LOCAL")
-      (ol--ediff bufferBase   bufferRemote "BASE   REMOTE")
-      (ol--ediff bufferLocal  bufferRemote "LOCAL  REMOTE")
-      (ol--ediff bufferLocal  bufferMerged "LOCAL  MERGED")
-      (ol--ediff bufferRemote bufferMerged "REMOTE MERGED")
+      (ol--put-buffer 'base bufferBase)
+      (ol--put-buffer 'local bufferLocal)
+      (ol--put-buffer 'remote bufferRemote)
+      
+      (ol--put-buffer 'baseLocal bufferBaseLocal)
+      (ol--put-buffer 'baseRemote bufferBaseRemote)
+      (ol--put-buffer 'localRemote bufferLocalRemote)
+      (ol--put-buffer 'localMerged bufferLocalMerged)
+      (ol--put-buffer 'remoteMerged bufferRemoteMerged)
       ))
 
+  (defun ol-merge-survival-knife-stop ()
+    (interactive)
+    ;; TOOD: Iterate instead
+    (kill-buffer (ol--get-buffer 'base))
+    (kill-buffer (ol--get-buffer 'local))
+    (kill-buffer (ol--get-buffer 'remote))
+
+    (kill-buffer (ol--get-buffer 'baseLocal))
+    (kill-buffer (ol--get-buffer 'baseRemote))
+    (kill-buffer (ol--get-buffer 'localRemote))
+    (kill-buffer (ol--get-buffer 'localMerged))
+    (kill-buffer (ol--get-buffer 'remoteMerged))
+
+    (setq ol-merge-survival-knife-buffers ()))
+    
   (defun ol--get-revision-buffer (rev file)
     (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
 
   (defun ol--ediff (bufferLeft bufferRight name)
     (let* ((bufferName (format "*Ediff %s*" name))
            (rename-control-panel (lambda() (rename-buffer bufferName)))
-	   (startup-hooks (cons rename-control-panel ()))
+	   (not-dedicated-window (lambda() (set-window-dedicated-p (frame-selected-window) nil)))
+	   (startup-hooks (cons rename-control-panel (cons not-dedicated-window ())))
 	   )
       
       (ediff-buffers bufferLeft bufferRight startup-hooks)))
 
+  (defun ol--put-buffer (key buffer)
+    (setq ol-merge-survival-knife-buffers (plist-put ol-merge-survival-knife-buffers key buffer)))
+
+  (defun ol--get-buffer (key)
+    (plist-get ol-merge-survival-knife-buffers key))
+  
   (defun ol-test (file)
     (let* ((hej file))
       (message "hejj %s" hej)))
