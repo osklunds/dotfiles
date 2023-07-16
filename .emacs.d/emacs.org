@@ -432,6 +432,7 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
     (interactive)
     ;; TODO: Check if () first
     (setq msk-merge-survival-knife-buffers ())
+    (msk--put-value 'window-configuration (current-window-configuration))
     (let* ((file (magit-current-file))
 	   (dir (magit-gitdir))
 	   (rev-local  (or (magit-name-branch "HEAD")
@@ -457,7 +458,7 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 	   (buffer-local-remote (msk--ediff buffer-local buffer-remote "LOCAL REMOTE"))
 	   (buffer-local-merged (msk--ediff buffer-local buffer-merged "LOCAL MERGED"))
    	   (buffer-remote-merged (msk--ediff buffer-remote buffer-merged "REMOTE MERGED")))
-
+      
       (msk--put-value 'base buffer-base)
       (msk--put-value 'local buffer-local)
       (msk--put-value 'remote buffer-remote)
@@ -481,6 +482,8 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
     (kill-buffer (msk--get-value 'local-remote))
     (kill-buffer (msk--get-value 'local-merged))
     (kill-buffer (msk--get-value 'remote-merged))
+
+    (set-window-configuration (msk--get-value 'window-configuration))
 
     (setq msk-merge-survival-knife-buffers ()))
 
