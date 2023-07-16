@@ -427,7 +427,7 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
   (defvar msk-merge-survival-knife-buffers ())
 
-  ;; Copied and modified from magit. TODO: Copyright
+  ;; Copied and modified from magit.
   (defun msk-merge-survival-knife-start ()
     (interactive)
     ;; TODO: Check if () first
@@ -457,32 +457,30 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 	   (buffer-local-remote (msk--ediff buffer-local buffer-remote "LOCAL REMOTE"))
 	   (buffer-local-merged (msk--ediff buffer-local buffer-merged "LOCAL MERGED"))
    	   (buffer-remote-merged (msk--ediff buffer-remote buffer-merged "REMOTE MERGED")))
-      
-      ;; (message "EDIFF %s" buffer-base-local)
 
-      (msk--put-buffer 'base buffer-base)
-      (msk--put-buffer 'local buffer-local)
-      (msk--put-buffer 'remote buffer-remote)
+      (msk--put-value 'base buffer-base)
+      (msk--put-value 'local buffer-local)
+      (msk--put-value 'remote buffer-remote)
       
-      (msk--put-buffer 'base-local buffer-base-local)
-      (msk--put-buffer 'base-remote buffer-base-remote)
-      (msk--put-buffer 'local-remote buffer-local-remote)
-      (msk--put-buffer 'local-merged buffer-local-merged)
-      (msk--put-buffer 'remote-merged buffer-remote-merged)
+      (msk--put-value 'base-local buffer-base-local)
+      (msk--put-value 'base-remote buffer-base-remote)
+      (msk--put-value 'local-remote buffer-local-remote)
+      (msk--put-value 'local-merged buffer-local-merged)
+      (msk--put-value 'remote-merged buffer-remote-merged)
       ))
 
   (defun msk-merge-survival-knife-stop ()
     (interactive)
     ;; TOOD: Iterate instead
-    (kill-buffer (msk--get-buffer 'base))
-    (kill-buffer (msk--get-buffer 'local))
-    (kill-buffer (msk--get-buffer 'remote))
+    (kill-buffer (msk--get-value 'base))
+    (kill-buffer (msk--get-value 'local))
+    (kill-buffer (msk--get-value 'remote))
 
-    (kill-buffer (msk--get-buffer 'base-local))
-    (kill-buffer (msk--get-buffer 'base-remote))
-    (kill-buffer (msk--get-buffer 'local-remote))
-    (kill-buffer (msk--get-buffer 'local-merged))
-    (kill-buffer (msk--get-buffer 'remote-merged))
+    (kill-buffer (msk--get-value 'base-local))
+    (kill-buffer (msk--get-value 'base-remote))
+    (kill-buffer (msk--get-value 'local-remote))
+    (kill-buffer (msk--get-value 'local-merged))
+    (kill-buffer (msk--get-value 'remote-merged))
 
     (setq msk-merge-survival-knife-buffers ()))
 
@@ -507,7 +505,7 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
     (msk--compare-buffer-pair 'remote-merged))
 
   (defun msk--compare-buffer-pair (ediff-control-buffer)
-    (switch-to-buffer (msk--get-buffer ediff-control-buffer))
+    (switch-to-buffer (msk--get-value ediff-control-buffer))
     (delete-other-windows)
     (ediff-recenter))
 
@@ -523,15 +521,11 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
       
       (ediff-buffers bufferLeft bufferRight startup-hooks)))
 
-  (defun msk--put-buffer (key buffer)
-    (setq msk-merge-survival-knife-buffers (plist-put msk-merge-survival-knife-buffers key buffer)))
+  (defun msk--put-value (key value)
+    (setq msk-merge-survival-knife-buffers (plist-put msk-merge-survival-knife-buffers key value)))
 
-  (defun msk--get-buffer (key)
+  (defun msk--get-value (key)
     (plist-get msk-merge-survival-knife-buffers key))
-  
-  (defun msk-test (file)
-    (let* ((hej file))
-      (message "hejj %s" hej)))
 
 #+end_src
 
