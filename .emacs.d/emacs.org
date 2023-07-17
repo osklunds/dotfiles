@@ -590,8 +590,7 @@ Reminder: M-RET for new bullet
 
 #+end_src
 
-* Ediff
-** Vdiff
+* Vdiff
 
 #+begin_src emacs-lisp
 
@@ -618,6 +617,7 @@ Reminder: M-RET for new bullet
 
 #+end_src
 
+* Ediff
 ** Misc
 
 #+begin_src emacs-lisp
@@ -632,7 +632,6 @@ Reminder: M-RET for new bullet
 #+end_src
 
 ** Colors
-
 *** Used colors
 
 #+begin_src emacs-lisp
