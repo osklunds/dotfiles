@@ -607,6 +607,7 @@ Reminder: M-RET for new bullet
 (ol-set-ediff-face-attribute 'vdiff-change-face 'magit-diff-base)
 (ol-set-ediff-face-attribute 'vdiff-refine-changed 'magit-diff-base-highlight)
 (ol-set-ediff-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
+(ol-set-ediff-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
 #+end_src
 
