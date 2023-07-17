@@ -90,6 +90,9 @@
   ;; No ~ files
   (setq make-backup-files nil)
 
+  (setq gc-cons-threshold (* 50 1000 1000))
+
+
 #+end_src
 
 * Ivy and counsel
