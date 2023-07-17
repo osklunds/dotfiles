@@ -369,20 +369,6 @@
 * Magit and git
 ** Key bindings
 
-#+begin_src emacs-lisp
-
-  (global-set-key (kbd "C-c 6") 'msk-merge-survival-knife-start)
-  (global-set-key (kbd "C-c 7") 'msk-merge-survival-knife-stop)
-
-  ;; TODO Only bind if merging
-  (global-set-key (kbd "C-c 1") 'msk-base-local)
-  (global-set-key (kbd "C-c 2") 'msk-base-remote)
-  (global-set-key (kbd "C-c 3") 'msk-local-remote)
-  (global-set-key (kbd "C-c 4") 'msk-local-merged)
-  (global-set-key (kbd "C-c 5") 'msk-remote-merged)
-
-#+end_src
-
 ** Magit
 #+begin_src emacs-lisp
 
@@ -422,6 +408,20 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 #+end_src
 
 ** Merge Surival Knife
+
+#+begin_src emacs-lisp
+
+  (global-set-key (kbd "C-c 6") 'msk-merge-survival-knife-start)
+  (global-set-key (kbd "C-c 7") 'msk-merge-survival-knife-stop)
+
+  ;; TODO Only bind if merging
+  (global-set-key (kbd "C-c 1") 'msk-base-local)
+  (global-set-key (kbd "C-c 2") 'msk-base-remote)
+  (global-set-key (kbd "C-c 3") 'msk-local-remote)
+  (global-set-key (kbd "C-c 4") 'msk-local-merged)
+  (global-set-key (kbd "C-c 5") 'msk-remote-merged)
+
+#+end_src
 
 #+begin_src emacs-lisp
 
