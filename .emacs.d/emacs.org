@@ -605,6 +605,7 @@ Reminder: M-RET for new bullet
 
 * Vdiff
 ** General
+
 #+begin_src emacs-lisp
 
 (use-package vdiff)
@@ -647,6 +648,8 @@ Reminder: M-RET for new bullet
 (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
 #+end_src
+
+TODO: Small helper that reads HEAD buffer of current buffer, and then runs vdiff on that
 
 * Ediff
 ** Misc
