@@ -451,40 +451,54 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 	   (file-base (or (magit--rev-file-name file rev-base rev-local)
 			 (magit--rev-file-name file rev-base rev-remote)))
 
-	   (buffer-local  (msk--get-revision-buffer rev-local  file-local))
-	   (buffer-remote (msk--get-revision-buffer rev-remote file-remote))
-	   (buffer-base   (msk--get-revision-buffer rev-base   file-base))
-	   (buffer-merged (current-buffer))
+	   (buffer-base-bl (msk--get-revision-buffer rev-base file-base))
+	   (buffer-base-br (msk--clone-buffer buffer-base-bl))
+	   
+	   (buffer-local-bl (msk--get-revision-buffer rev-local file-local))
+	   (buffer-local-lm (msk--clone-buffer buffer-local-bl))
+	   
+	   (buffer-remote-br (msk--get-revision-buffer rev-remote file-remote))
+	   (buffer-remote-rm (msk--clone-buffer buffer-remote-br))
+	   
+	   (buffer-merged-lm (current-buffer))
+	   (buffer-merged-rm (msk--clone-buffer buffer-merged-lm))
 
-	   (buffer-base-local (msk--ediff buffer-base buffer-local "BASE LOCAL"))
-   	   (buffer-base-remote (msk--ediff buffer-base buffer-remote "BASE REMOTE"))
-	   (buffer-local-remote (msk--ediff buffer-local buffer-remote "LOCAL REMOTE"))
-	   (buffer-local-merged (msk--ediff buffer-local buffer-merged "LOCAL MERGED"))
-   	   (buffer-remote-merged (msk--ediff buffer-remote buffer-merged "REMOTE MERGED")))
+	   )
+
+      (message "hej")
+
+      (vdiff-buffers buffer-base-bl buffer-local-bl)
+      (vdiff-buffers buffer-base-br buffer-remote-br)
+      (vdiff-buffers buffer-local-lm buffer-merged-lm)
+      (vdiff-buffers buffer-remote-rm buffer-merged-rm)
       
-      (msk--put-value 'base buffer-base)
-      (msk--put-value 'local buffer-local)
-      (msk--put-value 'remote buffer-remote)
+      (msk--put-value 'buffer-base-bl buffer-base-bl)
+      (msk--put-value 'buffer-base-br buffer-base-br)
+
+      (msk--put-value 'buffer-local-bl buffer-local-bl)
+      (msk--put-value 'buffer-local-lm buffer-local-lm)
+
+      (msk--put-value 'buffer-remote-br buffer-remote-br)
+      (msk--put-value 'buffer-remote-rm buffer-remote-rm)
+
+      (msk--put-value 'buffer-merged-rm buffer-merged-rm)
       
-      (msk--put-value 'base-local buffer-base-local)
-      (msk--put-value 'base-remote buffer-base-remote)
-      (msk--put-value 'local-remote buffer-local-remote)
-      (msk--put-value 'local-merged buffer-local-merged)
-      (msk--put-value 'remote-merged buffer-remote-merged)
       ))
 
   (defun msk-merge-survival-knife-stop ()
     (interactive)
     ;; TOOD: Iterate instead
-    (kill-buffer (msk--get-value 'base))
-    (kill-buffer (msk--get-value 'local))
-    (kill-buffer (msk--get-value 'remote))
+    (kill-buffer (msk--get-value 'buffer-base-bl))
+    (kill-buffer (msk--get-value 'buffer-base-br))
+    
+    (kill-buffer (msk--get-value 'buffer-local-bl))
+    (kill-buffer (msk--get-value 'buffer-local-lm))
 
-    (kill-buffer (msk--get-value 'base-local))
-    (kill-buffer (msk--get-value 'base-remote))
-    (kill-buffer (msk--get-value 'local-remote))
-    (kill-buffer (msk--get-value 'local-merged))
-    (kill-buffer (msk--get-value 'remote-merged))
+    (kill-buffer (msk--get-value 'buffer-remote-br))
+    (kill-buffer (msk--get-value 'buffer-remote-rm))
+
+    (kill-buffer (msk--get-value 'buffer-merged-rm))
+
 
     (set-window-configuration (msk--get-value 'window-configuration))
 
@@ -492,31 +506,36 @@ Idea: have one style with date and summary, and others styles with e.g. hash and
 
   (defun msk-base-local ()
     (interactive)
-    (msk--compare-buffer-pair 'base-local))
+    (msk--compare-buffer-pair 'buffer-base-bl 'buffer-local-bl))
 
   (defun msk-base-remote ()
     (interactive)
-    (msk--compare-buffer-pair 'base-remote))
+    (msk--compare-buffer-pair 'buffer-base-br 'buffer-remote-br))
 
   (defun msk-local-remote ()
     (interactive)
-    (msk--compare-buffer-pair 'local-remote))
+    (msk--compare-buffer-pair 'buffer-local))
 
   (defun msk-local-merged ()
     (interactive)
-    (msk--compare-buffer-pair 'local-merged))
+    (msk--compare-buffer-pair 'buffer-local-lm 'buffer-merged-lm))
 
   (defun msk-remote-merged ()
     (interactive)
-    (msk--compare-buffer-pair 'remote-merged))
+    (msk--compare-buffer-pair 'buffer-remote-rm 'buffer-merged-rm))
 
-  (defun msk--compare-buffer-pair (ediff-control-buffer)
-    (switch-to-buffer (msk--get-value ediff-control-buffer))
+  (defun msk--compare-buffer-pair (buffer-left buffer-right)
     (delete-other-windows)
-    (ediff-recenter))
+    (switch-to-buffer (msk--get-value buffer-right))
+    (split-window-right)
+    (switch-to-buffer (msk--get-value buffer-left)))
 
   (defun msk--get-revision-buffer (rev file)
     (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
+
+  (defun msk--clone-buffer (original-buffer)
+    (let* ((name (format "CLONE %s" (buffer-name original-buffer))))
+      (make-indirect-buffer original-buffer name)))
 
   (defun msk--ediff (bufferLeft bufferRight name)
     (let* ((bufferName (format "*Ediff %s*" name))
