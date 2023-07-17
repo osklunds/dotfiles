@@ -601,6 +601,13 @@ Reminder: M-RET for new bullet
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
 
+(setq vdiff-fold-padding 10
+      (setq vdiff-fold-string-function 'vdiff-fold-string-default))
+
+(defun ol-vdiff-fold-string (n-lines first-line-text width)
+  (format "   %d lines\n" n-lines))
+
+(setq vdiff-fold-string-function 'ol-vdiff-fold-string)
 
 (ol-set-ediff-face-attribute 'vdiff-addition-face 'magit-diff-added)
 (ol-set-ediff-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
