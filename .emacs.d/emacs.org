@@ -598,6 +598,9 @@ Reminder: M-RET for new bullet
 (use-package vdiff)
 (define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
 
+(setq vdiff-auto-refine t)
+(setq vdiff-subtraction-fill-char ? )
+
 #+end_src
 
 ** Misc
