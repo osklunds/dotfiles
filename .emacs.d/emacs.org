@@ -331,12 +331,25 @@
 
 #+end_src
 
-* Theme
+* Theme and colors
 
 #+begin_src emacs-lisp
 
   (use-package doom-themes)
   (load-theme 'doom-one-light t)
+
+#+end_src
+
+Helper for completely copying another face.
+
+#+begin_src emacs-lisp
+
+  ;; TODO: unset all properties (foreground etc...) the proper way
+  (defun ol-copy-face-attribute (face-to-set face-to-copy-from)
+    (set-face-attribute face-to-set nil
+			:inherit face-to-to-copy-from
+			:foreground nil
+			:background nil))
 
 #+end_src
 
@@ -608,12 +621,12 @@ Reminder: M-RET for new bullet
 
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
 
-(ol-set-ediff-face-attribute 'vdiff-addition-face 'magit-diff-added)
-(ol-set-ediff-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
-(ol-set-ediff-face-attribute 'vdiff-change-face 'magit-diff-base)
-(ol-set-ediff-face-attribute 'vdiff-refine-changed 'magit-diff-base-highlight)
-(ol-set-ediff-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
-(ol-set-ediff-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
+(ol-copy-face-attribute 'vdiff-addition-face 'magit-diff-added)
+(ol-copy-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
+(ol-copy-face-attribute 'vdiff-change-face 'magit-diff-base)
+(ol-copy-face-attribute 'vdiff-refine-changed 'magit-diff-base-highlight)
+(ol-copy-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
+(ol-copy-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
 #+end_src
 
@@ -643,32 +656,25 @@ Reminder: M-RET for new bullet
   ;; "current" faces below. The non-selected other diffs are highlighted alternatingly
   ;;with the odd and even faces.
 
-  ;; TODO: unset all properties (foreground etc...) the proper way
-  (defun ol-set-ediff-face-attribute (ediff-face face-to-inherit)
-    (set-face-attribute ediff-face nil
-			:inherit face-to-inherit
-			:foreground nil
-			:background nil))
+  (ol-copy-face-attribute 'ediff-current-diff-A        'magit-diff-removed)
+  (ol-copy-face-attribute 'ediff-current-diff-B        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-current-diff-C        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-current-diff-Ancestor 'magit-diff-base)
 
-  (ol-set-ediff-face-attribute 'ediff-current-diff-A        'magit-diff-removed)
-  (ol-set-ediff-face-attribute 'ediff-current-diff-B        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-current-diff-C        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-current-diff-Ancestor 'magit-diff-base)
+  (ol-copy-face-attribute 'ediff-fine-diff-A        'magit-diff-removed-highlight)
+  (ol-copy-face-attribute 'ediff-fine-diff-B        'magit-diff-added-highlight)
+  (ol-copy-face-attribute 'ediff-fine-diff-C        'magit-diff-added-highlight)
+  (ol-copy-face-attribute 'ediff-fine-diff-Ancestor 'magit-diff-base-highlight)
 
-  (ol-set-ediff-face-attribute 'ediff-fine-diff-A        'magit-diff-removed-highlight)
-  (ol-set-ediff-face-attribute 'ediff-fine-diff-B        'magit-diff-added-highlight)
-  (ol-set-ediff-face-attribute 'ediff-fine-diff-C        'magit-diff-added-highlight)
-  (ol-set-ediff-face-attribute 'ediff-fine-diff-Ancestor 'magit-diff-base-highlight)
+  (ol-copy-face-attribute 'ediff-even-diff-A        'magit-diff-removed)
+  (ol-copy-face-attribute 'ediff-even-diff-B        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-even-diff-C        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-even-diff-Ancestor 'magit-diff-base)
 
-  (ol-set-ediff-face-attribute 'ediff-even-diff-A        'magit-diff-removed)
-  (ol-set-ediff-face-attribute 'ediff-even-diff-B        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-even-diff-C        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-even-diff-Ancestor 'magit-diff-base)
-
-  (ol-set-ediff-face-attribute 'ediff-odd-diff-A        'magit-diff-removed)
-  (ol-set-ediff-face-attribute 'ediff-odd-diff-B        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-odd-diff-C        'magit-diff-added)
-  (ol-set-ediff-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
+  (ol-copy-face-attribute 'ediff-odd-diff-A        'magit-diff-removed)
+  (ol-copy-face-attribute 'ediff-odd-diff-B        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-odd-diff-C        'magit-diff-added)
+  (ol-copy-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
 
 #+end_src
 
