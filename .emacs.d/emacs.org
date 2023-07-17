@@ -604,7 +604,7 @@ Reminder: M-RET for new bullet
 #+end_src
 
 * Vdiff
-
+** General
 #+begin_src emacs-lisp
 
 (use-package vdiff)
@@ -620,13 +620,31 @@ Reminder: M-RET for new bullet
   (format "   %d lines\n" n-lines))
 
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
+#+end_src
 
+** Colors
+
+#+begin_src emacs-lisp
 (ol-copy-face-attribute 'vdiff-addition-face 'magit-diff-added)
 (ol-copy-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
 (ol-copy-face-attribute 'vdiff-change-face 'magit-diff-base)
 (ol-copy-face-attribute 'vdiff-refine-changed 'magit-diff-base-highlight)
 (ol-copy-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
 (ol-copy-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
+
+#+end_src
+
+** Magit integration
+
+#+begin_src emacs-lisp
+
+(use-package vdiff-magit)
+(define-key magit-mode-map "e" 'vdiff-magit-dwim)
+(define-key magit-mode-map "E" 'vdiff-magit)
+(transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+(transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+(transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+(transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
 #+end_src
 
