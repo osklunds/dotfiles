@@ -412,7 +412,7 @@ Helper for completely copying another face.
     :init
     (when (file-directory-p "~/Programmering")
       (setq projectile-project-search-path '(("~/Programmering" . 2))))
-    (setq projectile-switch-project-action 'projectile-dired)
+    (setq projectile-switch-project-action 'projectile-find-file)
     )
 
   ;; TODO: Map counsel-projectile-rg to something
