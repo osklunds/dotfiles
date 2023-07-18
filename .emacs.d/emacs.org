@@ -129,7 +129,9 @@
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'normal)
+
+  (setq evil-insert-state-cursor 'box))
 
 (use-package evil-collection
   ;; :after means load this after evil has been loaded
