@@ -347,7 +347,7 @@ Helper for completely copying another face.
   ;; TODO: unset all properties (foreground etc...) the proper way
   (defun ol-copy-face-attribute (face-to-set face-to-copy-from)
     (set-face-attribute face-to-set nil
-			:inherit face-to-to-copy-from
+			:inherit face-to-copy-from
 			:foreground nil
 			:background nil))
 
@@ -616,13 +616,13 @@ Reminder: M-RET for new bullet
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
 
-(setq vdiff-fold-padding 10
-      (setq vdiff-fold-string-function 'vdiff-fold-string-default))
+(setq vdiff-fold-padding 10)
 
 (defun ol-vdiff-fold-string (n-lines first-line-text width)
   (format "   %d lines\n" n-lines))
 
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
+
 #+end_src
 
 ** Colors

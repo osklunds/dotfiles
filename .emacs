@@ -1,4 +1,6 @@
 
+(setq debug-on-error t)
+
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
