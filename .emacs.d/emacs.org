@@ -97,8 +97,6 @@
   ;; Make ESC quit prompts
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-  (global-set-key (kbd "M--") 'pop-tag-mark)
-
 #+end_src
 
 ** General
