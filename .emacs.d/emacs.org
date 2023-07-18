@@ -93,6 +93,8 @@
   (ol-leader-keys
     "tt" '(counsel-load-theme :which-key "choose theme")))
 
+(define-key evil-normal-state-map (kbd ", r") (lambda () (interactive) (evil-ex "%s/hej/hej/gc")))
+
 #+end_src
 
 ** Mac
