@@ -456,6 +456,8 @@ Helper for completely copying another face.
     )
   )
 
+  (add-hook 'with-editor-mode-hook 'evil-insert-state)
+
 #+end_src
 
 Idea: have one style with date and summary, and others styles with e.g. hash and committer
