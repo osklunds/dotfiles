@@ -187,12 +187,10 @@
     )
 
   (doom-modeline-def-segment proj-name
-    "Hej hej"
     (concat
      (doom-modeline-spc)
      (doom-modeline-display-text (format "P: %s" (projectile-project-name)))))
 
-  ;; Define your custom doom-modeline
   (doom-modeline-def-modeline 'ol-simple-line
     '(bar modals buffer-info buffer-position)
     '(major-mode vcs proj-name))
@@ -205,6 +203,13 @@
   (setq doom-modeline-env-version nil)
   (setq doom-modeline-minor-modes nil)
   (setq doom-modeline-lsp nil)
+
+  (dolist (face '(doom-modeline-evil-normal-state
+                  doom-modeline-evil-insert-state
+                  doom-modeline-evil-visual-state
+                  doom-modeline-evil-emacs-state))
+    (set-face-attribute face nil
+      :weight 'bold))
 
 #+end_src
 
