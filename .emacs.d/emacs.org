@@ -110,13 +110,14 @@
 
 #+begin_src emacs-lisp
 
-  ;; Make ESC quit prompts
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (general-define-key
   :states '(normal emacs)
   :keymaps 'override
-  "C-j" 'ivy-switch-buffer)
+  "C-j" 'ivy-switch-buffer
+  "M-h" 'help-command)
 
 #+end_src
 
