@@ -36,8 +36,7 @@
 (use-package nlinum-relative
   :config
   (nlinum-relative-setup-evil)
-  (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-  (add-hook 'text-mode-hook 'display-line-numbers-mode))
+  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 #+end_src
 
