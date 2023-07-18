@@ -884,7 +884,6 @@ General TODO: Move things here to a better place when you know how to make it wo
 - maybe only company-mode for "programming" org-mode
 - always make windows same size
 
-- Remove --INSERT--
 - Make evil search more stable
 - org mode list when evil
 - C-j for buffer switch
