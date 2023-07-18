@@ -25,11 +25,20 @@
 #+begin_src emacs-lisp
 
   (column-number-mode)
-  (global-display-line-numbers-mode t)
   (global-hl-line-mode 1)
 
   (set-face-attribute 'default nil :height 110)
   
+#+end_src
+
+#+begin_src emacs-lisp
+
+(use-package nlinum-relative
+  :config
+  (nlinum-relative-setup-evil)
+  (add-hook 'prog-mode-hook 'nlinum-relative-mode)
+  (add-hook 'text-mode-hook 'display-line-numbers-mode))
+
 #+end_src
 
 ** Windows
