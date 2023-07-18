@@ -99,7 +99,7 @@
 
 #+end_src
 
-** General
+** Leader
 
 #+begin_src emacs-lisp
 
