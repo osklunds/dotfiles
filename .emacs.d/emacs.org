@@ -158,10 +158,13 @@
 
   (use-package ivy
     :bind (("C-x C-b" . ivy-switch-buffer)
+           ("M-j" . ivy-switch-buffer)
 	   :map ivy-minibuffer-map
 	   ("TAB" . ivy-alt-done)
 	   ("C-l" . ivy-alt-done)
 	   ("C-j" . ivy-next-line)
+	   ("M-j" . ivy-next-line)
+	   ("M-k" . ivy-previous-line)
 	   ("C-k" . ivy-previous-line)
 	   :map ivy-switch-buffer-map
 	   ("C-k" . ivy-previous-line)
