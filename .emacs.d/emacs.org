@@ -32,20 +32,6 @@
   
 #+end_src
 
-** Key bindings
-
-#+begin_src emacs-lisp
-
-  ;; Make ESC quit prompts
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-  (setq mac-option-key-is-meta nil
-	mac-command-key-is-meta t
-	mac-command-modifier 'meta
-	mac-option-modifier 'n)
-
-#+end_src
-
 ** Windows
 
 #+begin_src emacs-lisp
@@ -61,14 +47,6 @@
   ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
   ;; 					    display-buffer-same-window)))
   
-#+end_src
-
-** Navigation
-
-#+begin_src emacs-lisp
-
-  (global-set-key (kbd "M--") 'pop-tag-mark)
-
 #+end_src
 
 ** Misc
@@ -89,6 +67,75 @@
 
   ;; No ~ files
   (setq make-backup-files nil)
+
+#+end_src
+
+* Key bindings
+** Mac
+
+#+begin_src emacs-lisp
+
+  (setq mac-option-key-is-meta nil
+	mac-command-key-is-meta t
+	mac-command-modifier 'meta
+	mac-option-modifier 'n)
+
+#+end_src
+
+** Misc
+
+#+begin_src emacs-lisp
+
+  ;; Make ESC quit prompts
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+  (global-set-key (kbd "M--") 'pop-tag-mark)
+
+#+end_src
+
+** General
+
+#+begin_src emacs-lisp
+
+(use-package general
+  :config
+  (general-create-definer ol-leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (ol-leader-keys
+    "tt" '(counsel-load-theme :which-key "choose theme")))
+
+#+end_src
+
+** Evil
+
+:init is run before the package is loaded, and that's needed for some packages and options.
+:config is run after it has been loaded.
+
+#+begin_src emacs-lisp
+
+(use-package evil
+  :init
+  ;; TODO find out why needed 
+  (setq evil-want-integration t)
+  ;; Use evil-collection instead for other packages
+  (setq evil-want-keybinding nil)
+  ;; Use C-u for scroll instead of universal argument  
+  (setq evil-want-C-u-scroll t)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  ;; :after means load this after evil has been loaded
+  :after evil
+  :config
+    (evil-collection-init))
 
 #+end_src
 
@@ -147,7 +194,7 @@
 
   ;; Define your custom doom-modeline
   (doom-modeline-def-modeline 'ol-simple-line
-    '(bar buffer-info buffer-position)
+    '(bar modals buffer-info buffer-position)
     '(major-mode vcs proj-name))
 
   (doom-modeline-set-modeline 'ol-simple-line t)
