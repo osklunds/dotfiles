@@ -841,15 +841,15 @@ General TODO: Move things here to a better place when you know how to make it wo
 #+begin_src emacs-lisp
   
   (set-face-attribute 'mode-line nil
-		      :background "#bfbfbf"
-		      :overline nil
-		      :underline nil)
+    :background "#D7E4E8"
+    :overline nil
+    :underline nil)
 
-    (set-face-attribute 'mode-line-inactive nil
-		      :background "#e8e8e8"
-		      ;:box '(:line-width 8 :color "#565063")
-		      :overline nil
-		      :underline nil)
+  (set-face-attribute 'mode-line-inactive nil
+      :background "#E9EDED"
+      ;:box '(:line-width 8 :color "#565063")
+      :overline nil
+      :underline nil)
 
 #+end_src
 
