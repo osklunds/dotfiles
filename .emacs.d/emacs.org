@@ -146,12 +146,24 @@
   (interactive)
   (ol-replace-visual-selection ",$"))
 
-(defun ol-replace-visual-selection (range)
-  (let ((selection (buffer-substring-no-properties (mark) (point))))
-    (ol-replace-selection selection range)))
+(defun ol-full-replace-symbol ()
+  (interactive)
+  (ol-replace-symbol "%"))
 
-(defun ol-replace-selection (selection range)
-  (let ((ex-command (format "%ss/%s/%s/gc" range selection selection)))
+(defun ol-from-here-replace-symbol ()
+  (interactive)
+  (ol-replace-symbol ",$"))
+
+(defun ol-replace-symbol (range)
+  (let ((text (thing-at-point 'symbol 'no-properties)))
+    (ol-replace-text text range)))
+
+(defun ol-replace-visual-selection (range)
+  (let ((text (buffer-substring-no-properties (mark) (point))))
+    (ol-replace-text text range)))
+
+(defun ol-replace-text (text range)
+  (let ((ex-command (format "%ss/%s/%s/gc" range text text)))
     (minibuffer-with-setup-hook
       (lambda () (backward-char 3))
       (evil-ex ex-command))))
