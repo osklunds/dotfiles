@@ -136,6 +136,10 @@
 
 (defun ol-full-replace-visual-selection ()
   (interactive)
+  (ol-replace-visual-selection "%"))
+
+(defun ol-from-here-replace-visual-selection ()
+  (interactive)
   (ol-replace-visual-selection ",$"))
 
 (defun ol-replace-visual-selection (range)
