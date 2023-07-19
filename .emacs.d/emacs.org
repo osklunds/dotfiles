@@ -131,28 +131,42 @@
   (general-create-definer ol-leader-keys
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
-    :global-prefix "C-SPC")
+    :global-prefix "C-SPC"))
 
-  (ol-leader-keys
-    "tt" '(counsel-load-theme :which-key "choose theme")))
+#+end_src
 
-(define-key evil-visual-state-map (kbd "SPC r") 'ol-full-replace-visual-selection)
+** Find and replace
+
+#+begin_src emacs-lisp
+
+(ol-leader-keys
+  :keymaps 'visual
+  "R" '(ol-full-replace-visual-selection :which-key "replace full visual selection")
+  "r" '(ol-from-here-replace-visual-selection :which-key "replace from here visual selection"))
+
+(ol-leader-keys
+  :keymaps 'normal
+  "R" '(ol-full-replace-symbol :which-key "replace full symbol")
+  "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
+
+(defconst full-range "%")
+(defconst from-here-range ",$")
 
 (defun ol-full-replace-visual-selection ()
   (interactive)
-  (ol-replace-visual-selection "%"))
+  (ol-replace-visual-selection full-range))
 
 (defun ol-from-here-replace-visual-selection ()
   (interactive)
-  (ol-replace-visual-selection ",$"))
+  (ol-replace-visual-selection from-here-range))
 
 (defun ol-full-replace-symbol ()
   (interactive)
-  (ol-replace-symbol "%"))
+  (ol-replace-symbol full-range))
 
 (defun ol-from-here-replace-symbol ()
   (interactive)
-  (ol-replace-symbol ",$"))
+  (ol-replace-symbol from-here-range))
 
 (defun ol-replace-symbol (range)
   (let ((text (thing-at-point 'symbol 'no-properties)))
