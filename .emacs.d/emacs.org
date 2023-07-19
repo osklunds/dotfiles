@@ -100,15 +100,33 @@
   (evil-mode 1)
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 
+  ;; Window movement
   (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-j") #'evil-window-down)
-  (define-key evil-normal-state-map (kbd "C-k") #'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-l") #'evil-window-right)
 
+  (defun ol-no-op ()
+      (interactive))
+
+  ;; No arrow keys
+  (define-key evil-normal-state-map (kbd "<left>") 'ol-no-op)
+  (define-key evil-normal-state-map (kbd "<right>") 'ol-no-op)
+  (define-key evil-normal-state-map (kbd "<down>") 'ol-no-op)
+  (define-key evil-normal-state-map (kbd "<up>") 'ol-no-op)
+
+  (define-key evil-insert-state-map (kbd "<left>") 'ol-no-op)
+  (define-key evil-insert-state-map (kbd "<right>") 'ol-no-op)
+  (define-key evil-insert-state-map (kbd "<down>") 'ol-no-op)
+  (define-key evil-insert-state-map (kbd "<up>") 'ol-no-op)
+
+  (evil-global-set-key 'motion (kbd "<left>") 'ol-no-op)
+  (evil-global-set-key 'motion (kbd "<right>") 'ol-no-op)
+  (evil-global-set-key 'motion (kbd "<down>") 'ol-no-op)
+  (evil-global-set-key 'motion (kbd "<up>") 'ol-no-op)
+
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal)
 
   (setq evil-insert-state-cursor 'box))
+
 
 (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol)
