@@ -793,6 +793,16 @@ Reminder: M-RET for new bullet
 
 #+end_src
 
+* Terminal
+
+#+begin_src emacs-lisp
+
+(evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
+(evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
+(evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
+
+#+end_src
+
 * Vdiff
 ** General
 
