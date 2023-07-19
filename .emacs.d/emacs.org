@@ -211,7 +211,8 @@
 
 (ol-leader-keys
   "pp" 'projectile-switch-project :which-key "swich project"
-  "gs" 'magit-status :which-key "git status")
+  "gs" 'magit-status :which-key "git status"
+  "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
 
