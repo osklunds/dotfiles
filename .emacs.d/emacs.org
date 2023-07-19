@@ -141,6 +141,8 @@
 
 ** Leader
 
+Definition of leader.
+
 #+begin_src emacs-lisp
 
 (use-package general
@@ -151,11 +153,14 @@
     :global-prefix "C-SPC"))
 #+end_src
 
+Some misc leader key binds.
+
 #+begin_src emacs-lisp
 
 (ol-leader-keys
   "pp" 'projectile-switch-project :which-key "swich project"
   "gs" 'magit-status :which-key "git status"
+  "gc" 'magit-commit-create
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
