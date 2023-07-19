@@ -127,7 +127,6 @@
 
   (setq evil-insert-state-cursor 'box))
 
-
 (with-eval-after-load 'evil
     (defalias #'forward-evil-word #'forward-evil-symbol)
     (setq-default evil-symbol-word-search t))
@@ -150,6 +149,14 @@
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "C-SPC"))
+#+end_src
+
+#+begin_src emacs-lisp
+
+(ol-leader-keys
+  "pp" 'projectile-switch-project :which-key "swich project"
+  "gs" 'magit-status :which-key "git status"
+  "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
 
@@ -226,11 +233,6 @@
   "C-j" 'ivy-switch-buffer
   "M-q" 'projectile-find-file
   "M-h" 'help-command)
-
-(ol-leader-keys
-  "pp" 'projectile-switch-project :which-key "swich project"
-  "gs" 'magit-status :which-key "git status"
-  "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
 
