@@ -135,8 +135,11 @@
 (define-key evil-visual-state-map (kbd ", r") (lambda () (interactive) (ol-replace-visual-selection)))
 
 (defun ol-replace-visual-selection ()
-  (let* ((selection (buffer-substring-no-properties (mark) (point)))
-         (ex-command (format ",$s/%s/%s/gc" selection selection)))
+  (let ((selection (buffer-substring-no-properties (mark) (point))))
+    (ol-replace-selection selection)))
+
+(defun ol-replace-selection (selection)
+  (let ((ex-command (format ",$s/%s/%s/gc" selection selection)))
     (minibuffer-with-setup-hook
       (lambda () (backward-char 3))
       (evil-ex ex-command))))
