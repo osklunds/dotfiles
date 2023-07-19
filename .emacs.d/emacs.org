@@ -132,14 +132,18 @@
   (ol-leader-keys
     "tt" '(counsel-load-theme :which-key "choose theme")))
 
-(define-key evil-visual-state-map (kbd ", r") (lambda () (interactive) (ol-replace-visual-selection)))
+(define-key evil-visual-state-map (kbd ", r") 'ol-full-replace-visual-selection)
 
-(defun ol-replace-visual-selection ()
+(defun ol-full-replace-visual-selection ()
+  (interactive)
+  (ol-replace-visual-selection ",$"))
+
+(defun ol-replace-visual-selection (range)
   (let ((selection (buffer-substring-no-properties (mark) (point))))
-    (ol-replace-selection selection)))
+    (ol-replace-selection selection range)))
 
-(defun ol-replace-selection (selection)
-  (let ((ex-command (format ",$s/%s/%s/gc" selection selection)))
+(defun ol-replace-selection (selection range)
+  (let ((ex-command (format "%ss/%s/%s/gc" range selection selection)))
     (minibuffer-with-setup-hook
       (lambda () (backward-char 3))
       (evil-ex ex-command))))
