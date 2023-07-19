@@ -899,3 +899,4 @@ General TODO: Move things here to a better place when you know how to make it wo
 - Make evil search more stable
 - org mode list when evil
 - Make magit ? show bindings for evil mode
+- Word definition for elisp files
