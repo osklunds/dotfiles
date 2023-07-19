@@ -210,7 +210,8 @@
   "M-h" 'help-command)
 
 (ol-leader-keys
-  "pp" 'projectile-switch-project :which-key "swich project") 
+  "pp" 'projectile-switch-project :which-key "swich project"
+  "gs" 'magit-status :which-key "git status")
 
 #+end_src
 
