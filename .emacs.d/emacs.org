@@ -206,7 +206,11 @@
   :states '(normal emacs)
   :keymaps 'override
   "C-j" 'ivy-switch-buffer
+  "M-q" 'projectile-find-file
   "M-h" 'help-command)
+
+(ol-leader-keys
+  "pp" 'projectile-switch-project :which-key "swich project") 
 
 #+end_src
 
@@ -945,8 +949,8 @@ General TODO: Move things here to a better place when you know how to make it wo
 - Maybe if possible: company mode only in source blocks
 - maybe only company-mode for "programming" org-mode
 - always make windows same size
-
 - Make evil search more stable
 - org mode list when evil
 - Make magit ? show bindings for evil mode
-- Word definition for elisp files
+- Exit visual mode when search replace is done
+- lines around cursorline
