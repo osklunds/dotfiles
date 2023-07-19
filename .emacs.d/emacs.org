@@ -160,12 +160,7 @@ Some misc leader key binds.
 (ol-leader-keys
   "pp" 'projectile-switch-project :which-key "swich project"
   "gs" 'magit-status :which-key "git status"
-  "gc" 'magit-commit-create
   "os" 'org-babel-demarcate-block :which-key "split code block")
-
-(defun ol-commit-all ()
-  (interactive)
-  (shell-command "git add -A; git commit -m \"Minor fixes\""))
 
 #+end_src
 
@@ -542,6 +537,27 @@ Helper for completely copying another face.
 
 * Magit and git
 ** Key bindings
+
+#+begin_src emacs-lisp
+
+(ol-leader-keys
+  "gcc" 'ol-commit-all :which-key "commit all files")
+
+#+end_src
+
+Helpers for small stuff
+
+#+begin_src emacs-lisp
+
+;; TODO: Probaly don't need a separate fun for without arg
+(defun ol-commit-all-msg (msg)
+  (shell-command (format "git add -A; git commit -m \"%s\"" msg)))
+
+(defun ol-commit-all-ask ()
+  (interactive)
+  (ol-commit-all-msg (read-string "Commit message: ")))
+  
+#+end_src
 
 ** Magit
 #+begin_src emacs-lisp
