@@ -235,13 +235,13 @@ Some misc leader key binds.
 (general-define-key
   :states '(normal emacs)
   :keymaps 'override
-  "C-j" 'ivy-switch-buffer
+  "C-j" 'switch-to-buffer
   "M-q" 'projectile-find-file
   "M-h" 'help-command)
 
 #+end_src
 
-* Ivy and counsel
+* Vertico, consult etc
 
 #+begin_src emacs-lisp
 
