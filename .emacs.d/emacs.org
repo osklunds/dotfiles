@@ -141,8 +141,6 @@
 
 ** Leader
 
-Definition of leader.
-
 #+begin_src emacs-lisp
 
 (use-package general
@@ -151,19 +149,6 @@ Definition of leader.
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "C-SPC"))
-#+end_src
-
-Some misc leader key binds.
-
-#+begin_src emacs-lisp
-
-(ol-leader-keys
-  "pp" 'projectile-switch-project :which-key "swich project"
-  "pd" 'projectile-discover-projects-in-search-path :which-key
-  "pf" 'counsel-projectile-rg
-  "gs" 'magit-status :which-key "git status"
-  "os" 'org-babel-demarcate-block :which-key "split code block")
-
 #+end_src
 
 ** Find and replace
@@ -533,6 +518,11 @@ Helper for completely copying another face.
 
   (setq ivy-more-chars-alist '((t . 1)))
 
+(ol-leader-keys
+  "pp" 'projectile-switch-project
+  "pd" 'projectile-discover-projects-in-search-path
+  "pf" 'counsel-projectile-rg)
+
 #+end_src
 
 * Magit and git
@@ -541,6 +531,7 @@ Helper for completely copying another face.
 #+begin_src emacs-lisp
 
 (ol-leader-keys
+  "gs" 'magit-status
   "gcc" 'ol-commit-all-ask :which-key "commit all files ask for msg"
   "gcm" 'ol-commit-all-minor-fixes :which-key "commit all files no msg")
 
@@ -790,6 +781,9 @@ Reminder: M-RET for new bullet
 (set-face-attribute 'org-block nil :background
                     (color-darken-name
                     (face-attribute 'default :background) 3))
+
+(ol-leader-keys
+  "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
 
