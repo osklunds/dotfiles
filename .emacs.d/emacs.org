@@ -157,12 +157,11 @@ Some misc leader key binds.
 
 #+begin_src emacs-lisp
 
-(ol-leader-keys
-  "pp" 'projectile-switch-project :which-key "swich project"
-  "pd" 'projectile-discover-projects-in-search-path :which-key
-  "pf" 'counsel-projectile-rg
-  "gs" 'magit-status :which-key "git status"
-  "os" 'org-babel-demarcate-block :which-key "split code block")
+;; (ol-leader-keys
+;;   "pp" 'projectile-switch-project :which-key "swich project"
+;;   "pd" 'projectile-discover-projects-in-search-path :which-key
+;;   "gs" 'magit-status :which-key "git status"
+;;   "os" 'org-babel-demarcate-block :which-key "split code block")
 
 #+end_src
 
@@ -246,40 +245,70 @@ Some misc leader key binds.
 
 #+begin_src emacs-lisp
 
-  (use-package ivy
-    :bind (("C-x C-b" . ivy-switch-buffer)
-           ("M-j" . ivy-switch-buffer)
-	   :map ivy-minibuffer-map
-	   ("TAB" . ivy-alt-done)
-	   ("C-l" . ivy-alt-done)
-	   ("C-j" . ivy-next-line)
-	   ("M-j" . ivy-next-line)
-	   ("M-k" . ivy-previous-line)
-	   ("C-k" . ivy-previous-line)
-	   :map ivy-switch-buffer-map
-	   ("C-k" . ivy-previous-line)
-	   ("C-l" . ivy-done)
-	   ("C-d" . ivy-switch-buffer-kill)
-	   :map ivy-reverse-i-search-map
-	   ("C-k" . ivy-previous-line)
-	   ("C-d" . ivy-reverse-i-search-kill))
-    :config
-    (ivy-mode 1))
+(use-package vertico
+  :ensure t
+  :bind (:map vertico-map
+         ("C-j" . vertico-next)
+         ("C-k" . vertico-previous)
+         ("C-f" . vertico-exit)
+         :map minibuffer-local-map
+         ("M-h" . backward-kill-word))
+  :custom
+  (vertico-cycle t)
+  :init
+  (vertico-mode))
 
-  (setq ivy-height 20)
+(use-package consult)
 
-  (use-package counsel)
+(use-package savehist
+  :init
+  (savehist-mode))
 
-  (use-package ivy-rich
-    :init
-    (ivy-rich-mode 1))
+(use-package marginalia
+  :after vertico
+  :ensure t
+  :custom
+  (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
+  :init
+  (marginalia-mode))
 
-  (use-package counsel
-    :bind (("M-x" . counsel-M-x)
-	   ("C-x b" . counsel-ibuffer)
-	   ("C-x C-f" . counsel-find-file)
-	   :map minibuffer-local-map
-	   ("C-r" . counsel-minibuffer-history)))
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; (use-package ivy
+  ;;   :bind (("C-x C-b" . ivy-switch-buffer)
+  ;;          ("M-j" . ivy-switch-buffer)
+  ;; 	   :map ivy-minibuffer-map
+  ;; 	   ("TAB" . ivy-alt-done)
+  ;; 	   ("C-l" . ivy-alt-done)
+  ;; 	   ("C-j" . ivy-next-line)
+  ;; 	   ("M-j" . ivy-next-line)
+  ;; 	   ("M-k" . ivy-previous-line)
+  ;; 	   ("C-k" . ivy-previous-line)
+  ;; 	   :map ivy-switch-buffer-map
+  ;; 	   ("C-k" . ivy-previous-line)
+  ;; 	   ("C-l" . ivy-done)
+  ;; 	   ("C-d" . ivy-switch-buffer-kill)
+  ;; 	   :map ivy-reverse-i-search-map
+  ;; 	   ("C-k" . ivy-previous-line)
+  ;; 	   ("C-d" . ivy-reverse-i-search-kill))
+  ;;   :config
+  ;;   (ivy-mode 1))
+
+  ;; (setq ivy-height 20)
+
+  ;; (use-package counsel)
+
+  ;; (use-package ivy-rich
+  ;;   :init
+  ;;   (ivy-rich-mode 1))
+
+  ;; (use-package counsel
+  ;;   :bind (("M-x" . counsel-M-x)
+  ;; 	   ("C-x b" . counsel-ibuffer)
+  ;; 	   ("C-x C-f" . counsel-find-file)
+  ;; 	   :map minibuffer-local-map
+  ;; 	   ("C-r" . counsel-minibuffer-history)))
 
 #+end_src
 
