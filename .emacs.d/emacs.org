@@ -31,14 +31,6 @@
   
 #+end_src
 
-#+begin_src emacs-lisp
-
-(use-package nlinum-relative
-  :config
-  (nlinum-relative-setup-evil)
-  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
-
-#+end_src
 
 ** Windows
 
@@ -68,9 +60,9 @@
     :hook (prog-mode . rainbow-delimiters-mode))
 
   (use-package which-key
-    :init (which-key-mode)
     :diminish which-key-mode
     :config
+    (which-key-mode)
     (setq which-key-idle-delay 2))
 
   ;; No ~ files
@@ -136,6 +128,15 @@
   :after evil
   :config
     (evil-collection-init))
+
+#+end_src
+
+#+begin_src emacs-lisp
+
+(use-package nlinum-relative
+  :config
+  (nlinum-relative-setup-evil)
+  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 #+end_src
 
@@ -233,17 +234,12 @@
 
   (use-package ivy
     :bind (("C-x C-b" . ivy-switch-buffer)
-           ("M-j" . ivy-switch-buffer)
 	   :map ivy-minibuffer-map
 	   ("TAB" . ivy-alt-done)
-	   ("C-l" . ivy-alt-done)
 	   ("C-j" . ivy-next-line)
-	   ("M-j" . ivy-next-line)
-	   ("M-k" . ivy-previous-line)
 	   ("C-k" . ivy-previous-line)
 	   :map ivy-switch-buffer-map
 	   ("C-k" . ivy-previous-line)
-	   ("C-l" . ivy-done)
 	   ("C-d" . ivy-switch-buffer-kill)
 	   :map ivy-reverse-i-search-map
 	   ("C-k" . ivy-previous-line)
@@ -253,54 +249,19 @@
 
   (setq ivy-height 20)
 
-  (use-package counsel)
-
-  (use-package ivy-rich
-    :init
-    (ivy-rich-mode 1))
-
   (use-package counsel
     :bind (("M-x" . counsel-M-x)
-	   ("C-x b" . counsel-ibuffer)
 	   ("C-x C-f" . counsel-find-file)
 	   :map minibuffer-local-map
 	   ("C-r" . counsel-minibuffer-history)))
 
-#+end_src
+(use-package ivy-rich
+  :after ivy
+  :init
+  (ivy-rich-mode 1))
 
-* Modeline
 
-#+begin_src emacs-lisp
-  (use-package doom-modeline
-    :ensure t
-    :init
-    (doom-modeline-mode 1)
-    )
 
-  (doom-modeline-def-segment proj-name
-    (concat
-     (doom-modeline-spc)
-     (doom-modeline-display-text (format "P: %s" (projectile-project-name)))))
-
-  (doom-modeline-def-modeline 'ol-simple-line
-    '(bar modals buffer-info buffer-position)
-    '(major-mode vcs proj-name))
-
-  (doom-modeline-set-modeline 'ol-simple-line t)
-
-  (setq doom-modeline-icon nil)
-  (setq doom-modeline-buffer-encoding nil)
-  (setq doom-modeline-lsp nil)
-  (setq doom-modeline-env-version nil)
-  (setq doom-modeline-minor-modes nil)
-  (setq doom-modeline-lsp nil)
-
-  (dolist (face '(doom-modeline-evil-normal-state
-                  doom-modeline-evil-insert-state
-                  doom-modeline-evil-visual-state
-                  doom-modeline-evil-emacs-state))
-    (set-face-attribute face nil
-      :weight 'bold))
 
 #+end_src
 
@@ -508,13 +469,15 @@ Helper for completely copying another face.
     :init
     (when (file-directory-p "~/Programmering")
       (setq projectile-project-search-path '(("~/Programmering" . 2))))
-    (setq projectile-switch-project-action 'projectile-find-file)
+    (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired)
     )
 
-  (use-package projectile-ripgrep)
-
   (use-package counsel-projectile
+    :after projectile
     :config (counsel-projectile-mode))
+
+  (use-package projectile-ripgrep
+    :after projectile)
 
   (setq ivy-more-chars-alist '((t . 1)))
 
@@ -976,6 +939,42 @@ Reminder: M-RET for new bullet
 
   ;; TODO Put in a better place. For some reason, these settings are overwritten
   ;; if put earlier in the file
+
+#+end_src
+
+* Modeline
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (doom-modeline-mode 1)
+    )
+
+  (doom-modeline-def-segment proj-name
+    (concat
+     (doom-modeline-spc)
+     (doom-modeline-display-text (format "P: %s" (projectile-project-name)))))
+
+  (doom-modeline-def-modeline 'ol-simple-line
+    '(bar modals buffer-info buffer-position)
+    '(major-mode vcs proj-name))
+
+  (doom-modeline-set-modeline 'ol-simple-line t)
+
+  (setq doom-modeline-icon nil)
+  (setq doom-modeline-buffer-encoding nil)
+  (setq doom-modeline-lsp nil)
+  (setq doom-modeline-env-version nil)
+  (setq doom-modeline-minor-modes nil)
+  (setq doom-modeline-lsp nil)
+
+  (dolist (face '(doom-modeline-evil-normal-state
+                  doom-modeline-evil-insert-state
+                  doom-modeline-evil-visual-state
+                  doom-modeline-evil-emacs-state))
+    (set-face-attribute face nil
+      :weight 'bold))
 
 #+end_src
 
