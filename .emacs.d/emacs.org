@@ -159,6 +159,8 @@ Some misc leader key binds.
 
 (ol-leader-keys
   "pp" 'projectile-switch-project :which-key "swich project"
+  "pd" 'projectile-discover-projects-in-search-path :which-key
+  "pf" 'counsel-projectile-rg
   "gs" 'magit-status :which-key "git status"
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
@@ -524,14 +526,12 @@ Helper for completely copying another face.
     (setq projectile-switch-project-action 'projectile-find-file)
     )
 
-  ;; TODO: Map counsel-projectile-rg to something
-  ;; This command is interactive
-  ;; C-x C-o to open results in a buffer
-
   (use-package projectile-ripgrep)
 
-  ;(use-package counsel-projectile
-  ;  :config (counsel-projectile-mode))
+  (use-package counsel-projectile
+    :config (counsel-projectile-mode))
+
+  (setq ivy-more-chars-alist '((t . 1)))
 
 #+end_src
 
