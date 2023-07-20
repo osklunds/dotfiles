@@ -236,7 +236,7 @@ Some misc leader key binds.
   :states '(normal emacs)
   :keymaps 'override
   "C-j" 'switch-to-buffer
-  "M-q" 'projectile-find-file
+  "M-q" 'project-find-file
   "M-h" 'help-command)
 
 #+end_src
