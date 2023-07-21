@@ -11,11 +11,11 @@
 
 (package-initialize)
 (unless package-archive-contents
- (package-refresh-contents))
+  (package-refresh-contents))
 
 ;; Initialize use-package on non-Linux platforms
 (unless (package-installed-p 'use-package)
-   (package-install 'use-package))
+  (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
@@ -62,7 +62,7 @@
 (setq split-height-threshold nil)
 
 ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
-;; 					    display-buffer-same-window)))
+;;          display-buffer-same-window)))
 
 ;;;; Misc
 
@@ -92,10 +92,11 @@
   :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 ;; Key bindings
+
 ;;;; Evil
 
 ;; :init is run before the package is loaded, and that's needed for some packages and options.
-;;			 :config is run after it has been loaded.
+;;    :config is run after it has been loaded.
 
 (use-package evil
   :init
@@ -197,7 +198,7 @@
 (defun ol-replace-text (text range)
   (let ((ex-command (format "%ss/%s/%s/gc" range text text)))
     (minibuffer-with-setup-hook
-	(lambda () (backward-char 3))
+        (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
 ;;;; Mac
@@ -223,16 +224,16 @@
 
 (use-package ivy
   :bind (("C-x C-b" . ivy-switch-buffer)
-	 :map ivy-minibuffer-map
-	 ("TAB" . ivy-alt-done)
-	 ("C-j" . ivy-next-line)
-	 ("C-k" . ivy-previous-line)
-	 :map ivy-switch-buffer-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-switch-buffer-kill)
-	 :map ivy-reverse-i-search-map
-	 ("C-k" . ivy-previous-line)
-	 ("C-d" . ivy-reverse-i-search-kill))
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1))
 
@@ -240,7 +241,7 @@
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)))
+         ("C-x C-f" . counsel-find-file)))
 
 (use-package ivy-rich
   :after (ivy counsel)
@@ -287,9 +288,9 @@
   (lsp-mode . company-mode)
   (org-mode . company-mode)
   :bind (:map company-active-map
-	      ("<tab>" . company-complete-selection))
+              ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
-	("<tab>" . company-indent-or-complete-common))
+        ("<tab>" . company-indent-or-complete-common))
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
@@ -312,7 +313,7 @@
 ;; (defun ol-rust-mode-hook ()
 ;;   (setq-local company-backends
 ;;               '((company-capf company-yasnippet :separate))
-;; 	      ))
+;;        ))
 
 ;; (add-hook 'rust-mode-hook #'ol-rust-mode-hook)
 
@@ -330,71 +331,71 @@
 (use-package rust-mode
   :hook (rust-mode . lsp))
 
-					; Copied from lsp-mode (I think), will be adjusted
+                                        ; Copied from lsp-mode (I think), will be adjusted
 (defun ol-lsp-rust-analyzer--make-init-options ()
   "Init options for rust-analyzer"
   `(:diagnostics (:enable ,(lsp-json-bool lsp-rust-analyzer-diagnostics-enable)
-			  :enableExperimental ,(lsp-json-bool lsp-rust-analyzer-diagnostics-enable-experimental)
-			  :disabled ,lsp-rust-analyzer-diagnostics-disabled
-			  :warningsAsHint ,lsp-rust-analyzer-diagnostics-warnings-as-hint
-			  :warningsAsInfo ,lsp-rust-analyzer-diagnostics-warnings-as-info)
-		 :imports (:granularity (:enforce ,(lsp-json-bool lsp-rust-analyzer-import-enforce-granularity)
-						  :group ,lsp-rust-analyzer-import-granularity)
-					:group ,(lsp-json-bool lsp-rust-analyzer-import-group)
-					:merge (:glob ,(lsp-json-bool lsp-rust-analyzer-imports-merge-glob))
-					:prefix ,lsp-rust-analyzer-import-prefix)
-		 :lruCapacity ,lsp-rust-analyzer-lru-capacity
-		 :checkOnSave (:enable ,(lsp-json-bool lsp-rust-analyzer-cargo-watch-enable)
-				       :command ,lsp-rust-analyzer-cargo-watch-command
-				       :extraArgs ,lsp-rust-analyzer-cargo-watch-args
-				       :allTargets ,(lsp-json-bool lsp-rust-analyzer-check-all-targets)
-				       :features ,lsp-rust-analyzer-checkonsave-features
-				       :overrideCommand ,lsp-rust-analyzer-cargo-override-command)
-		 :files (:exclude ,lsp-rust-analyzer-exclude-globs
-				  :watcher ,(if lsp-rust-analyzer-use-client-watching "client" "notify")
-				  :excludeDirs ,lsp-rust-analyzer-exclude-dirs)
-		 :cargo (:allFeatures ,(lsp-json-bool lsp-rust-all-features)
-				      :noDefaultFeatures ,(lsp-json-bool lsp-rust-no-default-features)
-				      :features ,lsp-rust-features
-				      :target ,lsp-rust-analyzer-cargo-target
-				      :runBuildScripts ,(lsp-json-bool lsp-rust-analyzer-cargo-run-build-scripts)
-					; Obsolete, but used by old Rust-Analyzer versions
-				      :loadOutDirsFromCheck ,(lsp-json-bool lsp-rust-analyzer-cargo-run-build-scripts)
-				      :autoreload ,(lsp-json-bool lsp-rust-analyzer-cargo-auto-reload)
-				      :useRustcWrapperForBuildScripts ,(lsp-json-bool lsp-rust-analyzer-use-rustc-wrapper-for-build-scripts)
-				      :unsetTest ,lsp-rust-analyzer-cargo-unset-test)
-		 :rustfmt (:extraArgs ,lsp-rust-analyzer-rustfmt-extra-args
-				      :overrideCommand ,lsp-rust-analyzer-rustfmt-override-command
-				      :rangeFormatting (:enable ,(lsp-json-bool lsp-rust-analyzer-rustfmt-rangeformatting-enable)))
-		 :inlayHints (:bindingModeHints ,(lsp-json-bool lsp-rust-analyzer-binding-mode-hints)
-						:chainingHints ,(lsp-json-bool lsp-rust-analyzer-display-chaining-hints)
-						:closingBraceHints (:enable ,(lsp-json-bool lsp-rust-analyzer-closing-brace-hints)
-									    :minLines ,lsp-rust-analyzer-closing-brace-hints-min-lines)
-						:closureReturnTypeHints ,(lsp-json-bool lsp-rust-analyzer-display-closure-return-type-hints)
-						:lifetimeElisionHints (:enable ,lsp-rust-analyzer-display-lifetime-elision-hints-enable
-									       :useParameterNames ,(lsp-json-bool lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names))
-						:maxLength ,lsp-rust-analyzer-max-inlay-hint-length
-						:parameterHints ,(lsp-json-bool lsp-rust-analyzer-display-parameter-hints)
-						:reborrowHints ,lsp-rust-analyzer-display-reborrow-hints
-						:renderColons ,(lsp-json-bool lsp-rust-analyzer-server-format-inlay-hints)
-						:typeHints (:enable ,(lsp-json-bool lsp-inlay-hint-enable)
-								    :hideClosureInitialization ,(lsp-json-bool lsp-rust-analyzer-hide-closure-initialization)
-								    :hideNamedConstructor ,(lsp-json-bool lsp-rust-analyzer-hide-named-constructor)))
-		 :completion (:addCallParenthesis ,(lsp-json-bool lsp-rust-analyzer-completion-add-call-parenthesis)
-						  :addCallArgumentSnippets ,(lsp-json-bool lsp-rust-analyzer-completion-add-call-argument-snippets)
-						  :postfix (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-postfix-enable))
-						  :autoimport (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-auto-import-enable))
-						  :autoself (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-auto-self-enable)))
-		 :callInfo (:full ,(lsp-json-bool lsp-rust-analyzer-call-info-full))
-		 :procMacro (:enable ,(lsp-json-bool lsp-rust-analyzer-proc-macro-enable))
-		 :rustcSource ,lsp-rust-analyzer-rustc-source
-		 :linkedProjects ,lsp-rust-analyzer-linked-projects
-		 :highlighting (:strings ,(lsp-json-bool lsp-rust-analyzer-highlighting-strings))
-		 :workspace (:symbol (:search (:kind ,"all_symbols")))
-		 :experimental (:procAttrMacros ,(lsp-json-bool lsp-rust-analyzer-experimental-proc-attr-macros))))
+                          :enableExperimental ,(lsp-json-bool lsp-rust-analyzer-diagnostics-enable-experimental)
+                          :disabled ,lsp-rust-analyzer-diagnostics-disabled
+                          :warningsAsHint ,lsp-rust-analyzer-diagnostics-warnings-as-hint
+                          :warningsAsInfo ,lsp-rust-analyzer-diagnostics-warnings-as-info)
+                 :imports (:granularity (:enforce ,(lsp-json-bool lsp-rust-analyzer-import-enforce-granularity)
+                                                  :group ,lsp-rust-analyzer-import-granularity)
+                                        :group ,(lsp-json-bool lsp-rust-analyzer-import-group)
+                                        :merge (:glob ,(lsp-json-bool lsp-rust-analyzer-imports-merge-glob))
+                                        :prefix ,lsp-rust-analyzer-import-prefix)
+                 :lruCapacity ,lsp-rust-analyzer-lru-capacity
+                 :checkOnSave (:enable ,(lsp-json-bool lsp-rust-analyzer-cargo-watch-enable)
+                                       :command ,lsp-rust-analyzer-cargo-watch-command
+                                       :extraArgs ,lsp-rust-analyzer-cargo-watch-args
+                                       :allTargets ,(lsp-json-bool lsp-rust-analyzer-check-all-targets)
+                                       :features ,lsp-rust-analyzer-checkonsave-features
+                                       :overrideCommand ,lsp-rust-analyzer-cargo-override-command)
+                 :files (:exclude ,lsp-rust-analyzer-exclude-globs
+                                  :watcher ,(if lsp-rust-analyzer-use-client-watching "client" "notify")
+                                  :excludeDirs ,lsp-rust-analyzer-exclude-dirs)
+                 :cargo (:allFeatures ,(lsp-json-bool lsp-rust-all-features)
+                                      :noDefaultFeatures ,(lsp-json-bool lsp-rust-no-default-features)
+                                      :features ,lsp-rust-features
+                                      :target ,lsp-rust-analyzer-cargo-target
+                                      :runBuildScripts ,(lsp-json-bool lsp-rust-analyzer-cargo-run-build-scripts)
+                                        ; Obsolete, but used by old Rust-Analyzer versions
+                                      :loadOutDirsFromCheck ,(lsp-json-bool lsp-rust-analyzer-cargo-run-build-scripts)
+                                      :autoreload ,(lsp-json-bool lsp-rust-analyzer-cargo-auto-reload)
+                                      :useRustcWrapperForBuildScripts ,(lsp-json-bool lsp-rust-analyzer-use-rustc-wrapper-for-build-scripts)
+                                      :unsetTest ,lsp-rust-analyzer-cargo-unset-test)
+                 :rustfmt (:extraArgs ,lsp-rust-analyzer-rustfmt-extra-args
+                                      :overrideCommand ,lsp-rust-analyzer-rustfmt-override-command
+                                      :rangeFormatting (:enable ,(lsp-json-bool lsp-rust-analyzer-rustfmt-rangeformatting-enable)))
+                 :inlayHints (:bindingModeHints ,(lsp-json-bool lsp-rust-analyzer-binding-mode-hints)
+                                                :chainingHints ,(lsp-json-bool lsp-rust-analyzer-display-chaining-hints)
+                                                :closingBraceHints (:enable ,(lsp-json-bool lsp-rust-analyzer-closing-brace-hints)
+                                                                            :minLines ,lsp-rust-analyzer-closing-brace-hints-min-lines)
+                                                :closureReturnTypeHints ,(lsp-json-bool lsp-rust-analyzer-display-closure-return-type-hints)
+                                                :lifetimeElisionHints (:enable ,lsp-rust-analyzer-display-lifetime-elision-hints-enable
+                                                                               :useParameterNames ,(lsp-json-bool lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names))
+                                                :maxLength ,lsp-rust-analyzer-max-inlay-hint-length
+                                                :parameterHints ,(lsp-json-bool lsp-rust-analyzer-display-parameter-hints)
+                                                :reborrowHints ,lsp-rust-analyzer-display-reborrow-hints
+                                                :renderColons ,(lsp-json-bool lsp-rust-analyzer-server-format-inlay-hints)
+                                                :typeHints (:enable ,(lsp-json-bool lsp-inlay-hint-enable)
+                                                                    :hideClosureInitialization ,(lsp-json-bool lsp-rust-analyzer-hide-closure-initialization)
+                                                                    :hideNamedConstructor ,(lsp-json-bool lsp-rust-analyzer-hide-named-constructor)))
+                 :completion (:addCallParenthesis ,(lsp-json-bool lsp-rust-analyzer-completion-add-call-parenthesis)
+                                                  :addCallArgumentSnippets ,(lsp-json-bool lsp-rust-analyzer-completion-add-call-argument-snippets)
+                                                  :postfix (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-postfix-enable))
+                                                  :autoimport (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-auto-import-enable))
+                                                  :autoself (:enable ,(lsp-json-bool lsp-rust-analyzer-completion-auto-self-enable)))
+                 :callInfo (:full ,(lsp-json-bool lsp-rust-analyzer-call-info-full))
+                 :procMacro (:enable ,(lsp-json-bool lsp-rust-analyzer-proc-macro-enable))
+                 :rustcSource ,lsp-rust-analyzer-rustc-source
+                 :linkedProjects ,lsp-rust-analyzer-linked-projects
+                 :highlighting (:strings ,(lsp-json-bool lsp-rust-analyzer-highlighting-strings))
+                 :workspace (:symbol (:search (:kind ,"all_symbols")))
+                 :experimental (:procAttrMacros ,(lsp-json-bool lsp-rust-analyzer-experimental-proc-attr-macros))))
 
 (advice-add 'lsp-rust-analyzer--make-init-options :override
-	    (lambda () (ol-lsp-rust-analyzer--make-init-options)))
+            (lambda () (ol-lsp-rust-analyzer--make-init-options)))
 
 ;; Theme and colors
 
@@ -406,9 +407,9 @@
 ;; TODO: unset all properties (foreground etc...) the proper way
 (defun ol-copy-face-attribute (face-to-set face-to-copy-from)
   (set-face-attribute face-to-set nil
-		      :inherit face-to-copy-from
-		      :foreground nil
-		      :background nil))
+                      :inherit face-to-copy-from
+                      :foreground nil
+                      :background nil))
 
 ;; Projectile
 
@@ -462,23 +463,23 @@
 (use-package magit)
 
 (set-face-attribute 'magit-blame-margin nil
-		    :background "#e4e4e4")
+                    :background "#e4e4e4")
 ;; TODO: Possibly change org mode background to the above as well.
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
 (setq magit-blame-styles
       '(
-	(margin
-	 (margin-format . ("%C %s%f"))
-	 (margin-width  . 60)
-	 )
-	)
+        (margin
+         (margin-format . ("%C %s%f"))
+         (margin-width  . 60)
+         )
+        )
       )
 
 (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
-;;			 Idea: have one style with date and summary, and others styles with e.g. hash and committer
+;;    Idea: have one style with date and summary, and others styles with e.g. hash and committer
 
 ;;;; Misc
 
@@ -490,7 +491,7 @@
   (interactive)
   (magit-diff-range "master..."))
 
-;;			 TODO: Small helper that reads HEAD buffer of current buffer, and then runs vdiff on that
+;;    TODO: Small helper that reads HEAD buffer of current buffer, and then runs vdiff on that
 
 ;;;; Merge Surival Knife
 
@@ -515,17 +516,17 @@
   (let;; ((file (magit-current-file))
       (dir (magit-gitdir))
     (rev-local  (or (magit-name-branch "HEAD")
-		    (magit-commit-p "HEAD")))
+                    (magit-commit-p "HEAD")))
     (rev-remote  (cl-find-if (lambda (head)
-			       (file-exists-p (expand-file-name head dir)))
-			     '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
+                               (file-exists-p (expand-file-name head dir)))
+                             '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
     (rev-remote  (or (magit-name-branch rev-remote)
-		     (magit-commit-p rev-remote)))
+                     (magit-commit-p rev-remote)))
     (rev-base  (magit-commit-p (magit-git-string "merge-base" rev-local rev-remote)))
     (file-local (magit--rev-file-name file rev-local rev-remote))
     (file-remote (magit--rev-file-name file rev-remote rev-local))
     (file-base (or (magit--rev-file-name file rev-base rev-local)
-		   (magit--rev-file-name file rev-base rev-remote)))
+                   (magit--rev-file-name file rev-base rev-remote)))
 
     (buffer-local  (msk--get-revision-buffer rev-local  file-local))
     (buffer-remote (msk--get-revision-buffer rev-remote file-remote))
@@ -634,13 +635,13 @@
 (defun ol/org-font-setup ()
   ;; I don't actually change any font sizes, but I keep this in case I change my mind.
   (dolist (face '((org-level-1 . 1.0)
-		  (org-level-2 . 1.0)
-		  (org-level-3 . 1.0)
-		  (org-level-4 . 1.0)
-		  (org-level-5 . 1.0)
-		  (org-level-6 . 1.0)
-		  (org-level-7 . 1.0)
-		  (org-level-8 . 1.0)))
+                  (org-level-2 . 1.0)
+                  (org-level-3 . 1.0)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.0)
+                  (org-level-6 . 1.0)
+                  (org-level-7 . 1.0)
+                  (org-level-8 . 1.0)))
     (set-face-attribute (car face) nil :weight 'regular :height (cdr face))))
 
 
@@ -651,7 +652,7 @@
 
 (defun ol/org-mode-visual-fill ()
   (setq visual-fill-column-width 150
-	visual-fill-column-center-text t)
+        visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
 ;; Idea: Center all buffers! Use 100 wide. Investigte how my vim, and emacs, line breaks
@@ -756,82 +757,82 @@
 
 ;; ;; -----------------------------------------------------------------------------
 ;; (set-face-attribute 'ediff-current-diff-A nil
-;; 		    :inherit 'magit-diff-removed)
+;;       :inherit 'magit-diff-removed)
 ;; (set-face-attribute 'ediff-current-diff-B nil
-;; 		    :inherit 'magit-diff-added)
+;;       :inherit 'magit-diff-added)
 ;; (set-face-attribute 'ediff-current-diff-Ancestor nil
-;; 		    :inherit 'magit-diff-base)
+;;       :inherit 'magit-diff-base)
 ;; ;; Red so that I notice when it happens
 ;; (set-face-attribute 'ediff-current-diff-C nil
-;; 		    :background "#ff0000")
+;;       :background "#ff0000")
 
 ;; ;; -----------------------------------------------------------------------------
 ;; (set-face-attribute 'ediff-even-diff-A nil
-;; 		    :background "#85ff21")
+;;       :background "#85ff21")
 ;; (set-face-attribute 'ediff-even-diff-B nil
-;; 		    :background "#21ff72")
+;;       :background "#21ff72")
 ;; (set-face-attribute 'ediff-even-diff-Ancestor nil
-;; 		    :background "#21ffbc")
+;;       :background "#21ffbc")
 ;; ;; Red so that I notice when it happens
 ;; (set-face-attribute 'ediff-even-diff-C nil
-;; 		    :background "#ff0000")
+;;       :background "#ff0000")
 ;; (set-face-attribute 'ediff-odd-diff-A nil
-;; 		    :inherit 'ediff-even-diff-A)
+;;       :inherit 'ediff-even-diff-A)
 ;; (set-face-attribute 'ediff-odd-diff-B nil
-;; 		    :inherit 'ediff-even-diff-B)
+;;       :inherit 'ediff-even-diff-B)
 ;; (set-face-attribute 'ediff-odd-diff-C nil
-;; 		    :inherit 'ediff-even-diff-C)
+;;       :inherit 'ediff-even-diff-C)
 ;; (set-face-attribute 'ediff-odd-diff-Ancestor nil
-;; 		    :inherit 'ediff-even-diff-Ancestor)
+;;       :inherit 'ediff-even-diff-Ancestor)
 
 ;; ;; -----------------------------------------------------------------------------
 ;; (set-face-attribute 'ediff-fine-diff-A nil
-;; 		    :inherit 'magit-diff-removed-highlight
-;; 		    :foreground nil
-;; 		    :background nil)
+;;       :inherit 'magit-diff-removed-highlight
+;;       :foreground nil
+;;       :background nil)
 ;; (set-face-attribute 'ediff-fine-diff-B nil
-;; 		    :inherit 'magit-diff-added-highlight)
+;;       :inherit 'magit-diff-added-highlight)
 ;; (set-face-attribute 'ediff-fine-diff-Ancestor nil
-;; 		    :inherit 'magit-diff-base-highlight)
+;;       :inherit 'magit-diff-base-highlight)
 ;; ;; Red so that I notice when it happens
 ;; (set-face-attribute 'ediff-fine-diff-C nil
-;; 		    :background "#ff0000")
+;;       :background "#ff0000")
 
 ;; (set-face-attribute 'ediff-current-diff-A nil
-;; 		    :background "#ff3021")
+;;       :background "#ff3021")
 ;; (set-face-attribute 'ediff-current-diff-B nil
-;; 		    :background "#ff8921")
+;;       :background "#ff8921")
 ;; (set-face-attribute 'ediff-current-diff-C nil
-;; 		    :background "#ffc421")
+;;       :background "#ffc421")
 ;; (set-face-attribute 'ediff-current-diff-Ancestor nil
-;; 		    :background "#cfff21")
+;;       :background "#cfff21")
 
 ;; (set-face-attribute 'ediff-even-diff-A nil
-;; 		    :background "#85ff21")
+;;       :background "#85ff21")
 ;; (set-face-attribute 'ediff-even-diff-B nil
-;; 		    :background "#21ff72")
+;;       :background "#21ff72")
 ;; (set-face-attribute 'ediff-even-diff-C nil
-;; 		    :background "#21ffbc")
+;;       :background "#21ffbc")
 ;; (set-face-attribute 'ediff-even-diff-Ancestor nil
-;; 		    :background "#21fff4")
+;;       :background "#21fff4")
 
 ;; (set-face-attribute 'ediff-fine-diff-A nil
-;; 		    :background "#ff3021")
+;;       :background "#ff3021")
 ;; (set-face-attribute 'ediff-fine-diff-B nil
-;; 		    :background "#21bcff")
+;;       :background "#21bcff")
 ;; (set-face-attribute 'ediff-fine-diff-C nil
-;; 		    :background "#2176ff")
+;;       :background "#2176ff")
 ;; (set-face-attribute 'ediff-fine-diff-Ancestor nil
-;; 		    :background "#6b21ff")
+;;       :background "#6b21ff")
 
 ;; (set-face-attribute 'ediff-odd-diff-A nil
-;; 		    :background "#b921ff")
+;;       :background "#b921ff")
 ;; (set-face-attribute 'ediff-odd-diff-B nil
-;; 		    :background "#f421ff")
+;;       :background "#f421ff")
 ;; (set-face-attribute 'ediff-odd-diff-C nil
-;; 		    :background "#ff21b5")
+;;       :background "#ff21b5")
 ;; (set-face-attribute 'ediff-odd-diff-Ancestor nil
-;; 		    :background "#ff2181")
+;;       :background "#ff2181")
 
 ;; TODO Put in a better place. For some reason, these settings are overwritten
 ;; if put earlier in the file
@@ -865,22 +866,22 @@
                 doom-modeline-evil-visual-state
                 doom-modeline-evil-emacs-state))
   (set-face-attribute face nil
-		      :weight 'bold))
+                      :weight 'bold))
 
 ;; Stuff that has to be in the end
 
-					; General TODO: Move things here to a better place when you know how to make it work the proper way.
+                                        ; General TODO: Move things here to a better place when you know how to make it work the proper way.
 
 (set-face-attribute 'mode-line nil
-		    :background "#D7E4E8"
-		    :overline nil
-		    :underline nil)
+                    :background "#D7E4E8"
+                    :overline nil
+                    :underline nil)
 
 (set-face-attribute 'mode-line-inactive nil
-		    :background "#E9EDED"
-					;:box '(:line-width 8 :color "#565063")
-		    :overline nil
-		    :underline nil)
+                    :background "#E9EDED"
+                                        ;:box '(:line-width 8 :color "#565063")
+                    :overline nil
+                    :underline nil)
 
 ;; Todos
 
