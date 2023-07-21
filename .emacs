@@ -318,8 +318,6 @@
 
 ;;;;;; Misc
 
-(use-package evil-nerd-commenter)
-
 ;;;; Language specific
 ;;;;;; Haskell
 
