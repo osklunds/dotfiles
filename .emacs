@@ -1,9 +1,21 @@
 
-;; Misc
+;; -----------------------------------------------------------------------------
+;; General
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Config Management
+;;;; ---------------------------------------------------------------------------
 
 (setq debug-on-error t)
 
 (setq custom-file (concat user-emacs-directory "/custom.el"))
+
+(setq vc-follow-symlinks t)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Package Management
+;;;; ---------------------------------------------------------------------------
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
@@ -23,25 +35,37 @@
 ;; Initialize package sources
 (require 'package)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Misc
+;;;; ---------------------------------------------------------------------------
 
-(setq vc-follow-symlinks t)
+;; No ~ files
+(setq make-backup-files nil)
 
+(setq gc-cons-threshold 50000000)
+
+;; -----------------------------------------------------------------------------
 ;; User Interface
-;;;; No GUI
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Reduce Clutter
+;;;; ---------------------------------------------------------------------------
 
 (setq inhibit-startup-message t)
 
-(scroll-bar-mode -1)        ; Disable visible scrollbar
-(tool-bar-mode -1)          ; Disable the toolbar
-(tooltip-mode -1)           ; Disable tooltips
-(set-fringe-mode 10)        ; Give some breathing room
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
 
-(menu-bar-mode -1)            ; Disable the menu bar
-
-(setq visible-bell       nil
+(setq visible-bell nil
       ring-bell-function #'ignore)
 
-;;;; UI
+;;;; ---------------------------------------------------------------------------
+;;;; Basics
+;;;; ---------------------------------------------------------------------------
 
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
@@ -51,7 +75,11 @@
 (set-face-attribute 'default nil :height 110)
 
 
+;;;; ---------------------------------------------------------------------------
 ;;;; Windows
+;;;; ---------------------------------------------------------------------------
+
+;; Things here need to be improved and investigated
 
 (use-package balanced-windows
   :config
@@ -64,10 +92,9 @@
 ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
 ;;          display-buffer-same-window)))
 
+;;;; ---------------------------------------------------------------------------
 ;;;; Misc
-
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
+;;;; ---------------------------------------------------------------------------
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
@@ -77,12 +104,9 @@
   (which-key-mode)
   (setq which-key-idle-delay 2))
 
-;; No ~ files
-(setq make-backup-files nil)
-
-(setq gc-cons-threshold 50000000)
-
+;; -----------------------------------------------------------------------------
 ;; Editing
+;; -----------------------------------------------------------------------------
 
 (setq-default tab-width 4)
 (setq-default evil-shift-width tab-width)
@@ -716,6 +740,8 @@
 ;; Ediff
 ;;;; Misc
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
 ;; Copied from https://emacs.stackexchange.com/a/24602
 (defun disable-y-or-n-p (orig-fun &rest args)
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
