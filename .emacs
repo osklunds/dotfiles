@@ -43,6 +43,8 @@
 
 ;;;; UI
 
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
 (column-number-mode)
 (global-hl-line-mode 1)
 
@@ -134,12 +136,6 @@
   :after evil
   :config
   (evil-collection-init))
-
-(use-package nlinum-relative
-  :after evil
-  :config
-  (nlinum-relative-setup-evil)
-  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 ;;;; Leader
 
