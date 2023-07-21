@@ -82,6 +82,11 @@
 
 (setq gc-cons-threshold 50000000)
 
+;; Editing
+
+(setq-default tab-width 4)
+(setq-default evil-shift-width tab-width)
+(setq-default indent-tabs-mode nil)
 ;; Key bindings
 ;;;; Evil
 
