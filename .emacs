@@ -106,7 +106,12 @@
   :config
   (evil-collection-init))
 
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Leader
+;;;; ---------------------------------------------------------------------------
 
 (use-package general
   :after evil
@@ -115,6 +120,98 @@
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "C-SPC"))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Overriding keys
+;;;; ---------------------------------------------------------------------------
+
+(defun override-key (key fun)
+  (general-define-key
+   :states '(normal emacs)
+   :keymaps 'override
+   key fun))
+
+(override-key "M-h" 'help-command)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Mac
+;;;; ---------------------------------------------------------------------------
+
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'n)
+
+;; -----------------------------------------------------------------------------
+;; User Interface
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Reduce Clutter
+;;;; ---------------------------------------------------------------------------
+
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
+
+(setq visible-bell nil
+      ring-bell-function #'ignore)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Line and column numbers
+;;;; ---------------------------------------------------------------------------
+
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
+(column-number-mode)
+(global-hl-line-mode 1)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Windows and buffers
+;;;; ---------------------------------------------------------------------------
+
+;; Things here need to be improved and investigated
+
+(use-package balanced-windows
+  :config
+  (balanced-windows-mode))
+
+;; Vertical splits
+(setq split-width-threshold 100)
+(setq split-height-threshold nil)
+
+;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
+;;          display-buffer-same-window)))
+
+(defun ol-split-window ()
+  (interactive)
+  (split-window-right)
+  (evil-window-right 1))
+
+(override-key "M-w" 'ol-split-window)
+(override-key "M-e" 'delete-window)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Misc
+;;;; ---------------------------------------------------------------------------
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; -----------------------------------------------------------------------------
+;; Editing
+;; -----------------------------------------------------------------------------
+
+(setq-default tab-width 4)
+(setq-default evil-shift-width tab-width)
+(setq-default indent-tabs-mode nil)
+
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
@@ -163,91 +260,9 @@
   "R" '(ol-full-replace-symbol :which-key "replace full symbol")
   "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
 
-
-;;;; Mac
-
-(setq mac-option-key-is-meta nil
-      mac-command-key-is-meta t
-      mac-command-modifier 'meta
-      mac-option-modifier 'n)
-
-;;;; Misc
-
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-(defun override-key (key fun)
-  (general-define-key
-   :states '(normal emacs)
-   :keymaps 'override
-   key fun))
-
-(override-key "C-j" 'ivy-switch-buffer)
-(override-key "M-q" 'projectile-find-file)
-(override-key "M-h" 'help-command)
-
-;; -----------------------------------------------------------------------------
-;; User Interface
-;; -----------------------------------------------------------------------------
-
 ;;;; ---------------------------------------------------------------------------
-;;;; Reduce Clutter
+;;;; Which Key
 ;;;; ---------------------------------------------------------------------------
-
-(setq inhibit-startup-message t)
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-
-(setq visible-bell nil
-      ring-bell-function #'ignore)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Basics
-;;;; ---------------------------------------------------------------------------
-
-(global-display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
-(column-number-mode)
-(global-hl-line-mode 1)
-
-(set-face-attribute 'default nil :height 110)
-
-
-;;;; ---------------------------------------------------------------------------
-;;;; Windows and buffers
-;;;; ---------------------------------------------------------------------------
-
-;; Things here need to be improved and investigated
-
-(use-package balanced-windows
-  :config
-  (balanced-windows-mode))
-
-;; Vertical splits
-(setq split-width-threshold 100)
-(setq split-height-threshold nil)
-
-;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
-;;          display-buffer-same-window)))
-
-(defun ol-split-window ()
-  (interactive)
-  (split-window-right)
-  (evil-window-right 1))
-
-(override-key "M-w" 'ol-split-window)
-(override-key "M-e" 'delete-window)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Misc
-;;;; ---------------------------------------------------------------------------
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
 
 (use-package which-key
   :config
@@ -255,18 +270,8 @@
   (setq which-key-idle-delay 2))
 
 ;; -----------------------------------------------------------------------------
-;; Editing
-;; -----------------------------------------------------------------------------
-
-(setq-default tab-width 4)
-(setq-default evil-shift-width tab-width)
-(setq-default indent-tabs-mode nil)
-
-(use-package evil-nerd-commenter
-  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
-
-
 ;; Ivy and counsel
+;; -----------------------------------------------------------------------------
 
 (use-package ivy
   :bind (("C-x C-b" . ivy-switch-buffer)
@@ -281,18 +286,19 @@
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
   :config
+  (setq ivy-height 20)
   (ivy-mode 1))
-
-(setq ivy-height 20)
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)))
 
 (use-package ivy-rich
   :after (ivy counsel)
   :init
   (ivy-rich-mode 1))
+
+(override-key "C-j" 'ivy-switch-buffer)
+
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x C-f" . counsel-find-file)))
 
 ;; Languages
 ;;;; All languages
@@ -331,8 +337,7 @@
 (use-package company
   :after (lsp-mode org-mode)
   :hook
-  (lsp-mode . company-mode)
-  (org-mode . company-mode)
+  (prog-mode . company-mode)
   :bind (:map company-active-map
               ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
@@ -344,7 +349,6 @@
 (use-package company-box
   :after company
   :hook (company-mode . company-box-mode))
-
 
 ;;;;;; Snippets
 
@@ -457,7 +461,11 @@
                       :foreground nil
                       :background nil))
 
+(set-face-attribute 'default nil :height 110)
+
+;; -----------------------------------------------------------------------------
 ;; Projectile
+;; -----------------------------------------------------------------------------
 
 (use-package projectile
   :after counsel
@@ -479,6 +487,8 @@
   :after projectile)
 
 (setq ivy-more-chars-alist '((t . 1)))
+
+(override-key "M-q" 'projectile-find-file)
 
 (ol-leader-keys
   "pp" 'projectile-switch-project
