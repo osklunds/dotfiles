@@ -106,6 +106,8 @@
   :config
   (evil-collection-init))
 
+(evil-set-undo-system 'undo-redo)
+
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -856,7 +858,6 @@
 - Programming languages
   - LSP search for functions
 - evil
-  - evil redo
   - Understand evil search, and make it less "flickering"
 - projectile
   - Use fd or rg --files instead of find
