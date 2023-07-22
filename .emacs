@@ -812,7 +812,7 @@
 (doom-modeline-def-segment proj-name
   (concat
    (doom-modeline-spc)
-   (doom-modeline-display-text (format "P: %s" (projectile-project-name)))))
+   (doom-modeline-display-text (format "%s" (projectile-project-name)))))
 
 (doom-modeline-def-modeline 'ol-simple-line
   '(bar modals buffer-info buffer-position)
@@ -894,5 +894,6 @@
   - Images
   - Charts
   - References to other sections
+- Use built-in modeline
 
 ")
