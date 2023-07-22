@@ -670,40 +670,27 @@
 ;; - Local-Merged
 ;; - Remote-Merged
 
+;; -----------------------------------------------------------------------------
 ;; Org mode
-;; Set faces for heading levels
-
-(defun ol/org-font-setup ()
-  ;; I don't actually change any font sizes, but I keep this in case I change my mind.
-  (dolist (face '((org-level-1 . 1.0)
-                  (org-level-2 . 1.0)
-                  (org-level-3 . 1.0)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.0)
-                  (org-level-6 . 1.0)
-                  (org-level-7 . 1.0)
-                  (org-level-8 . 1.0)))
-    (set-face-attribute (car face) nil :weight 'regular :height (cdr face))))
-
+;; -----------------------------------------------------------------------------
 
 (use-package org
   :config
-  (setq org-ellipsis " ▾")
-  (ol/org-font-setup))
+  (setq org-ellipsis " ▾"))
 
-(defun ol/org-mode-visual-fill ()
+(defun ol-org-mode-visual-fill ()
   (setq visual-fill-column-width 150
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
 ;; Idea: Center all buffers! Use 100 wide. Investigte how my vim, and emacs, line breaks
+;; Or use /2 of available width if one buffer
 
 (use-package visual-fill-column
-  :hook (org-mode . ol/org-mode-visual-fill))
+  :hook (org-mode . ol-org-mode-visual-fill))
 
 (setq org-src-preserve-indentation t)
 (setq org-edit-src-content-indentation 0)
-
 
 (set-face-attribute 'org-block nil :background
                     (color-darken-name
@@ -712,14 +699,21 @@
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
+;; -----------------------------------------------------------------------------
 ;; Terminal
+;; -----------------------------------------------------------------------------
 
 (evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
 (evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
 (evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
 
+;; -----------------------------------------------------------------------------
 ;; Vdiff
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
 ;;;; General
+;;;; ---------------------------------------------------------------------------
 
 (use-package vdiff)
 (define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
@@ -734,7 +728,10 @@
 
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
 
+;;;; ---------------------------------------------------------------------------
 ;;;; Colors
+;;;; ---------------------------------------------------------------------------
+
 (ol-copy-face-attribute 'vdiff-addition-face 'magit-diff-added)
 (ol-copy-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
 (ol-copy-face-attribute 'vdiff-change-face 'magit-diff-base)
@@ -742,7 +739,9 @@
 (ol-copy-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
 (ol-copy-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
+;;;; ---------------------------------------------------------------------------
 ;;;; Magit integration
+;;;; ---------------------------------------------------------------------------
 
 (use-package vdiff-magit
   :after (vdiff magit))
@@ -754,8 +753,15 @@
 (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
 (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
+;; -----------------------------------------------------------------------------
 ;; Ediff
+;; -----------------------------------------------------------------------------
+
+(require 'ediff)
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Misc
+;;;; ---------------------------------------------------------------------------
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -766,10 +772,9 @@
 
 (advice-add 'ediff-quit :around #'disable-y-or-n-p)
 
+;;;; ---------------------------------------------------------------------------
 ;;;; Colors
-;;;;;; Used colors
-
-(require 'ediff)
+;;;; ---------------------------------------------------------------------------
 
 ;; These actually made some more sense once I understood them. In ediff, there's a "current"
 ;; diff, and "other" diffs. The currently selected diff is highlighted using these
@@ -796,95 +801,13 @@
 (ol-copy-face-attribute 'ediff-odd-diff-C        'magit-diff-added)
 (ol-copy-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
 
-;;;;;; Old ways for colors
-
-;; ;; -----------------------------------------------------------------------------
-;; (set-face-attribute 'ediff-current-diff-A nil
-;;       :inherit 'magit-diff-removed)
-;; (set-face-attribute 'ediff-current-diff-B nil
-;;       :inherit 'magit-diff-added)
-;; (set-face-attribute 'ediff-current-diff-Ancestor nil
-;;       :inherit 'magit-diff-base)
-;; ;; Red so that I notice when it happens
-;; (set-face-attribute 'ediff-current-diff-C nil
-;;       :background "#ff0000")
-
-;; ;; -----------------------------------------------------------------------------
-;; (set-face-attribute 'ediff-even-diff-A nil
-;;       :background "#85ff21")
-;; (set-face-attribute 'ediff-even-diff-B nil
-;;       :background "#21ff72")
-;; (set-face-attribute 'ediff-even-diff-Ancestor nil
-;;       :background "#21ffbc")
-;; ;; Red so that I notice when it happens
-;; (set-face-attribute 'ediff-even-diff-C nil
-;;       :background "#ff0000")
-;; (set-face-attribute 'ediff-odd-diff-A nil
-;;       :inherit 'ediff-even-diff-A)
-;; (set-face-attribute 'ediff-odd-diff-B nil
-;;       :inherit 'ediff-even-diff-B)
-;; (set-face-attribute 'ediff-odd-diff-C nil
-;;       :inherit 'ediff-even-diff-C)
-;; (set-face-attribute 'ediff-odd-diff-Ancestor nil
-;;       :inherit 'ediff-even-diff-Ancestor)
-
-;; ;; -----------------------------------------------------------------------------
-;; (set-face-attribute 'ediff-fine-diff-A nil
-;;       :inherit 'magit-diff-removed-highlight
-;;       :foreground nil
-;;       :background nil)
-;; (set-face-attribute 'ediff-fine-diff-B nil
-;;       :inherit 'magit-diff-added-highlight)
-;; (set-face-attribute 'ediff-fine-diff-Ancestor nil
-;;       :inherit 'magit-diff-base-highlight)
-;; ;; Red so that I notice when it happens
-;; (set-face-attribute 'ediff-fine-diff-C nil
-;;       :background "#ff0000")
-
-;; (set-face-attribute 'ediff-current-diff-A nil
-;;       :background "#ff3021")
-;; (set-face-attribute 'ediff-current-diff-B nil
-;;       :background "#ff8921")
-;; (set-face-attribute 'ediff-current-diff-C nil
-;;       :background "#ffc421")
-;; (set-face-attribute 'ediff-current-diff-Ancestor nil
-;;       :background "#cfff21")
-
-;; (set-face-attribute 'ediff-even-diff-A nil
-;;       :background "#85ff21")
-;; (set-face-attribute 'ediff-even-diff-B nil
-;;       :background "#21ff72")
-;; (set-face-attribute 'ediff-even-diff-C nil
-;;       :background "#21ffbc")
-;; (set-face-attribute 'ediff-even-diff-Ancestor nil
-;;       :background "#21fff4")
-
-;; (set-face-attribute 'ediff-fine-diff-A nil
-;;       :background "#ff3021")
-;; (set-face-attribute 'ediff-fine-diff-B nil
-;;       :background "#21bcff")
-;; (set-face-attribute 'ediff-fine-diff-C nil
-;;       :background "#2176ff")
-;; (set-face-attribute 'ediff-fine-diff-Ancestor nil
-;;       :background "#6b21ff")
-
-;; (set-face-attribute 'ediff-odd-diff-A nil
-;;       :background "#b921ff")
-;; (set-face-attribute 'ediff-odd-diff-B nil
-;;       :background "#f421ff")
-;; (set-face-attribute 'ediff-odd-diff-C nil
-;;       :background "#ff21b5")
-;; (set-face-attribute 'ediff-odd-diff-Ancestor nil
-;;       :background "#ff2181")
-
-;; TODO Put in a better place. For some reason, these settings are overwritten
-;; if put earlier in the file
-
+;; -----------------------------------------------------------------------------
 ;; Modeline
+;; -----------------------------------------------------------------------------
+
 (use-package doom-modeline
   :init
-  (doom-modeline-mode 1)
-  )
+  (doom-modeline-mode 1))
 
 (doom-modeline-def-segment proj-name
   (concat
@@ -908,12 +831,11 @@
                 doom-modeline-evil-insert-state
                 doom-modeline-evil-visual-state
                 doom-modeline-evil-emacs-state))
-  (set-face-attribute face nil
-                      :weight 'bold))
+  (set-face-attribute face nil :weight 'bold))
 
+;; -----------------------------------------------------------------------------
 ;; Stuff that has to be in the end
-
-                                        ; General TODO: Move things here to a better place when you know how to make it work the proper way.
+;; -----------------------------------------------------------------------------
 
 (set-face-attribute 'mode-line nil
                     :background "#D7E4E8"
@@ -922,7 +844,6 @@
 
 (set-face-attribute 'mode-line-inactive nil
                     :background "#E9EDED"
-                                        ;:box '(:line-width 8 :color "#565063")
                     :overline nil
                     :underline nil)
 
