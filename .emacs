@@ -476,7 +476,6 @@
   :init
   (when (file-directory-p "~/Programmering")
     (setq projectile-project-search-path '(("~/Programmering" . 2))))
-  (setq counsel-projectile-switch-project-action 'counsel-projectile-switch-project-action-dired)
   )
 
 (use-package counsel-projectile
