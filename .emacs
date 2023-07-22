@@ -492,18 +492,21 @@
   "pd" 'projectile-discover-projects-in-search-path
   "pf" 'counsel-projectile-rg)
 
-;; Magit and git
-;;;; Key bindings
+;; -----------------------------------------------------------------------------
+;; Git
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Magit
+;;;; ---------------------------------------------------------------------------
+
+(use-package magit)
 
 (ol-leader-keys
   "gs" 'magit-status)
 
-;;;; Magit
-(use-package magit)
-
 (set-face-attribute 'magit-blame-margin nil
                     :background "#e4e4e4")
-;; TODO: Possibly change org mode background to the above as well.
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
@@ -516,11 +519,12 @@
         )
       )
 
+;; Start in insert state when doing commits in magit
 (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
-;;    Idea: have one style with date and summary, and others styles with e.g. hash and committer
-
-;;;; Misc
+;;;; ---------------------------------------------------------------------------
+;;;; Diffs
+;;;; ---------------------------------------------------------------------------
 
 ;; TODO: Use main first, if doesn't exist, use master
 ;; TODO: analyze if should use origin or not
@@ -530,9 +534,9 @@
   (interactive)
   (magit-diff-range "master..."))
 
-;;    TODO: Small helper that reads HEAD buffer of current buffer, and then runs vdiff on that
-
-;;;; Merge Surival Knife
+;;;; ---------------------------------------------------------------------------
+;;;; Merge Survival Knife
+;;;; ---------------------------------------------------------------------------
 
 (global-set-key (kbd "C-c 6") 'msk-merge-survival-knife-start)
 (global-set-key (kbd "C-c 7") 'msk-merge-survival-knife-stop)
@@ -659,8 +663,6 @@
 ;; \   |   /
 ;; \  |  /
 ;; Remote
-
-;; Reminder: M-RET for new bullet
 
 ;; - Base-Local
 ;; - Base-Remote
