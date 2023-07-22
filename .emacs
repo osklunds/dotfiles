@@ -860,8 +860,6 @@
 (when nil "
 - Programming languages
   - LSP search for functions
-- projectile
-  - Use fd or rg --files instead of find
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
 - lines around cursorline

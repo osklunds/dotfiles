@@ -16,6 +16,7 @@ WireGuard
 
 xcode dev tools
 ripgrep
+fd
 fzf
 vim
 rsync
