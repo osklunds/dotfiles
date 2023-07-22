@@ -847,42 +847,52 @@
                     :overline nil
                     :underline nil)
 
+;; -----------------------------------------------------------------------------
 ;; Todos
+;; -----------------------------------------------------------------------------
 
-;; - Programming languages
-;;   - LSP search for functions
-;;   - Haskell tags
-;;   - Rust tags
-;;   - Improve/streamline company or other completion
-;;   - Maybe if possible: company mode only in source blocks
-;; - evil
-;;   - evil redo
-;;   - Understand evil search, and make it less "flickering"
-;;   - Make magit ? show bindings for evil mode
-;;   - Exit visual mode when search replace is done
-;; - projectile
-;;   - projectile-find-file (want) vs counsel-projectile-find-file (seems to be used) are not the same
-;;   - Use fd or rg --files instead of find
-;;   - Show ripgrep results in a new buffer (C-c C-o)
-;; - windows
-;;   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-;;   - always make windows same size
-;; - lines around cursorline
-;; - git diff short cuts
-;;   - Current file to HEAD
-;;   - Current file to baseline/master/main
-;;   - Multiple files to HEAD
-;;   - Multiples files to baseline/master/main
-;;   - Multiple files to other commit
-;; - Auto save
-;; - ivy
-;;   - In switch buffer, find file, ripgrep, split selection to a new window
-;;   - in switch buffer, don't skip buffer visible in other window
-;;   - Go between prev commands in shell/terminal with arrow keys
-;; - Org mode
-;;   - Images
-;;   - Charts
-;;   - References to other sections
-;; - Native compiled emacs
-;; - Emacs in a sandbox/without networking
-;; - load-file-path instead of use-package
+;; Must haves
+(when nil "
+- Programming languages
+  - LSP search for functions
+- evil
+  - evil redo
+  - Understand evil search, and make it less "flickering"
+- projectile
+  - Use fd or rg --files instead of find
+- windows
+  - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
+- lines around cursorline
+- git diff short cuts
+  - Current file to HEAD
+  - Current file to baseline/master/main
+  - Multiple files to HEAD
+  - Multiples files to baseline/master/main
+  - Multiple files to other commit
+- Auto save
+- ivy
+  - in switch buffer, don't skip buffer visible in other window
+- Go between prev commands in shell/terminal with arrow keys
+- Native compiled emacs
+- Emacs in a sandbox/without networking
+- load-file-path instead of use-package
+")
+
+;; Nice to haves
+(when nil "
+- Programming languages
+  - Haskell tags
+  - Rust tags
+  - Improve/streamline company or other completion
+  - Maybe if possible: company mode only in source blocks
+- evil
+  - Make magit ? show bindings for evil mode
+  - Exit visual mode when search replace is done
+- ivy
+  - In switch buffer, find file, ripgrep, split selection to a new window
+- Org mode
+  - Images
+  - Charts
+  - References to other sections
+
+")
