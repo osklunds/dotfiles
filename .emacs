@@ -340,9 +340,7 @@
 ;;;;;; Completion
 
 (use-package company
-  :after (lsp-mode org-mode)
-  :hook
-  (prog-mode . company-mode)
+  :after lsp-mode
   :bind (:map company-active-map
               ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
@@ -350,6 +348,8 @@
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
+
+(add-hook 'prog-mode-hook 'company-mode)
 
 (use-package company-box
   :after company
