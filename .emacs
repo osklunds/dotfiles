@@ -480,8 +480,7 @@
   )
 
 (use-package counsel-projectile
-  :after projectile
-  :config (counsel-projectile-mode))
+  :after projectile)
 
 (use-package projectile-ripgrep
   :after projectile)
