@@ -59,6 +59,7 @@
 
 (use-package evil
   :init
+(setq evil-search-module 'evil-search)
   ;; TODO find out why needed 
   (setq evil-want-integration t)
   ;; Use evil-collection instead for other packages
@@ -91,6 +92,8 @@
   (evil-global-set-key 'motion (kbd "<right>") 'ol-no-op)
   (evil-global-set-key 'motion (kbd "<down>") 'ol-no-op)
   (evil-global-set-key 'motion (kbd "<up>") 'ol-no-op)
+
+  (define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
 
@@ -857,8 +860,6 @@
 (when nil "
 - Programming languages
   - LSP search for functions
-- evil
-  - Understand evil search, and make it less "flickering"
 - projectile
   - Use fd or rg --files instead of find
 - windows
