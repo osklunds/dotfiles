@@ -45,79 +45,14 @@
 (setq gc-cons-threshold 50000000)
 
 ;; -----------------------------------------------------------------------------
-;; User Interface
-;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Reduce Clutter
-;;;; ---------------------------------------------------------------------------
-
-(setq inhibit-startup-message t)
-
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 10)
-(menu-bar-mode -1)
-
-(setq visible-bell nil
-      ring-bell-function #'ignore)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Basics
-;;;; ---------------------------------------------------------------------------
-
-(global-display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
-(column-number-mode)
-(global-hl-line-mode 1)
-
-(set-face-attribute 'default nil :height 110)
-
-
-;;;; ---------------------------------------------------------------------------
-;;;; Windows
-;;;; ---------------------------------------------------------------------------
-
-;; Things here need to be improved and investigated
-
-(use-package balanced-windows
-  :config
-  (balanced-windows-mode))
-
-;; Vertical splits
-(setq split-width-threshold 100)
-(setq split-height-threshold nil)
-
-;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
-;;          display-buffer-same-window)))
-
-;;;; ---------------------------------------------------------------------------
-;;;; Misc
-;;;; ---------------------------------------------------------------------------
-
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(use-package which-key
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 2))
-
-;; -----------------------------------------------------------------------------
-;; Editing
-;; -----------------------------------------------------------------------------
-
-(setq-default tab-width 4)
-(setq-default evil-shift-width tab-width)
-(setq-default indent-tabs-mode nil)
-
-(use-package evil-nerd-commenter
-  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
-
 ;; Key bindings
+;; -----------------------------------------------------------------------------
 
+;; Key bindings are placed early, because every section uses them.
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Evil
+;;;; ---------------------------------------------------------------------------
 
 ;; :init is run before the package is loaded, and that's needed for some packages and options.
 ;;    :config is run after it has been loaded.
@@ -180,17 +115,10 @@
     :keymaps '(normal insert visual emacs)
     :prefix "SPC"
     :global-prefix "C-SPC"))
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
-
-(ol-leader-keys
-  :keymaps 'visual
-  "R" '(ol-full-replace-visual-selection :which-key "replace full visual selection")
-  "r" '(ol-from-here-replace-visual-selection :which-key "replace from here visual selection"))
-
-(ol-leader-keys
-  :keymaps 'normal
-  "R" '(ol-full-replace-symbol :which-key "replace full symbol")
-  "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
+;;;; ---------------------------------------------------------------------------
 
 (defconst full-range "%")
 (defconst from-here-range ",$")
@@ -225,6 +153,17 @@
         (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
+(ol-leader-keys
+  :keymaps 'visual
+  "R" '(ol-full-replace-visual-selection :which-key "replace full visual selection")
+  "r" '(ol-from-here-replace-visual-selection :which-key "replace from here visual selection"))
+
+(ol-leader-keys
+  :keymaps 'normal
+  "R" '(ol-full-replace-symbol :which-key "replace full symbol")
+  "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
+
+
 ;;;; Mac
 
 (setq mac-option-key-is-meta nil
@@ -247,8 +186,86 @@
 (override-key "M-q" 'projectile-find-file)
 (override-key "M-h" 'help-command)
 
+;; -----------------------------------------------------------------------------
+;; User Interface
+;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Reduce Clutter
+;;;; ---------------------------------------------------------------------------
+
+(setq inhibit-startup-message t)
+
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+(tooltip-mode -1)
+(set-fringe-mode 10)
+(menu-bar-mode -1)
+
+(setq visible-bell nil
+      ring-bell-function #'ignore)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Basics
+;;;; ---------------------------------------------------------------------------
+
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
+(column-number-mode)
+(global-hl-line-mode 1)
+
+(set-face-attribute 'default nil :height 110)
+
+
+;;;; ---------------------------------------------------------------------------
+;;;; Windows and buffers
+;;;; ---------------------------------------------------------------------------
+
+;; Things here need to be improved and investigated
+
+(use-package balanced-windows
+  :config
+  (balanced-windows-mode))
+
+;; Vertical splits
+(setq split-width-threshold 100)
+(setq split-height-threshold nil)
+
+;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
+;;          display-buffer-same-window)))
+
+(defun ol-split-window ()
+  (interactive)
+  (split-window-right)
+  (evil-window-right 1))
+
 (override-key "M-w" 'ol-split-window)
 (override-key "M-e" 'delete-window)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Misc
+;;;; ---------------------------------------------------------------------------
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package which-key
+  :config
+  (which-key-mode)
+  (setq which-key-idle-delay 2))
+
+;; -----------------------------------------------------------------------------
+;; Editing
+;; -----------------------------------------------------------------------------
+
+(setq-default tab-width 4)
+(setq-default evil-shift-width tab-width)
+(setq-default indent-tabs-mode nil)
+
+(use-package evil-nerd-commenter
+  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+
+
 ;; Ivy and counsel
 
 (use-package ivy
