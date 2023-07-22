@@ -475,11 +475,10 @@
   ("C-c p" . projectile-command-map)
   :init
   (when (file-directory-p "~/Programmering")
-    (setq projectile-project-search-path '(("~/Programmering" . 2))))
-  )
+    (setq projectile-project-search-path '(("~/Programmering" . 2)))))
 
 (use-package counsel-projectile
-  :after projectile)
+  :after (projectile counsel))
 
 (use-package projectile-ripgrep
   :after projectile)
@@ -497,21 +496,7 @@
 ;;;; Key bindings
 
 (ol-leader-keys
-  "gs" 'magit-status
-  "gcc" 'ol-commit-all-ask :which-key "commit all files ask for msg"
-  "gcm" 'ol-commit-all-minor-fixes :which-key "commit all files no msg")
-
-;; TODO: Probaly don't need a separate fun for without arg
-(defun ol-commit-all-msg (msg)
-  (shell-command (format "git add -A; git commit -m \"%s\"" msg)))
-
-(defun ol-commit-all-minor-fixes ()
-  (interactive)
-  (ol-commit-all-msg "Minor fixes"))
-
-(defun ol-commit-all-ask ()
-  (interactive)
-  (ol-commit-all-msg (read-string "Commit message: ")))
+  "gs" 'magit-status)
 
 ;;;; Magit
 (use-package magit)
