@@ -237,13 +237,18 @@
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(general-define-key
- :states '(normal emacs)
- :keymaps 'override
- "C-j" 'ivy-switch-buffer
- "M-q" 'projectile-find-file
- "M-h" 'help-command)
+(defun override-key (key fun)
+  (general-define-key
+   :states '(normal emacs)
+   :keymaps 'override
+   key fun))
 
+(override-key "C-j" 'ivy-switch-buffer)
+(override-key "M-q" 'projectile-find-file)
+(override-key "M-h" 'help-command)
+
+(override-key "M-w" 'ol-split-window)
+(override-key "M-e" 'delete-window)
 ;; Ivy and counsel
 
 (use-package ivy
