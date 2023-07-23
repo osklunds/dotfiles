@@ -386,12 +386,11 @@
 (use-package rust-mode
   :hook (rust-mode . lsp))
 
-(defconst ol-extra-opts `(:workspace (:symbol (:search (:kind ,"all_symbols")))))
+(defun ol-lsp-rust-analyzer--make-init-options (original)
+  (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
+    (append original extra)))
 
-(defun ol-lsp-extra (original)
-  (append original ol-extra-opts))
-
-(advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-extra)
+(advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
 
 ;; Theme and colors
 
