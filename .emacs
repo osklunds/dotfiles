@@ -429,7 +429,6 @@
 
 (use-package projectile
   :after counsel
-  :config (projectile-mode)
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
@@ -446,6 +445,8 @@
 (setq ivy-more-chars-alist '((t . 1)))
 
 (override-key "M-q" 'projectile-find-file)
+
+(call-interactively 'projectile-mode)
 
 (ol-leader-keys
   "pp" 'projectile-switch-project
