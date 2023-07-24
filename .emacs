@@ -493,13 +493,10 @@
 ;;;; Diffs
 ;;;; ---------------------------------------------------------------------------
 
-;; TODO: Use main first, if doesn't exist, use master
-;; TODO: analyze if should use origin or not
-;; TODO: Include summary of changes files and num lines
 (defun ol-diff-main ()
   "Diff against the merge base with main/master"
   (interactive)
-  (magit-diff-range "master..."))
+  (magit-diff-range (ol-main-branch)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
