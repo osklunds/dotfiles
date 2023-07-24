@@ -265,6 +265,10 @@
   "R" '(ol-full-replace-symbol :which-key "replace full symbol")
   "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
 
+(use-package evil-visualstar)
+
+(global-evil-visualstar-mode)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Which Key
 ;;;; ---------------------------------------------------------------------------
