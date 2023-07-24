@@ -737,6 +737,16 @@
          (buffer-head (msk--get-revision-buffer rev-head file)))
     (ol-diff-buffers buffer-head (current-buffer))))
 
+(defun ol-does-branch-exist (branch)
+  (equal (magit-rev-branch branch) branch))
+
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
 (defun ol-diff-file-main ()
   (interactive)
   (let* ((file (magit-current-file))
@@ -746,14 +756,9 @@
          (buffer-main (msk--get-revision-buffer rev-main file-main)))
     (ol-diff-buffers buffer-main (current-buffer))))
 
-(defun ol-main-branch ()
-  (let ((main-branch "main"))
-    (if (ol-does-branch-exist main-branch)
-        main-branch
-      "master")))
-
-(defun ol-does-branch-exist (branch)
-  (equal (magit-rev-branch branch) branch))
+(ol-leader-keys
+  "gdm" 'ol-diff-file-main
+  "gdh" 'ol-diff-file-head)
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
