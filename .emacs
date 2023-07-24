@@ -867,6 +867,16 @@
                     :underline nil)
 
 ;; -----------------------------------------------------------------------------
+;; Helpers
+;; -----------------------------------------------------------------------------
+
+;; Taken from https://emacs.stackexchange.com/a/24658
+(defun advice-unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
+;; -----------------------------------------------------------------------------
 ;; Todos
 ;; -----------------------------------------------------------------------------
 
@@ -919,5 +929,5 @@
 - Use built-in modeline
 - lines around cursorline
 - Merge Survival Knife
-
+- organize config file into main, keybinds and helpers funs
 ")
