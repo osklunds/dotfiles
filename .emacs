@@ -436,6 +436,8 @@
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
+  :config
+  (setq projectile-enable-caching t)
   :init
   (when (file-directory-p "~/Programmering")
     (setq projectile-project-search-path '(("~/Programmering" . 2)))))
