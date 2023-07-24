@@ -884,12 +884,6 @@
 (when nil "
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-- git diff short cuts
-  - Current file to HEAD
-  - Current file to baseline/master/main
-  - Multiple files to HEAD
-  - Multiples files to baseline/master/main
-  - Multiple files to other commit
 - evil
   - don't show prev search
   - don't show strikethrough for substitute
