@@ -818,11 +818,8 @@
 
 ;; Must haves
 (when nil "
-- Programming languages
-  - LSP search for functions
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-- lines around cursorline
 - git diff short cuts
   - Current file to HEAD
   - Current file to baseline/master/main
@@ -840,7 +837,11 @@
 
 ;; Nice to haves
 (when nil "
+- Switch to vertico/consult/marginella
+  - Will fix LSP search for functions
+  - Will fix live preview of ripgrep results
 - Programming languages
+  - LSP search for functions
   - Haskell tags
   - Rust tags
   - Improve/streamline company or other completion
@@ -855,5 +856,7 @@
   - Charts
   - References to other sections
 - Use built-in modeline
+- lines around cursorline
+- Merge Survival Knife
 
 ")
