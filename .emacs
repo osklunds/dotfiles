@@ -494,9 +494,16 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-diff-main ()
-  "Diff against the merge base with main/master"
   (interactive)
   (magit-diff-range (ol-main-branch)))
+
+(defun ol-diff-head ()
+  (interactive)
+  (magit-diff-range "HEAD"))
+
+(ol-leader-keys
+  "gdam" 'ol-diff-main
+  "gdah" 'ol-diff-head)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
