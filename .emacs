@@ -720,6 +720,31 @@
 (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
 (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Magit diffing
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-vdiff-on-quit (buffer-a buffer-b)
+  (kill-buffer buffer-a))
+
+(defun ol-diff-file-main ()
+  (interactive)
+  (let* ((file (magit-current-file))
+         (rev-main (ol-main-branch))
+         (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
+         (file-main (magit--rev-file-name file "HEAD" rev-main))
+         (buffer-main (msk--get-revision-buffer rev-main file-main)))
+    (vdiff-buffers buffer-main (current-buffer) nil 'ol-vidff-on-quit t nil)))
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
+(defun ol-does-branch-exist (branch)
+  (equal (magit-rev-branch branch) branch))
+
 ;; -----------------------------------------------------------------------------
 ;; Ediff
 ;; -----------------------------------------------------------------------------
