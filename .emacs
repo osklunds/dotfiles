@@ -880,6 +880,9 @@
   - Multiple files to HEAD
   - Multiples files to baseline/master/main
   - Multiple files to other commit
+- evil
+  - don't show prev search
+  - don't show strikethrough for substitute
 - Auto save
 - ivy
   - in switch buffer, don't skip buffer visible in other window
@@ -894,6 +897,10 @@
 - Switch to vertico/consult/marginella
   - Will fix LSP search for functions
   - Will fix live preview of ripgrep results
+- magit
+  - in status buffer, only diff HEAD and working tree
+  - When commiting, etc, use a default layout with status to the left,
+    and msg to the right, as if it was executed in the left buffer
 - Programming languages
   - LSP search for functions
   - Haskell tags
