@@ -884,9 +884,6 @@
 (when nil "
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-- evil
-  - don't show prev search
-  - don't show strikethrough for substitute
 - Auto save
 - ivy
   - in switch buffer, don't skip buffer visible in other window
