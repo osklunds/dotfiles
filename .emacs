@@ -724,8 +724,18 @@
 ;;;; Magit diffing
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-vdiff-on-quit (buffer-a buffer-b)
+(defun ol-diff-on-quit (buffer-a buffer-b)
   (kill-buffer buffer-a))
+
+(defun ol-diff-buffers (buffer-a buffer-b)
+  (vdiff-buffers buffer-a buffer-b nil 'ol-diff-on-quit t nil))
+
+(defun ol-diff-file-head ()
+  (interactive)
+  (let* ((file (magit-current-file))
+         (rev-head "HEAD")
+         (buffer-head (msk--get-revision-buffer rev-head file)))
+    (ol-diff-buffers buffer-head (current-buffer))))
 
 (defun ol-diff-file-main ()
   (interactive)
@@ -734,7 +744,7 @@
          (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
          (file-main (magit--rev-file-name file "HEAD" rev-main))
          (buffer-main (msk--get-revision-buffer rev-main file-main)))
-    (vdiff-buffers buffer-main (current-buffer) nil 'ol-vidff-on-quit t nil)))
+    (ol-diff-buffers buffer-main (current-buffer))))
 
 (defun ol-main-branch ()
   (let ((main-branch "main"))
