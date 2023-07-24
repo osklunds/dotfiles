@@ -502,8 +502,21 @@
   (magit-diff-range "HEAD"))
 
 (ol-leader-keys
-  "gdam" 'ol-diff-main
-  "gdah" 'ol-diff-head)
+  "gdM" 'ol-diff-main
+  "gdH" 'ol-diff-head)
+
+(defun ol-magit-insert-diff ()
+  "Copied from Magit, to be able to hack diff-args to include --stat"
+  (progn
+    (add-to-list 'magit-buffer-diff-args "--stat")
+  (magit--insert-diff t
+    "diff" magit-buffer-range "-p" "--no-prefix"
+    (and (member "--stat" magit-buffer-diff-args) "--numstat")
+    magit-buffer-typearg
+    magit-buffer-diff-args "--"
+    magit-buffer-diff-files)))
+
+(advice-add 'magit-insert-diff :override 'ol-magit-insert-diff)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
