@@ -918,6 +918,7 @@
   - Charts
   - References to other sections
 - Use built-in modeline
+  - Simplify the modeline a lot, and have a status command that instead show those details
 - lines around cursorline
 - Merge Survival Knife
 - organize config file into main, keybinds and helpers funs
