@@ -520,8 +520,6 @@
   "gdM" 'ol-diff-main
   "gdH" 'ol-diff-head)
 
-(advice-add 'magit-insert-diff :override 'ol-magit-insert-diff)
-
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
 
@@ -904,6 +902,8 @@
 - Native compiled emacs
 - Emacs in a sandbox/without networking
 - load-file-path instead of use-package
+  - organize config file into main, keybinds and helpers funs
+  - Can use this as inspiration: https://github.com/bling/dotemacs
 ")
 
 ;; Nice to haves
@@ -934,5 +934,4 @@
   - Simplify the modeline a lot, and have a status command that instead show those details
 - lines around cursorline
 - Merge Survival Knife
-- organize config file into main, keybinds and helpers funs
 ")
