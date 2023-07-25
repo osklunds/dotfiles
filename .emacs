@@ -213,7 +213,9 @@
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
 (column-number-mode)
-(global-hl-line-mode 1)
+
+(global-hl-line-mode)
+(make-variable-buffer-local 'global-hl-line-mode)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Windows and buffers
@@ -739,6 +741,19 @@
 (evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
 (evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
 (evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
+
+(defun ol-disable-cursorline-for-terms ()
+  (if (equal major-mode 'term-mode)
+      (setq global-hl-line-mode nil)
+    nil))
+
+(defun ol-enable-cursorline-for-terms ()
+  (if (equal major-mode 'term-mode)
+      (setq global-hl-line-mode t)
+    nil))
+
+(add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
+(add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
