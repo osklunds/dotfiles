@@ -99,6 +99,46 @@
 
   (setq evil-insert-state-cursor 'box))
 
+Clean insert state (maybe a bad idea? But if so, I should use
+emacs keybindings in insert state instaed of vim's perhaps.)
+
+(let* ((letters '("a"
+                  "b"
+               ;; "c" Needed for magit commit confirm
+                  "d"
+                  "e"
+                  "f"
+                  "g"
+               ;; "h" Needed for help
+                  "i"
+                  "k"
+                  "l"
+                  "m"
+                  "n"
+                  "o"
+                  "p"
+                  "q"
+                  "r"
+                  "s"
+                  "t"
+                  "u"
+                  "v"
+                  "w"
+                  "x"
+                  "y"
+                  "z"))
+       (letter-ctrls (mapcar (lambda (char) (format "C-%s" char)) letters))
+       (other-keybinds '("C-@"
+                   "S-<left>"
+                   "S-<right>"
+                   "<delete>"
+                   "<insert>"))
+       (keybinds (append letter-ctrls other-keybinds)))
+  (dolist (keybind keybinds)
+    (evil-define-key 'insert 'global (kbd keybind) 'ol-no-op)))
+
+(evil-define-key 'insert 'global (kbd "<return>") 'newline)
+
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol)
   (setq-default evil-symbol-word-search t))
