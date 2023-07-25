@@ -88,6 +88,11 @@
   (define-key evil-insert-state-map (kbd "<down>") 'ol-no-op)
   (define-key evil-insert-state-map (kbd "<up>") 'ol-no-op)
 
+  (evil-define-key 'insert term-raw-map (kbd "<left>") 'term-send-left)
+  (evil-define-key 'insert term-raw-map (kbd "<right>") 'term-send-right)
+  (evil-define-key 'insert term-raw-map (kbd "<down>") 'term-send-down)
+  (evil-define-key 'insert term-raw-map (kbd "<up>") 'term-send-up)
+
   (evil-global-set-key 'motion (kbd "<left>") 'ol-no-op)
   (evil-global-set-key 'motion (kbd "<right>") 'ol-no-op)
   (evil-global-set-key 'motion (kbd "<down>") 'ol-no-op)
@@ -101,43 +106,44 @@
 
 ;; Clean insert state (maybe a bad idea? But if so, I should use
 ;; emacs keybindings in insert state instaed of vim's perhaps.)
+;; TODO: These do not play well with term-mode
 
-(let* ((letters '("a"
-                  "b"
-               ;; "c" Needed for magit commit confirm
-                  "d"
-                  "e"
-                  "f"
-                  "g"
-               ;; "h" Needed for help
-                  "i"
-                  "k"
-                  "l"
-                  "m"
-                  "n"
-                  "o"
-                  "p"
-                  "q"
-                  "r"
-                  "s"
-                  "t"
-                  "u"
-                  "v"
-                  "w"
-                  "x"
-                  "y"
-                  "z"))
-       (letter-ctrls (mapcar (lambda (char) (format "C-%s" char)) letters))
-       (other-keybinds '("C-@"
-                   "S-<left>"
-                   "S-<right>"
-                   "<delete>"
-                   "<insert>"))
-       (keybinds (append letter-ctrls other-keybinds)))
-  (dolist (keybind keybinds)
-    (evil-define-key 'insert 'global (kbd keybind) 'ol-no-op)))
+;; (let* ((letters '("a"
+;;                   "b"
+;;                ;; "c" Needed for magit commit confirm
+;;                   "d"
+;;                   "e"
+;;                   "f"
+;;                   "g"
+;;                ;; "h" Needed for help
+;;                   "i"
+;;                   "k"
+;;                   "l"
+;;                   "m"
+;;                   "n"
+;;                   "o"
+;;                   "p"
+;;                   "q"
+;;                   "r"
+;;                   "s"
+;;                   "t"
+;;                   "u"
+;;                   "v"
+;;                   "w"
+;;                   "x"
+;;                   "y"
+;;                   "z"))
+;;        (letter-ctrls (mapcar (lambda (char) (format "C-%s" char)) letters))
+;;        (other-keybinds '("C-@"
+;;                    "S-<left>"
+;;                    "S-<right>"
+;;                    "<delete>"
+;;                    "<insert>"))
+;;        (keybinds (append letter-ctrls other-keybinds)))
+;;   (dolist (keybind keybinds)
+;;     (evil-define-key 'insert 'global (kbd keybind) 'ol-no-op)))
 
-(evil-define-key 'insert 'global (kbd "<return>") 'newline)
+;; (evil-define-key 'insert 'global (kbd "<return>") 'newline)
 
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol)
@@ -755,6 +761,9 @@
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
 
+;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
+;; RET seeems to become broken.
+
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
@@ -960,6 +969,9 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
+- Make M-q, M-h etc work in term mode
+- projectile switch action: the one that let's you choose
+- find a way to not move cursor in term mode when going to insert mode
 ")
 
 ;; Nice to haves
@@ -990,4 +1002,5 @@
   - Simplify the modeline a lot, and have a status command that instead show those details
 - lines around cursorline
 - Merge Survival Knife
+- clean up all messy keybindings into a separete file
 ")
