@@ -453,6 +453,7 @@
   ("C-c p" . projectile-command-map)
   :config
   (setq projectile-enable-caching t)
+  (setq projectile-switch-project-action 'projectile-dired)
   :init
   (when (file-directory-p "~/Programmering")
     (setq projectile-project-search-path '(("~/Programmering" . 2)))))
