@@ -303,11 +303,26 @@
   :init
   (ivy-rich-mode 1))
 
-(override-key "C-j" 'ivy-switch-buffer)
-
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)))
+
+(override-key "C-j" 'ivy-switch-buffer)
+
+;; TODO: Maybe this can be solved by advising ivy-read instead. If
+;; caller is ivy-switch-buffer, then change the preselect argument.
+(defun ol-ivy-switch-buffer ()
+  "Copy of ivy-switch-buffer, but allow visible buffers in preselect"
+  (interactive)
+  (let ((visible-ok t))
+    (ivy-read "Switch to buffer: " #'internal-complete-buffer
+              :keymap ivy-switch-buffer-map
+              :preselect (buffer-name (other-buffer (current-buffer) visible-ok))
+              :action #'ivy--switch-buffer-action
+              :matcher #'ivy--switch-buffer-matcher
+              :caller 'ivy-switch-buffer)))
+
+(advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; Languages
@@ -885,8 +900,6 @@
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
 - Auto save
-- ivy
-  - in switch buffer, don't skip buffer visible in other window
 - Go between prev commands in shell/terminal with arrow keys
 - Native compiled emacs
 - Emacs in a sandbox/without networking
