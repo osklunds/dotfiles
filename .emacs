@@ -99,8 +99,8 @@
 
   (setq evil-insert-state-cursor 'box))
 
-Clean insert state (maybe a bad idea? But if so, I should use
-emacs keybindings in insert state instaed of vim's perhaps.)
+;; Clean insert state (maybe a bad idea? But if so, I should use
+;; emacs keybindings in insert state instaed of vim's perhaps.)
 
 (let* ((letters '("a"
                   "b"
