@@ -947,6 +947,15 @@
   (set-face-attribute face nil :weight 'bold))
 
 ;; -----------------------------------------------------------------------------
+;; Dired
+;; -----------------------------------------------------------------------------
+
+(setq dired-kill-when-opening-new-dired-buffer t)
+
+(evil-define-key 'normal dired-mode-map (kbd "o") 'dired-find-file)
+(evil-define-key 'normal dired-mode-map (kbd "i") 'dired-up-directory)
+
+;; -----------------------------------------------------------------------------
 ;; Stuff that has to be in the end
 ;; -----------------------------------------------------------------------------
 
@@ -976,6 +985,7 @@
 
 ;; Must haves
 (when nil "
+- understand kill ring
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
 - Auto save
@@ -984,14 +994,15 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
-- space leader in dired
 - projectile switch action: the one that let's you choose
-- find a way to not move cursor in term mode when going to insert mode
-- dired close buffers
+- ctrl-d, ctrl-x-e in insert mode
 ")
 
 ;; Nice to haves
 (when nil "
+- space leader in dired
+- Use e.g. Ctrl-left to move MRU buffers
+- find a way to not move cursor in term mode when going to insert mode
 - Switch to vertico/consult/marginella
   - Will fix LSP search for functions
   - Will fix live preview of ripgrep results
