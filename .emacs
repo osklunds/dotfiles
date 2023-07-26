@@ -36,11 +36,42 @@
 (require 'package)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Misc
+;;;; File Management
 ;;;; ---------------------------------------------------------------------------
 
 ;; No ~ files
 (setq make-backup-files nil)
+
+(use-package super-save
+  :ensure t
+  :config
+  (super-save-mode +1))
+
+(setq super-save-idle-duration 3)
+(setq super-save-auto-save-when-idle t)
+
+(global-set-key (kbd "C-s") 'save-buffer)
+
+;; Copied from https://emacs.stackexchange.com/a/30032
+(defmacro with-suppressed-message (&rest body)
+  "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
+  (declare (indent 0))
+  (let ((message-log-max nil))
+    `(with-temp-message (or (current-message) "") ,@body)))
+
+(defun ol-silent-save-buffer ()
+  (interactive)
+  (with-suppressed-message (save-buffer)))
+
+;; Copied from super-save and modified t use ol-silent-save-buffer
+(defun ol-super-save-command ()
+  (when (super-save-p) (ol-silent-save-buffer)))
+
+(advice-add 'super-save-command :override 'ol-super-save-command)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Misc
+;;;; ---------------------------------------------------------------------------
 
 (setq gc-cons-threshold 50000000)
 
