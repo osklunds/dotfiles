@@ -958,6 +958,12 @@
 (when (string= system-type "darwin")       
   (setq dired-use-ls-dired nil))
 
+(defun ol-dired ()
+  (interactive)
+  (dired default-directory))
+
+(global-set-key (kbd "C-x d") 'ol-dired)
+
 ;; -----------------------------------------------------------------------------
 ;; Stuff that has to be in the end
 ;; -----------------------------------------------------------------------------
@@ -1017,6 +1023,8 @@
   - Rust tags
   - Improve/streamline company or other completion
   - Maybe if possible: company mode only in source blocks
+- Company mode
+  - no icons
 - evil
   - Make magit ? show bindings for evil mode
   - Exit visual mode when search replace is done
