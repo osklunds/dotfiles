@@ -988,7 +988,6 @@
 
 ;; Must haves
 (when nil "
-- understand kill ring
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
 - Auto save
