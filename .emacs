@@ -573,7 +573,8 @@
 (use-package magit)
 
 (ol-leader-keys
-  "gs" 'magit-status)
+  "gs" 'magit-status
+  "gb" 'magit-blame-addition)
 
 (set-face-attribute 'magit-blame-margin nil
                     :background "#e4e4e4")
