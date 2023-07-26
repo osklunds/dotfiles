@@ -955,6 +955,9 @@
 (evil-define-key 'normal dired-mode-map (kbd "o") 'dired-find-file)
 (evil-define-key 'normal dired-mode-map (kbd "i") 'dired-up-directory)
 
+(when (string= system-type "darwin")       
+  (setq dired-use-ls-dired nil))
+
 ;; -----------------------------------------------------------------------------
 ;; Stuff that has to be in the end
 ;; -----------------------------------------------------------------------------
@@ -1029,4 +1032,5 @@
 - lines around cursorline
 - Merge Survival Knife
 - clean up all messy keybindings into a separete file
+- C-k in normal empties line
 ")
