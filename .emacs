@@ -45,10 +45,8 @@
 (use-package super-save
   :ensure t
   :config
+  (setq super-save-auto-save-when-idle t)
   (super-save-mode +1))
-
-(setq super-save-idle-duration 3)
-(setq super-save-auto-save-when-idle t)
 
 (global-set-key (kbd "C-s") 'save-buffer)
 
