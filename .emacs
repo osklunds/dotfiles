@@ -972,7 +972,6 @@
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
 - Auto save
-- Go between prev commands in shell/terminal with arrow keys
 - Native compiled emacs
 - Emacs in a sandbox/without networking
 - load-file-path instead of use-package
