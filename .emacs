@@ -984,7 +984,6 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
-- Make M-q, M-h etc work in term mode and help
 - space leader in dired
 - projectile switch action: the one that let's you choose
 - find a way to not move cursor in term mode when going to insert mode
