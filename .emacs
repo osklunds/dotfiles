@@ -169,7 +169,9 @@
   :config
   (general-create-definer ol-leader-keys
     :keymaps '(normal insert visual emacs)
+    ;; prefix seems to mean, only define if not overriding something existing
     :prefix "SPC"
+    ;; global-prefix seems to mean, always define
     :global-prefix "C-SPC"))
 
 ;;;; ---------------------------------------------------------------------------
