@@ -506,12 +506,12 @@
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
-  :config
-  (setq projectile-enable-caching t)
-  (setq projectile-switch-project-action 'projectile-dired)
   :init
   (when (file-directory-p "~/Programmering")
     (setq projectile-project-search-path '(("~/Programmering" . 2)))))
+
+  (setq projectile-enable-caching t)
+(setq projectile-switch-project-action 'projectile-commander)
 
 (use-package counsel-projectile
   :after (projectile counsel))
@@ -994,7 +994,6 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
-- projectile switch action: the one that let's you choose
 ")
 
 ;; Nice to haves
