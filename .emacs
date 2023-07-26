@@ -1028,7 +1028,6 @@
 (when nil "
 - windows
   - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-- Auto save
 - Native compiled emacs
 - Emacs in a sandbox/without networking
 - load-file-path instead of use-package
