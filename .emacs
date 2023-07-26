@@ -763,8 +763,15 @@
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
 
+;; Hack to do it like this. If done directly, error about prefix key.
+(defun ol-map-ctrl-c ()
+  (evil-define-key 'insert term-raw-map (kbd "C-c") 'term-send-raw))
+  
+(add-hook 'term-mode-hook 'ol-map-ctrl-c)
+
 ;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
 ;; RET seeems to become broken.
+;; (evil-define-key 'insert term-raw-map (kbd "C-m") 'help-command)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
