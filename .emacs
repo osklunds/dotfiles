@@ -178,13 +178,18 @@
 ;;;; Overriding keys
 ;;;; ---------------------------------------------------------------------------
 
-(defun override-key (key fun)
-  (general-define-key
-   :states '(normal emacs)
-   :keymaps 'override
-   key fun))
+(defun ol-override-key (key fun)
+  (progn
+    (general-define-key
+     :states '(normal emacs)
+     :keymaps 'override
+     key fun)
+    (general-define-key
+     :states 'insert
+     :keymaps 'term-raw-map
+     key fun)))
 
-(override-key "M-h" 'help-command)
+(ol-override-key "M-h" 'help-command)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
@@ -247,8 +252,8 @@
   (split-window-right)
   (evil-window-right 1))
 
-(override-key "M-w" 'ol-split-window)
-(override-key "M-e" 'delete-window)
+(ol-override-key "M-w" 'ol-split-window)
+(ol-override-key "M-e" 'delete-window)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
@@ -357,7 +362,7 @@
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)))
 
-(override-key "C-j" 'ivy-switch-buffer)
+(ol-override-key "C-j" 'ivy-switch-buffer)
 
 ;; TODO: Maybe this can be solved by advising ivy-read instead. If
 ;; caller is ivy-switch-buffer, then change the preselect argument.
@@ -516,7 +521,7 @@
 
 (setq ivy-more-chars-alist '((t . 1)))
 
-(override-key "M-q" 'projectile-find-file)
+(ol-override-key "M-q" 'projectile-find-file)
 
 (call-interactively 'projectile-mode)
 
@@ -979,9 +984,11 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
-- Make M-q, M-h etc work in term mode
+- Make M-q, M-h etc work in term mode and help
+- space leader in dired
 - projectile switch action: the one that let's you choose
 - find a way to not move cursor in term mode when going to insert mode
+- dired close buffers
 ")
 
 ;; Nice to haves
