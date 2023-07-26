@@ -553,6 +553,8 @@
 ;; Start in insert state when doing commits in magit
 (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
+(setq magit-diff-paint-whitespace nil)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Diffs
 ;;;; ---------------------------------------------------------------------------
