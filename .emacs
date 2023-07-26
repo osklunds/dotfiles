@@ -995,12 +995,12 @@
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
 - projectile switch action: the one that let's you choose
-- ctrl-d, ctrl-x-e in insert mode
 ")
 
 ;; Nice to haves
 (when nil "
 - space leader in dired
+- Disable most keys in insert mode, but ctrl-d, ctrl-x-e should work
 - Use e.g. Ctrl-left to move MRU buffers
 - find a way to not move cursor in term mode when going to insert mode
 - Switch to vertico/consult/marginella
