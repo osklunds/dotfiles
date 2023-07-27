@@ -3,6 +3,7 @@
 alias ll='ls -la'
 alias ft='rg'
 alias ff='rg --files | rg'
+alias cdr='cd ~/repos'
 
 # Git
 
