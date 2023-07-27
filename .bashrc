@@ -8,7 +8,7 @@ export GREP_OPTIONS='--color=always'
 export DOTFILES_REPO="$HOME/dotfiles"
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 source "$HOME/.aliases.sh"
 
