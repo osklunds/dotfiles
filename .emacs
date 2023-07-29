@@ -539,15 +539,18 @@
 ;; Projectile
 ;; -----------------------------------------------------------------------------
 
+  (if (ol-is-mac)
+      (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2)))
+    (setq projectile-project-search-path '(("~/repos" . 2))))
+
 (use-package projectile
   :after counsel
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2))))
 
-  (setq projectile-enable-caching t)
+  (setq projectile-enable-caching t))
 
 (setq projectile-switch-project-action 'projectile-commander)
 
@@ -844,6 +847,7 @@
 ;;;; Colors
 ;;;; ---------------------------------------------------------------------------
 
+;; TODO: Only copy background
 (ol-copy-face-attribute 'vdiff-addition-face 'magit-diff-added)
 (ol-copy-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
 (ol-copy-face-attribute 'vdiff-change-face 'magit-diff-base)
