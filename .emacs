@@ -540,7 +540,7 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-  (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2)))
+  (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2))))
 
   (setq projectile-enable-caching t)
 
