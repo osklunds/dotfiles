@@ -464,8 +464,10 @@
 
 (use-package company
   :after lsp-mode
-  :bind (:map company-active-map
-              ("<tab>" . company-complete-selection))
+  :bind
+  (:map company-active-map
+        ("<return>" . company-abort)
+        ("<tab>" . company-complete-selection))
   (:map lsp-mode-map
         ("<tab>" . company-indent-or-complete-common))
   :custom
