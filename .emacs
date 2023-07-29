@@ -528,7 +528,9 @@
                       :foreground nil
                       :background nil))
 
-(set-face-attribute 'default nil :height 110)
+(if (string= system-type "darwin")
+    (set-face-attribute 'default nil :height 110)
+    (set-face-attribute 'default nil :height 90))
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile
