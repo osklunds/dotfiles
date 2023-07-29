@@ -274,7 +274,7 @@
   (balanced-windows-mode))
 
 ;; Vertical splits
-(setq split-width-threshold 100)
+(setq split-width-threshold 200)
 (setq split-height-threshold nil)
 
 ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
