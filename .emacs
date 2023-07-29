@@ -428,6 +428,9 @@
 ;;;;;; -------------------------------------------------------------------------
 
 (use-package lsp-mode
+  ;; TODO Use custom for all
+  :custom
+  (lsp-completion-provider :none)
   :config
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-modeline-code-actions-enable nil)
@@ -468,14 +471,16 @@
   (:map company-active-map
         ("<return>" . company-abort)
         ("<tab>" . company-complete-selection))
-  (:map lsp-mode-map
+  (:map prog-mode-map
         ("<tab>" . company-indent-or-complete-common))
+  :config
+  (setq company-tooltip-align-annotations t)
   :custom
+  (company-backends '((company-capf :separate company-yasnippet)))
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
 
-(add-hook 'prog-mode-hook 'company-mode)
-
+  (add-hook 'prog-mode-hook 'company-mode)
 (use-package company-box
   :after company
   :hook (company-mode . company-box-mode))
@@ -490,6 +495,7 @@
   :after yasnippet)
 
 (yas-reload-all)
+
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
 ;;;; ---------------------------------------------------------------------------
