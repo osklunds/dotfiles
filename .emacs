@@ -227,7 +227,10 @@
 ;;;; Mac
 ;;;; ---------------------------------------------------------------------------
 
-(when (string= system-type "darwin")       
+(defun ol-is-mac ()
+  (string= system-type "darwin"))
+
+(when (ol-is-mac)
   (setq mac-option-key-is-
         mac-command-key-is-meta t
         mac-command-modifier 'meta
@@ -528,9 +531,9 @@
                       :foreground nil
                       :background nil))
 
-(if (string= system-type "darwin")
+(if (ol-is-mac)
     (set-face-attribute 'default nil :height 110)
-    (set-face-attribute 'default nil :height 90))
+  (set-face-attribute 'default nil :height 90))
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile
@@ -991,7 +994,7 @@
 (evil-define-key 'normal dired-mode-map (kbd "o") 'dired-find-file)
 (evil-define-key 'normal dired-mode-map (kbd "i") 'dired-up-directory)
 
-(when (string= system-type "darwin")       
+(when (ol-is-mac)       
   (setq dired-use-ls-dired nil))
 
 (defun ol-dired ()
