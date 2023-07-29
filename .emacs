@@ -764,17 +764,6 @@
   :config
   (setq org-ellipsis " ▾"))
 
-(defun ol-org-mode-visual-fill ()
-  (setq visual-fill-column-width 150
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-;; Idea: Center all buffers! Use 100 wide. Investigte how my vim, and emacs, line breaks
-;; Or use /2 of available width if one buffer
-
-(use-package visual-fill-column
-  :hook (org-mode . ol-org-mode-visual-fill))
-
 (setq org-src-preserve-indentation t)
 (setq org-edit-src-content-indentation 0)
 
