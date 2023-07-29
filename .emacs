@@ -549,7 +549,6 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init
-
   (setq projectile-enable-caching t))
 
 (setq projectile-switch-project-action 'projectile-commander)
@@ -770,17 +769,6 @@
   :config
   (setq org-ellipsis " ▾"))
 
-(defun ol-org-mode-visual-fill ()
-  (setq visual-fill-column-width 150
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-;; Idea: Center all buffers! Use 100 wide. Investigte how my vim, and emacs, line breaks
-;; Or use /2 of available width if one buffer
-
-(use-package visual-fill-column
-  :hook (org-mode . ol-org-mode-visual-fill))
-
 (setq org-src-preserve-indentation t)
 (setq org-edit-src-content-indentation 0)
 
@@ -790,6 +778,8 @@
 
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
+
+(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
 ;; -----------------------------------------------------------------------------
 ;; Terminal
@@ -1044,6 +1034,7 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
+- Make unsaved file less obtrusive in the modeline, i.e. only * in front
 ")
 
 ;; Nice to haves
