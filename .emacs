@@ -774,6 +774,8 @@
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
+(add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
+
 ;; -----------------------------------------------------------------------------
 ;; Terminal
 ;; -----------------------------------------------------------------------------
@@ -1026,6 +1028,7 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
+- Make unsaved file less obtrusive in the modeline, i.e. only * in front
 ")
 
 ;; Nice to haves
