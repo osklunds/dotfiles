@@ -476,6 +476,9 @@
   :config
   (setq company-tooltip-align-annotations t)
   :custom
+  ;; TODO Maybe group in a better way.
+  ;; Add dabbrev
+  ;; Maybe switch to abbrev, because I only want simple stuff
   (company-backends '((company-capf :separate company-yasnippet)))
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
@@ -1081,4 +1084,5 @@
 - Merge Survival Knife
 - clean up all messy keybindings into a separete file
 - C-k in normal empties line
+- json optimization for LSP
 ")
