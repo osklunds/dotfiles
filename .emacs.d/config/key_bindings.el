@@ -1,6 +1,6 @@
 
 ;; ---------------------------------------------------------------------------
-;; Leader
+;; Helpers
 ;; ---------------------------------------------------------------------------
 
 (general-create-definer ol-leader-keys
@@ -10,9 +10,11 @@
   ;; global-prefix seems to mean, always define
   :global-prefix "C-SPC")
 
-;;;; ---------------------------------------------------------------------------
-;;;; Overriding keys
-;;;; ---------------------------------------------------------------------------
+(defun ol-define-key (map key fun)
+  (define-key map (kbd key) fun))
+
+(defun ol-global-define-key (key fun)
+  (global-set-key (kbd key) fun))
 
 (defun ol-override-key (key fun)
   (progn
@@ -128,17 +130,32 @@
 (ol-override-key "M-w" 'ol-split-window)
 (ol-override-key "M-e" 'delete-window)
 
-(ol-override-key "C-j" 'ivy-switch-buffer)
+;; -----------------------------------------------------------------------------
+;; Languages
+;; -----------------------------------------------------------------------------
 
-;; ---------------------------------------------------------------------------
-;; LSP
-;; ---------------------------------------------------------------------------
+;;;;----------------------------------------------------------------------------
+;;;; All languages
+;;;; ---------------------------------------------------------------------------
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; LSP
+;;;;;; -------------------------------------------------------------------------
 
 (ol-leader-keys
   "ff" 'lsp-ivy-workspace-symbol)
 
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Completion
+;;;;;; -------------------------------------------------------------------------
+
+(ol-define-key company-active-map "<return>" 'company-abort)
+(ol-define-key company-active-map "<tab>" 'company-complete-selection)
+
+(ol-define-key prog-mode-map "<tab>" 'company-indent-or-complete-common)
+
 ;; ---------------------------------------------------------------------------
-;; projectile
+;; Projectile
 ;; ---------------------------------------------------------------------------
 
 (ol-leader-keys
@@ -147,6 +164,7 @@
   "pf" 'counsel-projectile-rg)
 
 (ol-override-key "M-q" 'projectile-find-file)
+(ol-define-key projectile-mode-map "C-c p" 'projectile-command-map)
 
 ;; ---------------------------------------------------------------------------
 ;; Git
@@ -160,12 +178,90 @@
   "gdm" 'ol-diff-file-main
   "gdh" 'ol-diff-file-head)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Merge Survival Knife
+;;;; ---------------------------------------------------------------------------
+
+(ol-global-define-key "C-c 6" 'msk-merge-survival-knife-start)
+(ol-global-define-key "C-c 7" 'msk-merge-survival-knife-stop)
+
+;; TODO Only bind if merging
+(ol-global-define-key "C-c 1" 'msk-base-local)
+(ol-global-define-key "C-c 2" 'msk-base-remote)
+(ol-global-define-key "C-c 3" 'msk-local-remote)
+(ol-global-define-key "C-c 4" 'msk-local-merged)
+(ol-global-define-key "C-c 5" 'msk-remote-merged)
+
 ;; ---------------------------------------------------------------------------
 ;; Org mode
 ;; ---------------------------------------------------------------------------
 
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
+
+;; ---------------------------------------------------------------------------
+;; Mac
+;; ---------------------------------------------------------------------------
+
+(when (ol-is-mac)
+  (setq mac-option-key-is-
+        mac-command-key-is-meta t
+        mac-command-modifier 'meta
+        mac-option-modifier 'n))
+
+;; ---------------------------------------------------------------------------
+;; Ivy and Counsel
+;; ---------------------------------------------------------------------------
+
+(ol-override-key "C-j" 'ivy-switch-buffer)
+(ol-global-define-key "C-x C-b" 'ivy-switch-buffer)
+
+(ol-define-key ivy-minibuffer-map "TAB" 'ivy-alt-done)
+(ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
+(ol-define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
+
+(ol-define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
+(ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
+
+(ol-global-define-key "M-x" 'counsel-M-x)
+(ol-global-define-key "C-x C-f" 'counsel-find-file)
+
+;; -----------------------------------------------------------------------------
+;; Terminal
+;; -----------------------------------------------------------------------------
+
+(evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
+(evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
+(evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
+
+;; Hack to do it like this. If done directly, error about prefix key.
+(defun ol-map-ctrl-c ()
+  (evil-define-key 'insert term-raw-map (kbd "C-c") 'term-send-raw))
+  
+(add-hook 'term-mode-hook 'ol-map-ctrl-c)
+
+;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
+;; RET seeems to become broken.
+;; (evil-define-key 'insert term-raw-map (kbd "C-m") 'help-command)
+
+;; -----------------------------------------------------------------------------
+;; Vdiff
+;; -----------------------------------------------------------------------------
+
+(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
+
+(define-key magit-mode-map "e" 'vdiff-magit-dwim)
+(define-key magit-mode-map "E" 'vdiff-magit)
+(transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
+(transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
+(transient-suffix-put 'magit-dispatch "E" :description "vdiff")
+(transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
+
+;; -----------------------------------------------------------------------------
+;; Dired
+;; -----------------------------------------------------------------------------
+
+(ol-global-define-key "C-x d" 'ol-dired)
 
 ;; ---------------------------------------------------------------------------
 ;; Misc
@@ -175,3 +271,5 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (ol-override-key "M-h" 'help-command)
+
+(global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)

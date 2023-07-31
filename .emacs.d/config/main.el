@@ -121,19 +121,12 @@
 (use-package general
   :after evil)
 
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-is-mac ()
   (string= system-type "darwin"))
-
-(when (ol-is-mac)
-  (setq mac-option-key-is-
-        mac-command-key-is-meta t
-        mac-command-modifier 'meta
-        mac-option-modifier 'n))
 
 ;; -----------------------------------------------------------------------------
 ;; User Interface
@@ -197,8 +190,7 @@
 (setq-default evil-shift-width tab-width)
 (setq-default indent-tabs-mode nil)
 
-(use-package evil-nerd-commenter
-  :bind ("M-/" . evilnc-comment-or-uncomment-lines))
+(use-package evil-nerd-commenter)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
@@ -255,17 +247,6 @@
 ;; -----------------------------------------------------------------------------
 
 (use-package ivy
-  :bind (("C-x C-b" . ivy-switch-buffer)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
   :config
   (setq ivy-height 20)
   (ivy-mode 1))
@@ -275,9 +256,7 @@
   :init
   (ivy-rich-mode 1))
 
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x C-f" . counsel-find-file)))
+(use-package counsel)
 
 ;; TODO: Maybe this can be solved by advising ivy-read instead. If
 ;; caller is ivy-switch-buffer, then change the preselect argument.
@@ -367,12 +346,6 @@
 
 (use-package company
   :after lsp-mode
-  :bind
-  (:map company-active-map
-        ("<return>" . company-abort)
-        ("<tab>" . company-complete-selection))
-  (:map prog-mode-map
-        ("<tab>" . company-indent-or-complete-common))
   :config
   (setq company-tooltip-align-annotations t)
   (setq company-dabbrev-minimum-length 2)
@@ -449,8 +422,6 @@
 (use-package projectile
   :after counsel
   :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
   :init
   (setq projectile-enable-caching t))
 
@@ -516,16 +487,6 @@
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
 ;;;; ---------------------------------------------------------------------------
-
-(global-set-key (kbd "C-c 6") 'msk-merge-survival-knife-start)
-(global-set-key (kbd "C-c 7") 'msk-merge-survival-knife-stop)
-
-;; TODO Only bind if merging
-(global-set-key (kbd "C-c 1") 'msk-base-local)
-(global-set-key (kbd "C-c 2") 'msk-base-remote)
-(global-set-key (kbd "C-c 3") 'msk-local-remote)
-(global-set-key (kbd "C-c 4") 'msk-local-merged)
-(global-set-key (kbd "C-c 5") 'msk-remote-merged)
 
 (defvar msk-state ())
 
@@ -670,10 +631,6 @@
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
-(evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
-(evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
-(evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
-
 (defun ol-disable-cursorline-for-terms ()
   (if (equal major-mode 'term-mode)
       (setq global-hl-line-mode nil)
@@ -687,16 +644,6 @@
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
 
-;; Hack to do it like this. If done directly, error about prefix key.
-(defun ol-map-ctrl-c ()
-  (evil-define-key 'insert term-raw-map (kbd "C-c") 'term-send-raw))
-  
-(add-hook 'term-mode-hook 'ol-map-ctrl-c)
-
-;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
-;; RET seeems to become broken.
-;; (evil-define-key 'insert term-raw-map (kbd "C-m") 'help-command)
-
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
@@ -706,7 +653,6 @@
 ;;;; ---------------------------------------------------------------------------
 
 (use-package vdiff)
-(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
 
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
@@ -736,13 +682,6 @@
 
 (use-package vdiff-magit
   :after (vdiff magit))
-
-(define-key magit-mode-map "e" 'vdiff-magit-dwim)
-(define-key magit-mode-map "E" 'vdiff-magit)
-(transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-(transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-(transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-(transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
@@ -876,8 +815,6 @@
 (defun ol-dired ()
   (interactive)
   (dired default-directory))
-
-(global-set-key (kbd "C-x d") 'ol-dired)
 
 ;; -----------------------------------------------------------------------------
 ;; Stuff that has to be in the end
