@@ -47,8 +47,6 @@
   (setq super-save-auto-save-when-idle t)
   (super-save-mode +1))
 
-(global-set-key (kbd "C-s") 'save-buffer)
-
 ;; Copied from https://emacs.stackexchange.com/a/30032
 (defmacro with-suppressed-message (&rest body)
   "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
@@ -98,83 +96,11 @@
   ;; Use C-u for scroll instead of universal argument  
   (setq evil-want-C-u-scroll t)
   :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (evil-mode 1))
 
-  ;; Window movement
-  (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
-  (define-key evil-normal-state-map (kbd "C-l") #'evil-window-right)
+(evil-set-initial-state 'messages-buffer-mode 'normal)
 
-  (defun ol-no-op ()
-    (interactive))
-
-  ;; No arrow keys
-  (define-key evil-normal-state-map (kbd "<left>") 'ol-no-op)
-  (define-key evil-normal-state-map (kbd "<right>") 'ol-no-op)
-  (define-key evil-normal-state-map (kbd "<down>") 'ol-no-op)
-  (define-key evil-normal-state-map (kbd "<up>") 'ol-no-op)
-
-  (define-key evil-insert-state-map (kbd "<left>") 'ol-no-op)
-  (define-key evil-insert-state-map (kbd "<right>") 'ol-no-op)
-  (define-key evil-insert-state-map (kbd "<down>") 'ol-no-op)
-  (define-key evil-insert-state-map (kbd "<up>") 'ol-no-op)
-
-  (evil-define-key 'insert term-raw-map (kbd "<left>") 'term-send-left)
-  (evil-define-key 'insert term-raw-map (kbd "<right>") 'term-send-right)
-  (evil-define-key 'insert term-raw-map (kbd "<down>") 'term-send-down)
-  (evil-define-key 'insert term-raw-map (kbd "<up>") 'term-send-up)
-
-  (evil-global-set-key 'motion (kbd "<left>") 'ol-no-op)
-  (evil-global-set-key 'motion (kbd "<right>") 'ol-no-op)
-  (evil-global-set-key 'motion (kbd "<down>") 'ol-no-op)
-  (evil-global-set-key 'motion (kbd "<up>") 'ol-no-op)
-
-  (define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
-
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-
-  (setq evil-insert-state-cursor 'box))
-
-;; Clean insert state (maybe a bad idea? But if so, I should use
-;; emacs keybindings in insert state instaed of vim's perhaps.)
-;; TODO: These do not play well with term-mode
-
-;; (let* ((letters '("a"
-;;                   "b"
-;;                ;; "c" Needed for magit commit confirm
-;;                   "d"
-;;                   "e"
-;;                   "f"
-;;                   "g"
-;;                ;; "h" Needed for help
-;;                   "i"
-;;                   "k"
-;;                   "l"
-;;                   "m"
-;;                   "n"
-;;                   "o"
-;;                   "p"
-;;                   "q"
-;;                   "r"
-;;                   "s"
-;;                   "t"
-;;                   "u"
-;;                   "v"
-;;                   "w"
-;;                   "x"
-;;                   "y"
-;;                   "z"))
-;;        (letter-ctrls (mapcar (lambda (char) (format "C-%s" char)) letters))
-;;        (other-keybinds '("C-@"
-;;                    "S-<left>"
-;;                    "S-<right>"
-;;                    "<delete>"
-;;                    "<insert>"))
-;;        (keybinds (append letter-ctrls other-keybinds)))
-;;   (dolist (keybind keybinds)
-;;     (evil-define-key 'insert 'global (kbd keybind) 'ol-no-op)))
-
-;; (evil-define-key 'insert 'global (kbd "<return>") 'newline)
+(setq evil-insert-state-cursor 'box)
 
 (with-eval-after-load 'evil
   (defalias #'forward-evil-word #'forward-evil-symbol)
@@ -188,22 +114,12 @@
 
 (evil-set-undo-system 'undo-redo)
 
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Leader
 ;;;; ---------------------------------------------------------------------------
 
 (use-package general
-  :after evil
-  :config
-  (general-create-definer ol-leader-keys
-    :keymaps '(normal insert visual emacs)
-    ;; prefix seems to mean, only define if not overriding something existing
-    :prefix "SPC"
-    ;; global-prefix seems to mean, always define
-    :global-prefix "C-SPC"))
+  :after evil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Overriding keys
@@ -345,16 +261,6 @@
         (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
-(ol-leader-keys
-  :keymaps 'visual
-  "R" '(ol-full-replace-visual-selection :which-key "replace full visual selection")
-  "r" '(ol-from-here-replace-visual-selection :which-key "replace from here visual selection"))
-
-(ol-leader-keys
-  :keymaps 'normal
-  "R" '(ol-full-replace-symbol :which-key "replace full symbol")
-  "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
-
 (use-package evil-visualstar)
 
 (global-evil-visualstar-mode)
@@ -456,9 +362,6 @@
 
 (use-package lsp-ivy
   :after lsp-mode)
-
-(ol-leader-keys
-  "ff" 'lsp-ivy-workspace-symbol)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Abbreviations (for completions)
@@ -591,11 +494,6 @@
 
 (call-interactively 'projectile-mode)
 
-(ol-leader-keys
-  "pp" 'projectile-switch-project
-  "pd" 'projectile-discover-projects-in-search-path
-  "pf" 'counsel-projectile-rg)
-
 ;; -----------------------------------------------------------------------------
 ;; Git
 ;; -----------------------------------------------------------------------------
@@ -605,10 +503,6 @@
 ;;;; ---------------------------------------------------------------------------
 
 (use-package magit)
-
-(ol-leader-keys
-  "gs" 'magit-status
-  "gb" 'magit-blame-addition)
 
 (set-face-attribute 'magit-blame-margin nil
                     :background "#e4e4e4")
@@ -640,10 +534,6 @@
 (defun ol-diff-head ()
   (interactive)
   (magit-diff-range "HEAD"))
-
-(ol-leader-keys
-  "gdM" 'ol-diff-main
-  "gdH" 'ol-diff-head)
 
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
@@ -802,9 +692,6 @@
                     (color-darken-name
                      (face-attribute 'default :background) 3))
 
-(ol-leader-keys
-  "os" 'org-babel-demarcate-block :which-key "split code block")
-
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
 ;; -----------------------------------------------------------------------------
@@ -920,10 +807,6 @@
          (file-main (magit--rev-file-name file "HEAD" rev-main))
          (buffer-main (msk--get-revision-buffer rev-main file-main)))
     (ol-diff-buffers buffer-main (current-buffer))))
-
-(ol-leader-keys
-  "gdm" 'ol-diff-file-main
-  "gdh" 'ol-diff-file-head)
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
