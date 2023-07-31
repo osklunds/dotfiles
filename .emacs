@@ -462,6 +462,30 @@
   "ff" 'lsp-ivy-workspace-symbol)
 
 ;;;;;; -------------------------------------------------------------------------
+;;;;;; Abbreviations (for completions)
+;;;;;; -------------------------------------------------------------------------
+
+;; Copied from https://stackoverflow.com/a/15389612
+(defadvice expand-abbrev (after my-expand-abbrev activate)
+   ;; if there was an expansion
+   (if ad-return-value
+       ;; start idle timer to ensure insertion of abbrev activator
+       ;; character (e.g. space) is finished
+       (run-with-idle-timer 0 nil
+                            (lambda ()
+                              ;; if there is the string "@@" in the
+                              ;; expansion then move cursor there and
+                              ;; delete the string
+                              (let ((cursor "@@"))
+                                (if (search-backward cursor last-abbrev-location t)
+                                    (delete-char (length cursor))))))))
+
+(define-abbrev-table 'global-abbrev-table
+  '(
+    ("qwerty" "test-abbreviation cursor before@@after")
+   ))
+
+;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
 
@@ -478,8 +502,7 @@
   (setq company-dabbrev-minimum-length 2)
   (setq company-dabbrev-other-buffers nil)
   :custom
-  ;; TODO Maybe group in a better way.
-  (company-backends '((company-capf :separate company-dabbrev)))
+  (company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
 
@@ -513,6 +536,11 @@
     (append original extra)))
 
 (advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
+
+(define-abbrev-table 'rust-mode-abbrev-table
+  '(
+    ("asdfg" "mode-spec-abbreviation@@test")
+   ))
 
 ;; -----------------------------------------------------------------------------
 ;; Theme and colors
