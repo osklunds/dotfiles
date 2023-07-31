@@ -475,31 +475,19 @@
         ("<tab>" . company-indent-or-complete-common))
   :config
   (setq company-tooltip-align-annotations t)
+  (setq company-dabbrev-minimum-length 2)
+  (setq company-dabbrev-other-buffers nil)
   :custom
   ;; TODO Maybe group in a better way.
-  ;; Add dabbrev
-  ;; Maybe switch to abbrev, because I only want simple stuff
-  (company-backends '((company-capf :separate company-yasnippet)))
+  (company-backends '((company-capf :separate company-dabbrev)))
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
 
-  (add-hook 'prog-mode-hook 'company-mode)
+(add-hook 'prog-mode-hook 'company-mode)
+
 (use-package company-box
   :after company
   :hook (company-mode . company-box-mode))
-
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Snippets
-;;;;;; -------------------------------------------------------------------------
-
-(use-package yasnippet)
-
-(use-package yasnippet-snippets
-  :after yasnippet)
-
-(yas-reload-all)
-
-(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Language specific
