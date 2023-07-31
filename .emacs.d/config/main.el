@@ -121,22 +121,6 @@
 (use-package general
   :after evil)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Overriding keys
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-override-key (key fun)
-  (progn
-    (general-define-key
-     :states '(normal emacs)
-     :keymaps 'override
-     key fun)
-    (general-define-key
-     :states 'insert
-     :keymaps 'term-raw-map
-     key fun)))
-
-(ol-override-key "M-h" 'help-command)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
@@ -197,14 +181,6 @@
 
 ;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
 ;;          display-buffer-same-window)))
-
-(defun ol-split-window ()
-  (interactive)
-  (split-window-right)
-  (evil-window-right 1))
-
-(ol-override-key "M-w" 'ol-split-window)
-(ol-override-key "M-e" 'delete-window)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
@@ -302,8 +278,6 @@
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)))
-
-(ol-override-key "C-j" 'ivy-switch-buffer)
 
 ;; TODO: Maybe this can be solved by advising ivy-read instead. If
 ;; caller is ivy-switch-buffer, then change the preselect argument.
@@ -489,8 +463,6 @@
   :after projectile)
 
 (setq ivy-more-chars-alist '((t . 1)))
-
-(ol-override-key "M-q" 'projectile-find-file)
 
 (call-interactively 'projectile-mode)
 

@@ -1,10 +1,29 @@
 
 ;; ---------------------------------------------------------------------------
-;; Misc
+;; Leader
 ;; ---------------------------------------------------------------------------
 
-;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(general-create-definer ol-leader-keys
+  :keymaps '(normal insert visual emacs)
+  ;; prefix seems to mean, only define if not overriding something existing
+  :prefix "SPC"
+  ;; global-prefix seems to mean, always define
+  :global-prefix "C-SPC")
+
+;;;; ---------------------------------------------------------------------------
+;;;; Overriding keys
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-override-key (key fun)
+  (progn
+    (general-define-key
+     :states '(normal emacs)
+     :keymaps 'override
+     key fun)
+    (general-define-key
+     :states 'insert
+     :keymaps 'term-raw-map
+     key fun)))
 
 ;; ---------------------------------------------------------------------------
 ;; Evil
@@ -84,17 +103,6 @@
 ;; (evil-define-key 'insert 'global (kbd "<return>") 'newline)
 
 ;; ---------------------------------------------------------------------------
-;; Leader
-;; ---------------------------------------------------------------------------
-
-(general-create-definer ol-leader-keys
-  :keymaps '(normal insert visual emacs)
-  ;; prefix seems to mean, only define if not overriding something existing
-  :prefix "SPC"
-  ;; global-prefix seems to mean, always define
-  :global-prefix "C-SPC")
-
-;; ---------------------------------------------------------------------------
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
 
@@ -107,6 +115,20 @@
   :keymaps 'normal
   "R" '(ol-full-replace-symbol :which-key "replace full symbol")
   "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
+
+;; ---------------------------------------------------------------------------
+;; Windows and buffers
+;; ---------------------------------------------------------------------------
+
+(defun ol-split-window ()
+  (interactive)
+  (split-window-right)
+  (evil-window-right 1))
+
+(ol-override-key "M-w" 'ol-split-window)
+(ol-override-key "M-e" 'delete-window)
+
+(ol-override-key "C-j" 'ivy-switch-buffer)
 
 ;; ---------------------------------------------------------------------------
 ;; LSP
@@ -123,6 +145,8 @@
   "pp" 'projectile-switch-project
   "pd" 'projectile-discover-projects-in-search-path
   "pf" 'counsel-projectile-rg)
+
+(ol-override-key "M-q" 'projectile-find-file)
 
 ;; ---------------------------------------------------------------------------
 ;; Git
@@ -143,3 +167,11 @@
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
+;; ---------------------------------------------------------------------------
+;; Misc
+;; ---------------------------------------------------------------------------
+
+;; Make ESC quit prompts
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(ol-override-key "M-h" 'help-command)
