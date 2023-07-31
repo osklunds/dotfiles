@@ -999,6 +999,7 @@
 (setq doom-modeline-env-version nil)
 (setq doom-modeline-minor-modes nil)
 (setq doom-modeline-lsp nil)
+(setq doom-modeline-highlight-modified-buffer-name nil)
 
 (dolist (face '(doom-modeline-evil-normal-state
                 doom-modeline-evil-insert-state
@@ -1061,7 +1062,6 @@
 - load-file-path instead of use-package
   - organize config file into main, keybinds and helpers funs
   - Can use this as inspiration: https://github.com/bling/dotemacs
-- Make unsaved file less obtrusive in the modeline, i.e. only * in front
 ")
 
 ;; Nice to haves
