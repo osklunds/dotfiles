@@ -7,7 +7,6 @@
 ;;;; Config Management
 ;;;; ---------------------------------------------------------------------------
 
-
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
 (setq vc-follow-symlinks t)
@@ -41,11 +40,10 @@
 ;; No ~ files
 (setq make-backup-files nil)
 
-(use-package super-save
-  :ensure t
-  :config
-  (setq super-save-auto-save-when-idle t)
-  (super-save-mode +1))
+(use-package super-save)
+
+(setq super-save-auto-save-when-idle t)
+(super-save-mode +1)
 
 ;; Copied from https://emacs.stackexchange.com/a/30032
 (defmacro with-suppressed-message (&rest body)
@@ -83,20 +81,16 @@
 ;;;; Evil
 ;;;; ---------------------------------------------------------------------------
 
-;; :init is run before the package is loaded, and that's needed for some packages and options.
-;;    :config is run after it has been loaded.
-
-(use-package evil
-  :init
 (setq evil-search-module 'evil-search)
-  ;; TODO find out why needed 
-  (setq evil-want-integration t)
-  ;; Use evil-collection instead for other packages
-  (setq evil-want-keybinding nil)
-  ;; Use C-u for scroll instead of universal argument  
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-mode 1))
+;; TODO find out why needed 
+(setq evil-want-integration t)
+;; Use evil-collection instead for other packages
+(setq evil-want-keybinding nil)
+;; Use C-u for scroll instead of universal argument  
+(setq evil-want-C-u-scroll t)
+
+(use-package evil)
+(evil-mode t)
 
 (evil-set-initial-state 'messages-buffer-mode 'normal)
 
@@ -106,20 +100,15 @@
   (defalias #'forward-evil-word #'forward-evil-symbol)
   (setq-default evil-symbol-word-search t))
 
-(use-package evil-collection
-  ;; :after means load this after evil has been loaded
-  :after evil
-  :config
-  (evil-collection-init))
-
+(use-package evil-collection)
+(evil-collection-init)
 (evil-set-undo-system 'undo-redo)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Leader
 ;;;; ---------------------------------------------------------------------------
 
-(use-package general
-  :after evil)
+(use-package general)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
@@ -164,9 +153,9 @@
 
 ;; Things here need to be improved and investigated
 
-(use-package balanced-windows
-  :config
-  (balanced-windows-mode))
+(use-package balanced-windows)
+
+(balanced-windows-mode)
 
 ;; Vertical splits
 (setq split-width-threshold 200)
@@ -179,8 +168,10 @@
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters)
+
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 
 ;; -----------------------------------------------------------------------------
 ;; Editing
@@ -237,26 +228,17 @@
 ;;;; Which Key
 ;;;; ---------------------------------------------------------------------------
 
-(use-package which-key
-  :config
-  (which-key-mode)
-  (setq which-key-idle-delay 2))
+(use-package which-key)
+(which-key-mode)
+(setq which-key-idle-delay 2)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
 
-(use-package ivy
-  :config
-  (setq ivy-height 20)
-  (ivy-mode 1))
-
-(use-package ivy-rich
-  :after (ivy counsel)
-  :init
-  (ivy-rich-mode 1))
-
-(use-package counsel)
+(use-package ivy)
+(setq ivy-height 20)
+(ivy-mode t)
 
 ;; TODO: Maybe this can be solved by advising ivy-read instead. If
 ;; caller is ivy-switch-buffer, then change the preselect argument.
@@ -273,6 +255,11 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
+(use-package counsel)
+
+(use-package ivy-rich)
+(ivy-rich-mode t)
+
 ;; -----------------------------------------------------------------------------
 ;; Languages
 ;; -----------------------------------------------------------------------------
@@ -285,36 +272,31 @@
 ;;;;;; LSP
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package lsp-mode
-  ;; TODO Use custom for all
-  :custom
-  (lsp-completion-provider :none)
-  :config
-  (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-modeline-code-actions-enable nil)
-  (setq lsp-modeline-diagnostics-enable nil)
-  (setq lsp-diagnostics-provider :none)
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-modeline-workspace-status-enable nil)
-  (setq lsp-lens-enable nil)
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-modeline-code-actions-enable nil)
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-modeline-diagnostics-enable nil)
-  (setq lsp-eldoc-enable-hover nil)
-  (setq lsp-signature-auto-activate nil)
-  )
+(use-package lsp-mode)
 
+(setq lsp-completion-provider :none)
+(setq lsp-enable-symbol-highlighting nil)
+(setq lsp-modeline-code-actions-enable nil)
+(setq lsp-modeline-diagnostics-enable nil)
+(setq lsp-diagnostics-provider :none)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-workspace-status-enable nil)
+(setq lsp-lens-enable nil)
+(setq lsp-ui-doc-enable nil)
+(setq lsp-headerline-breadcrumb-enable nil)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-code-actions-enable nil)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-diagnostics-enable nil)
+(setq lsp-eldoc-enable-hover nil)
+(setq lsp-signature-auto-activate nil)
 (setq flycheck-indication-mode nil)
 
 (setq lsp-log-io t)
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
 ;; TODO: Get functions from ivy-lsp
 
-(use-package lsp-ivy
-  :after lsp-mode)
+(use-package lsp-ivy)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Abbreviations (for completions)
@@ -344,22 +326,22 @@
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package company
-  :after lsp-mode
-  :config
-  (setq company-tooltip-align-annotations t)
-  (setq company-dabbrev-minimum-length 2)
-  (setq company-dabbrev-other-buffers nil)
-  :custom
-  (company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
+(use-package company)
+
+;; TODO: Set more things using customize instead of setq
+(customize-set-variable 'company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
+(customize-set-variable 'company-minimum-prefix-length 1)
+(customize-set-variable 'company-idle-delay 0.0)
+
+(setq company-tooltip-align-annotations t)
+(setq company-dabbrev-minimum-length 2)
+(setq company-dabbrev-other-buffers nil)
 
 (add-hook 'prog-mode-hook 'company-mode)
 
-(use-package company-box
-  :after company
-  :hook (company-mode . company-box-mode))
+(use-package company-box)
+
+(add-hook 'company-mode-hook 'company-box-mode)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Language specific
@@ -371,14 +353,15 @@
 
 (use-package haskell-mode)
 
-(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-mode-hook 'lsp)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Rust
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package rust-mode
-  :hook (rust-mode . lsp))
+(use-package rust-mode)
+
+(add-hook 'rust-mode-hook 'lsp)
 
 (defun ol-lsp-rust-analyzer--make-init-options (original)
   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
@@ -415,23 +398,21 @@
 ;; Projectile
 ;; -----------------------------------------------------------------------------
 
-  (if (ol-is-mac)
-      (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2)))
-    (setq projectile-project-search-path '(("~/repos" . 2))))
+(if (ol-is-mac)
+    (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2)))
+  (setq projectile-project-search-path '(("~/repos" . 2))))
 
-(use-package projectile
-  :after counsel
-  :custom ((projectile-completion-system 'ivy))
-  :init
-  (setq projectile-enable-caching t))
+(setq projectile-enable-caching t)
+
+(use-package projectile)
+
+(customize-set-variable 'projectile-completion-system 'ivy)
 
 (setq projectile-switch-project-action 'projectile-commander)
 
-(use-package counsel-projectile
-  :after (projectile counsel))
+(use-package counsel-projectile)
 
-(use-package projectile-ripgrep
-  :after projectile)
+(use-package projectile-ripgrep)
 
 (setq ivy-more-chars-alist '((t . 1)))
 
@@ -614,9 +595,9 @@
 ;; Org mode
 ;; -----------------------------------------------------------------------------
 
-(use-package org
-  :config
-  (setq org-ellipsis " ▾"))
+(use-package org)
+
+(setq org-ellipsis " ▾")
 
 (setq org-src-preserve-indentation t)
 (setq org-edit-src-content-indentation 0)
@@ -680,8 +661,7 @@
 ;;;; Magit integration
 ;;;; ---------------------------------------------------------------------------
 
-(use-package vdiff-magit
-  :after (vdiff magit))
+(use-package vdiff-magit)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
@@ -771,9 +751,8 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-(use-package doom-modeline
-  :init
-  (doom-modeline-mode 1))
+(doom-modeline-mode t)
+(use-package doom-modeline)
 
 (doom-modeline-def-segment proj-name
   (concat
