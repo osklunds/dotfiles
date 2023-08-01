@@ -289,6 +289,8 @@
                                 (if (search-backward cursor last-abbrev-location t)
                                     (delete-char (length cursor))))))))
 
+(setq save-abbrevs 'silently)
+
 (define-abbrev-table 'global-abbrev-table
   '(
     ("qwerty" "test-abbreviation cursor before@@after")
