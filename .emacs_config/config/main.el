@@ -40,6 +40,9 @@
 ;; change all prompts to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Silence compiler warnings as they can be pretty disruptive
+(setq native-comp-async-report-warnings-errors nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
