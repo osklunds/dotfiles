@@ -3,5 +3,5 @@
 
 (dolist (file '("main"
                 "key_bindings"))
-  (let ((path (concat user-emacs-directory "config/" file ".el")))
+  (let ((path (concat "~/.emacs_config/config/" file ".el")))
     (load path)))
