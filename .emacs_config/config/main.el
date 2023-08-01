@@ -751,8 +751,8 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-(doom-modeline-mode t)
 (use-package doom-modeline)
+(doom-modeline-mode t)
 
 (doom-modeline-def-segment proj-name
   (concat
