@@ -46,8 +46,10 @@ dotfiles I use
 - lines around cursorline
 - Merge Survival Knife
 - clean up all messy keybindings into a separete file
-- C-k in normal empties line
+- Keybind in normal empties line
+- C-k in normal is like C-6 but continues to go backwards
 - json optimization for LSP
+- Move color configs to separate file
 
 ** VIM todos
 
