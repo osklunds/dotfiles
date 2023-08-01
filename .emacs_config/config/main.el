@@ -153,7 +153,7 @@
 (setq-default evil-shift-width tab-width)
 (setq-default indent-tabs-mode nil)
 
-(set-fill-column 80)
+(setq-default fill-column 80)
 
 (ol-require 'evil-nerd-commenter)
 
