@@ -199,6 +199,9 @@
 (ol-leader-keys
   "os" 'org-babel-demarcate-block :which-key "split code block")
 
+(evil-define-key 'visual org-mode-map (kbd "g q") 'org-fill-paragraph)
+(evil-define-key 'normal org-mode-map (kbd "g q q") 'org-fill-paragraph)
+
 ;; ---------------------------------------------------------------------------
 ;; Mac
 ;; ---------------------------------------------------------------------------
