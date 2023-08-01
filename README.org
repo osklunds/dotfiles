@@ -52,6 +52,11 @@ dotfiles I use
 - Move color configs to separate file
 - vdiff
   - make it smoother
+- terminal
+  - C-y for paste
+  - Move somewhere else in insert mode
+- alt-ret for continuing list also outside org-mode
+    
 
 ** VIM todos
 
