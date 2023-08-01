@@ -1,37 +1,6 @@
-
 ;; -----------------------------------------------------------------------------
 ;; General
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Config Management
-;;;; ---------------------------------------------------------------------------
-
-(setq custom-file (concat user-emacs-directory "/custom.el"))
-
-(setq vc-follow-symlinks t)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Package Management
-;;;; ---------------------------------------------------------------------------
-
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
-
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-
-(require 'use-package)
-(setq use-package-always-ensure t)
-
-;; Initialize package sources
-(require 'package)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; File Management
@@ -40,10 +9,10 @@
 ;; No ~ files
 (setq make-backup-files nil)
 
-(use-package super-save)
+(ol-require 'super-save)
 
 (setq super-save-auto-save-when-idle t)
-(super-save-mode +1)
+(super-save-mode t)
 
 ;; Copied from https://emacs.stackexchange.com/a/30032
 (defmacro with-suppressed-message (&rest body)
@@ -89,7 +58,7 @@
 ;; Use C-u for scroll instead of universal argument  
 (setq evil-want-C-u-scroll t)
 
-(use-package evil)
+(ol-require 'evil)
 (evil-mode t)
 
 (evil-set-initial-state 'messages-buffer-mode 'normal)
@@ -100,7 +69,7 @@
   (defalias #'forward-evil-word #'forward-evil-symbol)
   (setq-default evil-symbol-word-search t))
 
-(use-package evil-collection)
+(ol-require 'evil-collection)
 (evil-collection-init)
 (evil-set-undo-system 'undo-redo)
 
@@ -108,7 +77,7 @@
 ;;;; Leader
 ;;;; ---------------------------------------------------------------------------
 
-(use-package general)
+(ol-require 'general)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
@@ -153,7 +122,7 @@
 
 ;; Things here need to be improved and investigated
 
-(use-package balanced-windows)
+(ol-require 'balanced-windows)
 
 (balanced-windows-mode)
 
@@ -168,7 +137,7 @@
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(use-package rainbow-delimiters)
+(ol-require 'rainbow-delimiters)
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
@@ -181,7 +150,7 @@
 (setq-default evil-shift-width tab-width)
 (setq-default indent-tabs-mode nil)
 
-(use-package evil-nerd-commenter)
+(ol-require 'evil-nerd-commenter)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
@@ -220,7 +189,7 @@
         (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
-(use-package evil-visualstar)
+(ol-require 'evil-visualstar)
 
 (global-evil-visualstar-mode)
 
@@ -228,7 +197,7 @@
 ;;;; Which Key
 ;;;; ---------------------------------------------------------------------------
 
-(use-package which-key)
+(ol-require 'which-key)
 (which-key-mode)
 (setq which-key-idle-delay 2)
 
@@ -236,7 +205,7 @@
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
 
-(use-package ivy)
+(ol-require 'ivy)
 (setq ivy-height 20)
 (ivy-mode t)
 
@@ -255,9 +224,9 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
-(use-package counsel)
+(ol-require 'counsel)
 
-(use-package ivy-rich)
+(ol-require 'ivy-rich)
 (ivy-rich-mode t)
 
 ;; -----------------------------------------------------------------------------
@@ -272,7 +241,7 @@
 ;;;;;; LSP
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package lsp-mode)
+(ol-require 'lsp-mode)
 
 (setq lsp-completion-provider :none)
 (setq lsp-enable-symbol-highlighting nil)
@@ -296,7 +265,7 @@
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
 ;; TODO: Get functions from ivy-lsp
 
-(use-package lsp-ivy)
+(ol-require 'lsp-ivy)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Abbreviations (for completions)
@@ -326,7 +295,7 @@
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package company)
+(ol-require 'company)
 
 ;; TODO: Set more things using customize instead of setq
 (customize-set-variable 'company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
@@ -339,7 +308,7 @@
 
 (add-hook 'prog-mode-hook 'company-mode)
 
-(use-package company-box)
+(ol-require 'company-box)
 
 (add-hook 'company-mode-hook 'company-box-mode)
 
@@ -351,7 +320,7 @@
 ;;;;;; Haskell
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package haskell-mode)
+(ol-require 'haskell-mode)
 
 (add-hook 'haskell-mode-hook 'lsp)
 
@@ -359,7 +328,7 @@
 ;;;;;; Rust
 ;;;;;; -------------------------------------------------------------------------
 
-(use-package rust-mode)
+(ol-require 'rust-mode)
 
 (add-hook 'rust-mode-hook 'lsp)
 
@@ -378,7 +347,7 @@
 ;; Theme and colors
 ;; -----------------------------------------------------------------------------
 
-(use-package doom-themes)
+(ol-require 'doom-themes)
 (load-theme 'doom-one-light t)
 
 ;;Helper for completely copying another face.
@@ -404,15 +373,15 @@
 
 (setq projectile-enable-caching t)
 
-(use-package projectile)
+(ol-require 'projectile)
 
 (customize-set-variable 'projectile-completion-system 'ivy)
 
 (setq projectile-switch-project-action 'projectile-commander)
 
-(use-package counsel-projectile)
+(ol-require 'counsel-projectile)
 
-(use-package projectile-ripgrep)
+(ol-require 'projectile-ripgrep)
 
 (setq ivy-more-chars-alist '((t . 1)))
 
@@ -426,7 +395,8 @@
 ;;;; Magit
 ;;;; ---------------------------------------------------------------------------
 
-(use-package magit)
+(ol-require 'magit)
+(ol-require 'magit-blame)
 
 (set-face-attribute 'magit-blame-margin nil
                     :background "#e4e4e4")
@@ -595,7 +565,8 @@
 ;; Org mode
 ;; -----------------------------------------------------------------------------
 
-(use-package org)
+(ol-require 'org)
+(ol-require 'org-faces)
 
 (setq org-ellipsis " ▾")
 
@@ -633,7 +604,7 @@
 ;;;; General
 ;;;; ---------------------------------------------------------------------------
 
-(use-package vdiff)
+(ol-require 'vdiff)
 
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
@@ -661,7 +632,7 @@
 ;;;; Magit integration
 ;;;; ---------------------------------------------------------------------------
 
-(use-package vdiff-magit)
+(ol-require 'vdiff-magit)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
@@ -751,7 +722,7 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-(use-package doom-modeline)
+(ol-require 'doom-modeline)
 (doom-modeline-mode t)
 
 (doom-modeline-def-segment proj-name
