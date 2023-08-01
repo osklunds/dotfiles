@@ -23,6 +23,7 @@ dotfiles I use
   - in status buffer, only diff HEAD and working tree
   - When commiting, etc, use a default layout with status to the left,
     and msg to the right, as if it was executed in the left buffer
+  - Make vdiff work for status buffer
 - Programming languages
   - LSP search for functions
   - Haskell tags
@@ -49,6 +50,8 @@ dotfiles I use
 - C-k in normal is like C-6 but continues to go backwards
 - json optimization for LSP
 - Move color configs to separate file
+- vdiff
+  - make it smoother
 
 ** VIM todos
 
