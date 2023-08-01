@@ -1,0 +1,59 @@
+
+* dotfiles
+
+dotfiles I use
+
+** Emacs todos
+
+*** Must have
+
+*** Nice to have
+
+- text width to 80
+- windows
+  - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
+  - right now is kind of working, but better to make an explicit function for the behavior I want
+- space leader in dired
+- Disable most keys in insert mode, but ctrl-d, ctrl-x-e should work
+- Use e.g. Ctrl-left to move MRU buffers
+- find a way to not move cursor in term mode when going to insert mode
+- Switch to vertico/consult/marginella
+  - Will fix LSP search for functions
+  - Will fix live preview of ripgrep results
+- magit
+  - in status buffer, only diff HEAD and working tree
+  - When commiting, etc, use a default layout with status to the left,
+    and msg to the right, as if it was executed in the left buffer
+- Programming languages
+  - LSP search for functions
+  - Haskell tags
+  - Rust tags
+  - Improve/streamline company or other completion
+  - Maybe if possible: company mode only in source blocks
+- Company mode
+  - no icons
+- evil
+  - Make magit ? show bindings for evil mode
+  - Exit visual mode when search replace is done
+- ivy
+  - In switch buffer, find file, ripgrep, split selection to a new window
+- Org mode
+  - Images
+  - Charts
+  - References to other sections
+- Use built-in modeline
+  - Simplify the modeline a lot, and have a status command that instead show those details
+- lines around cursorline
+- Merge Survival Knife
+- clean up all messy keybindings into a separete file
+- C-k in normal empties line
+- json optimization for LSP
+
+** VIM todos
+
+*** Wanted, but hard to do
+
+- Box around the cursorline, like VSCode
+- Conflict markers highlight all the way to the left and right edges, like VSCode, and like e.g. CursorLine and DiffAdd
+- Better diff, like Gerrit
+-  line numbers also in terminal mode
