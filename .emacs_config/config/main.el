@@ -146,12 +146,14 @@
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 
 ;; -----------------------------------------------------------------------------
-;; Editing
+;; Text editing
 ;; -----------------------------------------------------------------------------
 
 (setq-default tab-width 4)
 (setq-default evil-shift-width tab-width)
 (setq-default indent-tabs-mode nil)
+
+(set-fill-column 80)
 
 (ol-require 'evil-nerd-commenter)
 
