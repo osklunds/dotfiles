@@ -370,6 +370,8 @@
     (set-face-attribute 'default nil :height 110)
   (set-face-attribute 'default nil :height 90))
 
+(set-face-attribute 'default nil :foreground "#000000" :background "#ffffff")
+
 ;; -----------------------------------------------------------------------------
 ;; Projectile
 ;; -----------------------------------------------------------------------------
@@ -602,6 +604,10 @@
 
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
+
+;; TODO> Do this:
+;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
+(ol-copy-face-attribute 'term-color-black 'default)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
