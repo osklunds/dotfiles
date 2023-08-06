@@ -305,7 +305,11 @@
 (ol-require 'company)
 
 ;; TODO: Set more things using customize instead of setq
-(customize-set-variable 'company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
+(customize-set-variable 'company-backends '((company-abbrev
+                                             :separate
+                                             company-capf
+                                             :separate
+                                             company-dabbrev-code))) ;; TODO make sure - is included for lisp
 (customize-set-variable 'company-minimum-prefix-length 1)
 (customize-set-variable 'company-idle-delay 0.0)
 (customize-set-variable 'company-selection-wrap-around t)
