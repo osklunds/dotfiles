@@ -308,7 +308,7 @@
 (customize-set-variable 'company-backends '((company-abbrev :separate company-capf :separate company-dabbrev)))
 (customize-set-variable 'company-minimum-prefix-length 1)
 (customize-set-variable 'company-idle-delay 0.0)
-
+(customize-set-variable 'company-selection-wrap-around t)
 (setq company-tooltip-align-annotations t)
 (setq company-dabbrev-minimum-length 2)
 (setq company-dabbrev-other-buffers nil)
