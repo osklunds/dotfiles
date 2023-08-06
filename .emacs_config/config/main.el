@@ -596,6 +596,8 @@
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
+(require 'term)
+
 (defun ol-disable-cursorline-for-terms ()
   (if (equal major-mode 'term-mode)
       (setq global-hl-line-mode nil)
