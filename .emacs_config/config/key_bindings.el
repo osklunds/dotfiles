@@ -149,10 +149,8 @@
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
 
-(ol-define-key company-active-map "<esc>" 'company-abort)
-(ol-define-key company-active-map "<return>" 'company-complete-selection)
-(ol-define-key company-active-map "<tab>" 'company-select-next)
-(ol-define-key company-active-map "<backtab>" 'company-select-previous)
+(ol-define-key company-active-map "<return>" 'company-abort)
+(ol-define-key company-active-map "<tab>" 'company-complete-selection)
 
 (ol-define-key prog-mode-map "<tab>" 'company-indent-or-complete-common)
 
@@ -221,7 +219,7 @@
 (ol-override-key "C-j" 'ivy-switch-buffer)
 (ol-global-define-key "C-x C-b" 'ivy-switch-buffer)
 
-(ol-define-key ivy-minibuffer-map "RET" 'ivy-alt-done)
+(ol-define-key ivy-minibuffer-map "TAB" 'ivy-alt-done)
 (ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
 (ol-define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
 
