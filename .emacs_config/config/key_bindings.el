@@ -161,6 +161,7 @@
 (ol-leader-keys
   "pp" 'projectile-switch-project
   "pd" 'projectile-discover-projects-in-search-path
+  "pr" 'projectile-invalidate-cache
   "pf" 'counsel-projectile-rg)
 
 (ol-override-key "M-q" 'projectile-find-file)
