@@ -666,12 +666,19 @@
 ;;;; Colors
 ;;;; ---------------------------------------------------------------------------
 
-;; TODO: Only copy background
-(ol-copy-face-attribute 'vdiff-addition-face 'magit-diff-added)
-(ol-copy-face-attribute 'vdiff-refine-added 'magit-diff-added-highlight)
-(ol-copy-face-attribute 'vdiff-change-face 'magit-diff-base)
-(ol-copy-face-attribute 'vdiff-refine-changed 'magit-diff-base-highlight)
-(ol-copy-face-attribute 'vdiff-subtraction-face 'magit-diff-removed)
+(defun ol-vdiff-set-face (face-to-set face-to-copy-from)
+  (let ((face-val (face-attribute face-to-copy-from :background)))
+    (set-face-attribute face-to-set nil
+                        :inherit nil
+                        :background face-val
+                        :foreground nil)))
+
+(ol-vdiff-set-face 'vdiff-addition-face 'magit-diff-added-highlight)
+(ol-vdiff-set-face 'vdiff-refine-added 'magit-diff-added-highlight)
+(ol-vdiff-set-face 'vdiff-change-face 'magit-diff-base)
+(ol-vdiff-set-face 'vdiff-refine-changed 'magit-diff-base-highlight)
+(ol-vdiff-set-face 'vdiff-subtraction-face 'magit-diff-removed)
+
 (ol-copy-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
 ;;;; ---------------------------------------------------------------------------
