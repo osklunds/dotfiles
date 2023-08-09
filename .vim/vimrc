@@ -154,8 +154,6 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
 " Windows
-noremap <C-j> <C-W>j
-noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
@@ -239,6 +237,7 @@ set noswapfile
 let g:ctrlp_switch_buffer = ''
 let g:ctrlp_max_height = 20
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1'
 
 if executable('rg')
     set grepprg=rg\ --color=never
@@ -248,8 +247,9 @@ endif
 
 " Key bindings
 let g:ctrlp_cmd = 'CtrlPBuffer'
+let g:ctrlp_map = '<c-j>'
 nnoremap <leader>o :CtrlPBuffer<cr>
-tnoremap <C-p> <C-w>:CtrlPBuffer<cr>
+tnoremap <C-j> <C-w>:CtrlPBuffer<cr>
 
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("k")': ['<c-k>', '<c-p>'],
@@ -486,8 +486,6 @@ endfunction
 augroup TermButNotFzf
     au!
     " TODO: Make a function for this
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-j> <C-W>j
-    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-k> <C-W>k
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-h> <C-W>h
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-l> <C-W>l
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <Esc><Esc> <C-W>N
