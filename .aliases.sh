@@ -47,6 +47,7 @@ alias ra='source ~/.bashrc'
 
 # Editors
 alias e='vim'
+alias em='emacs-gtk &'
 
 # Cargo
 alias cb='cargo build'
