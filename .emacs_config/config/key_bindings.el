@@ -252,7 +252,9 @@
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
 
-(define-key vdiff-mode-map (kbd "C-c") vdiff-mode-prefix-map)
+(ol-define-key vdiff-mode-map "C-c" vdiff-mode-prefix-map)
+(ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
+(ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 
 (define-key magit-mode-map "e" 'vdiff-magit-dwim)
 (define-key magit-mode-map "E" 'vdiff-magit)
