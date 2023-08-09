@@ -7,7 +7,6 @@ export GREP_OPTIONS='--color=always'
 
 export DOTFILES_REPO="$HOME/dotfiles"
 export PATH="$DOTFILES_REPO/scripts:$PATH"
-export PATH="$HOME/repos/personal/config/scripts:$PATH"
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
