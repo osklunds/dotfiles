@@ -376,6 +376,9 @@
 
 (set-face-attribute 'default nil :foreground "#000000" :background "#ffffff")
 
+(set-face-attribute 'font-lock-comment-face nil :foreground "#50a14f")
+(set-face-attribute 'font-lock-string-face nil :foreground "#d78700")
+
 ;; -----------------------------------------------------------------------------
 ;; Projectile
 ;; -----------------------------------------------------------------------------
