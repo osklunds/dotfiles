@@ -276,4 +276,7 @@
 
 (ol-override-key "M-h" 'help-command)
 
+(ol-leader-keys
+  "er" 'eval-region)
+
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
