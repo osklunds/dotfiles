@@ -129,12 +129,14 @@
 
 (balanced-windows-mode)
 
-;; Vertical splits
-(setq split-width-threshold 200)
-(setq split-height-threshold nil)
+(defun ol-split-window-sensibly (&optional window)
+    (interactive)
+    (let ((window (or window (selected-window))))
+        (and (= 1 (count-windows))
+                 (with-selected-window window
+                     (split-window-right)))))
 
-;; (add-to-list 'display-buffer-alist '("" (display-buffer-reuse-window
-;;          display-buffer-same-window)))
+(setq split-window-preferred-function #'ol-split-window-sensibly)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc

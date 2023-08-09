@@ -9,9 +9,6 @@ dotfiles I use
 
 *** Nice to have
 
-- windows
-  - window split function, so that always uses two windows, or same number as already shown. Or size all windows to same size.
-  - right now is kind of working, but better to make an explicit function for the behavior I want
 - space leader in dired
 - Disable most keys in insert mode, but ctrl-d, ctrl-x-e should work
 - Use e.g. Ctrl-left to move MRU buffers
