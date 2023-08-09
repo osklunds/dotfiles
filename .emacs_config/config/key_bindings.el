@@ -124,11 +124,15 @@
 
 (defun ol-split-window ()
   (interactive)
+  (switch-to-buffer-other-window (current-buffer)))
+
+(defun ol-force-split-window ()
+  (interactive)
   (split-window-right)
   (evil-window-right 1))
 
 (ol-override-key "M-w" 'ol-split-window)
-(ol-override-key "M-e" 'delete-window)
+(ol-override-key "M-e" 'ol-force-split-window)
 
 ;; -----------------------------------------------------------------------------
 ;; Languages
