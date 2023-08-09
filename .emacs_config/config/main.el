@@ -658,8 +658,6 @@
    buffer-b)
   (other-window 1))
 
-(setc vdiff-2way-layout-function 'vdiff-2way-layout-function-default)
-
 (advice-add 'vdiff-buffers :after (lambda (&rest r)
                                     (other-window 1)))
                                              
