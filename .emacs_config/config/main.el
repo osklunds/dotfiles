@@ -1,6 +1,14 @@
+
 ;; -----------------------------------------------------------------------------
 ;; General
 ;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Helpers
+;;;; ---------------------------------------------------------------------------
+
+(defmacro setc (var val)
+  `(customize-set-variable ',var ,val))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; File Management
@@ -633,7 +641,7 @@
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
 
-(setq vdiff-fold-padding 10)
+(setc vdiff-fold-padding 10)
 
 (defun ol-vdiff-fold-string (n-lines first-line-text width)
   (format "   %d lines\n" n-lines))
