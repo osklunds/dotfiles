@@ -123,8 +123,6 @@
 ;;;; Windows and buffers
 ;;;; ---------------------------------------------------------------------------
 
-;; Things here need to be improved and investigated
-
 (ol-require 'balanced-windows)
 
 (balanced-windows-mode)
