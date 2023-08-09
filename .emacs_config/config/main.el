@@ -688,7 +688,7 @@
 
 (ol-require 'vdiff-magit)
 
-(customize-set-variable 'vdiff-magit-dwim-show-on-hunks t)
+(setc vdiff-magit-stage-is-2way t)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
