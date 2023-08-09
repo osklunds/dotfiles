@@ -670,6 +670,7 @@
   (let ((face-val (face-attribute face-to-copy-from :background)))
     (set-face-attribute face-to-set nil
                         :inherit nil
+                        :extend t
                         :background face-val
                         :foreground nil)))
 
