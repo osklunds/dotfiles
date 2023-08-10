@@ -282,7 +282,12 @@
 
 (ol-override-key "M-h" 'help-command)
 
+(defun ol-eval-region ()
+  (interactive)
+  (call-interactively 'eval-region)
+  (message "eval-region"))
+
 (ol-leader-keys
-  "er" 'eval-region)
+  "er" 'ol-eval-region)
 
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
