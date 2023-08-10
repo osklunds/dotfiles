@@ -368,24 +368,6 @@
 
 (ol-require 'doom-themes)
 
-;;Helper for completely copying another face.
-
-;; TODO: unset all properties (foreground etc...) the proper way
-(defun ol-copy-face-attribute (face-to-set face-to-copy-from)
-  (set-face-attribute face-to-set nil
-                      :inherit face-to-copy-from
-                      :foreground nil
-                      :background nil))
-
-(if (ol-is-mac)
-    (set-face-attribute 'default nil :height 110)
-  (set-face-attribute 'default nil :height 90))
-
-(set-face-attribute 'default nil :foreground "#000000" :background "#ffffff")
-
-(set-face-attribute 'font-lock-comment-face nil :foreground "#50a14f")
-(set-face-attribute 'font-lock-string-face nil :foreground "#d78700")
-
 ;; -----------------------------------------------------------------------------
 ;; Projectile
 ;; -----------------------------------------------------------------------------
@@ -422,9 +404,6 @@
 
 (ol-require 'magit)
 (ol-require 'magit-blame)
-
-(set-face-attribute 'magit-blame-margin nil
-                    :background "#e4e4e4")
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
@@ -598,10 +577,6 @@
 (setq org-src-preserve-indentation t)
 (setq org-edit-src-content-indentation 0)
 
-(set-face-attribute 'org-block nil :background
-                    (color-darken-name
-                     (face-attribute 'default :background) 3))
-
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
 ;; -----------------------------------------------------------------------------
@@ -622,10 +597,6 @@
 
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
-
-;; TODO> Do this:
-;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
-(ol-copy-face-attribute 'term-color-black 'default)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
@@ -655,26 +626,6 @@
 
 (defun ol-vdiff-buffers-kill-only-leftmost (buffer-a buffer-b)
   (vdiff-buffers buffer-a buffer-b nil 'ol-diff-on-quit t nil))
-
-;;;; ---------------------------------------------------------------------------
-;;;; Colors
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-vdiff-set-face (face-to-set face-to-copy-from)
-  (let ((face-val (face-attribute face-to-copy-from :background)))
-    (set-face-attribute face-to-set nil
-                        :inherit nil
-                        :extend t
-                        :background face-val
-                        :foreground nil)))
-
-(ol-vdiff-set-face 'vdiff-addition-face 'magit-diff-added-highlight)
-(ol-vdiff-set-face 'vdiff-refine-added 'magit-diff-added-highlight)
-(ol-vdiff-set-face 'vdiff-change-face 'magit-diff-base)
-(ol-vdiff-set-face 'vdiff-refine-changed 'magit-diff-base-highlight)
-(ol-vdiff-set-face 'vdiff-subtraction-face 'magit-diff-removed)
-
-(ol-copy-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit integration
@@ -762,34 +713,6 @@
 
 (advice-add 'ediff-quit :around #'disable-y-or-n-p)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Colors
-;;;; ---------------------------------------------------------------------------
-
-;; These actually made some more sense once I understood them. In ediff, there's a "current"
-;; diff, and "other" diffs. The currently selected diff is highlighted using these
-;; "current" faces below. The non-selected other diffs are highlighted alternatingly
-;;with the odd and even faces.
-
-(ol-copy-face-attribute 'ediff-current-diff-A        'magit-diff-removed)
-(ol-copy-face-attribute 'ediff-current-diff-B        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-current-diff-C        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-current-diff-Ancestor 'magit-diff-base)
-
-(ol-copy-face-attribute 'ediff-fine-diff-A        'magit-diff-removed-highlight)
-(ol-copy-face-attribute 'ediff-fine-diff-B        'magit-diff-added-highlight)
-(ol-copy-face-attribute 'ediff-fine-diff-C        'magit-diff-added-highlight)
-(ol-copy-face-attribute 'ediff-fine-diff-Ancestor 'magit-diff-base-highlight)
-
-(ol-copy-face-attribute 'ediff-even-diff-A        'magit-diff-removed)
-(ol-copy-face-attribute 'ediff-even-diff-B        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-even-diff-C        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-even-diff-Ancestor 'magit-diff-base)
-
-(ol-copy-face-attribute 'ediff-odd-diff-A        'magit-diff-removed)
-(ol-copy-face-attribute 'ediff-odd-diff-B        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-odd-diff-C        'magit-diff-added)
-(ol-copy-face-attribute 'ediff-odd-diff-Ancestor 'magit-diff-base)
 
 ;; -----------------------------------------------------------------------------
 ;; Modeline
@@ -818,12 +741,6 @@
 (setq doom-modeline-lsp nil)
 (setq doom-modeline-highlight-modified-buffer-name nil)
 
-(dolist (face '(doom-modeline-evil-normal-state
-                doom-modeline-evil-insert-state
-                doom-modeline-evil-visual-state
-                doom-modeline-evil-emacs-state))
-  (set-face-attribute face nil :weight 'bold))
-
 ;; -----------------------------------------------------------------------------
 ;; Dired
 ;; -----------------------------------------------------------------------------
@@ -839,20 +756,6 @@
 (defun ol-dired ()
   (interactive)
   (dired default-directory))
-
-;; -----------------------------------------------------------------------------
-;; Stuff that has to be in the end
-;; -----------------------------------------------------------------------------
-
-(set-face-attribute 'mode-line nil
-                    :background "#D7E4E8"
-                    :overline nil
-                    :underline nil)
-
-(set-face-attribute 'mode-line-inactive nil
-                    :background "#E9EDED"
-                    :overline nil
-                    :underline nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Helpers
