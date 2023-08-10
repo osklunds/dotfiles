@@ -650,7 +650,6 @@
 
 (advice-add 'vdiff-buffers :after (lambda (&rest r)
                                     (other-window 1)))
-                                             
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Colors
