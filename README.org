@@ -44,7 +44,6 @@ dotfiles I use
   - Exit visual mode when search replace is done
 - Move color configs to separate file
 - alt-ret for continuing list also outside org-mode
-    
 
 ** VIM todos
 
