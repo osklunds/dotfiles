@@ -651,6 +651,12 @@
 (advice-add 'vdiff-buffers :after (lambda (&rest r)
                                     (other-window 1)))
 
+(defun ol-diff-on-quit (buffer-a buffer-b)
+  (kill-buffer buffer-a))
+
+(defun ol-vdiff-buffers-kill-only-leftmost (buffer-a buffer-b)
+  (vdiff-buffers buffer-a buffer-b nil 'ol-diff-on-quit t nil))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Colors
 ;;;; ---------------------------------------------------------------------------
@@ -679,22 +685,45 @@
 
 (setc vdiff-magit-stage-is-2way t)
 
+;; Copy of vdiff, but modified to use ol-vdiff-buffers-kill-only-leftmost
+(defun ol-vdiff-magit-show-working-tree (file)
+  (interactive
+   (list (magit-read-file-choice "Show changes in file"
+                                 (magit-changed-files "HEAD")
+                                 "No changed files")))
+  (magit-with-toplevel
+    (ol-vdiff-buffers-kill-only-leftmost
+     (or (magit-get-revision-buffer "HEAD" file)
+         (magit-find-file-noselect "HEAD" file))
+     (or (get-file-buffer file) (find-file-noselect file)))))
+
+(advice-add 'vdiff-magit-show-working-tree :override #'ol-vdiff-magit-show-working-tree)
+
+;; Copy of vdiff, but modified to use ol-vdiff-buffers-kill-only-leftmost
+(defun ol-vdiff-magit-show-unstaged (file)
+  (interactive
+   (list (magit-read-file-choice "Show unstaged changes for file"
+                                 (magit-unstaged-files)
+                                 "No unstaged files")))
+  (magit-with-toplevel
+    (ol-vdiff-buffers-kill-only-leftmost
+     (or (get-buffer (concat file ".~{index}~"))
+         (magit-find-file-index-noselect file t))
+     (or (get-file-buffer file)
+         (find-file-noselect file)))))
+
+(advice-add 'vdiff-magit-show-unstaged :override #'ol-vdiff-magit-show-unstaged)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
 ;;;; ---------------------------------------------------------------------------
-
-(defun ol-diff-on-quit (buffer-a buffer-b)
-  (kill-buffer buffer-a))
-
-(defun ol-diff-buffers (buffer-a buffer-b)
-  (vdiff-buffers buffer-a buffer-b nil 'ol-diff-on-quit t nil))
 
 (defun ol-diff-file-head ()
   (interactive)
   (let* ((file (magit-current-file))
          (rev-head "HEAD")
          (buffer-head (msk--get-revision-buffer rev-head file)))
-    (ol-diff-buffers buffer-head (current-buffer))))
+    (ol-vdiff-buffers-kill-only-leftmost buffer-head (current-buffer))))
 
 (defun ol-does-branch-exist (branch)
   (equal (magit-rev-branch branch) branch))
@@ -713,7 +742,7 @@
          (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
          (file-main (magit--rev-file-name file "HEAD" rev-main))
          (buffer-main (msk--get-revision-buffer rev-main file-main)))
-    (ol-diff-buffers buffer-main (current-buffer))))
+    (ol-vdiff-buffers-kill-only-leftmost buffer-main (current-buffer))))
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
