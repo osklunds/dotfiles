@@ -363,11 +363,10 @@
    ))
 
 ;; -----------------------------------------------------------------------------
-;; Theme and colors
+;; Theme
 ;; -----------------------------------------------------------------------------
 
 (ol-require 'doom-themes)
-(load-theme 'doom-one-light t)
 
 ;;Helper for completely copying another face.
 
