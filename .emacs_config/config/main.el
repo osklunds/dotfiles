@@ -600,6 +600,19 @@
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
 
+(defun ol-term ()
+  (interactive)
+  (term shell-file-name))
+
+(defun ol-term-named (name)
+  (interactive (list (read-string "Name: " nil nil "Terminal")))
+  (let* ((name2 (concat "*" name "*"))
+         (buffer (get-buffer name2)))
+    (if buffer
+        (switch-to-buffer buffer)
+      (ol-term)
+      (rename-buffer name2))))
+
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------

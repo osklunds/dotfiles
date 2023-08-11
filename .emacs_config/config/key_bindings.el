@@ -238,6 +238,9 @@
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
+(ol-leader-keys
+  "tt" 'ol-term-named)
+
 (evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
 (evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
 (evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
