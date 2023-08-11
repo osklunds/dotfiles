@@ -32,6 +32,8 @@
 ;; ---------------------------------------------------------------------------
 
 (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+(ol-define-key evil-emacs-state-map "<escape>" 'evil-normal-state)
+
 
 ;; Window movement
 (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
