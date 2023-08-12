@@ -602,16 +602,30 @@
 
 (defun ol-term ()
   (interactive)
-  (term shell-file-name))
+  (ansi-term shell-file-name))
 
 (defun ol-term-named (name)
-  (interactive (list (read-string "Name: " nil nil "Terminal")))
+  (interactive (list (read-string "Name: " nil nil "terminal")))
   (let* ((name2 (concat "*" name "*"))
          (buffer (get-buffer name2)))
     (if buffer
         (switch-to-buffer buffer)
       (ol-term)
       (rename-buffer name2))))
+
+;; Notes for myself on terminals
+;; You can only edit text in either line mode or char mode - never mixed. So
+;; workflows could look like
+;; Line mode: type text in the prompt and jump around using normal movement ops.
+;; When you're done, press enter. One caveat is that I have to make evil insert
+;; not enter char mode for this.
+;; Char mode: like a regular terminal. Note, you can still use normal mode for
+;; read only to other parts of the shell, then go to insert mode and paste using
+;; C-y.
+;; To begin with, I'll stick to char mode, as it's the most similar to
+;; terminals I'm used to.
+;; For line mode, shell works better than term/ansi-term. In shell, company mode
+;; works but not in term.
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
