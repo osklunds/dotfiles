@@ -36,6 +36,7 @@
 ;; TODO Do this:
 ;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
 (ol-inherit-face-attribute 'term-color-black 'default)
+(ol-inherit-face-attribute 'term 'default)
 
 (dolist (face '(doom-modeline-evil-normal-state
                 doom-modeline-evil-insert-state

@@ -10,7 +10,6 @@ dotfiles I use
 *** Nice to have
 
 - terminal
-  - colors
   - Move somewhere else in insert mode
 - Switch to vertico/consult/marginella
   - Will fix LSP search for functions
