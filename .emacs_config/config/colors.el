@@ -5,6 +5,7 @@
 ;; Helpers
 ;; -----------------------------------------------------------------------------
 
+;; TODO: Maybe use custom-theme-set-faces instead
 (defun ol-set-face-attribute (face &rest properties)
   (apply 'set-face-attribute (append (list face nil) properties)))
 
