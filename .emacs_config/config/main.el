@@ -44,6 +44,7 @@
 ;;;; ---------------------------------------------------------------------------
 
 (setq gc-cons-threshold 50000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 ;; change all prompts to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
