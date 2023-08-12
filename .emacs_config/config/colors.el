@@ -33,10 +33,14 @@
                     (color-darken-name
                      (face-attribute 'default :background) 3))
 
-;; TODO Do this:
-;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
-(ol-inherit-face-attribute 'term-color-black 'default)
-(ol-inherit-face-attribute 'term 'default)
+;; Hack to do it like this. If done directly, colors aren't set it seems
+(defun ol-set-term-colors ()
+  ;; TODO Do this:
+  ;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
+  (ol-inherit-face-attribute 'term-color-black 'default)
+  (ol-inherit-face-attribute 'term 'default))
+
+(add-hook 'term-mode-hook 'ol-set-term-colors)
 
 (dolist (face '(doom-modeline-evil-normal-state
                 doom-modeline-evil-insert-state
