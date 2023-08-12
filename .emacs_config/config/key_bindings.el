@@ -293,7 +293,13 @@
   (call-interactively 'eval-region)
   (message "eval-region"))
 
+(defun ol-eval-buffer ()
+  (interactive)
+  (call-interactively 'eval-buffer)
+  (message "eval-buffer"))
+
 (ol-leader-keys
-  "er" 'ol-eval-region)
+  "er" 'ol-eval-region
+  "eb" 'ol-eval-buffer)
 
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
