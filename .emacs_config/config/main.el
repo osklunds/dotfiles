@@ -694,6 +694,9 @@
 
 (advice-add 'vdiff-magit-show-unstaged :override #'ol-vdiff-magit-show-unstaged)
 
+;; TODO: Make sure vdiff stage doesn't leave trailing buffers index and HEAD
+;; Could check if they exist before, and if not, kill them on-quit.
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
 ;;;; ---------------------------------------------------------------------------
