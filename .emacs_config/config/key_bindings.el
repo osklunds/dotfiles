@@ -27,8 +27,9 @@
 (defvar ol-normal-leader-map (make-sparse-keymap))
 (defvar ol-visual-leader-map (make-sparse-keymap))
 
-(define-key evil-normal-state-map " " ol-normal-leader-map)
-(define-key evil-visual-state-map " " ol-visual-leader-map)
+(ol-define-key evil-normal-state-map " " ol-normal-leader-map)
+(ol-define-key evil-normal-state-map "C-SPC" ol-normal-leader-map)
+(ol-define-key evil-visual-state-map " " ol-visual-leader-map)
 
 (defun ol-define-normal-leader-key (key fun)
   (ol-define-key ol-normal-leader-map key fun))
