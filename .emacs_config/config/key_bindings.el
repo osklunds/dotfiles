@@ -3,13 +3,6 @@
 ;; Helpers
 ;; ---------------------------------------------------------------------------
 
-(general-create-definer ol-leader-keys
-  :keymaps '(normal insert visual emacs)
-  ;; prefix seems to mean, only define if not overriding something existing
-  :prefix "SPC"
-  ;; global-prefix seems to mean, always define
-  :global-prefix "C-SPC")
-
 (defun ol-define-key (map key fun)
   (define-key map (kbd key) fun))
 
@@ -26,6 +19,22 @@
      :states 'insert
      :keymaps 'term-raw-map
      key fun)))
+
+;; ---------------------------------------------------------------------------
+;; Leader
+;; ---------------------------------------------------------------------------
+
+(defvar ol-normal-leader-map (make-sparse-keymap))
+(defvar ol-visual-leader-map (make-sparse-keymap))
+
+(define-key evil-normal-state-map " " ol-normal-leader-map)
+(define-key evil-visual-state-map " " ol-visual-leader-map)
+
+(defun ol-define-normal-leader-key (key fun)
+  (ol-define-key ol-normal-leader-map key fun))
+
+(defun ol-define-visual-leader-key (key fun)
+  (ol-define-key ol-visual-leader-map key fun))
 
 ;; ---------------------------------------------------------------------------
 ;; Evil
@@ -110,15 +119,11 @@
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
 
-(ol-leader-keys
-  :keymaps 'visual
-  "R" '(ol-full-replace-visual-selection :which-key "replace full visual selection")
-  "r" '(ol-from-here-replace-visual-selection :which-key "replace from here visual selection"))
+(ol-define-visual-leader-key "R" 'ol-full-replace-visual-selection)
+(ol-define-visual-leader-key "r" 'ol-from-here-replace-visual-selection)
 
-(ol-leader-keys
-  :keymaps 'normal
-  "R" '(ol-full-replace-symbol :which-key "replace full symbol")
-  "r" '(ol-from-here-replace-symbol :which-key "replace from here symbol"))
+(ol-define-normal-leader-key "R" 'ol-full-replace-symbol)
+(ol-define-normal-leader-key "r" 'ol-from-here-replace-symbol)
 
 ;; ---------------------------------------------------------------------------
 ;; Windows and buffers
@@ -148,8 +153,7 @@
 ;;;;;; LSP
 ;;;;;; -------------------------------------------------------------------------
 
-(ol-leader-keys
-  "ff" 'lsp-ivy-workspace-symbol)
+(ol-define-normal-leader-key "ff" 'lsp-ivy-workspace-symbol)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
@@ -164,11 +168,10 @@
 ;; Projectile
 ;; ---------------------------------------------------------------------------
 
-(ol-leader-keys
-  "pp" 'projectile-switch-project
-  "pd" 'projectile-discover-projects-in-search-path
-  "pr" 'projectile-invalidate-cache
-  "pf" 'counsel-projectile-rg)
+(ol-define-normal-leader-key "pp" 'projectile-switch-project)
+(ol-define-normal-leader-key "pd" 'projectile-discover-projects-in-search-path)
+(ol-define-normal-leader-key "pr" 'projectile-invalidate-cache)
+(ol-define-normal-leader-key "pf" 'counsel-projectile-rg)
 
 (ol-override-key "M-q" 'projectile-find-file)
 (ol-define-key projectile-mode-map "C-c p" 'projectile-command-map)
@@ -177,13 +180,12 @@
 ;; Git
 ;; ---------------------------------------------------------------------------
 
-(ol-leader-keys
-  "gs" 'magit-status
-  "gb" 'magit-blame-addition
-  "gdM" 'ol-diff-main
-  "gdH" 'ol-diff-head
-  "gdm" 'ol-diff-file-main
-  "gdh" 'ol-diff-file-head)
+(ol-define-normal-leader-key "gs" 'magit-status)
+(ol-define-normal-leader-key "gb" 'magit-blame-addition)
+(ol-define-normal-leader-key "gdM" 'ol-diff-main)
+(ol-define-normal-leader-key "gdH" 'ol-diff-head)
+(ol-define-normal-leader-key "gdm" 'ol-diff-file-main)
+(ol-define-normal-leader-key "gdh" 'ol-diff-file-head)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
@@ -203,8 +205,7 @@
 ;; Org mode
 ;; ---------------------------------------------------------------------------
 
-(ol-leader-keys
-  "os" 'org-babel-demarcate-block :which-key "split code block")
+(ol-define-normal-leader-key "os" 'org-babel-demarcate-block)
 
 (evil-define-key 'visual org-mode-map (kbd "g q") 'org-fill-paragraph)
 (evil-define-key 'normal org-mode-map (kbd "g q q") 'org-fill-paragraph)
@@ -240,8 +241,7 @@
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
-(ol-leader-keys
-  "tt" 'ol-term-named)
+(ol-define-normal-leader-key "tt" 'ol-term-named)
 
 (evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
 (evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
@@ -298,8 +298,7 @@
   (call-interactively 'eval-buffer)
   (message "eval-buffer"))
 
-(ol-leader-keys
-  "er" 'ol-eval-region
-  "eb" 'ol-eval-buffer)
+(ol-define-visual-leader-key "er" 'ol-eval-region)
+(ol-define-normal-leader-key "eb" 'ol-eval-buffer)
 
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
