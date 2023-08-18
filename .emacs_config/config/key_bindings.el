@@ -3,26 +3,20 @@
 ;; Helpers
 ;; ---------------------------------------------------------------------------
 
+;;;; ---------------------------------------------------------------------------
+;;;; Wrappers
+;;;; ---------------------------------------------------------------------------
+
 (defun ol-define-key (map key fun)
   (define-key map (kbd key) fun))
 
 (defun ol-global-define-key (key fun)
   (global-set-key (kbd key) fun))
 
-(defun ol-override-key (key fun)
-  (progn
-    (general-define-key
-     :states '(normal emacs)
-     :keymaps 'override
-     key fun)
-    (general-define-key
-     :states 'insert
-     :keymaps 'term-raw-map
-     key fun)))
 
-;; ---------------------------------------------------------------------------
-;; Leader
-;; ---------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Leader
+;;;; ---------------------------------------------------------------------------
 
 (defvar ol-normal-leader-map (make-sparse-keymap))
 (defvar ol-visual-leader-map (make-sparse-keymap))
@@ -37,13 +31,45 @@
 (defun ol-define-visual-leader-key (key fun)
   (ol-define-key ol-visual-leader-map key fun))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Override
+;;;; ---------------------------------------------------------------------------
+
+;; Section copied from: https://emacs.stackexchange.com/a/358
+
+(defvar ol-override-mode-map (make-sparse-keymap))
+
+;;;###autoload
+(define-minor-mode ol-override-mode
+  "Minor mode for overriding keys"
+  :init-value t
+  :lighter " ol-override-mode"
+  :keymap ol-override-mode-map)
+
+;;;###autoload
+(define-globalized-minor-mode global-ol-override-mode ol-override-mode ol-override-mode)
+
+(add-to-list 'emulation-mode-map-alists `((ol-override-mode . ,ol-override-mode-map)))
+
+;; Turn off the minor mode in the minibuffer
+(defun turn-off-ol-override-mode ()
+  (ol-override-mode -1))
+
+(add-hook 'minibuffer-setup-hook #'turn-off-ol-override-mode)
+
+(provide 'ol-override-mode)
+
+(ol-override-mode t)
+
+(defun ol-override-key (key fun)
+  (ol-define-key ol-override-mode-map key fun))
+
 ;; ---------------------------------------------------------------------------
 ;; Evil
 ;; ---------------------------------------------------------------------------
 
 (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 (ol-define-key evil-emacs-state-map "<escape>" 'evil-normal-state)
-
 
 ;; Window movement
 (define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
