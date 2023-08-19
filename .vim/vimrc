@@ -246,9 +246,7 @@ endif
 
 " Key bindings
 let g:ctrlp_cmd = 'CtrlPBuffer'
-let g:ctrlp_map = '<c-j>'
 nnoremap <leader>o :CtrlPBuffer<cr>
-tnoremap <C-j> <C-w>:CtrlPBuffer<cr>
 
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("k")': ['<c-k>', '<c-p>'],
@@ -488,6 +486,9 @@ augroup TermButNotFzf
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-h> <C-W>h
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-l> <C-W>l
     au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <Esc><Esc> <C-W>N
+
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | nnoremap <buffer> <C-j> :CtrlPBuffer<cr>
+    au WinEnter,BufEnter,TerminalOpen * if &ft != "fzf" | tnoremap <buffer> <C-j> <C-w>:CtrlPBuffer<cr>
 augroup end
 
 command! -nargs=1 Term call Terminal(<f-args>, "ll")
