@@ -130,8 +130,6 @@ command! Ra :so ~/.vim/vimrc
 " Misc
 let mapleader = ","
 
-noremap 0 ^
-
 " Find and replace
 vnoremap <leader>f "hy/<C-r>h
 
