@@ -778,9 +778,6 @@
 
 (setq dired-kill-when-opening-new-dired-buffer t)
 
-(evil-define-key 'normal dired-mode-map (kbd "o") 'dired-find-file)
-(evil-define-key 'normal dired-mode-map (kbd "i") 'dired-up-directory)
-
 (when (ol-is-mac)       
   (setq dired-use-ls-dired nil))
 
