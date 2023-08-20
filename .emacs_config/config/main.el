@@ -724,7 +724,7 @@
    (doom-modeline-spc)))
 
 (doom-modeline-def-modeline 'ol-simple-line
-  '(bar modals buffer-info buffer-position)
+  '(modals buffer-info buffer-position)
   '(major-mode vcs proj-name))
 
 (doom-modeline-set-modeline 'ol-simple-line t)
