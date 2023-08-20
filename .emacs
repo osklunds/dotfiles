@@ -40,6 +40,8 @@
 (setq vc-follow-symlinks t)
 
 (dolist (file '("main"
+                "rust"
+                "haskell"
                 "key_bindings"
                 "colors"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
