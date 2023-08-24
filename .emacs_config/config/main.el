@@ -251,31 +251,12 @@
 ;;;; LSP
 ;;;; -------------------------------------------------------------------------
 
-(ol-require 'lsp-mode)
+(ol-require 'eglot)
 
-(setq lsp-completion-provider :none)
-(setq lsp-enable-symbol-highlighting nil)
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-modeline-diagnostics-enable nil)
-(setq lsp-diagnostics-provider :none)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-workspace-status-enable nil)
-(setq lsp-lens-enable nil)
-(setq lsp-ui-doc-enable nil)
-(setq lsp-headerline-breadcrumb-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-diagnostics-enable nil)
-(setq lsp-eldoc-enable-hover nil)
-(setq lsp-signature-auto-activate nil)
-(setq flycheck-indication-mode nil)
-
-(setq lsp-log-io t)
-;; TODO: Disable lsp diagnostics. Can use above log to inspect
-;; TODO: Get functions from ivy-lsp
-
-(ol-require 'lsp-ivy)
+(setq eglot-ignored-server-capabilities '(:documentHighlightProvider :hoverProvider :codeLensProvider :color-symbols :colorProvider :inlayHintProvider :signatureHelpProvider))
+(setc eglot-events-buffer-size 0)
+(add-to-list 'eglot-stay-out-of 'flymake)
+(add-to-list 'eglot-stay-out-of 'company)
 
 ;;;; -------------------------------------------------------------------------
 ;;;; Abbreviations (for completions)
