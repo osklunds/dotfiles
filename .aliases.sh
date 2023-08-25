@@ -25,6 +25,7 @@ alias gdt='git difftool -t vimdiff'
 ## Push/pull
 alias gpl='git pull'
 alias gps='git push --all origin'
+alias gsm='git submodule add --force'
 
 ## Clean up
 alias guc='git reset "HEAD^"'
