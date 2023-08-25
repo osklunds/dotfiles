@@ -5,31 +5,12 @@
 ;; Setting up package loading
 ;; ---------------------------------------------------------------------------
 
-(require 'package)
+(setq load-path (append load-path (file-expand-wildcards "~/.emacs_config/packages/*")))
+(setq load-path (add-to-list 'load-path "~/.emacs_config/packages/magit/lisp/"))
+(setq load-path (add-to-list 'load-path "~/.emacs_config/packages/with-editor/lisp/"))
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-
-;; Copied/inspired from https://github.com/bling/dotemacs
 (defun ol-require (package)
-  (progn
-    (unless (or (package-installed-p package)
-                (require package nil 'noerror))
-      (unless (assoc package package-archive-contents)
-        (package-refresh-contents))
-      (package-install package))
-    (require package)))
-
-;; Below is an alternative for "offline" usage
-;; To load packages from a downloaded and extracted tar
-;; Can also use expand-wildcard
-;; (add-to-list 'load-path "~/.emacs_config/packages/magit-20230731.1514")
-;; (add-to-list 'load-path "~/.emacs_config/packages/vdiff-magit-20220518.1948")
-;; (add-to-list 'load-path "~/.emacs_config/packages/vdiff-20230621.201")
-;;
-;; (defun ol-require (package)
-;;   (require package))
+  (require package))
 
 ;; ---------------------------------------------------------------------------
 ;; Loading config

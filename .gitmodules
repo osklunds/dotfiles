@@ -37,3 +37,96 @@
 [submodule ".vim/pack/plugins_as_submodules/start/vim-fugitive"]
 	path = .vim/pack/plugins_as_submodules/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
+[submodule ".emacs_config/packages/-f"]
+	path = .emacs_config/packages/-f
+	url = https://github.com/bbatsov/super-save
+[submodule ".emacs_config/packages/super-save"]
+	path = .emacs_config/packages/super-save
+	url = https://github.com/bbatsov/super-save
+[submodule ".emacs_config/packages/evil"]
+	path = .emacs_config/packages/evil
+	url = https://github.com/emacs-evil/evil.git
+[submodule ".emacs_config/packages/evil-collection"]
+	path = .emacs_config/packages/evil-collection
+	url = https://github.com/emacs-evil/evil-collection.git
+[submodule ".emacs_config/packages/annalist.el"]
+	path = .emacs_config/packages/annalist.el
+	url = https://github.com/noctuid/annalist.el.git
+[submodule ".emacs_config/packages/emacs-balanced-windows"]
+	path = .emacs_config/packages/emacs-balanced-windows
+	url = https://github.com/wbolster/emacs-balanced-windows.git
+[submodule ".emacs_config/packages/rainbow-delimiters"]
+	path = .emacs_config/packages/rainbow-delimiters
+	url = https://github.com/Fanael/rainbow-delimiters.git
+[submodule ".emacs_config/packages/evil-nerd-commenter"]
+	path = .emacs_config/packages/evil-nerd-commenter
+	url = https://github.com/redguardtoo/evil-nerd-commenter.git
+[submodule ".emacs_config/packages/evil-visualstar"]
+	path = .emacs_config/packages/evil-visualstar
+	url = https://github.com/bling/evil-visualstar.git
+[submodule ".emacs_config/packages/emacs-which-key"]
+	path = .emacs_config/packages/emacs-which-key
+	url = https://github.com/justbur/emacs-which-key.git
+[submodule ".emacs_config/packages/swiper"]
+	path = .emacs_config/packages/swiper
+	url = https://github.com/abo-abo/swiper.git
+[submodule ".emacs_config/packages/ivy-rich"]
+	path = .emacs_config/packages/ivy-rich
+	url = https://github.com/Yevgnen/ivy-rich.git
+[submodule ".emacs_config/packages/company-mode"]
+	path = .emacs_config/packages/company-mode
+	url = https://github.com/company-mode/company-mode.git
+[submodule ".emacs_config/packages/themes"]
+	path = .emacs_config/packages/themes
+	url = https://github.com/doomemacs/themes.git
+[submodule ".emacs_config/packages/projectile"]
+	path = .emacs_config/packages/projectile
+	url = https://github.com/bbatsov/projectile.git
+[submodule ".emacs_config/packages/counsel-projectile"]
+	path = .emacs_config/packages/counsel-projectile
+	url = https://github.com/ericdanan/counsel-projectile.git
+[submodule ".emacs_config/packages/ripgrep.el"]
+	path = .emacs_config/packages/ripgrep.el
+	url = https://github.com/nlamirault/ripgrep.el.git
+[submodule ".emacs_config/packages/magit"]
+	path = .emacs_config/packages/magit
+	url = https://github.com/magit/magit.git
+[submodule ".emacs_config/packages/compat"]
+	path = .emacs_config/packages/compat
+	url = https://github.com/emacs-compat/compat.git
+[submodule ".emacs_config/packages/dash.el"]
+	path = .emacs_config/packages/dash.el
+	url = https://github.com/magnars/dash.el.git
+[submodule ".emacs_config/packages/with-editor"]
+	path = .emacs_config/packages/with-editor
+	url = https://github.com/magit/with-editor.git
+[submodule ".emacs_config/packages/emacs-vdiff"]
+	path = .emacs_config/packages/emacs-vdiff
+	url = https://github.com/justbur/emacs-vdiff.git
+[submodule ".emacs_config/packages/hydra"]
+	path = .emacs_config/packages/hydra
+	url = https://github.com/abo-abo/hydra.git
+[submodule ".emacs_config/packages/emacs-vdiff-magit"]
+	path = .emacs_config/packages/emacs-vdiff-magit
+	url = https://github.com/justbur/emacs-vdiff-magit.git
+[submodule ".emacs_config/packages/doom-modeline"]
+	path = .emacs_config/packages/doom-modeline
+	url = https://github.com/seagle0128/doom-modeline.git
+[submodule ".emacs_config/packages/nerd-icons.el"]
+	path = .emacs_config/packages/nerd-icons.el
+	url = https://github.com/rainstormstudio/nerd-icons.el.git
+[submodule ".emacs_config/packages/shrink-path.el"]
+	path = .emacs_config/packages/shrink-path.el
+	url = https://github.com/zbelial/shrink-path.el.git
+[submodule ".emacs_config/packages/s.el"]
+	path = .emacs_config/packages/s.el
+	url = https://github.com/magnars/s.el.git
+[submodule ".emacs_config/packages/f.el"]
+	path = .emacs_config/packages/f.el
+	url = https://github.com/rejeep/f.el.git
+[submodule ".emacs_config/packages/rust-mode"]
+	path = .emacs_config/packages/rust-mode
+	url = https://github.com/rust-lang/rust-mode.git
+[submodule ".emacs_config/packages/haskell-mode"]
+	path = .emacs_config/packages/haskell-mode
+	url = https://github.com/haskell/haskell-mode.git
