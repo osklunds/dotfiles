@@ -5,8 +5,9 @@
 ;; Setting up package loading
 ;; ---------------------------------------------------------------------------
 
-(setq load-path (append load-path (file-expand-wildcards "~/.emacs_config/packages/*")))
-(setq load-path (append load-path (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
+(setq load-path (append load-path
+                        (file-expand-wildcards "~/.emacs_config/packages/*")
+                        (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
 
 (defun ol-require (package)
   (require package))
