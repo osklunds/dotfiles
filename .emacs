@@ -6,8 +6,7 @@
 ;; ---------------------------------------------------------------------------
 
 (setq load-path (append load-path (file-expand-wildcards "~/.emacs_config/packages/*")))
-(setq load-path (add-to-list 'load-path "~/.emacs_config/packages/magit/lisp/"))
-(setq load-path (add-to-list 'load-path "~/.emacs_config/packages/with-editor/lisp/"))
+(setq load-path (append load-path (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
 
 (defun ol-require (package)
   (require package))
