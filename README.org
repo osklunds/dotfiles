@@ -10,6 +10,7 @@ dotfiles I use
 *** Nice to have
 
 - Make colors clearer on some monitors
+- Make diff colors clearer, maybe mimic vim's
 - mode-line
   - Show if file is RO only
   - Get rid if git-prefix of vc-mode
