@@ -85,6 +85,7 @@
 
 (with-eval-after-load 'dired (evil-collection-dired-setup))
 (with-eval-after-load 'magit (evil-collection-magit-setup))
+(with-eval-after-load 'term (evil-collection-term-setup))
 
 (evil-set-undo-system 'undo-redo)
 
