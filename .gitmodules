@@ -109,21 +109,6 @@
 [submodule ".emacs_config/packages/emacs-vdiff-magit"]
 	path = .emacs_config/packages/emacs-vdiff-magit
 	url = https://github.com/justbur/emacs-vdiff-magit.git
-[submodule ".emacs_config/packages/doom-modeline"]
-	path = .emacs_config/packages/doom-modeline
-	url = https://github.com/seagle0128/doom-modeline.git
-[submodule ".emacs_config/packages/nerd-icons.el"]
-	path = .emacs_config/packages/nerd-icons.el
-	url = https://github.com/rainstormstudio/nerd-icons.el.git
-[submodule ".emacs_config/packages/shrink-path.el"]
-	path = .emacs_config/packages/shrink-path.el
-	url = https://github.com/zbelial/shrink-path.el.git
-[submodule ".emacs_config/packages/s.el"]
-	path = .emacs_config/packages/s.el
-	url = https://github.com/magnars/s.el.git
-[submodule ".emacs_config/packages/f.el"]
-	path = .emacs_config/packages/f.el
-	url = https://github.com/rejeep/f.el.git
 [submodule ".emacs_config/packages/rust-mode"]
 	path = .emacs_config/packages/rust-mode
 	url = https://github.com/rust-lang/rust-mode.git
