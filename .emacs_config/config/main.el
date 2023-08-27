@@ -721,14 +721,19 @@ respectively."
                          (substring (symbol-name evil-state) 1)
                          " ") 'face 'evil-mode-line-face)))
                     " " (:eval (if (buffer-modified-p) "*" "-"))
-                    " " mode-line-buffer-identification
-                    "%l:%c")))
+                    " %b"
+                    " %l:%c"
+                    (:eval (format "%3d" (/ (point) 0.01 (point-max)))) "%%%%"
+                    )))
            ;; right portion
            (format-mode-line (quote ("%m " (vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
 
 ;; TODO: Make it look similar to what it looked like with doom
 ;; Left:  bar modals buffer-info buffer-position
 ;; Right: major-mode vcs proj-name
+
+;; TODO: Make all this prettier (code and output), understand % and investigate
+;; performance
 
 ;; -----------------------------------------------------------------------------
 ;; Dired
