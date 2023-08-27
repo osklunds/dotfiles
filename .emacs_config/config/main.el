@@ -17,7 +17,7 @@
 ;; No ~ files
 (setq make-backup-files nil)
 
-(ol-require 'super-save)
+(require 'super-save)
 
 (setq super-save-auto-save-when-idle t)
 (super-save-mode t)
@@ -70,7 +70,7 @@
 ;; Use C-u for scroll instead of universal argument  
 (setq evil-want-C-u-scroll t)
 
-(ol-require 'evil)
+(require 'evil)
 (evil-mode t)
 
 (evil-set-initial-state 'messages-buffer-mode 'normal)
@@ -81,7 +81,7 @@
   (defalias #'forward-evil-word #'forward-evil-symbol)
   (setq-default evil-symbol-word-search t))
 
-(ol-require 'evil-collection)
+(require 'evil-collection)
 
 (with-eval-after-load 'dired (evil-collection-dired-setup))
 (with-eval-after-load 'magit (evil-collection-magit-setup))
@@ -135,7 +135,7 @@
 ;;;; Windows and buffers
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'balanced-windows)
+(require 'balanced-windows)
 
 (balanced-windows-mode)
 
@@ -152,7 +152,7 @@
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'rainbow-delimiters)
+(require 'rainbow-delimiters)
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
@@ -167,7 +167,7 @@
 
 (setq-default fill-column 80)
 
-(ol-require 'evil-nerd-commenter)
+(require 'evil-nerd-commenter)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
@@ -206,7 +206,7 @@
         (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
-(ol-require 'evil-visualstar)
+(require 'evil-visualstar)
 
 (global-evil-visualstar-mode)
 
@@ -214,7 +214,7 @@
 ;;;; Which Key
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'which-key)
+(require 'which-key)
 (which-key-mode)
 (setq which-key-idle-delay 2)
 
@@ -222,7 +222,7 @@
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
 
-(ol-require 'ivy)
+(require 'ivy)
 (setq ivy-height 20)
 (ivy-mode t)
 
@@ -241,9 +241,9 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
-(ol-require 'counsel)
+(require 'counsel)
 
-(ol-require 'ivy-rich)
+(require 'ivy-rich)
 (ivy-rich-mode t)
 
 ;; -----------------------------------------------------------------------------
@@ -254,7 +254,7 @@
 ;;;; LSP
 ;;;; -------------------------------------------------------------------------
 
-(ol-require 'eglot)
+(require 'eglot)
 
 (setq eglot-ignored-server-capabilities '(:documentHighlightProvider :hoverProvider :codeLensProvider :color-symbols :colorProvider :inlayHintProvider :signatureHelpProvider))
 (setc eglot-events-buffer-size 0)
@@ -291,7 +291,7 @@
 ;;;; Completion
 ;;;; -------------------------------------------------------------------------
 
-(ol-require 'company)
+(require 'company)
 
 ;; TODO: Set more things using customize instead of setq
 (customize-set-variable 'company-backends '((company-abbrev
@@ -312,7 +312,7 @@
 ;; Theme
 ;; -----------------------------------------------------------------------------
 
-(ol-require 'doom-themes)
+(require 'doom-themes)
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile
@@ -326,15 +326,15 @@
 
 (setq projectile-enable-caching t)
 
-(ol-require 'projectile)
+(require 'projectile)
 
 (customize-set-variable 'projectile-completion-system 'ivy)
 
 (setq projectile-switch-project-action 'projectile-commander)
 
-(ol-require 'counsel-projectile)
+(require 'counsel-projectile)
 
-(ol-require 'projectile-ripgrep)
+(require 'projectile-ripgrep)
 
 (setq ivy-more-chars-alist '((t . 1)))
 
@@ -348,8 +348,8 @@
 ;;;; Magit
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'magit)
-(ol-require 'magit-blame)
+(require 'magit)
+(require 'magit-blame)
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
@@ -515,8 +515,8 @@
 ;; Org mode
 ;; -----------------------------------------------------------------------------
 
-(ol-require 'org)
-(ol-require 'org-faces)
+(require 'org)
+(require 'org-faces)
 
 (setq org-ellipsis " ▾")
 
@@ -579,7 +579,7 @@
 ;;;; General
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'vdiff)
+(require 'vdiff)
 
 (setq vdiff-auto-refine t)
 (setq vdiff-subtraction-fill-char ? )
@@ -604,7 +604,7 @@
 ;;;; Magit integration
 ;;;; ---------------------------------------------------------------------------
 
-(ol-require 'vdiff-magit)
+(require 'vdiff-magit)
 
 (setc vdiff-magit-stage-is-2way t)
 

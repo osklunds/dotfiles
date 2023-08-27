@@ -1,5 +1,5 @@
 
-(ol-require 'rust-mode)
+(require 'rust-mode)
 
 (add-hook 'rust-mode-hook 'eglot-ensure)
 

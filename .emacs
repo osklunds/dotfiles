@@ -16,9 +16,6 @@
                         (file-expand-wildcards "~/.emacs_config/packages/*")
                         (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
 
-(defun ol-require (package)
-  (require package))
-
 ;; ---------------------------------------------------------------------------
 ;; Loading config
 ;; ---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
 
-(ol-require 'haskell-mode)
+(require 'haskell-mode)
 
 (add-hook 'haskell-mode-hook 'eglot-ensure)
