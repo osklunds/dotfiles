@@ -43,12 +43,6 @@
 
 (add-hook 'term-mode-hook 'ol-set-term-colors)
 
-(dolist (face '(doom-modeline-evil-normal-state
-                doom-modeline-evil-insert-state
-                doom-modeline-evil-visual-state
-                doom-modeline-evil-emacs-state))
-  (ol-set-face-attribute face :weight 'bold))
-
 (ol-set-face-attribute 'mode-line
                     :background "#D7E4E8"
                     :overline nil

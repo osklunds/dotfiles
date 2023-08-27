@@ -691,28 +691,43 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-(ol-require 'doom-modeline)
-(doom-modeline-mode t)
+(setq eval-expression-print-level 10000)
+(setq eval-expression-print-length 10000)
 
-(doom-modeline-def-segment proj-name
-  (concat
-   (doom-modeline-spc)
-   (doom-modeline-display-text (format "%s" (projectile-project-name)))
-   (doom-modeline-spc)))
+;; Modeline stuff copied (and then modified) from
+;; https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
+(defun ol-mode-line-format (left right)
+  "Return a string of `window-width' length. Containing LEFT, and RIGHT aligned
+respectively."
+  (let ((available-width (- (window-width) (length left) 1)))
+    (format (format "%%s %%%ds " available-width) left right)))
 
-(doom-modeline-def-modeline 'ol-simple-line
-  '(bar modals buffer-info buffer-position)
-  '(major-mode vcs proj-name))
+(defface evil-mode-line-face '((t (:foreground  "black" :background "orange"))) "face")
 
-(doom-modeline-set-modeline 'ol-simple-line t)
+(setq-default
+ mode-line-format
+ '((:eval (ol-mode-line-format
+           ;; left portion
+           (format-mode-line
+            (quote ("%e"
+                    (:eval
+                     (when (bound-and-true-p evil-local-mode)
+                       (propertize
+                        (concat
+                         " "
+                         (upcase
+                          (substring (symbol-name evil-state) 0 1))
+                         (substring (symbol-name evil-state) 1)
+                         " ") 'face 'evil-mode-line-face)))
+                    " " (:eval (if (buffer-modified-p) "*" "-"))
+                    " " mode-line-buffer-identification
+                    "%l:%c")))
+           ;; right portion
+           (format-mode-line (quote ("%m " (vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
 
-(setq doom-modeline-icon nil)
-(setq doom-modeline-buffer-encoding nil)
-(setq doom-modeline-lsp nil)
-(setq doom-modeline-env-version nil)
-(setq doom-modeline-minor-modes nil)
-(setq doom-modeline-lsp nil)
-(setq doom-modeline-highlight-modified-buffer-name nil)
+;; TODO: Make it look similar to what it looked like with doom
+;; Left:  bar modals buffer-info buffer-position
+;; Right: major-mode vcs proj-name
 
 ;; -----------------------------------------------------------------------------
 ;; Dired
