@@ -82,7 +82,10 @@
   (setq-default evil-symbol-word-search t))
 
 (ol-require 'evil-collection)
-(evil-collection-init)
+
+(with-eval-after-load 'dired (evil-collection-dired-setup))
+(with-eval-after-load 'magit (evil-collection-magit-setup))
+
 (evil-set-undo-system 'undo-redo)
 
 (setq scroll-margin 7)                          
