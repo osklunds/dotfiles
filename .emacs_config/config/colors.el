@@ -57,6 +57,9 @@
                        :foreground "black"
                        :background "orange")
 
+(ol-set-face-attribute 'buffer-name-mode-line-face
+                       :weight 'bold)
+
 ;; ---------------------------------------------------------------------------
 ;; vdiff
 ;; ---------------------------------------------------------------------------
