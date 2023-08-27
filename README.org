@@ -9,6 +9,8 @@ dotfiles I use
 
 *** Nice to have
 
+- Organization
+  - Machine specific .el file
 - terminal
   - Move somewhere else in insert mode
 - Switch to vertico/consult/marginella
