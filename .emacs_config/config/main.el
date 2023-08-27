@@ -702,7 +702,8 @@ respectively."
   (let ((available-width (- (window-width) (length left) 1)))
     (format (format "%%s %%%ds " available-width) left right)))
 
-(defface evil-mode-line-face '((t (:foreground  "black" :background "orange"))) "face")
+(defface evil-mode-line-face '()
+  "Face for evil state in mode-line.")
 
 (setq-default
  mode-line-format

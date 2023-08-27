@@ -53,6 +53,10 @@
                     :overline nil
                     :underline nil)
 
+(ol-set-face-attribute 'evil-mode-line-face
+                       :foreground "black"
+                       :background "orange")
+
 ;; ---------------------------------------------------------------------------
 ;; vdiff
 ;; ---------------------------------------------------------------------------
