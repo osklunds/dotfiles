@@ -9,6 +9,12 @@ dotfiles I use
 
 *** Nice to have
 
+- Make colors clearer on some monitors
+- mode-line
+  - Show if file is RO only
+  - Get rid if git-prefix of vc-mode
+  - Show something other than - as project name if no project
+  - Make the code for mode line cleaner
 - Organization
   - Machine specific .el file
 - terminal
