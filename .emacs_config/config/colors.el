@@ -53,12 +53,20 @@
                     :overline nil
                     :underline nil)
 
-(ol-set-face-attribute 'evil-mode-line-face
-                       :foreground "black"
-                       :background "orange")
-
 (ol-set-face-attribute 'buffer-name-mode-line-face
                        :weight 'bold)
+
+(ol-inherit-face-attribute 'ol-evil-normal-state-mode-line-face 'font-lock-comment-face)
+(ol-inherit-face-attribute 'ol-evil-insert-state-mode-line-face 'font-lock-keyword-face)
+(ol-inherit-face-attribute 'ol-evil-visual-state-mode-line-face 'warning)
+(ol-inherit-face-attribute 'ol-evil-emacs-state-mode-line-face 'font-lock-builtin-face)
+
+(dolist (face '(ol-evil-normal-state-mode-line-face
+                ol-evil-insert-state-mode-line-face
+                ol-evil-visual-state-mode-line-face
+                ol-evil-emacs-state-mode-line-face
+                ol-evil-operator-state-mode-line-face))
+  (ol-set-face-attribute face :weight 'bold))
 
 ;; ---------------------------------------------------------------------------
 ;; vdiff

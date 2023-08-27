@@ -705,12 +705,16 @@ respectively."
   (let ((available-width (- (window-width) (length left) 1)))
     (format (format "%%s %%%ds " available-width) left right)))
 
-(defface evil-mode-line-face '()
-  "Face for evil state in mode-line.")
+(defface ol-evil-normal-state-mode-line-face '() "")
+(defface ol-evil-insert-state-mode-line-face '() "")
+(defface ol-evil-visual-state-mode-line-face '() "")
+(defface ol-evil-emacs-state-mode-line-face '() "")
+(defface ol-evil-operator-state-mode-line-face '() "")
 
 (defface buffer-name-mode-line-face '()
   "Face for buffer name in mode-line.")
 
+;; TODO: Split this into smaller functions
 (setq-default
  mode-line-format
  '((:eval (ol-mode-line-format
@@ -719,13 +723,7 @@ respectively."
             (quote ("%e"
                     (:eval
                      (when (bound-and-true-p evil-local-mode)
-                       (propertize
-                        (concat
-                         " "
-                         (upcase
-                          (substring (symbol-name evil-state) 0 1))
-                         (substring (symbol-name evil-state) 1)
-                         " ") 'face 'evil-mode-line-face)))
+                       (ol-evil-segment)))
                     "  "
                     (:eval (propertize " %b " 'face 'buffer-name-mode-line-face))
                     " " (:eval (if (buffer-modified-p) "*" "-"))
@@ -735,6 +733,20 @@ respectively."
                     )))
            ;; right portion
            (format-mode-line (quote ((vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
+
+(defun ol-evil-segment ()
+  (let ((evil-face (cond ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
+                         ((evil-insert-state-p)   'ol-evil-insert-state-mode-line-face)
+                         ((evil-visual-state-p)   'ol-evil-visual-state-mode-line-face)
+                         ((evil-emacs-state-p)    'ol-evil-emacs-state-mode-line-face)
+                         ((evil-operator-state-p) 'ol-evil-operator-state-mode-line-face)
+                         (t                       'ol-evil-normal-state-mode-line-face))))
+    (propertize
+     (concat
+      " "
+      (truncate-string-to-width (string-pad (upcase (symbol-name evil-state)) 9 32) 6))
+     'face evil-face)))
+;; TODO Make the above formatting of states prettier
 
 ;; TODO: Make it look similar to what it looked like with doom
 ;; Left:  bar modals buffer-info buffer-position
