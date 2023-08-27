@@ -694,9 +694,6 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-(setq eval-expression-print-level 10000)
-(setq eval-expression-print-length 10000)
-
 ;; Modeline stuff copied (and then modified) from
 ;; https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
 (defun ol-mode-line-format (left right)
