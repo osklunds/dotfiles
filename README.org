@@ -17,6 +17,7 @@ dotfiles I use
   - Make the code for mode line cleaner
 - Organization
   - Machine specific .el file
+  - Lock submodules to specific commit
 - terminal
   - Move somewhere else in insert mode
 - Switch to vertico/consult/marginella
