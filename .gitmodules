@@ -64,9 +64,6 @@
 [submodule ".emacs_config/packages/evil-visualstar"]
 	path = .emacs_config/packages/evil-visualstar
 	url = https://github.com/bling/evil-visualstar.git
-[submodule ".emacs_config/packages/emacs-which-key"]
-	path = .emacs_config/packages/emacs-which-key
-	url = https://github.com/justbur/emacs-which-key.git
 [submodule ".emacs_config/packages/swiper"]
 	path = .emacs_config/packages/swiper
 	url = https://github.com/abo-abo/swiper.git
