@@ -83,63 +83,7 @@
 (define-key evil-normal-state-map (kbd "<down>") 'ol-no-op)
 (define-key evil-normal-state-map (kbd "<up>") 'ol-no-op)
 
-(define-key evil-insert-state-map (kbd "<left>") 'ol-no-op)
-(define-key evil-insert-state-map (kbd "<right>") 'ol-no-op)
-(define-key evil-insert-state-map (kbd "<down>") 'ol-no-op)
-(define-key evil-insert-state-map (kbd "<up>") 'ol-no-op)
-
-(evil-define-key 'insert term-raw-map (kbd "<left>") 'term-send-left)
-(evil-define-key 'insert term-raw-map (kbd "<right>") 'term-send-right)
-(evil-define-key 'insert term-raw-map (kbd "<down>") 'term-send-down)
-(evil-define-key 'insert term-raw-map (kbd "<up>") 'term-send-up)
-
-(evil-global-set-key 'motion (kbd "<left>") 'ol-no-op)
-(evil-global-set-key 'motion (kbd "<right>") 'ol-no-op)
-(evil-global-set-key 'motion (kbd "<down>") 'ol-no-op)
-(evil-global-set-key 'motion (kbd "<up>") 'ol-no-op)
-
 (define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
-
-;; Clean insert state (maybe a bad idea? But if so, I should use
-;; emacs keybindings in insert state instaed of vim's perhaps.)
-;; TODO: These do not play well with term-mode
-
-;; (let* ((letters '("a"
-;;                   "b"
-;;                ;; "c" Needed for magit commit confirm
-;;                   "d"
-;;                   "e"
-;;                   "f"
-;;                   "g"
-;;                ;; "h" Needed for help
-;;                   "i"
-;;                   "k"
-;;                   "l"
-;;                   "m"
-;;                   "n"
-;;                   "o"
-;;                   "p"
-;;                   "q"
-;;                   "r"
-;;                   "s"
-;;                   "t"
-;;                   "u"
-;;                   "v"
-;;                   "w"
-;;                   "x"
-;;                   "y"
-;;                   "z"))
-;;        (letter-ctrls (mapcar (lambda (char) (format "C-%s" char)) letters))
-;;        (other-keybinds '("C-@"
-;;                    "S-<left>"
-;;                    "S-<right>"
-;;                    "<delete>"
-;;                    "<insert>"))
-;;        (keybinds (append letter-ctrls other-keybinds)))
-;;   (dolist (keybind keybinds)
-;;     (evil-define-key 'insert 'global (kbd keybind) 'ol-no-op)))
-
-;; (evil-define-key 'insert 'global (kbd "<return>") 'newline)
 
 ;; ---------------------------------------------------------------------------
 ;; Find and replace

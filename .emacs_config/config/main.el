@@ -69,6 +69,7 @@
 (setq evil-want-keybinding nil)
 ;; Use C-u for scroll instead of universal argument  
 (setq evil-want-C-u-scroll t)
+(setq evil-disable-insert-state-bindings t)
 
 (require 'evil)
 (evil-mode t)
