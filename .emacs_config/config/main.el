@@ -720,7 +720,7 @@ respectively."
                        (ol-evil-segment)))
                     "  "
                     (:eval (propertize " %b " 'face 'buffer-name-mode-line-face))
-                    " " (:eval (if (buffer-modified-p) "*" "-"))
+                    " " (:eval (ol-file-state-text))
                     " "
                     " %l:%c "
                     (:eval (format "%4d" (/ (point) 0.01 (point-max)))) "%%%%"
@@ -740,6 +740,12 @@ respectively."
       " "
       (truncate-string-to-width (string-pad (upcase (symbol-name evil-state)) 9 32) 6))
      'face evil-face)))
+
+(defun ol-file-state-text ()
+  (if buffer-read-only
+      "%%%%"
+    (if (buffer-modified-p) "*" "-")))
+
 ;; TODO Make the above formatting of states prettier
 
 ;; TODO: Make it look similar to what it looked like with doom
