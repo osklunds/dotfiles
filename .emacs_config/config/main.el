@@ -595,7 +595,9 @@
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
 
 (advice-add 'vdiff-buffers :after (lambda (&rest r)
-                                    (other-window 1)))
+                                    (toggle-truncate-lines)
+                                    (other-window 1)
+                                    (toggle-truncate-lines)))
 
 (defun ol-diff-on-quit (buffer-a buffer-b)
   (kill-buffer buffer-a))
