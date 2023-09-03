@@ -257,6 +257,10 @@
 (add-to-list 'eglot-stay-out-of 'flymake)
 (add-to-list 'eglot-stay-out-of 'company)
 
+;; To prevent eglot crash when closing vdiff. Maybe a more sophisticated solution would be better.
+;; Maybe I just have to disable toggle debug on error
+(advice-add 'eglot--signal-textDocument/didClose :around (lambda (oldfun &rest args) (ignore-errors oldfun args)))
+
 ;;;; -------------------------------------------------------------------------
 ;;;; Abbreviations (for completions)
 ;;;; -------------------------------------------------------------------------
