@@ -133,6 +133,8 @@
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
 
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Windows and buffers
 ;;;; ---------------------------------------------------------------------------
