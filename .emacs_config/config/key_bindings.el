@@ -219,6 +219,7 @@
 (evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
 (evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
 (evil-define-key 'insert term-raw-map (kbd "C-y") 'term-paste)
+(evil-define-key 'insert term-raw-map (kbd "C-d") 'term-send-raw)
 
 ;; Hack to do it like this. If done directly, error about prefix key.
 (defun ol-map-ctrl-c ()
