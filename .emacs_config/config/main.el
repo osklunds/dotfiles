@@ -122,6 +122,8 @@
 (setq visible-bell nil
       ring-bell-function #'ignore)
 
+(setq frame-title-format "Emacs")
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Line and column numbers
 ;;;; ---------------------------------------------------------------------------
