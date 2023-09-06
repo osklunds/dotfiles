@@ -74,19 +74,22 @@
 
 (ol-inherit-face-attribute 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
 
-(defun ol-vdiff-set-face (face-to-set face-to-copy-from)
-  (let ((face-val (face-attribute face-to-copy-from :background)))
-    (ol-set-face-attribute face-to-set
-                           :inherit nil
-                           :extend t
-                           :background face-val
-                           :foreground nil)))
+(defun ol-vdiff-set-face (face-to-set face-val)
+  (ol-set-face-attribute face-to-set
+                         :inherit nil
+                         :extend t
+                         :background face-val
+                         :foreground nil))
+;; Add
+(ol-vdiff-set-face 'vdiff-addition-face "#9FEC9D")
+(ol-vdiff-set-face 'vdiff-refine-added "#9FEC9D")
 
-(ol-vdiff-set-face 'vdiff-addition-face 'magit-diff-added-highlight)
-(ol-vdiff-set-face 'vdiff-refine-added 'magit-diff-added-highlight)
-(ol-vdiff-set-face 'vdiff-change-face 'magit-diff-base)
-(ol-vdiff-set-face 'vdiff-refine-changed 'magit-diff-base-highlight)
-(ol-vdiff-set-face 'vdiff-subtraction-face 'magit-diff-removed-highlight)
+;; Delete
+(ol-vdiff-set-face 'vdiff-subtraction-face "#E45649")
+
+;; Change
+(ol-vdiff-set-face 'vdiff-refine-changed "#F4C29D")
+(ol-vdiff-set-face 'vdiff-change-face "#F6EEE8")
 
 ;; ---------------------------------------------------------------------------
 ;; ediff
