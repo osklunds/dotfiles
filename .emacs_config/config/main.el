@@ -322,11 +322,9 @@
 ;; Projectile
 ;; -----------------------------------------------------------------------------
 
-(if (ol-is-mac)
-    (setq projectile-project-search-path '(("~/Documents" ) ("~/Programmering" . 2)))
-  (setq projectile-project-search-path '(("~/own_repos" . 1)
-                                         ("~/others_repos" . 1)
-                                         ("~/Dropbox/Dokument"))))
+(setq projectile-project-search-path '(("~/own_repos" . 1)
+                                       ("~/others_repos" . 1)
+                                       ("~/Dropbox/Dokument")))
 
 (setq projectile-enable-caching t)
 
