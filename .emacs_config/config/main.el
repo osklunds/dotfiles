@@ -52,6 +52,8 @@
 ;; Silence compiler warnings as they can be pretty disruptive
 (setq native-comp-async-report-warnings-errors nil)
 
+(setq enable-local-variables nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
