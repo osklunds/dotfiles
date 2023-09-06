@@ -237,10 +237,14 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
-(require 'counsel)
-
 (require 'ivy-rich)
 (ivy-rich-mode t)
+
+(require 'counsel)
+
+(ivy-configure 'counsel-M-x
+  :initial-input ""
+  :display-transformer-fn #'counsel-M-x-transformer)
 
 ;; -----------------------------------------------------------------------------
 ;; Languages
