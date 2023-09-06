@@ -556,14 +556,21 @@
   (interactive)
   (ansi-term shell-file-name))
 
-(defun ol-term-named (name)
+(defun ol-term-named (name &optional cmd-on-create)
   (interactive (list (read-string "Name: " nil nil "terminal")))
-  (let* ((name2 (concat "*" name "*"))
-         (buffer (get-buffer name2)))
-    (if buffer
-        (switch-to-buffer buffer)
-      (ol-term)
-      (rename-buffer name2))))
+  (let* ((term-name (ol-name-to-term-buffer-name name))
+         (existing-buffer (get-buffer term-name))
+         (new-buffer (if existing-buffer
+                         existing-buffer
+                       (ol-term))))
+    (switch-to-buffer new-buffer)
+    (rename-buffer term-name)
+    (when (and cmd-on-create (not existing-buffer))
+      (process-send-string new-buffer (concat cmd-on-create "\n")))
+    new-buffer))
+
+(defun ol-name-to-term-buffer-name (name)
+  (concat "*" name "*"))
 
 (setq kill-buffer-query-functions nil)
 (setq confirm-kill-processes nil)
