@@ -331,7 +331,7 @@
 (setc projectile-enable-caching t)
 (setc projectile-generic-command "rg --files | tr '\\n' '\\0'")
 
-(setc 'projectile-completion-system 'ivy)
+(setc projectile-completion-system 'ivy)
 
 (setc projectile-switch-project-action 'projectile-commander)
 
