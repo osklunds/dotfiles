@@ -161,6 +161,8 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 ;; -----------------------------------------------------------------------------
 ;; Text editing
 ;; -----------------------------------------------------------------------------
