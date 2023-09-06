@@ -71,8 +71,8 @@
 (ol-define-key evil-emacs-state-map "<escape>" 'evil-normal-state)
 
 ;; Window movement
-(define-key evil-normal-state-map (kbd "C-h") #'evil-window-left)
-(define-key evil-normal-state-map (kbd "C-l") #'evil-window-right)
+(define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
+(define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
 
 (defun ol-no-op ()
   (interactive))
