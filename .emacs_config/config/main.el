@@ -322,20 +322,20 @@
 ;; Projectile
 ;; -----------------------------------------------------------------------------
 
-(setq projectile-project-search-path '(("~/own_repos" . 1)
+(require 'projectile)
+
+(setc projectile-project-search-path '(("~/own_repos" . 1)
                                        ("~/others_repos" . 1)
                                        ("~/Dropbox/Dokument")))
 
-(setq projectile-enable-caching t)
+(setc projectile-enable-caching t)
+(setc projectile-generic-command "rg --files | tr '\\n' '\\0'")
 
-(require 'projectile)
+(setc 'projectile-completion-system 'ivy)
 
-(customize-set-variable 'projectile-completion-system 'ivy)
-
-(setq projectile-switch-project-action 'projectile-commander)
+(setc projectile-switch-project-action 'projectile-commander)
 
 (require 'counsel-projectile)
-
 (require 'projectile-ripgrep)
 
 (setq ivy-more-chars-alist '((t . 1)))
