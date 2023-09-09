@@ -266,7 +266,14 @@
 
 (require 'eglot)
 
-(setq eglot-ignored-server-capabilities '(:documentHighlightProvider :hoverProvider :codeLensProvider :color-symbols :colorProvider :inlayHintProvider :signatureHelpProvider))
+(setc eglot-ignored-server-capabilities '(:documentHighlightProvider
+                                          :hoverProvider
+                                          :codeLensProvider
+                                          :color-symbols
+                                          :colorProvider
+                                          :inlayHintProvider
+                                          :signatureHelpProvider))
+
 (setc eglot-events-buffer-size 0)
 (add-to-list 'eglot-stay-out-of 'flymake)
 (add-to-list 'eglot-stay-out-of 'company)
