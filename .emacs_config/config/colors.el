@@ -25,7 +25,7 @@
   (ol-set-face-attribute 'default :height 90))
 
 (ol-set-face-attribute 'default :foreground "#000000" :background "#ffffff")
-(ol-set-face-attribute 'font-lock-comment-face :foreground "#50a14f")
+(ol-set-face-attribute 'font-lock-comment-face :foreground "#5f8700")
 (ol-set-face-attribute 'font-lock-string-face :foreground "#d78700")
 
 (ol-set-face-attribute 'magit-blame-margin :background "#e4e4e4")
