@@ -31,3 +31,9 @@
                 "colors"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
     (load path)))
+
+;; ---------------------------------------------------------------------------
+;; Undo stuff needed just when loading emacs config
+;; ---------------------------------------------------------------------------
+
+(setq debug-on-error nil)
