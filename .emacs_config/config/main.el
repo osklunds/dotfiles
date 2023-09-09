@@ -352,7 +352,7 @@
 
 (setc projectile-completion-system 'ivy)
 
-(setc projectile-switch-project-action 'projectile-commander)
+(setc projectile-switch-project-action 'projectile-find-file)
 
 (require 'counsel-projectile)
 (require 'projectile-ripgrep)
