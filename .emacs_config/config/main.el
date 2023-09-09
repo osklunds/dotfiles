@@ -174,8 +174,10 @@
 ;; -----------------------------------------------------------------------------
 
 (setq-default tab-width 4)
-(setq-default evil-shift-width tab-width)
+(setq-default evil-shift-width 4)
+
 (setq-default indent-tabs-mode nil)
+(setq-default indent-line-function 'insert-tab)
 
 (setq-default fill-column 80)
 
