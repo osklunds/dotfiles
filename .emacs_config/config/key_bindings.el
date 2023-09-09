@@ -132,9 +132,15 @@
 ;; ---------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "pp" 'projectile-switch-project)
-(ol-define-normal-leader-key "pd" 'projectile-discover-projects-in-search-path)
+(ol-define-normal-leader-key "ps" 'projectile-discover-projects-in-search-path)
 (ol-define-normal-leader-key "pr" 'projectile-invalidate-cache)
 (ol-define-normal-leader-key "pf" 'counsel-projectile-rg)
+
+(ol-define-normal-leader-key "pd" 'ol-switch-to-dotfiles)
+
+(defun ol-switch-to-dotfiles ()
+  (interactive)
+  (projectile-switch-project-by-name "dotfiles"))
 
 (ol-override-key "M-q" 'projectile-find-file)
 (ol-define-key projectile-mode-map "C-c p" 'projectile-command-map)
