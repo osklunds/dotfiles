@@ -275,6 +275,8 @@
                                           :signatureHelpProvider))
 
 (setc eglot-events-buffer-size 0)
+(setc eglot-report-progress nil)
+
 (add-to-list 'eglot-stay-out-of 'flymake)
 (add-to-list 'eglot-stay-out-of 'company)
 
