@@ -74,15 +74,6 @@
 (define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
 (define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
 
-(defun ol-no-op ()
-  (interactive))
-
-;; No arrow keys
-(define-key evil-normal-state-map (kbd "<left>") 'ol-no-op)
-(define-key evil-normal-state-map (kbd "<right>") 'ol-no-op)
-(define-key evil-normal-state-map (kbd "<down>") 'ol-no-op)
-(define-key evil-normal-state-map (kbd "<up>") 'ol-no-op)
-
 (define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
 
 ;; ---------------------------------------------------------------------------
