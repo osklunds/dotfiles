@@ -94,7 +94,7 @@
 
 (evil-set-undo-system 'undo-redo)
 
-(setq scroll-margin 7)                          
+(setc scroll-margin 0)                          
 (add-hook 'term-mode-hook                       
           (lambda ()                                 
             (make-local-variable 'scroll-margin)
