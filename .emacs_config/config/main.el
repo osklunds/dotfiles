@@ -43,8 +43,11 @@
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(setq gc-cons-threshold 50000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold (eval-when-compile (* 1024 1024 1024))) ;; 1 GB
+
+(run-with-idle-timer 2 t (lambda () (garbage-collect)))
+
+(setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
 ;; change all prompts to y or n
 (fset 'yes-or-no-p 'y-or-n-p)
