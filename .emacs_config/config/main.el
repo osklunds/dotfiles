@@ -73,6 +73,7 @@
 ;; Use C-u for scroll instead of universal argument  
 (setq evil-want-C-u-scroll t)
 (setq evil-disable-insert-state-bindings t)
+(setq evil-respect-visual-line-mode t)
 
 (require 'evil)
 (evil-mode t)
@@ -180,6 +181,8 @@
 (setq-default indent-line-function 'insert-tab)
 
 (setq-default fill-column 80)
+
+(setq-default visual-line-mode t)
 
 (require 'evil-nerd-commenter)
 
