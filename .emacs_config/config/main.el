@@ -134,7 +134,7 @@
 
 (global-display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
-(column-number-mode)
+(setc display-line-numbers-grow-only t)
 
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
