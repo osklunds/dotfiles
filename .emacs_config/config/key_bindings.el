@@ -140,7 +140,7 @@
 
 (defun ol-switch-to-dotfiles ()
   (interactive)
-  (projectile-switch-project-by-name "dotfiles"))
+  (projectile-switch-project-by-name "~/dotfiles"))
 
 (ol-override-key "M-q" 'projectile-find-file)
 (ol-define-key projectile-mode-map "C-c p" 'projectile-command-map)
