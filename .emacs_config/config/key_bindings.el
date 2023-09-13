@@ -233,6 +233,12 @@
 ;; -----------------------------------------------------------------------------
 
 (ol-define-key vdiff-mode-map "C-c" vdiff-mode-prefix-map)
+(ol-define-key vdiff-mode-map "C-c l" 'ol-vdiff-fix-scroll)
+
+(defun ol-vdiff-fix-scroll ()
+  (interactive)
+  (vdiff--scroll-function))
+
 (ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 
