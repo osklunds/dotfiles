@@ -617,8 +617,10 @@
 
 (require 'vdiff)
 
-(setq vdiff-auto-refine t)
+(setq vdiff-auto-refine nil)
 (setq vdiff-subtraction-fill-char ? )
+
+(setc vdiff-diff-algorithm 'diff)
 
 (setc vdiff-fold-padding 10)
 
