@@ -217,6 +217,7 @@
 (evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
 (evil-define-key 'insert term-raw-map (kbd "C-y") 'term-paste)
 (evil-define-key 'insert term-raw-map (kbd "C-d") 'term-send-raw)
+(evil-define-key 'insert term-raw-map (kbd "C-6") 'evil-switch-to-windows-last-buffer)
 
 ;; Hack to do it like this. If done directly, error about prefix key.
 (defun ol-map-ctrl-c ()
