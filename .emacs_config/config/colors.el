@@ -88,7 +88,7 @@
 (ol-vdiff-set-face 'vdiff-subtraction-face "#E45649")
 
 ;; Change
-(ol-vdiff-set-face 'vdiff-refine-changed "#F4C29D")
+(ol-vdiff-set-face 'vdiff-refine-changed "#ffd787")
 (ol-vdiff-set-face 'vdiff-change-face "#F6EEE8")
 
 ;; ---------------------------------------------------------------------------
