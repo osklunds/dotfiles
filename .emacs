@@ -14,6 +14,7 @@
 
 (setq load-path (append load-path
                         (file-expand-wildcards "~/.emacs_config/packages/*")
+                        (file-expand-wildcards "~/.emacs_config/packages/*/clients")
                         (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
 
 ;; ---------------------------------------------------------------------------

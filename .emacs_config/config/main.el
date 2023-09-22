@@ -291,12 +291,6 @@
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
 ;; TODO: Get functions from ivy-lsp
 
-(ol-require 'lsp-ivy)
-
-;; To prevent eglot crash when closing vdiff. Maybe a more sophisticated solution would be better.
-;; Maybe I just have to disable toggle debug on error
-(advice-add 'eglot--signal-textDocument/didClose :around (lambda (oldfun &rest args) (ignore-errors oldfun args)))
-
 ;;;; -------------------------------------------------------------------------
 ;;;; Abbreviations (for completions)
 ;;;; -------------------------------------------------------------------------

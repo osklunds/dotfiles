@@ -112,3 +112,21 @@
 [submodule ".emacs_config/packages/haskell-mode"]
 	path = .emacs_config/packages/haskell-mode
 	url = https://github.com/haskell/haskell-mode.git
+[submodule ".emacs_config/packages/lsp-mode"]
+	path = .emacs_config/packages/lsp-mode
+	url = https://github.com/emacs-lsp/lsp-mode.git
+[submodule ".emacs_config/packages/f.el"]
+	path = .emacs_config/packages/f.el
+	url = https://github.com/rejeep/f.el.git
+[submodule ".emacs_config/packages/s.el"]
+	path = .emacs_config/packages/s.el
+	url = https://github.com/magnars/s.el.git
+[submodule ".emacs_config/packages/ht.el"]
+	path = .emacs_config/packages/ht.el
+	url = https://github.com/Wilfred/ht.el.git
+[submodule ".emacs_config/packages/markdown-mode"]
+	path = .emacs_config/packages/markdown-mode
+	url = https://github.com/jrblevin/markdown-mode.git
+[submodule ".emacs_config/packages/spinner.el"]
+	path = .emacs_config/packages/spinner.el
+	url = https://github.com/Malabarba/spinner.el.git
