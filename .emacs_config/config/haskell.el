@@ -1,4 +1,4 @@
 
 (require 'haskell-mode)
 
-(add-hook 'haskell-mode-hook 'eglot-ensure)
+(add-hook 'haskell-mode-hook 'lsp)

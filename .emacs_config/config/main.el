@@ -267,21 +267,31 @@
 ;;;; LSP
 ;;;; -------------------------------------------------------------------------
 
-(require 'eglot)
+(require 'lsp-mode)
 
-(setc eglot-ignored-server-capabilities '(:documentHighlightProvider
-                                          :hoverProvider
-                                          :codeLensProvider
-                                          :color-symbols
-                                          :colorProvider
-                                          :inlayHintProvider
-                                          :signatureHelpProvider))
+(setq lsp-completion-provider :none)
+(setq lsp-enable-symbol-highlighting nil)
+(setq lsp-modeline-code-actions-enable nil)
+(setq lsp-modeline-diagnostics-enable nil)
+(setq lsp-diagnostics-provider :none)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-workspace-status-enable nil)
+(setq lsp-lens-enable nil)
+(setq lsp-ui-doc-enable nil)
+(setq lsp-headerline-breadcrumb-enable nil)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-code-actions-enable nil)
+(setq lsp-ui-sideline-enable nil)
+(setq lsp-modeline-diagnostics-enable nil)
+(setq lsp-eldoc-enable-hover nil)
+(setq lsp-signature-auto-activate nil)
+(setq flycheck-indication-mode nil)
 
-(setc eglot-events-buffer-size 0)
-(setc eglot-report-progress nil)
+(setq lsp-log-io t)
+;; TODO: Disable lsp diagnostics. Can use above log to inspect
+;; TODO: Get functions from ivy-lsp
 
-(add-to-list 'eglot-stay-out-of 'flymake)
-(add-to-list 'eglot-stay-out-of 'company)
+(ol-require 'lsp-ivy)
 
 ;; To prevent eglot crash when closing vdiff. Maybe a more sophisticated solution would be better.
 ;; Maybe I just have to disable toggle debug on error

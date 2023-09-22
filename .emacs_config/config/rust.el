@@ -1,7 +1,7 @@
 
 (require 'rust-mode)
 
-(add-hook 'rust-mode-hook 'eglot-ensure)
+(add-hook 'rust-mode-hook 'lsp)
 
 (defun ol-lsp-rust-analyzer--make-init-options (original)
   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
