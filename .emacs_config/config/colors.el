@@ -75,6 +75,7 @@
   (ol-set-face-attribute face :weight 'bold)
   (ol-set-face-attribute face :foreground "#50a14f")
   (ol-set-face-attribute face :background "#ffffff"))
+;; TODO: make it match company mode
 
 ;; ---------------------------------------------------------------------------
 ;; vdiff
