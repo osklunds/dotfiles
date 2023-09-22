@@ -354,6 +354,7 @@
 
 (setc projectile-project-search-path '(("~/own_repos" . 1)
                                        ("~/others_repos" . 1)
+                                       ("~/own_repos/dotfiles/.emacs_config/packages" . 1)
                                        ("~/Dropbox/Dokument")))
 
 (setc projectile-enable-caching t)
