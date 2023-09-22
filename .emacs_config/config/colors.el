@@ -68,6 +68,14 @@
                 ol-evil-operator-state-mode-line-face))
   (ol-set-face-attribute face :weight 'bold))
 
+(dolist (face '(ivy-minibuffer-match-face-1
+                ivy-minibuffer-match-face-2
+                ivy-minibuffer-match-face-3
+                ivy-minibuffer-match-face-4))
+  (ol-set-face-attribute face :weight 'bold)
+  (ol-set-face-attribute face :foreground "#50a14f")
+  (ol-set-face-attribute face :background "#ffffff"))
+
 ;; ---------------------------------------------------------------------------
 ;; vdiff
 ;; ---------------------------------------------------------------------------
