@@ -99,7 +99,7 @@
   (split-window-right)
   (evil-window-right 1))
 
-(ol-override-key "M-w" 'ol-split-window)
+(ol-override-key "M-d" 'ol-split-window)
 (ol-override-key "M-e" 'ol-force-split-window)
 
 ;; -----------------------------------------------------------------------------
