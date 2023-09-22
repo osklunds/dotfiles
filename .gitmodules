@@ -130,3 +130,9 @@
 [submodule ".emacs_config/packages/spinner.el"]
 	path = .emacs_config/packages/spinner.el
 	url = https://github.com/Malabarba/spinner.el.git
+[submodule ".emacs_config/packages/company-box"]
+	path = .emacs_config/packages/company-box
+	url = https://github.com/sebastiencs/company-box.git
+[submodule ".emacs_config/packages/frame-local"]
+	path = .emacs_config/packages/frame-local
+	url = https://github.com/sebastiencs/frame-local.git

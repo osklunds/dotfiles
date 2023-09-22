@@ -322,6 +322,7 @@
 ;;;; -------------------------------------------------------------------------
 
 (require 'company)
+(require 'company-box)
 
 ;; TODO: Set more things using customize instead of setq
 (customize-set-variable 'company-backends '((company-abbrev
@@ -337,6 +338,7 @@
 (setq company-dabbrev-other-buffers nil)
 
 (add-hook 'prog-mode-hook 'company-mode)
+(add-hook 'company-mode-hook 'company-box-mode)
 
 ;; -----------------------------------------------------------------------------
 ;; Theme
