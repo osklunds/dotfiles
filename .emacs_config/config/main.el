@@ -765,11 +765,11 @@ respectively."
  '((:eval (ol-mode-line-format
            ;; left portion
            (format-mode-line
-            (quote ((:eval (ol-evil-segment))
+            (quote ((:eval (ol-evil-segment)) " "
                     (:eval (ol-buffer-name-segment)) " "
                     (:eval (ol-file-state-text)) " "
                     "%l:%c" " "
-                    (:eval (ol-relative-position-segment)) "%%%%"
+                    (:eval (ol-relative-position-segment))
                     )))
            ;; right portion
            (format-mode-line (quote ((vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
@@ -796,7 +796,8 @@ respectively."
     (if (buffer-modified-p) "*" "-")))
 
 (defun ol-relative-position-segment ()
-  (format "%4d" (/ (point) 0.01 (point-max))))
+  (format "%4d%%%%%%%%" (/ (point) 0.01 (point-max))))
+;; TODO the amount of % escaping above means there are too many layers
 
 ;; TODO Make the above formatting of states prettier
 
