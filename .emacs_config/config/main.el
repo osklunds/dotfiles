@@ -659,9 +659,6 @@
 ;;;; Cleaning up buffers
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-vdiff-cleanup (original-args)
-  (apply 'ol-vdiff-new-args original-args))
-
 (defun ol-vdiff-new-args (buffer-a
                           buffer-b
                           &optional
@@ -669,9 +666,9 @@
                           on-quit
                           restore-windows-on-quit
                           kill-buffers-on-quit)
-  (list buffer-a buffer-b rotate 'vdiff-magit--kill-temp-buffers restore-windows-on-quit kill-buffers-on-quit))
+  (list buffer-a buffer-b rotate 'vdiff-magit--kill-temp-buffers t kill-buffers-on-quit))
 
-(advice-add 'vdiff-buffers :filter-args 'ol-vdiff-cleanup)
+(advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
 
 (defun ol-vdiff-magit-stage-cleanup (file)
   (message "hej")
