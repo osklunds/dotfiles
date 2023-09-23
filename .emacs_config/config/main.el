@@ -80,6 +80,7 @@
 
 (evil-set-initial-state 'messages-buffer-mode 'normal)
 (evil-set-initial-state 'debugger-mode 'normal)
+(evil-set-initial-state 'Custom-mode 'normal)
 
 (setq evil-insert-state-cursor 'box)
 
