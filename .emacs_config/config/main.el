@@ -666,7 +666,10 @@
                           on-quit
                           restore-windows-on-quit
                           kill-buffers-on-quit)
-  (list buffer-a buffer-b rotate 'vdiff-magit--kill-temp-buffers t kill-buffers-on-quit))
+  (let* ((new-on-quit (lambda (buf-a buf-b)
+                        (vdiff-magit--kill-temp-buffers buf-a buf-b)
+                        (visual-line-mode 1))))
+  (list buffer-a buffer-b rotate new-on-quit t kill-buffers-on-quit)))
 
 (advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
 
