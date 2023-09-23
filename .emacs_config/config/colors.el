@@ -73,9 +73,14 @@
                 ivy-minibuffer-match-face-3
                 ivy-minibuffer-match-face-4))
   (ol-set-face-attribute face :weight 'bold)
-  (ol-set-face-attribute face :foreground "#50a14f")
+  (ol-set-face-attribute face :foreground "#4078f2")
   (ol-set-face-attribute face :background "#ffffff"))
-;; TODO: make it match company mode
+
+(ol-set-face-attribute 'ivy-current-match :weight 'bold)
+(ol-set-face-attribute 'ivy-current-match :background "#D7E4E8")
+
+(ol-set-face-attribute 'company-box-background :background "#ffffff")
+(ol-set-face-attribute 'company-box-selection :background "#D7E4E8")
 
 ;; ---------------------------------------------------------------------------
 ;; vdiff
