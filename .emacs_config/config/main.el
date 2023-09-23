@@ -626,6 +626,7 @@
 ;;;; ---------------------------------------------------------------------------
 
 (require 'vdiff)
+(require 'vdiff-magit)
 
 (setq vdiff-auto-refine nil)
 (setq vdiff-subtraction-fill-char ? )
@@ -639,6 +640,12 @@
 
 (setq vdiff-fold-string-function 'ol-vdiff-fold-string)
 
+(setc vdiff-magit-stage-is-2way t)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Truncate lines
+;;;; ---------------------------------------------------------------------------
+
 (advice-add 'vdiff-buffers :after (lambda (&rest r)
                                     (ol-enable-truncate-lines)
                                     (other-window 1)
@@ -648,52 +655,32 @@
   (unless truncate-lines
     (toggle-truncate-lines)))
 
-(defun ol-diff-on-quit (buffer-a buffer-b)
-  (kill-buffer buffer-a))
-
-(defun ol-vdiff-buffers-kill-only-leftmost (buffer-a buffer-b)
-  (vdiff-buffers buffer-a buffer-b nil 'ol-diff-on-quit t nil))
-
 ;;;; ---------------------------------------------------------------------------
-;;;; Magit integration
+;;;; Cleaning up buffers
 ;;;; ---------------------------------------------------------------------------
 
-(require 'vdiff-magit)
+(defun ol-vdiff-cleanup (original-args)
+  (apply 'ol-vdiff-new-args original-args))
 
-(setc vdiff-magit-stage-is-2way t)
+(defun ol-vdiff-new-args (buffer-a
+                          buffer-b
+                          &optional
+                          rotate
+                          on-quit
+                          restore-windows-on-quit
+                          kill-buffers-on-quit)
+  (list buffer-a buffer-b rotate 'vdiff-magit--kill-temp-buffers restore-windows-on-quit kill-buffers-on-quit))
 
-;; Copy of vdiff, but modified to use ol-vdiff-buffers-kill-only-leftmost
-(defun ol-vdiff-magit-show-working-tree (file)
-  (interactive
-   (list (magit-read-file-choice "Show changes in file"
-                                 (magit-changed-files "HEAD")
-                                 "No changed files")))
-  (magit-with-toplevel
-    (ol-vdiff-buffers-kill-only-leftmost
-     (or (magit-get-revision-buffer "HEAD" file)
-         (magit-find-file-noselect "HEAD" file))
-     (or (get-file-buffer file) (find-file-noselect file)))))
+(advice-add 'vdiff-buffers :filter-args 'ol-vdiff-cleanup)
 
-(advice-add 'vdiff-magit-show-working-tree :override #'ol-vdiff-magit-show-working-tree)
+(defun ol-vdiff-magit-stage-cleanup (file)
+  (message "hej")
+  (let* ((trailing-buf (or (magit-get-revision-buffer "HEAD" file)
+                           (magit-find-file-noselect "HEAD" file))))
+    (kill-buffer trailing-buf)))
 
-;; Copy of vdiff, but modified to use ol-vdiff-buffers-kill-only-leftmost
-(defun ol-vdiff-magit-show-unstaged (file)
-  (interactive
-   (list (magit-read-file-choice "Show unstaged changes for file"
-                                 (magit-unstaged-files)
-                                 "No unstaged files")))
-  (magit-with-toplevel
-    (ol-vdiff-buffers-kill-only-leftmost
-     (or (get-buffer (concat file ".~{index}~"))
-         (magit-find-file-index-noselect file t))
-     (or (get-file-buffer file)
-         (find-file-noselect file)))))
-
-(advice-add 'vdiff-magit-show-unstaged :override #'ol-vdiff-magit-show-unstaged)
-
-;; TODO: Make sure vdiff stage doesn't leave trailing buffers index and HEAD
-;; Could check if they exist before, and if not, kill them on-quit.
-
+(advice-add 'vdiff-magit-stage :after 'ol-vdiff-magit-stage-cleanup)
+              
 ;;;; ---------------------------------------------------------------------------
 ;;;; Magit diffing
 ;;;; ---------------------------------------------------------------------------
@@ -703,7 +690,7 @@
   (let* ((file (magit-current-file))
          (rev-head "HEAD")
          (buffer-head (msk--get-revision-buffer rev-head file)))
-    (ol-vdiff-buffers-kill-only-leftmost buffer-head (current-buffer))))
+    (vdiff-buffers buffer-head (current-buffer))))
 
 (defun ol-does-branch-exist (branch)
   (equal (magit-rev-branch branch) branch))
@@ -722,7 +709,7 @@
          (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
          (file-main (magit--rev-file-name file "HEAD" rev-main))
          (buffer-main (msk--get-revision-buffer rev-main file-main)))
-    (ol-vdiff-buffers-kill-only-leftmost buffer-main (current-buffer))))
+    (vdiff-buffers buffer-main (current-buffer))))
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
