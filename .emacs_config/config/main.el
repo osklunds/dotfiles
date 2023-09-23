@@ -765,12 +765,9 @@ respectively."
  '((:eval (ol-mode-line-format
            ;; left portion
            (format-mode-line
-            (quote ("%e"
-                    (:eval
-                     (when (bound-and-true-p evil-local-mode)
-                       (ol-evil-segment)))
+            (quote ((:eval (ol-evil-segment))
                     "  "
-                    (:eval (propertize " %b " 'face 'buffer-name-mode-line-face))
+                    (:eval (ol-buffer-name-segment))
                     " " (:eval (ol-file-state-text))
                     " "
                     " %l:%c "
@@ -791,6 +788,9 @@ respectively."
       " "
       (truncate-string-to-width (string-pad (upcase (symbol-name evil-state)) 9 32) 6))
      'face evil-face)))
+
+(defun ol-buffer-name-segment ()
+  (propertize " %b " 'face 'buffer-name-mode-line-face))
 
 (defun ol-file-state-text ()
   (if buffer-read-only
