@@ -171,7 +171,7 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(global-visual-line-mode)
+(global-visual-line-mode t)
 
 ;; -----------------------------------------------------------------------------
 ;; Text editing
