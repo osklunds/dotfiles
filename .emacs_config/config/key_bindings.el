@@ -102,6 +102,8 @@
 (ol-override-key "M-d" 'ol-split-window)
 (ol-override-key "M-e" 'ol-force-split-window)
 
+(ol-define-key evil-normal-state-map "q" 'quit-window)
+
 ;; -----------------------------------------------------------------------------
 ;; Languages
 ;; -----------------------------------------------------------------------------
