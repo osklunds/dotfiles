@@ -766,12 +766,10 @@ respectively."
            ;; left portion
            (format-mode-line
             (quote ((:eval (ol-evil-segment))
-                    "  "
-                    (:eval (ol-buffer-name-segment))
-                    " " (:eval (ol-file-state-text))
-                    " "
-                    " %l:%c "
-                    (:eval (format "%4d" (/ (point) 0.01 (point-max)))) "%%%%"
+                    (:eval (ol-buffer-name-segment)) " "
+                    (:eval (ol-file-state-text)) " "
+                    "%l:%c" " "
+                    (:eval (ol-relative-position-segment)) "%%%%"
                     )))
            ;; right portion
            (format-mode-line (quote ((vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
@@ -796,6 +794,9 @@ respectively."
   (if buffer-read-only
       "%%%%"
     (if (buffer-modified-p) "*" "-")))
+
+(defun ol-relative-position-segment ()
+  (format "%4d" (/ (point) 0.01 (point-max))))
 
 ;; TODO Make the above formatting of states prettier
 
