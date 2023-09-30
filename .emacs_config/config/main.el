@@ -819,6 +819,10 @@
                               (ol-mode-line-left-part)
                               (ol-mode-line-right-part))))))
 
+;; Workaround to make sure also the messages buffer has the correct value
+(with-current-buffer (get-buffer "*Messages*")
+  (setq mode-line-format (default-value 'mode-line-format)))
+
 ;; -----------------------------------------------------------------------------
 ;; Dired
 ;; -----------------------------------------------------------------------------
