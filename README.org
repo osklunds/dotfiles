@@ -7,20 +7,17 @@ dotfiles I use
 
 *** Must have
 
-- Save file when doing magit-status
+- d2j etc same as vim
+- tab bar with cached buffers
+- super-save manually
+- Temporarily disable magit key bindings
 
 *** Nice to have
 
 - Make colors clearer on some monitors
 - Make diff colors clearer, maybe mimic vim's
-- mode-line
-  - Show if file is RO only
-  - Get rid if git-prefix of vc-mode
-  - Show something other than - as project name if no project
-  - Make the code for mode line cleaner
 - Organization
   - Machine specific .el file
-  - Lock submodules to specific commit
 - terminal
   - Move somewhere else in insert mode
 - Switch to vertico/consult/marginella
@@ -28,26 +25,19 @@ dotfiles I use
   - Will fix live preview of ripgrep results
 - Programming languages
   - LSP search for functions
-  - Haskell tags
-  - Rust tags
   - Improve/streamline company or other completion
   - Maybe if possible: company mode only in source blocks
-- Use built-in modeline
-  - Simplify the modeline a lot, and have a status command that instead show those details
 - lines around cursorline
 - Merge Survival Knife
 - Keybind in normal empties line
 
 *** Not that important
 
-- Disable most keys in insert mode, but ctrl-d, ctrl-x-e should work
-- space leader in dired
 - Use e.g. Ctrl-left to move MRU buffers
 - evil
   - Make magit ? show bindings for evil mode
   - Exit visual mode when search replace is done
 - alt-ret for continuing list also outside org-mode
-- C-k for switching only between terminal buffers?
 
 ** VIM todos
 
