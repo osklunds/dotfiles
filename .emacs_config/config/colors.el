@@ -13,8 +13,8 @@
 (defun ol-inherit-face-attribute (face-to-update face-to-inherit-from)
   (ol-set-face-attribute face-to-update
                          :inherit face-to-inherit-from
-                         :foreground nil
-                         :background nil))
+                         :foreground 'unspecified
+                         :background 'unspecified))
 
 ;; -----------------------------------------------------------------------------
 ;; General
@@ -45,13 +45,13 @@
 
 (ol-set-face-attribute 'mode-line
                     :background "#D7E4E8"
-                    :overline nil
-                    :underline nil)
+                    :overline 'unspecified
+                    :underline 'unspecified)
 
 (ol-set-face-attribute 'mode-line-inactive
                     :background "#E9EDED"
-                    :overline nil
-                    :underline nil)
+                    :overline 'unspecified
+                    :underline 'unspecified)
 
 (ol-set-face-attribute 'ol-buffer-name-mode-line-face
                        :weight 'bold)
@@ -93,7 +93,7 @@
                          :inherit nil
                          :extend t
                          :background face-val
-                         :foreground nil))
+                         :foreground 'unspecified))
 ;; Add
 (ol-vdiff-set-face 'vdiff-addition-face "#9FEC9D")
 (ol-vdiff-set-face 'vdiff-refine-added "#9FEC9D")
