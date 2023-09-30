@@ -53,7 +53,7 @@
                     :overline nil
                     :underline nil)
 
-(ol-set-face-attribute 'buffer-name-mode-line-face
+(ol-set-face-attribute 'ol-buffer-name-mode-line-face
                        :weight 'bold)
 
 (ol-inherit-face-attribute 'ol-evil-normal-state-mode-line-face 'font-lock-comment-face)

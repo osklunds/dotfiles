@@ -742,37 +742,27 @@
 ;; Modeline
 ;; -----------------------------------------------------------------------------
 
-;; Modeline stuff copied (and then modified) from
-;; https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
-(defun ol-mode-line-format (left right)
-  "Return a string of `window-width' length. Containing LEFT, and RIGHT aligned
-respectively."
-  (let ((available-width (- (window-width) (length left) 1)))
-    (format (format "%%s %%%ds " available-width) left right)))
+;;;; ---------------------------------------------------------------------------
+;;;; Faces
+;;;; ---------------------------------------------------------------------------
 
 (defface ol-evil-normal-state-mode-line-face '() "")
 (defface ol-evil-insert-state-mode-line-face '() "")
 (defface ol-evil-visual-state-mode-line-face '() "")
 (defface ol-evil-emacs-state-mode-line-face '() "")
 (defface ol-evil-operator-state-mode-line-face '() "")
+(defface ol-buffer-name-mode-line-face '() "")
 
-(defface buffer-name-mode-line-face '()
-  "Face for buffer name in mode-line.")
+;;;; ---------------------------------------------------------------------------
+;;;; Left part
+;;;; ---------------------------------------------------------------------------
 
-;; TODO: Split this into smaller functions
-(setq-default
- mode-line-format
- '((:eval (ol-mode-line-format
-           ;; left portion
-           (format-mode-line
-            (quote ((:eval (ol-evil-segment)) " "
-                    (:eval (ol-buffer-name-segment)) " "
-                    (:eval (ol-file-state-text)) " "
-                    "%l:%c" " "
-                    (:eval (ol-relative-position-segment))
-                    )))
-           ;; right portion
-           (format-mode-line (quote ((vc-mode vc-mode) ("  %e" (:eval (projectile-project-name))) ) ))))))
+(defun ol-mode-line-left-part ()
+  (quote (" " (:eval (ol-evil-segment))
+          "  " (:eval (ol-buffer-name-segment))
+          " " "%*"
+          " " "%l:%c"
+          "" (:eval (ol-relative-position-segment)))))
 
 (defun ol-evil-segment ()
   (let ((evil-face (cond ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
@@ -783,30 +773,51 @@ respectively."
                          (t                       'ol-evil-normal-state-mode-line-face))))
     (propertize
      (concat
-      " "
       (truncate-string-to-width (string-pad (upcase (symbol-name evil-state)) 9 32) 6))
      'face evil-face)))
 
 (defun ol-buffer-name-segment ()
-  (propertize " %b " 'face 'buffer-name-mode-line-face))
-
-(defun ol-file-state-text ()
-  (if buffer-read-only
-      "%%%%"
-    (if (buffer-modified-p) "*" "-")))
+  (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
 
 (defun ol-relative-position-segment ()
   (format "%4d%%%%%%%%" (/ (point) 0.01 (point-max))))
 ;; TODO the amount of % escaping above means there are too many layers
 
-;; TODO Make the above formatting of states prettier
+;;;; ---------------------------------------------------------------------------
+;;;; Right part
+;;;; ---------------------------------------------------------------------------
 
-;; TODO: Make it look similar to what it looked like with doom
-;; Left:  bar modals buffer-info buffer-position
-;; Right: major-mode vcs proj-name
+(defun ol-mode-line-right-part ()
+  (quote ((:eval (ol-branch-name-segment))
+          "  " ((:eval (ol-project-name-segment))))))
 
-;; TODO: Make all this prettier (code and output), understand % and investigate
-;; performance
+(defun ol-branch-name-segment ()
+  (vc-git--symbolic-ref (buffer-file-name)))
+
+(defun ol-project-name-segment ()
+  (let* ((name (projectile-project-name)))
+     (if (string-equal name "-")
+         ""
+       name)))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Putting it all together
+;;;; ---------------------------------------------------------------------------
+
+;; Modeline stuff copied (and then modified) from
+;; https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
+(defun ol-render-mode-line (left right)
+  (let* ((left-formatted (format-mode-line left))
+         (right-formatted (format-mode-line right))
+
+         (available-width (- (window-width) (length left-formatted) 1))
+         (align-format-string (format "%%s %%%ds " available-width)))
+    (format align-format-string left-formatted right-formatted)))
+
+(setq-default mode-line-format
+              (quote ((:eval (ol-render-mode-line
+                              (ol-mode-line-left-part)
+                              (ol-mode-line-right-part))))))
 
 ;; -----------------------------------------------------------------------------
 ;; Dired
