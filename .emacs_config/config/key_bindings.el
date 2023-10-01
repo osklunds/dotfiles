@@ -290,3 +290,5 @@
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
 
 (ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
+
+(ol-global-define-key "C-x C-s" 'ol-save-buffer)

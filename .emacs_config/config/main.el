@@ -22,22 +22,13 @@
 (setq super-save-auto-save-when-idle t)
 (super-save-mode t)
 
-;; Copied from https://emacs.stackexchange.com/a/30032
-(defmacro with-suppressed-message (&rest body)
-  "Suppress new messages temporarily in the echo area and the `*Messages*' buffer while BODY is evaluated."
-  (declare (indent 0))
-  (let ((message-log-max nil))
-    `(with-temp-message (or (current-message) "") ,@body)))
+(setq save-silently t)
 
-(defun ol-silent-save-buffer ()
+(defun ol-save-buffer ()
   (interactive)
-  (with-suppressed-message (save-buffer)))
+  (save-buffer)
+  (message (format "Saved buffer: %s" (buffer-file-name))))
 
-;; Copied from super-save and modified t use ol-silent-save-buffer
-(defun ol-super-save-command ()
-  (when (super-save-p) (ol-silent-save-buffer)))
-
-(advice-add 'super-save-command :override 'ol-super-save-command)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
