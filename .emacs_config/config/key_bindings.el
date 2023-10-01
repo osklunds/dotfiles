@@ -288,3 +288,5 @@
 (ol-define-normal-leader-key "eb" 'ol-eval-buffer)
 
 (global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
+
+(ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)

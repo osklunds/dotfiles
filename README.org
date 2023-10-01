@@ -9,7 +9,6 @@ dotfiles I use
 
 - tab bar with cached buffers
 - super-save manually
-- Temporarily disable magit key bindings
 
 *** Nice to have
 

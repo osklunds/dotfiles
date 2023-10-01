@@ -402,6 +402,22 @@
 
 (setq magit-save-repository-buffers 'dontask)
 
+(defvar ol-original-mode nil)
+(make-local-variable 'ol-original-mode)
+
+(defun ol-toggle-fundamental-mode ()
+  (interactive)
+  (let* ((original-mode ol-original-mode)
+         (original-mode (if original-mode
+                            original-mode
+                          major-mode)))
+    (if (equal major-mode 'fundamental-mode)
+        (funcall original-mode)
+      (fundamental-mode))
+    (setq-local ol-original-mode original-mode)
+    ;; (message (format "Saved mode is: %s, current mode is: %s" ol-original-mode major-mode))
+             ))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Diffs
 ;;;; ---------------------------------------------------------------------------
