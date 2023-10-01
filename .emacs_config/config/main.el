@@ -791,7 +791,9 @@
           "  " ((:eval (ol-project-name-segment))))))
 
 (defun ol-branch-name-segment ()
-  (vc-git--symbolic-ref (buffer-file-name)))
+  (if-let ((bfn (buffer-file-name)))
+      (vc-git--symbolic-ref bfn)
+    ""))
 
 (defun ol-project-name-segment ()
   (let* ((name (projectile-project-name)))
