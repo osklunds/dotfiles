@@ -759,7 +759,7 @@
 (defun ol-mode-line-left-part ()
   (quote (" " (:eval (ol-evil-segment))
           "  " (:eval (ol-buffer-name-segment))
-          " " "%*"
+          " " (:eval (ol-file-state-segment))
           " " "%l:%c"
           "" (:eval (ol-relative-position-segment)))))
 
@@ -777,6 +777,11 @@
 
 (defun ol-buffer-name-segment ()
   (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
+
+(defun ol-file-state-segment ()
+  (if buffer-read-only
+      "%%%%"
+    (if (buffer-modified-p) "*" "-")))
 
 (defun ol-relative-position-segment ()
   (format "%4d%%%%%%%%" (/ (point) 0.01 (point-max))))
