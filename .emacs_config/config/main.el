@@ -19,7 +19,6 @@
 
 (require 'super-save)
 
-(setq super-save-auto-save-when-idle t)
 (super-save-mode t)
 
 (setq save-silently t)
