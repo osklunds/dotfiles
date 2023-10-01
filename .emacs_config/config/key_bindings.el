@@ -158,6 +158,8 @@
 (ol-define-normal-leader-key "gdm" 'ol-diff-file-main)
 (ol-define-normal-leader-key "gdh" 'ol-diff-file-head)
 
+(ol-define-key magit-mode-map "SPC" nil)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
 ;;;; ---------------------------------------------------------------------------
