@@ -7,7 +7,6 @@ dotfiles I use
 
 *** Must have
 
-- d2j etc same as vim
 - tab bar with cached buffers
 - super-save manually
 - Temporarily disable magit key bindings
