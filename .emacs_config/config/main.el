@@ -869,6 +869,27 @@
 (setq dired-listing-switches "-alh")
 
 ;; -----------------------------------------------------------------------------
+;; tar
+;; -----------------------------------------------------------------------------
+
+(require 'tar-mode)
+
+(defun ol-tar-up-directory ()
+  (interactive)
+  (if tar-superior-buffer
+      (switch-to-buffer tar-superior-buffer)
+    (message "No parent tar found")))
+
+;; TODO Need to find a way to get the original name
+;; (defun ol-tar-path ()
+;;   (interactive)
+;;   (ol-tar-path-inner tar-superior-buffer ""))
+
+;; (defun ol-tar-path-inner (superior-buffer acc-path)
+;;   (if superior-buffer
+;;       (let* ((new-acc-path (
+
+;; -----------------------------------------------------------------------------
 ;; Helpers
 ;; -----------------------------------------------------------------------------
 
