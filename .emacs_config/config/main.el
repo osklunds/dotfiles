@@ -408,6 +408,22 @@
     ;; (message (format "Saved mode is: %s, current mode is: %s" ol-original-mode major-mode))
              ))
 
+;; TODO: Make a "full status" key that re-adds these
+;; Simplify magit-status for better performance
+(remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+(remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+
+;; To make sure the commit message is always uncluttered
+(defun ol-git-commit-setup ()
+  (insert "\n\n")
+  (beginning-of-buffer))
+
+(add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Diffs
 ;;;; ---------------------------------------------------------------------------
