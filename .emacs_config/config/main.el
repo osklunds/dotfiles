@@ -855,6 +855,8 @@
 ;; Dired
 ;; -----------------------------------------------------------------------------
 
+(require 'dired)
+
 (setq dired-kill-when-opening-new-dired-buffer t)
 
 (when (ol-is-mac)       
