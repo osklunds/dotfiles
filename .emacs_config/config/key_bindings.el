@@ -267,6 +267,13 @@
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 
+;; -----------------------------------------------------------------------------
+;; tar-mode
+;; -----------------------------------------------------------------------------
+
+(evil-define-key 'normal tar-mode-map (kbd "o") 'tar-extract)
+(evil-define-key 'normal tar-mode-map (kbd "i") 'ol-tar-up-directory)
+
 ;; ---------------------------------------------------------------------------
 ;; Misc
 ;; ---------------------------------------------------------------------------
