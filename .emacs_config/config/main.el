@@ -245,9 +245,6 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
-(require 'ivy-rich)
-(ivy-rich-mode t)
-
 (require 'counsel)
 
 (ivy-configure 'counsel-M-x
