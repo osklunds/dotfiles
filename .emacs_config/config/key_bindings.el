@@ -210,7 +210,7 @@
 (ol-define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
 (ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
 
-(ol-global-define-key "M-x" 'counsel-M-x)
+(ol-override-key "M-x" 'counsel-M-x)
 (ol-global-define-key "C-x C-f" 'counsel-find-file)
 
 ;; -----------------------------------------------------------------------------
