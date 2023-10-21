@@ -49,6 +49,23 @@
 
 (setc warning-minimum-level :error)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Frame
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-set-frame-size ()
+  (interactive)
+  (set-frame-height (selected-frame) 44)
+  (set-frame-width (selected-frame) 220))
+
+(defun ol-center-frame ()
+  (interactive)
+  (modify-frame-parameters (selected-frame)
+                           '((user-position . t) (top . 0.5) (left . 0.5))))
+
+(ol-set-frame-size)
+(ol-center-frame)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
