@@ -713,6 +713,31 @@
 ;; For line mode, shell works better than term/ansi-term. In shell, company mode
 ;; works but not in term.
 
+;;;; ---------------------------------------------------------------------------
+;;;; emacs server
+;;;; ---------------------------------------------------------------------------
+         
+(defun ol-start-server ()
+  (interactive)
+  (unless (server-running-p)
+    (setq server-name (ol-find-free-server-name))
+    (setenv "EMACS_SERVER_NAME" server-name)
+    (server-start)))
+
+(defun ol-find-free-server-name ()
+  (let* ((base-server-name "ol-server")
+         (current-index 0)
+         (found nil)
+         (current-name nil))
+    (while (not found)
+      (setq current-name (format "%s-%d" base-server-name current-index))
+      (if (server-running-p current-name)
+          (setq current-index (+ current-index 1))
+        (setq found t)))
+    current-name))
+
+(ol-start-server)
+
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
