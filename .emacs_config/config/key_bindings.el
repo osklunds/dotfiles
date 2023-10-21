@@ -154,10 +154,10 @@
 
 (ol-define-normal-leader-key "gs" 'magit-status)
 (ol-define-normal-leader-key "gb" 'magit-blame-addition)
-(ol-define-normal-leader-key "gdM" 'ol-diff-main)
-(ol-define-normal-leader-key "gdH" 'ol-diff-head)
-(ol-define-normal-leader-key "gdm" 'ol-diff-file-main)
-(ol-define-normal-leader-key "gdh" 'ol-diff-file-head)
+(ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
+(ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)
+(ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
+(ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
 
 (ol-define-key magit-mode-map "SPC" nil)
 
