@@ -49,23 +49,6 @@
 
 (setc warning-minimum-level :error)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Frame
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-set-frame-size ()
-  (interactive)
-  (set-frame-height (selected-frame) 44)
-  (set-frame-width (selected-frame) 220))
-
-(defun ol-center-frame ()
-  (interactive)
-  (modify-frame-parameters (selected-frame)
-                           '((user-position . t) (top . 0.5) (left . 0.5))))
-
-(ol-set-frame-size)
-(ol-center-frame)
-
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
@@ -153,7 +136,7 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Windows and buffers
+;;;; Windows, buffers, frames
 ;;;; ---------------------------------------------------------------------------
 
 (require 'balanced-windows)
@@ -169,6 +152,19 @@
 
 (setq split-window-preferred-function #'ol-split-window-sensibly)
 
+(defun ol-set-frame-size ()
+  (interactive)
+  (set-frame-height (selected-frame) 44)
+  (set-frame-width (selected-frame) 220))
+
+(defun ol-center-frame ()
+  (interactive)
+  (modify-frame-parameters (selected-frame)
+                           '((user-position . t) (top . 0.5) (left . 0.5))))
+
+(ol-set-frame-size)
+(ol-center-frame)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
@@ -177,8 +173,6 @@
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (global-visual-line-mode t)
 
