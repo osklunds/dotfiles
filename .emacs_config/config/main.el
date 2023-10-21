@@ -807,36 +807,6 @@
     (kill-buffer trailing-buf)))
 
 (advice-add 'vdiff-magit-stage :after 'ol-vdiff-magit-stage-cleanup)
-              
-;;;; ---------------------------------------------------------------------------
-;;;; Magit diffing
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-diff-file-head ()
-  (interactive)
-  (let* ((file (magit-current-file))
-         (rev-head "HEAD")
-         (buffer-head (msk--get-revision-buffer rev-head file)))
-    (vdiff-buffers buffer-head (current-buffer))))
-
-(defun ol-does-branch-exist (branch)
-  (equal (magit-rev-branch branch) branch))
-
-
-(defun ol-main-branch ()
-  (let ((main-branch "main"))
-    (if (ol-does-branch-exist main-branch)
-        main-branch
-      "master")))
-
-(defun ol-diff-file-main ()
-  (interactive)
-  (let* ((file (magit-current-file))
-         (rev-main (ol-main-branch))
-         (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
-         (file-main (magit--rev-file-name file "HEAD" rev-main))
-         (buffer-main (msk--get-revision-buffer rev-main file-main)))
-    (vdiff-buffers buffer-main (current-buffer))))
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
