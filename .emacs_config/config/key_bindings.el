@@ -159,7 +159,9 @@
 (ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
 (ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
 
+;; To make sure leader works in magit buffers
 (ol-define-key magit-mode-map "SPC" nil)
+(ol-define-key magit-diff-mode-map "SPC" nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
