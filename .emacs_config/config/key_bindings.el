@@ -23,6 +23,7 @@
 (ol-define-key evil-normal-state-map "SPC" ol-normal-leader-map)
 (ol-define-key evil-normal-state-map "C-SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
+(evil-define-key 'insert term-raw-map (kbd "C-SPC") ol-normal-leader-map)
 
 (defun ol-define-normal-leader-key (key fun)
   (ol-define-key ol-normal-leader-map key fun))
