@@ -516,7 +516,7 @@
   (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Merge Survival Knife
+;;;; Merge Survival Knife (WIP)
 ;;;; ---------------------------------------------------------------------------
 
 (defvar msk-state ())
@@ -802,7 +802,6 @@
 (advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
 
 (defun ol-vdiff-magit-stage-cleanup (file)
-  (message "hej")
   (let* ((trailing-buf (or (magit-get-revision-buffer "HEAD" file)
                            (magit-find-file-noselect "HEAD" file))))
     (kill-buffer trailing-buf)))
