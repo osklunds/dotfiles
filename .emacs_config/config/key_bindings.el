@@ -232,10 +232,6 @@
   
 (add-hook 'term-mode-hook 'ol-map-ctrl-c)
 
-;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
-;; RET seeems to become broken.
-;; (evil-define-key 'insert term-raw-map (kbd "C-m") 'help-command)
-
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
