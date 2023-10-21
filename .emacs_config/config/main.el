@@ -374,15 +374,15 @@
 (call-interactively 'projectile-mode)
 
 ;; -----------------------------------------------------------------------------
-;; Git
+;; Git and Magit
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Magit
-;;;; ---------------------------------------------------------------------------
 
 (require 'magit)
 (require 'magit-blame)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Blame
+;;;; ---------------------------------------------------------------------------
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
@@ -395,12 +395,45 @@
         )
       )
 
+;;;; ---------------------------------------------------------------------------
+;;;; Commit
+;;;; ---------------------------------------------------------------------------
+
 ;; Start in insert state when doing commits in magit
 (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
-(setq magit-diff-paint-whitespace nil)
+;; To make sure the commit message is always uncluttered
+(defun ol-git-commit-setup ()
+  (insert "\n\n")
+  (beginning-of-buffer))
+
+(add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Status
+;;;; ---------------------------------------------------------------------------
 
 (setq magit-save-repository-buffers 'dontask)
+
+;; TODO: Make a "full status" key that re-adds these
+;; TODO: Add numstat perhaps
+;; TODO: Consider setting list instead
+;; Simplify magit-status for better performance
+(remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+(remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+
+(magit-add-section-hook 'magit-status-sections-hook 'ol-magit-insert-status-header)
+
+(defun ol-magit-insert-status-header ()
+  (magit-set-header-line-format "Magit Status"))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Mode toggling
+;;;; ---------------------------------------------------------------------------
 
 (defvar ol-original-mode nil)
 (make-local-variable 'ol-original-mode)
@@ -418,39 +451,69 @@
     ;; (message (format "Saved mode is: %s, current mode is: %s" ol-original-mode major-mode))
              ))
 
-;; TODO: Make a "full status" key that re-adds these
-;; Simplify magit-status for better performance
-(remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-(remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
-
-;; To make sure the commit message is always uncluttered
-(defun ol-git-commit-setup ()
-  (insert "\n\n")
-  (beginning-of-buffer))
-
-(add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
-
 ;;;; ---------------------------------------------------------------------------
-;;;; Diffs
+;;;; Diff
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-diff-main ()
-  (interactive)
-  (magit-diff-range (ol-main-branch)))
-
-(defun ol-diff-head ()
-  (interactive)
-  (magit-diff-range "HEAD"))
+(setq magit-diff-paint-whitespace nil)
 
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
 
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
+
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Diffing all files
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-diff-all-files-main ()
+  (interactive)
+  (magit-diff-range (ol-merge-base-with-main)))
+
+(defun ol-diff-all-files-head ()
+  (interactive)
+  (magit-diff-range "HEAD"))
+
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Diffing the current file
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-diff-current-file-main ()
+  (interactive)
+  (ol-diff-current-file (ol-merge-base-with-main)))
+
+(defun ol-diff-current-file-head ()
+  (interactive)
+  (ol-diff-current-file "HEAD"))
+
+(defun ol-diff-current-file (rev-other)
+  (let* ((file (magit-current-file))
+         (file-other (magit--rev-file-name file "HEAD" rev-other))
+         (buffer-other (ol-get-revision-buffer rev-other file-other)))
+    (vdiff-buffers buffer-other (current-buffer))))
+
+(defun ol-get-revision-buffer (rev file)
+  (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
+
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Helpers
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
+(defun ol-does-branch-exist (branch)
+  (equal (magit-rev-branch branch) branch))
+
+(defun ol-merge-base-with-main ()
+  (ol-merge-base (ol-main-branch) "HEAD"))
+
+(defun ol-merge-base (rev-a rev-b)
+  (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
