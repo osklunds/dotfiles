@@ -272,7 +272,6 @@
 
 (require 'lsp-mode)
 
-(setq lsp-completion-provider :none)
 (setq lsp-enable-symbol-highlighting nil)
 (setq lsp-modeline-code-actions-enable nil)
 (setq lsp-modeline-diagnostics-enable nil)
@@ -282,13 +281,13 @@
 (setq lsp-lens-enable nil)
 (setq lsp-ui-doc-enable nil)
 (setq lsp-headerline-breadcrumb-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-diagnostics-enable nil)
 (setq lsp-eldoc-enable-hover nil)
 (setq lsp-signature-auto-activate nil)
+(setq lsp-enable-snippet nil)
+
 (setq flycheck-indication-mode nil)
+
+(setc lsp-auto-guess-root t)
 
 (setq lsp-log-io t)
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
