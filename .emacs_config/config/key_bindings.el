@@ -300,3 +300,5 @@
 (ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
 
 (ol-global-define-key "C-x C-s" 'ol-save-buffer)
+
+(evil-define-key 'normal global-map (kbd "gr") 'revert-buffer-quick)
