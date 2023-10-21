@@ -935,7 +935,7 @@
   (interactive)
   (dired default-directory))
 
-(setq dired-listing-switches "-alh")
+(setq dired-listing-switches "-Alh")
 
 ;; -----------------------------------------------------------------------------
 ;; tar
