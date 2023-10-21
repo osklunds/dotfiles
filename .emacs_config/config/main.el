@@ -697,6 +697,8 @@
 (setq kill-buffer-query-functions nil)
 (setq confirm-kill-processes nil)
 
+(setc term-scroll-to-bottom-on-output t)
+
 ;; Notes for myself on terminals
 ;; You can only edit text in either line mode or char mode - never mixed. So
 ;; workflows could look like
