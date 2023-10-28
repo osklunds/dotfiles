@@ -302,3 +302,14 @@
 (ol-global-define-key "C-x C-s" 'ol-save-buffer)
 
 (evil-define-key 'normal global-map (kbd "gr") 'revert-buffer-quick)
+
+;; ---------------------------------------------------------------------------
+;; Tab bar buffers
+;; ---------------------------------------------------------------------------
+
+;; TODO Don't duplicate all this code
+(ol-override-key "M-1" (lambda () (interactive) (ol-buffers-switch-to 1)))
+(ol-override-key "M-2" (lambda () (interactive) (ol-buffers-switch-to 2)))
+(ol-override-key "M-3" (lambda () (interactive) (ol-buffers-switch-to 3)))
+(ol-override-key "M-4" (lambda () (interactive) (ol-buffers-switch-to 4)))
+(ol-override-key "M-5" (lambda () (interactive) (ol-buffers-switch-to 5)))

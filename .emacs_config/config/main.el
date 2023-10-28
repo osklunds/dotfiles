@@ -921,18 +921,23 @@
   (setq mode-line-format (default-value 'mode-line-format)))
 
 ;; -----------------------------------------------------------------------------
-;; Tab bar
+;; Tab bar buffers
 ;; -----------------------------------------------------------------------------
 
 (require 'cl-lib)
 
+;;;; ---------------------------------------------------------------------------
+;;;; State
+;;;; ---------------------------------------------------------------------------
+
 (defvar ol-buffers-mru '(nil nil nil nil nil))
 (defvar ol-buffers-positions '(nil nil nil nil nil))
 
-(defconst ol-buffers-triggers
-  '(switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right next-buffer previous-buffer))
+;;;; ---------------------------------------------------------------------------
+;;;; Handling updates
+;;;; ---------------------------------------------------------------------------
 
-(defun ol-buffer-change-command-advice (&rest r)
+(defun ol-buffer-list-update ()
   (ol-new-buffer-displayed (current-buffer)))
   
 (defun ol-new-buffer-displayed (new-buffer)
@@ -972,17 +977,31 @@
 
   (cl-assert (= (length ol-buffers-mru) (length ol-buffers-positions))))
 
-(defun ol-advise-trigger-commands ()
-  (dolist (command ol-buffers-triggers)
-    (advice-add command :after 'ol-buffer-change-command-advice)))
+(add-hook 'buffer-list-update-hook 'ol-buffer-list-update)
 
-(ol-advise-trigger-commands)
+;;;; ---------------------------------------------------------------------------
+;;;; Formatting the string
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-buffers-string ()
-  "temp"
-  (apply 'concat (mapcar (lambda (buffer)
-          (concat "     " (ol-buffer-name buffer)))
-                         ol-buffers-positions)))
+  (let* ((prefix "[Emacs]")
+         (width-for-buffers (- (round (* 0.7 (frame-width))) (length prefix)))
+         (buffer-part (ol-format-buffers width-for-buffers)))
+    (concat prefix buffer-part)))
+
+(defun ol-format-buffers (width-for-buffers)
+  (let* ((num-buffers (length ol-buffers-mru))
+         (indexes (number-sequence 1 num-buffers))
+         (width-per-buffer (/ width-for-buffers num-buffers)))
+    (apply 'concat (mapcar (lambda (index)
+                             (ol-format-buffer index width-per-buffer))
+                             indexes))))
+
+(defun ol-format-buffer (index width)
+  (let* ((buffer (nth (- index 1) ol-buffers-positions))
+         (name (ol-buffer-name buffer))
+         (align-format-string (format "  |  %%d  %%-%ds" width)))
+    (truncate-string-to-width (format align-format-string index name) width)))
 
 (defun ol-buffer-name (buffer)
   (if buffer
@@ -990,6 +1009,14 @@
     ""))
 
 (setq frame-title-format (quote ((:eval (ol-buffers-string)))))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Keys
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-buffers-switch-to (index)
+  (interactive)
+  (switch-to-buffer (nth (- index 1) ol-buffers-positions)))
 
 ;; -----------------------------------------------------------------------------
 ;; Dired
