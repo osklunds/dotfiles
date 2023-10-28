@@ -938,9 +938,17 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-buffer-list-update ()
-  (ol-new-buffer-displayed (current-buffer)))
-  
-(defun ol-new-buffer-displayed (new-buffer)
+  (ol-new-buffer-displayed ))
+
+(defun ol-new-buffer-displayed ()
+  (when (ol-is-relevant-buffer)
+    (ol-new-relevant-buffer-displayed (current-buffer))))
+
+(defun ol-is-relevant-buffer ()
+  (message (buffer-name))
+  (not (or (minibufferp) vdiff-mode (string-match-p "eldoc for" (buffer-name)))))
+  ; (string-match-p "eldoc for" (buffer-name))
+(defun ol-new-relevant-buffer-displayed (new-buffer)
     (if (member new-buffer ol-buffers-mru)
         (ol-update-buffers-already-in-mru new-buffer)
       (ol-update-buffers-not-in-mru new-buffer)))
