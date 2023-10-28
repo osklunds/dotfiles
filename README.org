@@ -5,37 +5,35 @@ dotfiles I use
 
 ** Emacs todos
 
+*** Housekeeping
+
+- Use setc when appropriate
+- Define a wrapper for evil-define-key that does kbd
+- Clean up key bindings file and functions used
+
 *** Must have
 
-- tab bar with cached buffers
-- super-save manually
+- Live preview in fuzzy find and ripgrep etc
+- Cache-less file finder, using counsel-rg?
 
 *** Nice to have
 
-- Make colors clearer on some monitors
 - Make diff colors clearer, maybe mimic vim's
 - Organization
   - Machine specific .el file
 - terminal
-  - Move somewhere else in insert mode
-- Switch to vertico/consult/marginella
-  - Will fix LSP search for functions
-  - Will fix live preview of ripgrep results
-- Programming languages
-  - LSP search for functions
-  - Improve/streamline company or other completion
-  - Maybe if possible: company mode only in source blocks
-- lines around cursorline
+  - vterm for making the experience more similar to a normal terminal
 - Merge Survival Knife
 - Keybind in normal empties line
 
 *** Not that important
 
-- Use e.g. Ctrl-left to move MRU buffers
 - evil
   - Make magit ? show bindings for evil mode
   - Exit visual mode when search replace is done
 - alt-ret for continuing list also outside org-mode
+- Switch to vertico/consult/marginella
+  - Will fix live preview of ripgrep results
 
 ** VIM todos
 
