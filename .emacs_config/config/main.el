@@ -47,6 +47,8 @@
 
 (setq enable-local-variables nil)
 
+(setc warning-minimum-level :error)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
@@ -70,6 +72,7 @@
 (evil-set-initial-state 'messages-buffer-mode 'normal)
 (evil-set-initial-state 'debugger-mode 'normal)
 (evil-set-initial-state 'Custom-mode 'normal)
+(evil-set-initial-state 'tar-mode 'normal)
 
 (setq evil-insert-state-cursor 'box)
 
@@ -133,7 +136,7 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Windows and buffers
+;;;; Windows, buffers, frames
 ;;;; ---------------------------------------------------------------------------
 
 (require 'balanced-windows)
@@ -149,6 +152,19 @@
 
 (setq split-window-preferred-function #'ol-split-window-sensibly)
 
+(defun ol-set-frame-size ()
+  (interactive)
+  (set-frame-height (selected-frame) 44)
+  (set-frame-width (selected-frame) 220))
+
+(defun ol-center-frame ()
+  (interactive)
+  (modify-frame-parameters (selected-frame)
+                           '((user-position . t) (top . 0.5) (left . 0.5))))
+
+(ol-set-frame-size)
+(ol-center-frame)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
@@ -157,8 +173,6 @@
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (global-visual-line-mode t)
 
@@ -242,9 +256,6 @@
 
 (advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
 
-(require 'ivy-rich)
-(ivy-rich-mode t)
-
 (require 'counsel)
 
 (ivy-configure 'counsel-M-x
@@ -261,7 +272,6 @@
 
 (require 'lsp-mode)
 
-(setq lsp-completion-provider :none)
 (setq lsp-enable-symbol-highlighting nil)
 (setq lsp-modeline-code-actions-enable nil)
 (setq lsp-modeline-diagnostics-enable nil)
@@ -271,13 +281,13 @@
 (setq lsp-lens-enable nil)
 (setq lsp-ui-doc-enable nil)
 (setq lsp-headerline-breadcrumb-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-diagnostics-enable nil)
 (setq lsp-eldoc-enable-hover nil)
 (setq lsp-signature-auto-activate nil)
+(setq lsp-enable-snippet nil)
+
 (setq flycheck-indication-mode nil)
+
+(setc lsp-auto-guess-root t)
 
 (setq lsp-log-io t)
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
@@ -364,15 +374,15 @@
 (call-interactively 'projectile-mode)
 
 ;; -----------------------------------------------------------------------------
-;; Git
+;; Git and Magit
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Magit
-;;;; ---------------------------------------------------------------------------
 
 (require 'magit)
 (require 'magit-blame)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Blame
+;;;; ---------------------------------------------------------------------------
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
@@ -385,12 +395,45 @@
         )
       )
 
+;;;; ---------------------------------------------------------------------------
+;;;; Commit
+;;;; ---------------------------------------------------------------------------
+
 ;; Start in insert state when doing commits in magit
 (add-hook 'with-editor-mode-hook 'evil-insert-state)
 
-(setq magit-diff-paint-whitespace nil)
+;; To make sure the commit message is always uncluttered
+(defun ol-git-commit-setup ()
+  (insert "\n\n")
+  (beginning-of-buffer))
+
+(add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Status
+;;;; ---------------------------------------------------------------------------
 
 (setq magit-save-repository-buffers 'dontask)
+
+;; TODO: Make a "full status" key that re-adds these
+;; TODO: Add numstat perhaps
+;; TODO: Consider setting list instead
+;; Simplify magit-status for better performance
+(remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+(remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+
+(magit-add-section-hook 'magit-status-sections-hook 'ol-magit-insert-status-header)
+
+(defun ol-magit-insert-status-header ()
+  (magit-set-header-line-format "Magit Status"))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Mode toggling
+;;;; ---------------------------------------------------------------------------
 
 (defvar ol-original-mode nil)
 (make-local-variable 'ol-original-mode)
@@ -409,16 +452,10 @@
              ))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Diffs
+;;;; Diff
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-diff-main ()
-  (interactive)
-  (magit-diff-range (ol-main-branch)))
-
-(defun ol-diff-head ()
-  (interactive)
-  (magit-diff-range "HEAD"))
+(setq magit-diff-paint-whitespace nil)
 
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
@@ -426,8 +463,60 @@
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
 
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Diffing all files
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-diff-all-files-main ()
+  (interactive)
+  (magit-diff-range (ol-merge-base-with-main)))
+
+(defun ol-diff-all-files-head ()
+  (interactive)
+  (magit-diff-range "HEAD"))
+
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Diffing the current file
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-diff-current-file-main ()
+  (interactive)
+  (ol-diff-current-file (ol-merge-base-with-main)))
+
+(defun ol-diff-current-file-head ()
+  (interactive)
+  (ol-diff-current-file "HEAD"))
+
+(defun ol-diff-current-file (rev-other)
+  (let* ((file (magit-current-file))
+         (file-other (magit--rev-file-name file "HEAD" rev-other))
+         (buffer-other (ol-get-revision-buffer rev-other file-other)))
+    (vdiff-buffers buffer-other (current-buffer))))
+
+(defun ol-get-revision-buffer (rev file)
+  (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
+
+;;;;;; ---------------------------------------------------------------------------
+;;;;;; Helpers
+;;;;;; ---------------------------------------------------------------------------
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
+(defun ol-does-branch-exist (branch)
+  (equal (magit-rev-branch branch) branch))
+
+(defun ol-merge-base-with-main ()
+  (ol-merge-base (ol-main-branch) "HEAD"))
+
+(defun ol-merge-base (rev-a rev-b)
+  (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
+
 ;;;; ---------------------------------------------------------------------------
-;;;; Merge Survival Knife
+;;;; Merge Survival Knife (WIP)
 ;;;; ---------------------------------------------------------------------------
 
 (defvar msk-state ())
@@ -608,6 +697,8 @@
 (setq kill-buffer-query-functions nil)
 (setq confirm-kill-processes nil)
 
+(setc term-scroll-to-bottom-on-output t)
+
 ;; Notes for myself on terminals
 ;; You can only edit text in either line mode or char mode - never mixed. So
 ;; workflows could look like
@@ -621,6 +712,31 @@
 ;; terminals I'm used to.
 ;; For line mode, shell works better than term/ansi-term. In shell, company mode
 ;; works but not in term.
+
+;;;; ---------------------------------------------------------------------------
+;;;; emacs server
+;;;; ---------------------------------------------------------------------------
+         
+(defun ol-start-server ()
+  (interactive)
+  (unless (server-running-p)
+    (setq server-name (ol-find-free-server-name))
+    (setenv "EMACS_SERVER_NAME" server-name)
+    (server-start)))
+
+(defun ol-find-free-server-name ()
+  (let* ((base-server-name "ol-server")
+         (current-index 0)
+         (found nil)
+         (current-name nil))
+    (while (not found)
+      (setq current-name (format "%s-%d" base-server-name current-index))
+      (if (server-running-p current-name)
+          (setq current-index (+ current-index 1))
+        (setq found t)))
+    current-name))
+
+(ol-start-server)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
@@ -686,42 +802,11 @@
 (advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
 
 (defun ol-vdiff-magit-stage-cleanup (file)
-  (message "hej")
   (let* ((trailing-buf (or (magit-get-revision-buffer "HEAD" file)
                            (magit-find-file-noselect "HEAD" file))))
     (kill-buffer trailing-buf)))
 
 (advice-add 'vdiff-magit-stage :after 'ol-vdiff-magit-stage-cleanup)
-              
-;;;; ---------------------------------------------------------------------------
-;;;; Magit diffing
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-diff-file-head ()
-  (interactive)
-  (let* ((file (magit-current-file))
-         (rev-head "HEAD")
-         (buffer-head (msk--get-revision-buffer rev-head file)))
-    (vdiff-buffers buffer-head (current-buffer))))
-
-(defun ol-does-branch-exist (branch)
-  (equal (magit-rev-branch branch) branch))
-
-
-(defun ol-main-branch ()
-  (let ((main-branch "main"))
-    (if (ol-does-branch-exist main-branch)
-        main-branch
-      "master")))
-
-(defun ol-diff-file-main ()
-  (interactive)
-  (let* ((file (magit-current-file))
-         (rev-main (ol-main-branch))
-         (rev-main (magit-commit-p (magit-git-string "merge-base" "HEAD" rev-main)))
-         (file-main (magit--rev-file-name file "HEAD" rev-main))
-         (buffer-main (msk--get-revision-buffer rev-main file-main)))
-    (vdiff-buffers buffer-main (current-buffer))))
 
 ;; -----------------------------------------------------------------------------
 ;; Ediff
@@ -898,6 +983,8 @@
 ;; Dired
 ;; -----------------------------------------------------------------------------
 
+(require 'dired)
+
 (setq dired-kill-when-opening-new-dired-buffer t)
 
 (when (ol-is-mac)       
@@ -907,7 +994,28 @@
   (interactive)
   (dired default-directory))
 
-(setq dired-listing-switches "-alh")
+(setq dired-listing-switches "-Alh")
+
+;; -----------------------------------------------------------------------------
+;; tar
+;; -----------------------------------------------------------------------------
+
+(require 'tar-mode)
+
+(defun ol-tar-up-directory ()
+  (interactive)
+  (if tar-superior-buffer
+      (switch-to-buffer tar-superior-buffer)
+    (message "No parent tar found")))
+
+;; TODO Need to find a way to get the original name
+;; (defun ol-tar-path ()
+;;   (interactive)
+;;   (ol-tar-path-inner tar-superior-buffer ""))
+
+;; (defun ol-tar-path-inner (superior-buffer acc-path)
+;;   (if superior-buffer
+;;       (let* ((new-acc-path (
 
 ;; -----------------------------------------------------------------------------
 ;; Helpers

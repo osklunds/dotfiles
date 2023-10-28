@@ -23,6 +23,7 @@
 (ol-define-key evil-normal-state-map "SPC" ol-normal-leader-map)
 (ol-define-key evil-normal-state-map "C-SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
+(evil-define-key 'insert term-raw-map (kbd "C-SPC") ol-normal-leader-map)
 
 (defun ol-define-normal-leader-key (key fun)
   (ol-define-key ol-normal-leader-map key fun))
@@ -113,10 +114,10 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;;;;;; -------------------------------------------------------------------------
-;;;;;; LSP
+;;;;;; Misc
 ;;;;;; -------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "ff" 'lsp-ivy-workspace-symbol)
+(ol-define-normal-leader-key "fs" 'counsel-imenu)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
@@ -153,12 +154,14 @@
 
 (ol-define-normal-leader-key "gs" 'magit-status)
 (ol-define-normal-leader-key "gb" 'magit-blame-addition)
-(ol-define-normal-leader-key "gdM" 'ol-diff-main)
-(ol-define-normal-leader-key "gdH" 'ol-diff-head)
-(ol-define-normal-leader-key "gdm" 'ol-diff-file-main)
-(ol-define-normal-leader-key "gdh" 'ol-diff-file-head)
+(ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
+(ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)
+(ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
+(ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
 
+;; To make sure leader works in magit buffers
 (ol-define-key magit-mode-map "SPC" nil)
+(ol-define-key magit-diff-mode-map "SPC" nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
@@ -207,7 +210,7 @@
 (ol-define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
 (ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
 
-(ol-global-define-key "M-x" 'counsel-M-x)
+(ol-override-key "M-x" 'counsel-M-x)
 (ol-global-define-key "C-x C-f" 'counsel-find-file)
 
 ;; -----------------------------------------------------------------------------
@@ -228,10 +231,6 @@
   (evil-define-key 'insert term-raw-map (kbd "C-c") 'term-send-raw))
   
 (add-hook 'term-mode-hook 'ol-map-ctrl-c)
-
-;; Tip: Map help-command to C-m to be able to run it in insert mode. But If C-m,
-;; RET seeems to become broken.
-;; (evil-define-key 'insert term-raw-map (kbd "C-m") 'help-command)
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
@@ -267,6 +266,13 @@
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 
+;; -----------------------------------------------------------------------------
+;; tar-mode
+;; -----------------------------------------------------------------------------
+
+(evil-define-key 'normal tar-mode-map (kbd "o") 'tar-extract)
+(evil-define-key 'normal tar-mode-map (kbd "i") 'ol-tar-up-directory)
+
 ;; ---------------------------------------------------------------------------
 ;; Misc
 ;; ---------------------------------------------------------------------------
@@ -294,3 +300,5 @@
 (ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
 
 (ol-global-define-key "C-x C-s" 'ol-save-buffer)
+
+(evil-define-key 'normal global-map (kbd "gr") 'revert-buffer-quick)
