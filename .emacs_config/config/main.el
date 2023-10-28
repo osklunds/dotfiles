@@ -945,9 +945,20 @@
     (ol-new-relevant-buffer-displayed (current-buffer))))
 
 (defun ol-is-relevant-buffer ()
-  (message (buffer-name))
-  (not (or (minibufferp) vdiff-mode (string-match-p "eldoc for" (buffer-name)))))
-  ; (string-match-p "eldoc for" (buffer-name))
+  ;; TODO: Use and not not not instead for higher performance
+  (let* ((name (buffer-name)))
+    (not (or (minibufferp)
+             (ol-is-temporary-buffer)
+             vdiff-mode
+             (string-match-p "eldoc for" name)
+             (string-match-p "COMMIT_EDITMSG" name)
+             (string-match-p "\\*server\\*" name)))))
+
+;; Inspired by vdiff-magit--kill-buffer-if-temporary
+(defun ol-is-temporary-buffer ()
+  (let ((buf-file (buffer-file-name)))
+    (or (not buf-file) (not (file-exists-p buf-file)))))
+
 (defun ol-new-relevant-buffer-displayed (new-buffer)
     (if (member new-buffer ol-buffers-mru)
         (ol-update-buffers-already-in-mru new-buffer)
@@ -1012,7 +1023,9 @@
     (truncate-string-to-width (format align-format-string index name) width)))
 
 (defun ol-buffer-name (buffer)
-  (if buffer
+  ;; TODO: Handle clean up of killed buffers. Maybe when updating lists,
+  ;; iterate and check if some killed, then remove
+  (if (and buffer (buffer-live-p buffer))
       (buffer-name buffer)
     ""))
 
