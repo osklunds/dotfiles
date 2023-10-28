@@ -926,8 +926,8 @@
 
 (require 'cl-lib)
 
-(defvar ol-buffers-mru '(nil nil))
-(defvar ol-buffers-positions '(nil nil))
+(defvar ol-buffers-mru '(nil nil nil nil nil))
+(defvar ol-buffers-positions '(nil nil nil nil nil))
 
 (defconst ol-buffers-triggers
   '(switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right next-buffer previous-buffer))
@@ -978,6 +978,19 @@
     (advice-add command :after 'ol-buffer-change-command-advice)))
 
 (ol-advise-trigger-commands)
+
+(defun ol-buffers-string ()
+  "temp"
+  (apply 'concat (mapcar (lambda (buffer)
+          (concat "     " (ol-buffer-name buffer)))
+                         ol-buffers-positions)))
+
+(defun ol-buffer-name (buffer)
+  (if buffer
+      (buffer-name buffer)
+    ""))
+
+(setq frame-title-format (quote ((:eval (ol-buffers-string)))))
 
 ;; -----------------------------------------------------------------------------
 ;; Dired
