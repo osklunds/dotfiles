@@ -836,6 +836,65 @@
   (setq mode-line-format (default-value 'mode-line-format)))
 
 ;; -----------------------------------------------------------------------------
+;; Tab bar
+;; -----------------------------------------------------------------------------
+
+(require 'cl-lib)
+
+(defvar ol-buffers-mru '(nil nil))
+(defvar ol-buffers-positions '(nil nil))
+
+(defconst ol-buffers-triggers
+  '(switch-to-buffer other-window windmove-up windmove-down windmove-left windmove-right next-buffer previous-buffer))
+
+(defun ol-buffer-change-command-advice (&rest r)
+  (ol-new-buffer-displayed (current-buffer)))
+  
+(defun ol-new-buffer-displayed (new-buffer)
+    (if (member new-buffer ol-buffers-mru)
+        (ol-update-buffers-already-in-mru new-buffer)
+      (ol-update-buffers-not-in-mru new-buffer))
+  (message "now holds %s in order %s" ol-buffers-mru ol-buffers-positions))
+
+(defun ol-update-buffers-already-in-mru (new-buffer)
+  (delete new-buffer ol-buffers-mru)
+  (add-to-list 'ol-buffers-mru new-buffer))
+
+(defun ol-update-buffers-not-in-mru (new-buffer)
+  (ol-buffers-consistency-check)
+  (message "MRU: %s" ol-buffers-mru)
+  (message "Pos: %s" ol-buffers-positions)
+  (let* ((last-buffer (car (last ol-buffers-mru))))
+    (message "Old %s" last-buffer)
+    (setq ol-buffers-mru (butlast ol-buffers-mru))
+    (setq ol-buffers-mru (add-to-list 'ol-buffers-mru new-buffer))
+    (setq ol-buffers-positions (cl-substitute
+                                new-buffer
+                                last-buffer
+                                ol-buffers-positions
+                                :count 1)))
+  (message "MRU: %s" ol-buffers-mru)
+  (message "Pos: %s" ol-buffers-positions)
+  (ol-buffers-consistency-check))
+
+(defun ol-buffers-consistency-check ()
+  ;; duplicates, length, same elements
+  (dolist (buffer ol-buffers-mru)
+    (cl-assert (member buffer ol-buffers-positions)))
+
+  (dolist (buffer ol-buffers-positions)
+    (cl-assert (member buffer ol-buffers-mru)))
+
+  (cl-assert (= (length ol-buffers-mru) (length ol-buffers-positions))))
+
+(defun ol-advise-trigger-commands ()
+  (dolist (command ol-buffers-triggers)
+    (message "%s" command)
+    (advice-add command :after 'ol-buffer-change-command-advice)))
+
+(ol-advise-trigger-commands)
+
+;; -----------------------------------------------------------------------------
 ;; Dired
 ;; -----------------------------------------------------------------------------
 
