@@ -947,12 +947,13 @@
 (defun ol-is-relevant-buffer ()
   ;; TODO: Use and not not not instead for higher performance
   (let* ((name (buffer-name)))
+    (or (eq major-mode 'term-mode )
     (not (or (minibufferp)
              (ol-is-temporary-buffer)
              vdiff-mode
              (string-match-p "eldoc for" name)
              (string-match-p "COMMIT_EDITMSG" name)
-             (string-match-p "\\*server\\*" name)))))
+             (string-match-p "\\*server\\*" name))))))
 
 ;; Inspired by vdiff-magit--kill-buffer-if-temporary
 (defun ol-is-temporary-buffer ()
