@@ -926,6 +926,22 @@ rg \
 
 (advice-add 'vdiff-magit-stage :after 'ol-vdiff-magit-stage-cleanup)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Refine
+;;;; ---------------------------------------------------------------------------
+
+(setq vdiff-auto-refine nil)
+
+(defun ol-vdiff-refine-all-hunks ()
+  (interactive)
+  (setq vdiff-auto-refine t)
+  (vdiff-refresh))
+
+(defun ol-vdiff-remove-all-refinements ()
+  (interactive)
+  (setq vdiff-auto-refine nil)
+  (vdiff-refresh))
+
 ;; -----------------------------------------------------------------------------
 ;; Ediff
 ;; -----------------------------------------------------------------------------
