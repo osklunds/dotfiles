@@ -1,14 +1,24 @@
+;; -----------------------------------------------------------------------------
+;; Helpers
+;; -----------------------------------------------------------------------------
+
+;; Taken from https://emacs.stackexchange.com/a/24658
+(defun advice-unadvice (sym)
+  "Remove all advices from symbol SYM."
+  (interactive "aFunction symbol: ")
+  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
+
+(defun ol-regexp-group (regexp string group)
+  "Search STRING for REGEXP and return the match GROUP."
+  (when (string-match regexp string)
+    (match-string group string)))
+
+(defmacro setc (var val)
+  `(customize-set-variable ',var ,val))
 
 ;; -----------------------------------------------------------------------------
 ;; General
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Helpers
-;;;; ---------------------------------------------------------------------------
-
-(defmacro setc (var val)
-  `(customize-set-variable ',var ,val))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; File Management
@@ -1093,13 +1103,3 @@
 ;; (defun ol-tar-path-inner (superior-buffer acc-path)
 ;;   (if superior-buffer
 ;;       (let* ((new-acc-path (
-
-;; -----------------------------------------------------------------------------
-;; Helpers
-;; -----------------------------------------------------------------------------
-
-;; Taken from https://emacs.stackexchange.com/a/24658
-(defun advice-unadvice (sym)
-  "Remove all advices from symbol SYM."
-  (interactive "aFunction symbol: ")
-  (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
