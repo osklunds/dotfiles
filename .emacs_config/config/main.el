@@ -562,6 +562,48 @@ rg \
   (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
 
 ;;;; ---------------------------------------------------------------------------
+;;;; Log
+;;;; ---------------------------------------------------------------------------
+
+;; TODO: Maybe these can be saved better with transient?
+(defconst ol-magit-log-default-arguments '("-n256"))
+
+(put 'magit-log-mode 'magit-log-default-arguments ol-magit-log-default-arguments)
+(put 'magit-log-select-mode 'magit-log-default-arguments ol-magit-log-default-arguments)
+
+(setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
+
+;; TODO: More button isn't shown
+(defun ol-git-log-current (&optional ignore-rev)
+  (interactive)
+  (ol-git-log (magit-get-current-branch) ignore-rev))
+
+(defun ol-git-log-other (&optional ignore-rev)
+  (interactive)
+  (ol-git-log (car (magit-log-read-revs)) ignore-rev))
+
+(defun ol-git-log (rev &optional ignore-rev)
+  (interactive)
+  (let ((args (append (list rev)
+                      ol-magit-log-default-arguments
+                      (ol-make-ignore-rev-args ignore-rev))))
+    (magit-log-other args nil)))
+
+(defun ol-make-ignore-rev-args (ignore-rev)
+  (when ignore-rev
+    (list "--first-parent" "--not" ignore-rev "--no-merges")))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Revision
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-magit-set-revision-header ()
+  (magit-set-header-line-format (magit-rev-format "%B" magit-buffer-revision)))
+
+(magit-add-section-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
+(remove-hook 'magit-revision-sections-hook 'magit-insert-revision-message)
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife (WIP)
 ;;;; ---------------------------------------------------------------------------
 
