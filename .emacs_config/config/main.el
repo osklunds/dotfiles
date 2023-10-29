@@ -416,6 +416,7 @@ rg \
 
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
+;; TODO use same data format string as log margin, and same date color?
 (setq magit-blame-styles
       '(
         (margin
