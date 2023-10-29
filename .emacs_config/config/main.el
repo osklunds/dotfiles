@@ -785,7 +785,22 @@ rg \
 (setq kill-buffer-query-functions nil)
 (setq confirm-kill-processes nil)
 
-(setc term-scroll-to-bottom-on-output t)
+(defun ol-window-max-chars-per-line (oldfun &optional window face)
+  (let* ((buffer (window-buffer window))
+         (mm (with-current-buffer (window-buffer window) major-mode)))
+    (if (eq mm 'term-mode)
+        (progn
+          ;; (message "Changing window-max-chars for term-mode window: %s" window)
+          1000)
+      ;; (message "Leaving normal window-max-chars for non term-mode window: %s" window)
+      (apply oldfun (list window face)))))
+
+(advice-add 'window-max-chars-per-line :around 'ol-window-max-chars-per-line)
+
+(defun ol-set-term-buffer-maximum-size ()
+  (setc term-buffer-maximum-size 10000000000))
+
+(add-hook 'term-mode-hook 'ol-set-term-buffer-maximum-size)
 
 ;; Notes for myself on terminals
 ;; You can only edit text in either line mode or char mode - never mixed. So
