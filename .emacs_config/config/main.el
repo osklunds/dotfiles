@@ -299,10 +299,11 @@ rg \
 
 (require 'lsp-mode)
 
+;; Reduce noise
 (setq lsp-enable-symbol-highlighting nil)
 (setq lsp-modeline-code-actions-enable nil)
 (setq lsp-modeline-diagnostics-enable nil)
-(setq lsp-diagnostics-provider :none)
+(setq lsp-diagnostics-provider :none) ;; TODO: try out toggling diagnostics
 (setq lsp-ui-sideline-enable nil)
 (setq lsp-modeline-workspace-status-enable nil)
 (setq lsp-lens-enable nil)
@@ -311,12 +312,12 @@ rg \
 (setq lsp-eldoc-enable-hover nil)
 (setq lsp-signature-auto-activate nil)
 (setq lsp-enable-snippet nil)
-
 (setq flycheck-indication-mode nil)
 
 (setc lsp-auto-guess-root t)
-
-(setq lsp-log-io t)
+(setq lsp-completion-provider :none) ;; to prevent overriding my own company backends
+(setc lsp-response-timeout 4)
+;; (setq lsp-log-io t)
 ;; TODO: Disable lsp diagnostics. Can use above log to inspect
 ;; TODO: Get functions from ivy-lsp
 
