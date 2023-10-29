@@ -445,22 +445,37 @@ rg \
 ;;;; ---------------------------------------------------------------------------
 
 (setq magit-save-repository-buffers 'dontask)
+(setc magit-status-initial-section nil)
 
-;; TODO: Make a "full status" key that re-adds these
-;; TODO: Add numstat perhaps
-;; TODO: Consider setting list instead
-;; Simplify magit-status for better performance
-(remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-(remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-(remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
-
-(magit-add-section-hook 'magit-status-sections-hook 'ol-magit-insert-status-header)
-
-(defun ol-magit-insert-status-header ()
+(defun ol-magit-set-simple-status-header ()
   (magit-set-header-line-format "Magit Status"))
+
+(defconst ol-magit-status-simple-sections
+  '(ol-magit-set-simple-status-header
+    magit-insert-untracked-files
+    magit-insert-unstaged-changes
+    magit-insert-staged-changes
+    magit-insert-stashes))
+
+(defun ol-magit-set-full-status-header ()
+  (magit-set-header-line-format "Magit Full Status"))
+
+(defconst ol-magit-status-full-sections
+  '(ol-magit-set-full-status-header
+    magit-insert-unpushed-to-pushremote
+    magit-insert-unpushed-to-upstream
+    magit-insert-unpulled-from-pushremote
+    magit-insert-unpulled-from-upstream))
+
+(defun ol-magit-status ()
+  (interactive)
+  (setc magit-status-sections-hook ol-magit-status-simple-sections)
+  (magit-status))
+
+(defun ol-magit-full-status ()
+  (interactive)
+  (setc magit-status-sections-hook (append ol-magit-status-simple-sections ol-magit-status-full-sections))
+  (magit-status))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mode toggling
