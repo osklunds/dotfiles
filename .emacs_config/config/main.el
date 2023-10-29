@@ -275,6 +275,20 @@
   :initial-input ""
   :display-transformer-fn #'counsel-M-x-transformer)
 
+;; TODO: can this be used with --files too?
+(setc counsel-rg-base-command "\
+rg \
+--max-columns 240 \
+--with-filename \
+--no-heading \
+--line-number \
+--color never \
+%s || true")
+
+(defun ol-project-rg ()
+  (interactive)
+  (counsel-rg "" (projectile-project-root)))
+
 ;; -----------------------------------------------------------------------------
 ;; Languages
 ;; -----------------------------------------------------------------------------
