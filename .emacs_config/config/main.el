@@ -140,6 +140,7 @@
 (global-display-line-numbers-mode t)
 (setc display-line-numbers-type 'relative)
 (setc display-line-numbers-grow-only t)
+(setc display-line-numbers-width-start 10000)
 
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
