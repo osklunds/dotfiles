@@ -88,6 +88,7 @@
 (evil-set-initial-state 'debugger-mode 'normal)
 (evil-set-initial-state 'Custom-mode 'normal)
 (evil-set-initial-state 'tar-mode 'normal)
+(evil-set-initial-state 'archive-mode 'normal)
 
 (setq evil-insert-state-cursor 'box)
 
