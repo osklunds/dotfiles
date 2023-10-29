@@ -15,6 +15,7 @@ dotfiles I use
 
 - Live preview in fuzzy find and ripgrep etc
 - Cache-less file finder, using counsel-rg?
+- defun wrapper that does native compile. For use on e.g. modeline
 
 *** Nice to have
 
@@ -34,6 +35,10 @@ dotfiles I use
 - alt-ret for continuing list also outside org-mode
 - Switch to vertico/consult/marginella
   - Will fix live preview of ripgrep results
+
+*** Wanted, but hard to do
+
+- Box around the cursorline, like VSCode
 
 ** VIM todos
 
