@@ -871,6 +871,17 @@ rg \
 (setc vdiff-magit-stage-is-2way t)
 
 ;;;; ---------------------------------------------------------------------------
+;;;; Synced scroll
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-vdiff-fix-scroll ()
+  (interactive)
+  (vdiff--scroll-function))
+
+;; TODO: Calling fix scroll automatically as part of vdiff next hunk doesn't
+;; work.
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Truncate lines
 ;;;; ---------------------------------------------------------------------------
 
