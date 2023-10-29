@@ -137,7 +137,7 @@
 (ol-define-normal-leader-key "pp" 'projectile-switch-project)
 (ol-define-normal-leader-key "ps" 'projectile-discover-projects-in-search-path)
 (ol-define-normal-leader-key "pr" 'projectile-invalidate-cache)
-(ol-define-normal-leader-key "pf" 'counsel-projectile-rg)
+(ol-define-normal-leader-key "pf" 'ol-project-rg)
 
 (ol-define-normal-leader-key "pd" 'ol-switch-to-dotfiles)
 
@@ -152,8 +152,10 @@
 ;; Git
 ;; ---------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "gs" 'magit-status)
+(ol-define-normal-leader-key "gs" 'ol-magit-status)
+(ol-define-normal-leader-key "gS" 'ol-magit-full-status)
 (ol-define-normal-leader-key "gb" 'magit-blame-addition)
+(ol-define-normal-leader-key "gl" 'ol-git-log-current)
 (ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
 (ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)
 (ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
@@ -238,14 +240,11 @@
 
 (ol-define-key vdiff-mode-map "C-c" vdiff-mode-prefix-map)
 
-(defun ol-vdiff-fix-scroll ()
-  (interactive)
-  (vdiff--scroll-function))
-
 (ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
-(ol-define-key vdiff-mode-map "C-c X" 'vdiff-refresh)
+(ol-define-key vdiff-mode-map "C-c F" 'ol-vdiff-refine-all-hunks)
+(ol-define-key vdiff-mode-map "C-c X" 'ol-vdiff-remove-all-refinements)
 
 (define-key magit-mode-map "e" 'vdiff-magit-dwim)
 (define-key magit-mode-map "E" 'vdiff-magit)
@@ -272,6 +271,12 @@
 
 (evil-define-key 'normal tar-mode-map (kbd "o") 'tar-extract)
 (evil-define-key 'normal tar-mode-map (kbd "i") 'ol-tar-up-directory)
+
+;; -----------------------------------------------------------------------------
+;; archive-mode
+;; -----------------------------------------------------------------------------
+
+(evil-define-key 'normal archive-mode-map (kbd "o") 'archive-extract)
 
 ;; ---------------------------------------------------------------------------
 ;; Misc
@@ -302,6 +307,15 @@
 (ol-global-define-key "C-x C-s" 'ol-save-buffer)
 
 (evil-define-key 'normal global-map (kbd "gr") 'revert-buffer-quick)
+
+(evil-define-key 'motion ivy-occur-grep-mode-map (kbd "o") 'ivy-occur-press)
+(evil-define-key 'motion ivy-occur-grep-mode-map (kbd "O") 'ivy-occur-press-and-switch)
+
+;; -----------------------------------------------------------------------------
+;; server
+;; -----------------------------------------------------------------------------
+
+(ol-define-key evil-normal-state-map "C-x #" #'ol-server-done)
 
 ;; ---------------------------------------------------------------------------
 ;; Tab bar buffers
