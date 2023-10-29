@@ -45,7 +45,12 @@
 
 (setq gc-cons-threshold (eval-when-compile (* 1024 1024 1024))) ;; 1 GB
 
-(run-with-idle-timer 2 t (lambda () (garbage-collect)))
+(defun ol-garbage-collect ()
+  (message (format "Start garbage-collect at: %s gc-cons before: %s" (current-time-string) gc-cons-percentage))
+  (garbage-collect)
+  (message (format "Finish garbage-collect at: %s" (current-time-string))))
+
+(run-with-idle-timer (* 2 60 60) t (lambda () (ol-garbage-collect)))
 
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
