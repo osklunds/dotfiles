@@ -938,11 +938,22 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-buffer-list-update ()
-  (ol-new-buffer-displayed ))
+  (ol-new-buffer-displayed))
 
 (defun ol-new-buffer-displayed ()
+  (ol-clean-up-killed-buffers)
   (when (ol-is-relevant-buffer)
     (ol-new-relevant-buffer-displayed (current-buffer))))
+
+(defun ol-clean-up-killed-buffers ()
+  (dolist (index (number-sequence 1 (length ol-buffers-mru)))
+    (let ((buffer (nth (- index 1) ol-buffers-mru)))
+      ;; (message "buffer %s is live? %s" buffer (buffer-live-p buffer))
+      (when (and buffer (not (buffer-live-p buffer)))
+        ;; (message "cleaning up %s" buffer)
+        (setq ol-buffers-mru (cl-substitute nil buffer ol-buffers-mru))
+        (setq ol-buffers-positions (cl-substitute nil buffer ol-buffers-positions))
+        (ol-buffers-consistency-check)))))
 
 (defun ol-is-relevant-buffer ()
   ;; TODO: Use and not not not instead for higher performance
@@ -967,25 +978,30 @@
   ;; (message "now holds %s in order %s" ol-buffers-mru ol-buffers-positions))
 
 (defun ol-update-buffers-already-in-mru (new-buffer)
-  (delete new-buffer ol-buffers-mru)
-  (add-to-list 'ol-buffers-mru new-buffer))
+  (setq ol-buffers-mru (delete new-buffer ol-buffers-mru))
+  (setq ol-buffers-mru (add-to-list 'ol-buffers-mru new-buffer)))
 
 (defun ol-update-buffers-not-in-mru (new-buffer)
   (ol-buffers-consistency-check)
   ;; (message "MRU: %s" ol-buffers-mru)
   ;; (message "Pos: %s" ol-buffers-positions)
-  (let* ((last-buffer (car (last ol-buffers-mru))))
-    ;; (message "Old %s" last-buffer)
-    (setq ol-buffers-mru (butlast ol-buffers-mru))
+  (let* ((buffer-to-evict (ol-find-buffer-to-evict)))
+    ;; (message "Old %s" buffer-to-evict)
+    (setq ol-buffers-mru (cl-delete buffer-to-evict ol-buffers-mru :count 1))
     (setq ol-buffers-mru (add-to-list 'ol-buffers-mru new-buffer))
     (setq ol-buffers-positions (cl-substitute
                                 new-buffer
-                                last-buffer
+                                buffer-to-evict
                                 ol-buffers-positions
                                 :count 1)))
   ;; (message "MRU: %s" ol-buffers-mru)
   ;; (message "Pos: %s" ol-buffers-positions)
   (ol-buffers-consistency-check))
+
+(defun ol-find-buffer-to-evict ()
+  (if (member nil ol-buffers-mru)
+      nil
+    (car (last ol-buffers-mru))))
 
 (defun ol-buffers-consistency-check ()
   ;; duplicates, length, same elements
