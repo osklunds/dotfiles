@@ -370,6 +370,8 @@ rg \
 (add-hook 'prog-mode-hook 'company-mode)
 (add-hook 'company-mode-hook 'company-box-mode)
 
+(add-hook 'evil-insert-state-exit-hook 'company-abort)
+
 ;; -----------------------------------------------------------------------------
 ;; Theme
 ;; -----------------------------------------------------------------------------
