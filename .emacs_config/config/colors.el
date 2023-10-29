@@ -20,6 +20,8 @@
 ;; General
 ;; -----------------------------------------------------------------------------
 
+;; TODO: create variables for colors, that are retrieved from the relevant face
+
 (if (ol-is-mac)
     (ol-set-face-attribute 'default :height 110)
   (ol-set-face-attribute 'default :height 90))
@@ -27,8 +29,6 @@
 (ol-set-face-attribute 'default :foreground "#000000" :background "#ffffff")
 (ol-set-face-attribute 'font-lock-comment-face :foreground "#5f8700")
 (ol-set-face-attribute 'font-lock-string-face :foreground "#d78700")
-
-(ol-set-face-attribute 'magit-blame-margin :background "#e4e4e4")
 
 (ol-set-face-attribute 'org-block :background
                     (color-darken-name
@@ -81,6 +81,13 @@
 
 (ol-set-face-attribute 'company-box-background :background "#ffffff")
 (ol-set-face-attribute 'company-box-selection :background "#D7E4E8")
+
+;; ---------------------------------------------------------------------------
+;; Magit
+;; ---------------------------------------------------------------------------
+
+(ol-set-face-attribute 'magit-blame-margin :background "#e4e4e4")
+(ol-set-face-attribute 'magit-log-date :foreground "#da8548")
 
 ;; ---------------------------------------------------------------------------
 ;; vdiff
