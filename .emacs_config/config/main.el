@@ -105,12 +105,6 @@
 
 (evil-set-undo-system 'undo-redo)
 
-(setc scroll-margin 0)                          
-(add-hook 'term-mode-hook                       
-          (lambda ()                                 
-            (make-local-variable 'scroll-margin)
-            (setq scroll-margin 0)))   
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
 ;;;; ---------------------------------------------------------------------------
