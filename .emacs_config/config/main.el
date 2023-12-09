@@ -67,11 +67,14 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Silence compiler warnings as they can be pretty disruptive
-(setq native-comp-async-report-warnings-errors nil)
+(setc native-comp-async-report-warnings-errors nil)
 
 (setq enable-local-variables nil)
 
 (setc warning-minimum-level :error)
+
+;; Supposedly can improve scroll performance
+(setq auto-window-vscroll nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
