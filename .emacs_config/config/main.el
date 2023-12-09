@@ -258,7 +258,22 @@
   (ol-set-frame-size)
   (ol-center-frame))
 
-(ol-center-and-size-frame)
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Splitting
+;;;;;; -------------------------------------------------------------------------
+
+(defun ol-split-window ()
+  (interactive)
+  (let ((current-point (point))
+        (current-window-start (window-start)))
+    (switch-to-buffer-other-window (current-buffer))
+    (set-window-point (selected-window) current-point)
+    (set-window-start (selected-window) current-window-start)))
+
+(defun ol-force-split-window ()
+  (interactive)
+  (split-window-right)
+  (evil-window-right 1))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
