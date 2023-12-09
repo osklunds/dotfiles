@@ -121,9 +121,11 @@
 
 (setq evil-insert-state-cursor 'box)
 
-(with-eval-after-load 'evil
-  (defalias #'forward-evil-word #'forward-evil-symbol)
-  (setq-default evil-symbol-word-search t))
+(add-hook 'emacs-lisp-mode-hook
+          (lambda () (modify-syntax-entry ?- "w")))
+
+(add-hook 'after-change-major-mode-hook
+          (lambda () (modify-syntax-entry ?_ "w")))
 
 (require 'evil-collection)
 
