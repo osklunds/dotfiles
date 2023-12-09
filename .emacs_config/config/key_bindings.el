@@ -80,6 +80,11 @@
 (define-key evil-motion-state-map (kbd "M-j") 'evil-scroll-line-down)
 (define-key evil-motion-state-map (kbd "M-k") 'evil-scroll-line-up)
 
+;; To work around a bug that prevents yank/delete full lines when doing
+;; e.g. d2j. Affects also when a logical line fits the window width.
+(ol-define-key evil-operator-state-map "j" 'evil-next-line)
+(ol-define-key evil-operator-state-map "k" 'evil-previous-line)
+
 ;; ---------------------------------------------------------------------------
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
