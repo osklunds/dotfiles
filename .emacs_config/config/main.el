@@ -1253,7 +1253,9 @@ rg \
   (interactive)
   (dired default-directory))
 
-(setq dired-listing-switches "-Alh")
+(setc dired-listing-switches "-Alh")
+(setc dired-recursive-copies 'always)
+(setc dired-recursive-deletes 'always)
 
 ;; -----------------------------------------------------------------------------
 ;; tar
