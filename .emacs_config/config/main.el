@@ -165,6 +165,10 @@
 
 (setq frame-title-format "Emacs")
 
+(setq mouse-highlight nil)
+(setq show-help-function nil)
+(setq command-error-function nil)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Line and column numbers
 ;;;; ---------------------------------------------------------------------------
