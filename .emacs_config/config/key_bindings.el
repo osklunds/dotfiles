@@ -117,12 +117,6 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;;;;;; -------------------------------------------------------------------------
-;;;;;; Misc
-;;;;;; -------------------------------------------------------------------------
-
-(ol-define-normal-leader-key "fs" 'counsel-imenu)
-
-;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
 
@@ -313,6 +307,16 @@
 
 (evil-define-key 'motion ivy-occur-grep-mode-map (kbd "o") 'ivy-occur-press)
 (evil-define-key 'motion ivy-occur-grep-mode-map (kbd "O") 'ivy-occur-press-and-switch)
+
+(ol-define-normal-leader-key "fs" 'counsel-imenu)
+(ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
+(ol-define-normal-leader-key "mt" 'ol-transpose-windows)
+(ol-define-normal-leader-key "mc" 'ol-center-and-size-frame)
+(ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
+(ol-define-normal-leader-key "sc" 'ol-toggle-spelling)
+
+;; TODO: Same if normal and read-only
+(ol-define-key evil-motion-state-map "o" 'push-button)
 
 ;; -----------------------------------------------------------------------------
 ;; server
