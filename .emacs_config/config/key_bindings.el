@@ -77,6 +77,9 @@
 
 (define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
 
+(define-key evil-motion-state-map (kbd "M-j") 'evil-scroll-line-down)
+(define-key evil-motion-state-map (kbd "M-k") 'evil-scroll-line-up)
+
 ;; ---------------------------------------------------------------------------
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
