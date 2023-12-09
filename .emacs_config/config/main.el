@@ -15,6 +15,7 @@
     (match-string group string)))
 
 (defmacro setc (var val)
+  "Convenient version of customize-set-variable."
   `(customize-set-variable ',var ,val))
 
 ;; -----------------------------------------------------------------------------
@@ -70,7 +71,7 @@
 ;; Silence compiler warnings as they can be pretty disruptive
 (setc native-comp-async-report-warnings-errors nil)
 
-(setq enable-local-variables nil)
+(setc enable-local-variables nil)
 
 (setc warning-minimum-level :error)
 
@@ -88,7 +89,7 @@
 
 (defun ol-startup-hook ()
   (setq inhibit-trace nil)
-  (ol-center-and-size-frame))
+  (toggle-frame-maximized))
 
 (add-hook 'emacs-startup-hook 'ol-startup-hook)
 
@@ -100,25 +101,18 @@
 ;;;; Evil
 ;;;; ---------------------------------------------------------------------------
 
-(setq evil-search-module 'evil-search)
-;; TODO find out why needed 
+;; These must be set before evil is loaded
 (setq evil-want-integration t)
-;; Use evil-collection instead for other packages
-(setq evil-want-keybinding nil)
-;; Use C-u for scroll instead of universal argument  
-(setq evil-want-C-u-scroll t)
-(setq evil-disable-insert-state-bindings t)
+(setq evil-want-keybinding nil) ;; Use evil-collection instead for other packages
 (setq evil-respect-visual-line-mode t)
 
 (require 'evil)
 (evil-mode t)
 
-;; TODO: There exists an evil var for this
-(evil-set-initial-state 'messages-buffer-mode 'normal)
-(evil-set-initial-state 'debugger-mode 'normal)
-(evil-set-initial-state 'Custom-mode 'normal)
-(evil-set-initial-state 'tar-mode 'normal)
-(evil-set-initial-state 'archive-mode 'normal)
+(setc evil-want-C-u-scroll t)
+(setc evil-search-module 'evil-search)
+(setc evil-disable-insert-state-bindings t)
+(setc evil-emacs-state-modes nil)
 
 (setq evil-insert-state-cursor 'box)
 
@@ -153,7 +147,7 @@
 ;;;; Reduce Clutter
 ;;;; ---------------------------------------------------------------------------
 
-(setq inhibit-startup-message t)
+(setc inhibit-startup-screen t)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -219,7 +213,7 @@
                  (with-selected-window window
                      (ol-split-based-on-style)))))
 
-(setq split-window-preferred-function #'ol-split-window-sensibly)
+(setc split-window-preferred-function #'ol-split-window-sensibly)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Transposing
@@ -348,7 +342,7 @@
 ;; -----------------------------------------------------------------------------
 
 (require 'ivy)
-(setq ivy-height 20)
+(setc ivy-height 20)
 (ivy-mode t)
 
 ;; TODO: Maybe this can be solved by advising ivy-read instead. If
@@ -456,24 +450,23 @@ rg \
 (require 'lsp-mode)
 
 ;; Reduce noise
-(setq lsp-enable-symbol-highlighting nil)
-(setq lsp-modeline-code-actions-enable nil)
-(setq lsp-modeline-diagnostics-enable nil)
-(setq lsp-diagnostics-provider :none) ;; TODO: try out toggling diagnostics
-(setq lsp-ui-sideline-enable nil)
-(setq lsp-modeline-workspace-status-enable nil)
-(setq lsp-lens-enable nil)
-(setq lsp-ui-doc-enable nil)
-(setq lsp-headerline-breadcrumb-enable nil)
-(setq lsp-eldoc-enable-hover nil)
-(setq lsp-signature-auto-activate nil)
-(setq lsp-enable-snippet nil)
-(setq flycheck-indication-mode nil)
+(setc lsp-enable-symbol-highlighting nil)
+(setc lsp-modeline-code-actions-enable nil)
+(setc lsp-modeline-diagnostics-enable nil)
+(setc lsp-diagnostics-provider :none) ;; TODO: try out toggling diagnostics
+(setc lsp-ui-sideline-enable nil)
+(setc lsp-modeline-workspace-status-enable nil)
+(setc lsp-lens-enable nil)
+(setc lsp-ui-doc-enable nil)
+(setc lsp-headerline-breadcrumb-enable nil)
+(setc lsp-eldoc-enable-hover nil)
+(setc lsp-signature-auto-activate nil)
+(setc lsp-enable-snippet nil)
+(setc flycheck-indication-mode nil)
 
-(setc lsp-auto-guess-root t)
-(setq lsp-completion-provider :none) ;; to prevent overriding my own company backends
+(setc lsp-auto-guess-root t) ;; so that new files don't ask about project
+(setc lsp-completion-provider :none) ;; to prevent overriding my own company backends
 (setc lsp-response-timeout 4)
-
 (setc lsp-enable-file-watchers nil) ;; to prevent "nested too deep" warning
 
 ;;;; -------------------------------------------------------------------------
@@ -495,7 +488,7 @@ rg \
                                 (if (search-backward cursor last-abbrev-location t)
                                     (delete-char (length cursor))))))))
 
-(setq save-abbrevs 'silently)
+(setc save-abbrevs 'silently)
 
 (define-abbrev-table 'global-abbrev-table
   '(
@@ -509,18 +502,18 @@ rg \
 (require 'company)
 (require 'company-box)
 
-;; TODO: Set more things using customize instead of setq
-(customize-set-variable 'company-backends '((company-abbrev
-                                             :separate
-                                             company-capf
-                                             :separate
-                                             company-dabbrev-code))) ;; TODO make sure - is included for lisp
-(customize-set-variable 'company-minimum-prefix-length 1)
-(customize-set-variable 'company-idle-delay 0.0)
-(customize-set-variable 'company-selection-wrap-around t)
-(setq company-tooltip-align-annotations t)
-(setq company-dabbrev-minimum-length 2)
+(setc company-backends '((company-abbrev
+                          :separate
+                          company-capf
+                          :separate
+                          company-dabbrev-code)))
 
+(setc company-minimum-prefix-length 1)
+(setc company-idle-delay 0.0)
+(setc company-selection-wrap-around t)
+(setc company-tooltip-align-annotations t)
+
+(setc company-dabbrev-minimum-length 2)
 (setc company-dabbrev-other-buffers nil)
 (setc company-dabbrev-code-other-buffers nil)
 (setc company-dabbrev-code-everywhere t)
@@ -529,7 +522,6 @@ rg \
 (add-hook 'company-mode-hook 'company-box-mode)
 
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
-
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Emacs Lisp
@@ -557,9 +549,6 @@ rg \
                                        ("~/own_repos/dotfiles/.emacs_config/packages" . 1)
                                        ("~/Dropbox/Dokument")))
 
-(setc projectile-enable-caching t)
-(setc projectile-generic-command "rg --files | tr '\\n' '\\0'")
-
 (setc projectile-completion-system 'ivy)
 
 (setc projectile-switch-project-action 'ol-dwim-find-file-name)
@@ -567,7 +556,7 @@ rg \
 (require 'counsel-projectile)
 (require 'projectile-ripgrep)
 
-(setq ivy-more-chars-alist '((t . 1)))
+(setc ivy-more-chars-alist '((t . 1)))
 
 (call-interactively 'projectile-mode)
 
@@ -585,7 +574,7 @@ rg \
 ;; TODO it only works to cycle once, and even that cycling seems broken.
 ;; Maybe add more styles, for example the same but longer width.
 ;; TODO use same data format string as log margin, and same date color?
-(setq magit-blame-styles
+(setc magit-blame-styles
       '(
         (margin
          (margin-format . ("%C %s%f"))
@@ -608,7 +597,7 @@ rg \
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
 
-(setc magit-commit-show-diff nil)
+(setc magit-commit-show-diff t)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Status
@@ -672,7 +661,7 @@ rg \
 ;;;; Diff
 ;;;; ---------------------------------------------------------------------------
 
-(setq magit-diff-paint-whitespace nil)
+(setc magit-diff-paint-whitespace nil)
 
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
@@ -907,10 +896,10 @@ rg \
 (require 'org)
 (require 'org-faces)
 
-(setq org-ellipsis " ▾")
+(setc org-ellipsis " ▾")
 
-(setq org-src-preserve-indentation t)
-(setq org-edit-src-content-indentation 0)
+(setc org-src-preserve-indentation t)
+(setc org-edit-src-content-indentation 0)
 
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
@@ -967,7 +956,7 @@ rg \
   (concat "*" name "*"))
 
 (setq kill-buffer-query-functions nil)
-(setq confirm-kill-processes nil)
+(setc confirm-kill-processes nil)
 
 (defun ol-window-max-chars-per-line (oldfun &optional window face)
   (let* ((buffer (window-buffer window))
@@ -1007,7 +996,7 @@ rg \
 (defun ol-start-server ()
   (interactive)
   (unless (server-running-p)
-    (setq server-name (ol-find-free-server-name))
+    (setc server-name (ol-find-free-server-name))
     (setenv "EMACS_SERVER_NAME" server-name)
     (server-start)))
 
@@ -1040,7 +1029,7 @@ rg \
 (require 'vdiff)
 (require 'vdiff-magit)
 
-(setq vdiff-subtraction-fill-char ? )
+(setc vdiff-subtraction-fill-char ? )
 
 (setc vdiff-diff-algorithm 'diff)
 
@@ -1049,7 +1038,7 @@ rg \
 (defun ol-vdiff-fold-string (n-lines first-line-text width)
   (format "   %d lines\n" n-lines))
 
-(setq vdiff-fold-string-function 'ol-vdiff-fold-string)
+(setc vdiff-fold-string-function 'ol-vdiff-fold-string)
 
 (setc vdiff-magit-stage-is-2way t)
 
@@ -1113,16 +1102,16 @@ rg \
 ;;;; Refine
 ;;;; ---------------------------------------------------------------------------
 
-(setq vdiff-auto-refine t)
+(setc vdiff-auto-refine t)
 
 (defun ol-vdiff-refine-all-hunks ()
   (interactive)
-  (setq vdiff-auto-refine t)
+  (setc vdiff-auto-refine t)
   (vdiff-refresh))
 
 (defun ol-vdiff-remove-all-refinements ()
   (interactive)
-  (setq vdiff-auto-refine nil)
+  (setc vdiff-auto-refine nil)
   (vdiff-refresh))
 
 ;; -----------------------------------------------------------------------------
@@ -1135,8 +1124,8 @@ rg \
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-(setq ediff-split-window-function 'split-window-horizontally)
+(setc ediff-window-setup-function 'ediff-setup-windows-plain)
+(setc ediff-split-window-function 'split-window-horizontally)
 ;; Copied from https://emacs.stackexchange.com/a/24602
 (defun disable-y-or-n-p (orig-fun &rest args)
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
@@ -1245,10 +1234,7 @@ rg \
 
 (require 'dired)
 
-(setq dired-kill-when-opening-new-dired-buffer t)
-
-(when (ol-is-mac)       
-  (setq dired-use-ls-dired nil))
+(setc dired-kill-when-opening-new-dired-buffer t)
 
 (defun ol-dired ()
   (interactive)
