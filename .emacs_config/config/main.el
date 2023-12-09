@@ -761,7 +761,7 @@ rg \
 
 (defun ol-make-ignore-rev-args (ignore-rev)
   (when ignore-rev
-    (list "--first-parent" "--not" ignore-rev "--no-merges")))
+    (list "--first-parent" "--not" ignore-rev)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Revision
