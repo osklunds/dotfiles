@@ -371,7 +371,53 @@
   :initial-input ""
   :display-transformer-fn #'counsel-M-x-transformer)
 
-;; TODO: can this be used with --files too?
+;;;; -------------------------------------------------------------------------
+;;;; Find file name
+;;;; -------------------------------------------------------------------------
+
+(defun ol-dwim-find-file-name ()
+  (interactive)
+  (if-let ((root (ol-dwim-use-project-root)))
+      (ol-project-find-file-name root)
+    (ol-cwd-find-file-name)))
+
+(defun ol-dwim-use-project-root ()
+  (and (not (equal major-mode 'dired-mode)) (projectile-project-root)))
+
+(defun ol-project-find-file-name (&optional root)
+  (interactive)
+  (ol-find-file-name (or root (projectile-project-root)) "project"))
+
+(defun ol-cwd-find-file-name ()
+  (interactive)
+  (ol-find-file-name default-directory "cwd"))
+
+;; Inspired by counsel-file-jump
+;; TODO: Make async like counsel-rg
+(defun ol-find-file-name (directory prompt)
+  (let ((find-program (ol-find-file-name-command)))
+    (counsel-require-program find-program)
+    (let ((default-directory directory))
+      (ivy-read (concat "Find file [" prompt "]: ")
+                (counsel--find-return-list counsel-file-jump-args)
+                :action #'find-file
+                :preselect (counsel--preselect-file)
+                :require-match 'confirm-after-completion
+                :history 'file-name-history
+                :keymap counsel-file-jump-map
+                :caller 'ol-find-file-name))))
+
+(defun ol-find-file-name-command ()
+  ;; TODO DOn't have ol-find as a script, defne "rg --files || true" inline instead
+  (let* ((preffered "ol-find"))
+    (if (executable-find preffered (file-remote-p default-directory))
+        preffered
+      "find")))
+
+;;;; -------------------------------------------------------------------------
+;;;; Find file content
+;;;; -------------------------------------------------------------------------
+
 (setc counsel-rg-base-command "\
 rg \
 --max-columns 240 \
@@ -381,9 +427,22 @@ rg \
 --color never \
 %s || true")
 
-(defun ol-project-rg ()
+(defun ol-dwim-find-file-content ()
   (interactive)
-  (counsel-rg "" (projectile-project-root)))
+  (if-let ((root (ol-dwim-use-project-root)))
+      (ol-project-find-file-content root)
+    (ol-cwd-find-file-content)))
+
+(defun ol-project-find-file-content (&optional root)
+  (interactive)
+  (ol-find-file-content (or root (projectile-project-root)) "project"))
+
+(defun ol-cwd-find-file-content ()
+  (interactive)
+  (ol-find-file-content default-directory "cwd"))
+
+(defun ol-find-file-content (directory prompt)
+  (counsel-rg "" directory "" (concat "Find file content [" prompt "]: ")))
 
 ;; -----------------------------------------------------------------------------
 ;; Languages
