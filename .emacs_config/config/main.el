@@ -22,9 +22,21 @@
 ;; General
 ;; -----------------------------------------------------------------------------
 
+(setc enable-local-variables nil)
+
+(defun ol-startup-hook ()
+  (setq inhibit-trace nil)
+  (toggle-frame-maximized))
+
+(add-hook 'emacs-startup-hook 'ol-startup-hook)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; File Management
 ;;;; ---------------------------------------------------------------------------
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Backup
+;;;;;; -------------------------------------------------------------------------
 
 ;; No ~ files
 (setc make-backup-files nil)
@@ -32,10 +44,12 @@
 ;; To prevent stutter when auto-saving. I use super-save and git to compensate
 (setc auto-save-default nil)
 
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Save
+;;;;;; -------------------------------------------------------------------------
+
 (require 'super-save)
-
 (super-save-mode t)
-
 (setq save-silently t)
 
 (defun ol-save-buffer ()
@@ -45,53 +59,32 @@
 
 (save-place-mode t)
 
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Auto revert
+;;;;;; -------------------------------------------------------------------------
+
 ;; Disable auto revert while I experiment with performance
 (global-auto-revert-mode nil)
 (setc global-auto-revert-non-file-buffers t)
 (setc auto-revert-verbose nil)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Misc
+;;;; Performance
 ;;;; ---------------------------------------------------------------------------
 
-;; Since I disabled auto save, consider having a 30 second idle timer for
+;; TODO: Since I disabled auto save, consider having a 30 second idle timer for
 ;; garbage collect. The manpage mentioned that garbage collection might happen
 ;; at the same time.
 
-(setq gc-cons-threshold (* 10 800 1000))
-(setq gc-cons-percentage 0.4)
+(setq gc-cons-threshold (* 10 800 1000)) ;; 10x the default
+(setq gc-cons-percentage 0.4) ;; default is 0.1
 
 (setc garbage-collection-messages t)
 
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
-;; change all prompts to y or n
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; Silence compiler warnings as they can be pretty disruptive
-(setc native-comp-async-report-warnings-errors nil)
-
-(setc enable-local-variables nil)
-
-(setc warning-minimum-level :error)
-
 ;; Supposedly can improve scroll performance
 (setq auto-window-vscroll nil)
-
-(setq-default show-trailing-whitespace nil)
-
-(defun ol-toggle-show-trailing-whitespace ()
-  (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace))
-  (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
-
-(setc display-hourglass nil)
-
-(defun ol-startup-hook ()
-  (setq inhibit-trace nil)
-  (toggle-frame-maximized))
-
-(add-hook 'emacs-startup-hook 'ol-startup-hook)
 
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
@@ -132,16 +125,18 @@
 (evil-set-undo-system 'undo-redo)
 (setc evil-want-Y-yank-to-eol t)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Mac
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-is-mac ()
-  (string= system-type "darwin"))
-
 ;; -----------------------------------------------------------------------------
 ;; User Interface
 ;; -----------------------------------------------------------------------------
+
+(fset 'yes-or-no-p 'y-or-n-p) ;; change all prompts to y or n
+
+(setq-default show-trailing-whitespace nil)
+
+(defun ol-toggle-show-trailing-whitespace ()
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace))
+  (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
@@ -155,14 +150,19 @@
 (set-fringe-mode 10)
 (menu-bar-mode -1)
 
-(setq visible-bell nil
-      ring-bell-function #'ignore)
+(setq visible-bell nil ring-bell-function #'ignore)
 
 (setq frame-title-format "Emacs")
 
 (setq mouse-highlight nil)
 (setq show-help-function nil)
 (setq command-error-function nil)
+
+(setc native-comp-async-report-warnings-errors nil)
+
+(setc warning-minimum-level :error)
+
+(setc display-hourglass nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Line and column numbers
@@ -371,6 +371,7 @@
 ;;;; -------------------------------------------------------------------------
 
 (defun ol-dwim-find-file-name ()
+  "Search for file names."
   (interactive)
   (if-let ((root (ol-dwim-use-project-root)))
       (ol-project-find-file-name root)
@@ -380,10 +381,12 @@
   (and (not (equal major-mode 'dired-mode)) (projectile-project-root)))
 
 (defun ol-project-find-file-name (&optional root)
+  "Search for file names in the current project."
   (interactive)
   (ol-find-file-name (or root (projectile-project-root)) "project"))
 
 (defun ol-cwd-find-file-name ()
+  "Search for file names in the current directory."
   (interactive)
   (ol-find-file-name default-directory "cwd"))
 
@@ -423,16 +426,19 @@ rg \
 %s || true")
 
 (defun ol-dwim-find-file-content ()
+  "Search for file content."
   (interactive)
   (if-let ((root (ol-dwim-use-project-root)))
       (ol-project-find-file-content root)
     (ol-cwd-find-file-content)))
 
 (defun ol-project-find-file-content (&optional root)
+  "Search for file content in the current project."
   (interactive)
   (ol-find-file-content (or root (projectile-project-root)) "project"))
 
 (defun ol-cwd-find-file-content ()
+  "Search for file content in the current directory."
   (interactive)
   (ol-find-file-content default-directory "cwd"))
 

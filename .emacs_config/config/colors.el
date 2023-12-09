@@ -22,9 +22,7 @@
 
 ;; TODO: create variables for colors, that are retrieved from the relevant face
 
-(if (ol-is-mac)
-    (ol-set-face-attribute 'default :height 110)
-  (ol-set-face-attribute 'default :height 90))
+(ol-set-face-attribute 'default :height 90)
 
 (ol-set-face-attribute 'default :foreground "#000000" :background "#ffffff")
 (ol-set-face-attribute 'font-lock-comment-face :foreground "#5f8700")
