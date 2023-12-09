@@ -613,8 +613,9 @@ rg \
 ;;;; Status
 ;;;; ---------------------------------------------------------------------------
 
-(setq magit-save-repository-buffers 'dontask)
+(setc magit-save-repository-buffers 'dontask)
 (setc magit-status-initial-section nil)
+(setc vdiff-magit-dwim-show-on-hunks t)
 
 (defun ol-magit-set-simple-status-header ()
   (magit-set-header-line-format "Magit Status"))
