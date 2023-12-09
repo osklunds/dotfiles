@@ -916,6 +916,16 @@ rg \
 (setc org-goto-interface 'outline-path-completion)
 (setc org-outline-path-complete-in-steps nil)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Spelling
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-toggle-spelling ()
+  (interactive)
+  (unless flyspell-mode
+    (flyspell-buffer))
+  (call-interactively 'flyspell-mode))
+
 ;; -----------------------------------------------------------------------------
 ;; Terminal
 ;; -----------------------------------------------------------------------------
