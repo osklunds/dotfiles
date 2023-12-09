@@ -187,18 +187,59 @@
 ;;;; Windows, buffers, frames
 ;;;; ---------------------------------------------------------------------------
 
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Balanced windows
+;;;;;; -------------------------------------------------------------------------
+
 (require 'balanced-windows)
 
 (balanced-windows-mode)
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Only two windows
+;;;;;; -------------------------------------------------------------------------
+
+(defvar ol-split-style 'vertical)
+
+(defun ol-toggle-split-style ()
+  (setq ol-split-style (if (eq ol-split-style 'vertical)
+                           'horizontal
+                         'vertical)))
+
+(defun ol-split-based-on-style ()
+  (if (eq ol-split-style 'vertical)
+      (split-window-right)
+    (split-window-below)))
 
 (defun ol-split-window-sensibly (&optional window)
     (interactive)
     (let ((window (or window (selected-window))))
         (and (= 1 (count-windows))
                  (with-selected-window window
-                     (split-window-right)))))
+                     (ol-split-based-on-style)))))
 
 (setq split-window-preferred-function #'ol-split-window-sensibly)
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Transposing
+;;;;;; -------------------------------------------------------------------------
+
+(defun ol-transpose-windows ()
+  (interactive)
+  (if (not (equal (length (window-list)) 2))
+      (message "Can't transpose if not exactly two windows")
+    (ol-toggle-split-style)
+    (let* ((this (selected-window))
+           (other (next-window this))
+           (left-top-selected (if (or (window-in-direction 'left) (window-in-direction 'above))
+                                  nil
+                                t)))
+      (delete-window other)
+      (ol-split-window-sensibly)
+      (when left-top-selected
+        (other-window 1))
+      (switch-to-buffer (other-buffer))
+      (other-window 1))))
 
 (defun ol-set-frame-size ()
   (set-frame-height (selected-frame) 44)
