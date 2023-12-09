@@ -4,4 +4,6 @@
 --smart-case
 --no-messages
 --glob=!.git/
+--glob=!.emacs_config/packages
+--glob=!.vim/pack/plugins_as_submodules
 
