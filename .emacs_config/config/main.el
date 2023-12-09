@@ -913,6 +913,9 @@ rg \
 
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
+(setc org-goto-interface 'outline-path-completion)
+(setc org-outline-path-complete-in-steps nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Terminal
 ;; -----------------------------------------------------------------------------
