@@ -76,6 +76,13 @@
 ;; Supposedly can improve scroll performance
 (setq auto-window-vscroll nil)
 
+(setq-default show-trailing-whitespace nil)
+
+(defun ol-toggle-show-trailing-whitespace ()
+  (interactive)
+  (setq show-trailing-whitespace (not show-trailing-whitespace))
+  (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
