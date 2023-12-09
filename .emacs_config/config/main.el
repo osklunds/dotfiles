@@ -519,7 +519,10 @@ rg \
 (customize-set-variable 'company-selection-wrap-around t)
 (setq company-tooltip-align-annotations t)
 (setq company-dabbrev-minimum-length 2)
-(setq company-dabbrev-other-buffers nil)
+
+(setc company-dabbrev-other-buffers nil)
+(setc company-dabbrev-code-other-buffers nil)
+(setc company-dabbrev-code-everywhere t)
 
 (add-hook 'prog-mode-hook 'company-mode)
 (add-hook 'company-mode-hook 'company-box-mode)
