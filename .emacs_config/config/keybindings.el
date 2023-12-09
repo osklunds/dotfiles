@@ -71,17 +71,17 @@
 ;; Evil
 ;; ---------------------------------------------------------------------------
 
-(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+(ol-define-key evil-insert-state-map "C-g" 'evil-normal-state)
 (ol-define-key evil-emacs-state-map "<escape>" 'evil-normal-state)
 
 ;; Window movement
-(define-key evil-motion-state-map (kbd "C-h") #'evil-window-left)
-(define-key evil-motion-state-map (kbd "C-l") #'evil-window-right)
+(ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
+(ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
 
-(define-key evil-normal-state-map (kbd "?") 'evil-ex-nohighlight)
+(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
 
-(define-key evil-motion-state-map (kbd "M-j") 'evil-scroll-line-down)
-(define-key evil-motion-state-map (kbd "M-k") 'evil-scroll-line-up)
+(ol-define-key evil-motion-state-map "M-j" 'evil-scroll-line-down)
+(ol-define-key evil-motion-state-map "M-k" 'evil-scroll-line-up)
 
 ;; To work around a bug that prevents yank/delete full lines when doing
 ;; e.g. d2j. Affects also when a logical line fits the window width.
@@ -274,8 +274,8 @@
 (ol-define-key vdiff-mode-map "C-c x" 'ol-vdiff-remove-all-refinements)
 (ol-define-key vdiff-mode-map "C-c X" 'vdiff-remove-refinements-in-hunk)
 
-(define-key magit-mode-map "e" 'vdiff-magit-dwim)
-(define-key magit-mode-map "E" 'vdiff-magit)
+(ol-define-key magit-mode-map "e" 'vdiff-magit-dwim)
+(ol-define-key magit-mode-map "E" 'vdiff-magit)
 (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
 (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
 (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
@@ -374,11 +374,11 @@
                "<mode-line> <down-mouse-1>"
                "<mode-line> <mouse-1>"))
   (global-set-key (kbd key) 'ol-no-op)
-  (define-key button-map (kbd key) nil)
-  (define-key evil-normal-state-map (kbd key) nil)
-  (define-key evil-motion-state-map (kbd key) nil)
-  (define-key evil-visual-state-map (kbd key) nil)
-  (define-key evil-insert-state-map (kbd key) nil))
+  (ol-define-key button-map key nil)
+  (ol-define-key evil-normal-state-map key nil)
+  (ol-define-key evil-motion-state-map key nil)
+  (ol-define-key evil-visual-state-map key nil)
+  (ol-define-key evil-insert-state-map key nil))
 
 (setc mouse-1-click-follows-link nil)
 
