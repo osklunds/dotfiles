@@ -85,6 +85,12 @@
 
 (setc display-hourglass nil)
 
+(defun ol-startup-hook ()
+  (setq inhibit-trace nil)
+  (ol-center-and-size-frame))
+
+(add-hook 'emacs-startup-hook 'ol-startup-hook)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
