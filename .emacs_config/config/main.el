@@ -87,45 +87,6 @@
 (setq auto-window-vscroll nil)
 
 ;; -----------------------------------------------------------------------------
-;; Key bindings
-;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Evil
-;;;; ---------------------------------------------------------------------------
-
-;; These must be set before evil is loaded
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil) ;; Use evil-collection instead for other packages
-(setq evil-respect-visual-line-mode t)
-
-(require 'evil)
-(evil-mode t)
-
-(setc evil-want-C-u-scroll t)
-(setc evil-search-module 'evil-search)
-(setc evil-disable-insert-state-bindings t)
-(setc evil-emacs-state-modes nil)
-
-(setq evil-insert-state-cursor 'box)
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda () (modify-syntax-entry ?- "w")))
-
-(add-hook 'after-change-major-mode-hook
-          (lambda () (modify-syntax-entry ?_ "w")))
-
-(require 'evil-collection)
-
-(with-eval-after-load 'dired (evil-collection-dired-setup))
-(with-eval-after-load 'magit (evil-collection-magit-setup))
-(with-eval-after-load 'term (evil-collection-term-setup))
-(with-eval-after-load 'ivy (evil-collection-ivy-setup))
-
-(evil-set-undo-system 'undo-redo)
-(setc evil-want-Y-yank-to-eol t)
-
-;; -----------------------------------------------------------------------------
 ;; User Interface
 ;; -----------------------------------------------------------------------------
 
@@ -280,6 +241,41 @@
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 
 (global-visual-line-mode t)
+
+;; -----------------------------------------------------------------------------
+;; Key bindings/Evil
+;; -----------------------------------------------------------------------------
+
+;; These must be set before evil is loaded
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil) ;; Use evil-collection instead for other packages
+(setq evil-respect-visual-line-mode t)
+
+(require 'evil)
+(evil-mode t)
+
+(setc evil-want-C-u-scroll t)
+(setc evil-search-module 'evil-search)
+(setc evil-disable-insert-state-bindings t)
+(setc evil-emacs-state-modes nil)
+
+(setq evil-insert-state-cursor 'box)
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda () (modify-syntax-entry ?- "w")))
+
+(add-hook 'after-change-major-mode-hook
+          (lambda () (modify-syntax-entry ?_ "w")))
+
+(require 'evil-collection)
+
+(with-eval-after-load 'dired (evil-collection-dired-setup))
+(with-eval-after-load 'magit (evil-collection-magit-setup))
+(with-eval-after-load 'term (evil-collection-term-setup))
+(with-eval-after-load 'ivy (evil-collection-ivy-setup))
+
+(evil-set-undo-system 'undo-redo)
+(setc evil-want-Y-yank-to-eol t)
 
 ;; -----------------------------------------------------------------------------
 ;; Text editing
