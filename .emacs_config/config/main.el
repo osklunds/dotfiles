@@ -41,6 +41,8 @@
   (save-buffer)
   (message (format "Saved buffer: %s" (buffer-file-name))))
 
+(save-place-mode t)
+
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
