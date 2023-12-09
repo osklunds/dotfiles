@@ -1203,8 +1203,10 @@ rg \
           "  " ((:eval (ol-project-name-segment))))))
 
 (defun ol-branch-name-segment ()
-  (if-let ((bfn (buffer-file-name)))
-      (vc-git--symbolic-ref bfn)
+  (if-let ((file (or (buffer-file-name) default-directory)))
+      (if-let ((branch-name vc-mode))
+          (substring-no-properties branch-name 5)
+        "")
     ""))
 
 (defun ol-project-name-segment ()
