@@ -28,7 +28,7 @@
 (dolist (file '("main"
                 "rust"
                 "haskell"
-                "key_bindings"
+                "keybindings"
                 "colors"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
     (load path)))
