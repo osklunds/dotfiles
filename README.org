@@ -11,6 +11,7 @@ dotfiles I use
 *** Must have
 
 - Native compilation of packages and my files
+- Merge Survival Knife
 
 *** Nice to have
 
@@ -19,7 +20,6 @@ dotfiles I use
   - Machine specific .el file
 - terminal
   - vterm for making the experience more similar to a normal terminal
-- Merge Survival Knife
 - Undo each step in search-and-replace
 
 *** Not that important
