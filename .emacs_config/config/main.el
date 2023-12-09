@@ -241,9 +241,13 @@
       (switch-to-buffer (other-buffer))
       (other-window 1))))
 
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Frame size and position
+;;;;;; -------------------------------------------------------------------------
+
 (defun ol-set-frame-size ()
-  (set-frame-height (selected-frame) 44)
-  (set-frame-width (selected-frame) 220))
+  (set-frame-height (selected-frame) 54)
+  (set-frame-width (selected-frame) 240))
 
 (defun ol-center-frame ()
   (modify-frame-parameters (selected-frame)
