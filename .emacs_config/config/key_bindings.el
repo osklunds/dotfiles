@@ -266,8 +266,10 @@
 (ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
-(ol-define-key vdiff-mode-map "C-c F" 'ol-vdiff-refine-all-hunks)
-(ol-define-key vdiff-mode-map "C-c X" 'ol-vdiff-remove-all-refinements)
+(ol-define-key vdiff-mode-map "C-c f" 'ol-vdiff-refine-all-hunks)
+(ol-define-key vdiff-mode-map "C-c F" 'vdiff-refine-this-hunk)
+(ol-define-key vdiff-mode-map "C-c x" 'ol-vdiff-remove-all-refinements)
+(ol-define-key vdiff-mode-map "C-c X" 'vdiff-remove-refinements-in-hunk)
 
 (define-key magit-mode-map "e" 'vdiff-magit-dwim)
 (define-key magit-mode-map "E" 'vdiff-magit)
