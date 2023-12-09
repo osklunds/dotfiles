@@ -43,6 +43,10 @@
 
 (save-place-mode t)
 
+;; Disable auto revert while I experiment with performance
+(global-auto-revert-mode nil)
+(setc global-auto-revert-non-file-buffers t)
+(setc auto-revert-verbose nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Misc
