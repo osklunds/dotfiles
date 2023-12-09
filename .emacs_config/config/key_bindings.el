@@ -20,8 +20,8 @@
 (defvar ol-normal-leader-map (make-sparse-keymap))
 (defvar ol-visual-leader-map (make-sparse-keymap))
 
-(ol-define-key evil-normal-state-map "SPC" ol-normal-leader-map)
-(ol-define-key evil-normal-state-map "C-SPC" ol-normal-leader-map)
+(ol-define-key evil-motion-state-map "SPC" ol-normal-leader-map)
+(ol-define-key evil-motion-state-map "C-SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
 (evil-define-key 'insert term-raw-map (kbd "C-SPC") ol-normal-leader-map)
 
