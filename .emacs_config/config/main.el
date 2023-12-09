@@ -561,7 +561,7 @@ rg \
 
 (setc projectile-completion-system 'ivy)
 
-(setc projectile-switch-project-action 'projectile-find-file)
+(setc projectile-switch-project-action 'ol-dwim-find-file-name)
 
 (require 'counsel-projectile)
 (require 'projectile-ripgrep)
