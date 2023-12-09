@@ -1039,7 +1039,6 @@ rg \
 (require 'vdiff)
 (require 'vdiff-magit)
 
-(setq vdiff-auto-refine nil)
 (setq vdiff-subtraction-fill-char ? )
 
 (setc vdiff-diff-algorithm 'diff)
@@ -1113,7 +1112,7 @@ rg \
 ;;;; Refine
 ;;;; ---------------------------------------------------------------------------
 
-(setq vdiff-auto-refine nil)
+(setq vdiff-auto-refine t)
 
 (defun ol-vdiff-refine-all-hunks ()
   (interactive)
