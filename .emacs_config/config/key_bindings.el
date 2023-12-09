@@ -185,6 +185,11 @@
 (evil-define-key 'visual org-mode-map (kbd "g q") 'org-fill-paragraph)
 (evil-define-key 'normal org-mode-map (kbd "g q q") 'org-fill-paragraph)
 
+(evil-define-key 'insert org-mode-map (kbd "<tab>") 'org-metaright)
+(evil-define-key 'insert org-mode-map (kbd "<backtab>") 'org-metaleft)
+
+(evil-define-key 'normal org-mode-map (kbd "<tab>") 'org-cycle)
+
 ;; ---------------------------------------------------------------------------
 ;; Mac
 ;; ---------------------------------------------------------------------------
