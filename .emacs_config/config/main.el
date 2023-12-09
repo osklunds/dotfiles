@@ -25,7 +25,10 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;; No ~ files
-(setq make-backup-files nil)
+(setc make-backup-files nil)
+
+;; To prevent stutter when auto-saving. I use super-save and git to compensate
+(setc auto-save-default nil)
 
 (require 'super-save)
 
