@@ -472,9 +472,8 @@ rg \
 (setc lsp-auto-guess-root t)
 (setq lsp-completion-provider :none) ;; to prevent overriding my own company backends
 (setc lsp-response-timeout 4)
-;; (setq lsp-log-io t)
-;; TODO: Disable lsp diagnostics. Can use above log to inspect
-;; TODO: Get functions from ivy-lsp
+
+(setc lsp-enable-file-watchers nil) ;; to prevent "nested too deep" warning
 
 ;;;; -------------------------------------------------------------------------
 ;;;; Abbreviations (for completions)
