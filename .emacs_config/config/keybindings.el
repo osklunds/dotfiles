@@ -10,7 +10,7 @@
 (defun ol-define-key (map key fun)
   (define-key map (kbd key) fun))
 
-(defun ol-global-define-key (key fun)
+(defun ol-global-set-key (key fun)
   (global-set-key (kbd key) fun))
 
 (defmacro ol-evil-define-key (state map key fun)
@@ -169,15 +169,15 @@
 ;;;; Merge Survival Knife
 ;;;; ---------------------------------------------------------------------------
 
-(ol-global-define-key "C-c 6" 'msk-merge-survival-knife-start)
-(ol-global-define-key "C-c 7" 'msk-merge-survival-knife-stop)
+(ol-global-set-key "C-c 6" 'msk-merge-survival-knife-start)
+(ol-global-set-key "C-c 7" 'msk-merge-survival-knife-stop)
 
 ;; TODO Only bind if merging
-(ol-global-define-key "C-c 1" 'msk-base-local)
-(ol-global-define-key "C-c 2" 'msk-base-remote)
-(ol-global-define-key "C-c 3" 'msk-local-remote)
-(ol-global-define-key "C-c 4" 'msk-local-merged)
-(ol-global-define-key "C-c 5" 'msk-remote-merged)
+(ol-global-set-key "C-c 1" 'msk-base-local)
+(ol-global-set-key "C-c 2" 'msk-base-remote)
+(ol-global-set-key "C-c 3" 'msk-local-remote)
+(ol-global-set-key "C-c 4" 'msk-local-merged)
+(ol-global-set-key "C-c 5" 'msk-remote-merged)
 
 ;; ---------------------------------------------------------------------------
 ;; Org mode
@@ -208,7 +208,7 @@
 ;; ---------------------------------------------------------------------------
 
 (ol-override-key "C-j" 'ivy-switch-buffer)
-(ol-global-define-key "C-x C-b" 'ivy-switch-buffer)
+(ol-global-set-key "C-x C-b" 'ivy-switch-buffer)
 
 (ol-define-key ivy-minibuffer-map "TAB" 'ivy-alt-done)
 (ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
@@ -218,7 +218,7 @@
 (ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
 
 (ol-override-key "M-x" 'counsel-M-x)
-(ol-global-define-key "C-x C-f" 'counsel-find-file)
+(ol-global-set-key "C-x C-f" 'counsel-find-file)
 
 ;; -----------------------------------------------------------------------------
 ;; Terminal
@@ -285,7 +285,7 @@
 ;; Dired
 ;; -----------------------------------------------------------------------------
 
-(ol-global-define-key "C-x d" 'ol-dired)
+(ol-global-set-key "C-x d" 'ol-dired)
 
 (ol-evil-define-key 'normal dired-mode-map "o" 'dired-find-file)
 (ol-evil-define-key 'normal dired-mode-map "i" 'dired-up-directory)
@@ -311,7 +311,7 @@
 ;; ---------------------------------------------------------------------------
 
 ;; Make ESC quit prompts
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(ol-global-set-key "<escape>" 'keyboard-escape-quit)
 
 (ol-override-key "M-h" 'help-command)
 
@@ -328,11 +328,11 @@
 (ol-define-visual-leader-key "er" 'ol-eval-region)
 (ol-define-normal-leader-key "eb" 'ol-eval-buffer)
 
-(global-set-key (kbd "M-/") 'evilnc-comment-or-uncomment-lines)
+(ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
 
 (ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
 
-(ol-global-define-key "C-x C-s" 'ol-save-buffer)
+(ol-global-set-key "C-x C-s" 'ol-save-buffer)
 
 (ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
 
@@ -373,7 +373,7 @@
                "<drag-mouse-3>"
                "<mode-line> <down-mouse-1>"
                "<mode-line> <mouse-1>"))
-  (global-set-key (kbd key) 'ol-no-op)
+  (ol-global-set-key key 'ol-no-op)
   (ol-define-key button-map key nil)
   (ol-define-key evil-normal-state-map key nil)
   (ol-define-key evil-motion-state-map key nil)
