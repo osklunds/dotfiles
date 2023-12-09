@@ -38,7 +38,7 @@
 ;;;; Override
 ;;;; ---------------------------------------------------------------------------
 
-;; Section copied from: https://emacs.stackexchange.com/a/358
+;; Overriding inspired by: https://emacs.stackexchange.com/a/358
 
 (defvar ol-override-mode-map (make-sparse-keymap))
 
