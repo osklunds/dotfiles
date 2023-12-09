@@ -107,10 +107,12 @@
 ;; Use C-u for scroll instead of universal argument  
 (setq evil-want-C-u-scroll t)
 (setq evil-disable-insert-state-bindings t)
+(setq evil-respect-visual-line-mode t)
 
 (require 'evil)
 (evil-mode t)
 
+;; TODO: There exists an evil var for this
 (evil-set-initial-state 'messages-buffer-mode 'normal)
 (evil-set-initial-state 'debugger-mode 'normal)
 (evil-set-initial-state 'Custom-mode 'normal)
