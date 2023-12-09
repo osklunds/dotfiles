@@ -13,6 +13,9 @@
 (defun ol-global-define-key (key fun)
   (global-set-key (kbd key) fun))
 
+(defmacro ol-evil-define-key (state map key fun)
+  `(evil-define-key ',state ,map (kbd ,key) ,fun))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Leader
 ;;;; ---------------------------------------------------------------------------
@@ -23,7 +26,7 @@
 (ol-define-key evil-motion-state-map "SPC" ol-normal-leader-map)
 (ol-define-key evil-motion-state-map "C-SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
-(evil-define-key 'insert term-raw-map (kbd "C-SPC") ol-normal-leader-map)
+(ol-evil-define-key insert term-raw-map "C-SPC" ol-normal-leader-map)
 
 (defun ol-define-normal-leader-key (key fun)
   (ol-define-key ol-normal-leader-map key fun))
@@ -182,13 +185,13 @@
 
 (ol-define-normal-leader-key "os" 'org-babel-demarcate-block)
 
-(evil-define-key 'visual org-mode-map (kbd "g q") 'org-fill-paragraph)
-(evil-define-key 'normal org-mode-map (kbd "g q q") 'org-fill-paragraph)
+(ol-evil-define-key visual org-mode-map "g q" 'org-fill-paragraph)
+(ol-evil-define-key normal org-mode-map "g q q" 'org-fill-paragraph)
 
-(evil-define-key 'insert org-mode-map (kbd "<tab>") 'org-metaright)
-(evil-define-key 'insert org-mode-map (kbd "<backtab>") 'org-metaleft)
+(ol-evil-define-key insert org-mode-map "<tab>" 'org-metaright)
+(ol-evil-define-key insert org-mode-map "<backtab>" 'org-metaleft)
 
-(evil-define-key 'normal org-mode-map (kbd "<tab>") 'org-cycle)
+(ol-evil-define-key normal org-mode-map "<tab>" 'org-cycle)
 
 ;; ---------------------------------------------------------------------------
 ;; Mac
@@ -223,37 +226,37 @@
 
 (ol-define-normal-leader-key "tt" 'ol-term-named)
 
-(evil-define-key 'insert term-raw-map (kbd "C-h") #'evil-window-left)
-(evil-define-key 'insert term-raw-map (kbd "C-l") #'evil-window-right)
-(evil-define-key 'insert term-raw-map (kbd "C-j") 'ivy-switch-buffer)
-(evil-define-key 'insert term-raw-map (kbd "C-y") 'term-paste)
-(evil-define-key 'insert term-raw-map (kbd "C-d") 'term-send-raw)
-(evil-define-key 'insert term-raw-map (kbd "C-6") 'evil-switch-to-windows-last-buffer)
+(ol-evil-define-key insert term-raw-map "C-h" #'evil-window-left)
+(ol-evil-define-key insert term-raw-map "C-l" #'evil-window-right)
+(ol-evil-define-key insert term-raw-map "C-j" 'ivy-switch-buffer)
+(ol-evil-define-key insert term-raw-map "C-y" 'term-paste)
+(ol-evil-define-key insert term-raw-map "C-d" 'term-send-raw)
+(ol-evil-define-key insert term-raw-map "C-6" 'evil-switch-to-windows-last-buffer)
 
 ;; Hack to do it like this. If done directly, error about prefix key.
 (defun ol-map-ctrl-c ()
-  (evil-define-key 'insert term-raw-map (kbd "C-c") 'term-send-raw))
+  (ol-evil-define-key insert term-raw-map "C-c" 'term-send-raw))
   
 (add-hook 'term-mode-hook 'ol-map-ctrl-c)
 
-(evil-define-key
+(ol-evil-define-key
   'insert term-raw-map
-  (kbd "<up>")
+  "<up>"
   (lambda () (interactive) (term-send-raw-string (kbd "C-p"))))
 
-(evil-define-key
+(ol-evil-define-key
   'insert term-raw-map
-  (kbd "<down>")
+  "<down>"
   (lambda () (interactive) (term-send-raw-string (kbd "C-n"))))
 
-(evil-define-key
+(ol-evil-define-key
   'insert term-raw-map
-  (kbd "<left>")
+  "<left>"
   (lambda () (interactive) (term-send-raw-string (kbd "C-b"))))
 
-(evil-define-key
+(ol-evil-define-key
   'insert term-raw-map
-  (kbd "<right>")
+  "<right>"
   (lambda () (interactive) (term-send-raw-string (kbd "C-f"))))
   
 
@@ -284,8 +287,8 @@
 
 (ol-global-define-key "C-x d" 'ol-dired)
 
-(evil-define-key 'normal dired-mode-map (kbd "o") 'dired-find-file)
-(evil-define-key 'normal dired-mode-map (kbd "i") 'dired-up-directory)
+(ol-evil-define-key 'normal dired-mode-map "o" 'dired-find-file)
+(ol-evil-define-key 'normal dired-mode-map "i" 'dired-up-directory)
 
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
@@ -294,14 +297,14 @@
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
 
-(evil-define-key 'normal tar-mode-map (kbd "o") 'tar-extract)
-(evil-define-key 'normal tar-mode-map (kbd "i") 'ol-tar-up-directory)
+(ol-evil-define-key 'normal tar-mode-map "o" 'tar-extract)
+(ol-evil-define-key 'normal tar-mode-map "i" 'ol-tar-up-directory)
 
 ;; -----------------------------------------------------------------------------
 ;; archive-mode
 ;; -----------------------------------------------------------------------------
 
-(evil-define-key 'normal archive-mode-map (kbd "o") 'archive-extract)
+(ol-evil-define-key 'normal archive-mode-map "o" 'archive-extract)
 
 ;; ---------------------------------------------------------------------------
 ;; Misc
@@ -331,10 +334,10 @@
 
 (ol-global-define-key "C-x C-s" 'ol-save-buffer)
 
-(evil-define-key 'normal global-map (kbd "gr") 'revert-buffer-quick)
+(ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
 
-(evil-define-key 'motion ivy-occur-grep-mode-map (kbd "o") 'ivy-occur-press)
-(evil-define-key 'motion ivy-occur-grep-mode-map (kbd "O") 'ivy-occur-press-and-switch)
+(ol-evil-define-key 'motion ivy-occur-grep-mode-map "o" 'ivy-occur-press)
+(ol-evil-define-key 'motion ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
 
 (ol-define-normal-leader-key "fs" 'counsel-imenu)
 (ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
