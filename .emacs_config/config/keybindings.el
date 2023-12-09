@@ -71,6 +71,7 @@
 ;; Evil
 ;; ---------------------------------------------------------------------------
 
+;; Changing states
 (ol-define-key evil-insert-state-map "C-g" 'evil-normal-state)
 (ol-define-key evil-emacs-state-map "<escape>" 'evil-normal-state)
 
@@ -78,8 +79,10 @@
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
 (ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
 
+;; Clear search highlights
 (ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
 
+;; Scolling
 (ol-define-key evil-motion-state-map "M-j" 'evil-scroll-line-down)
 (ol-define-key evil-motion-state-map "M-k" 'evil-scroll-line-up)
 
@@ -96,11 +99,10 @@
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
 
-(ol-define-visual-leader-key "R" 'ol-full-replace-visual-selection)
-(ol-define-visual-leader-key "r" 'ol-from-here-replace-visual-selection)
-
 (ol-define-normal-leader-key "R" 'ol-full-replace-symbol)
 (ol-define-normal-leader-key "r" 'ol-from-here-replace-symbol)
+
+(ol-define-visual-leader-key "r" 'ol-from-here-replace-visual-selection)
 
 ;; ---------------------------------------------------------------------------
 ;; Windows and buffers
@@ -119,6 +121,8 @@
 ;;;; All languages
 ;;;; ---------------------------------------------------------------------------
 
+(ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
+
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
 ;;;;;; -------------------------------------------------------------------------
@@ -130,15 +134,29 @@
 
 (ol-define-key prog-mode-map "<tab>" 'company-indent-or-complete-common)
 
+;;;;----------------------------------------------------------------------------
+;;;; Lisp
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-eval-region ()
+  (interactive)
+  (call-interactively 'eval-region)
+  (message "eval-region"))
+
+(defun ol-eval-buffer ()
+  (interactive)
+  (call-interactively 'eval-buffer)
+  (message "eval-buffer"))
+
+(ol-define-visual-leader-key "er" 'ol-eval-region)
+(ol-define-normal-leader-key "eb" 'ol-eval-buffer)
+
 ;; ---------------------------------------------------------------------------
 ;; Projectile
 ;; ---------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "pp" 'projectile-switch-project)
 (ol-define-normal-leader-key "ps" 'projectile-discover-projects-in-search-path)
-(ol-define-normal-leader-key "pr" 'projectile-invalidate-cache)
-(ol-define-normal-leader-key "pf" 'ol-project-rg)
-
 (ol-define-normal-leader-key "pd" 'ol-switch-to-dotfiles)
 
 (defun ol-switch-to-dotfiles ()
@@ -154,54 +172,35 @@
 
 (ol-define-normal-leader-key "gs" 'ol-magit-status)
 (ol-define-normal-leader-key "gS" 'ol-magit-full-status)
+
 (ol-define-normal-leader-key "gb" 'magit-blame-addition)
+
 (ol-define-normal-leader-key "gl" 'ol-git-log-current)
+
 (ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
 (ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)
 (ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
 (ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
 
+(ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
+
 ;; To make sure leader works in magit buffers
 (ol-define-key magit-mode-map "SPC" nil)
 (ol-define-key magit-diff-mode-map "SPC" nil)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Merge Survival Knife
-;;;; ---------------------------------------------------------------------------
-
-(ol-global-set-key "C-c 6" 'msk-merge-survival-knife-start)
-(ol-global-set-key "C-c 7" 'msk-merge-survival-knife-stop)
-
-;; TODO Only bind if merging
-(ol-global-set-key "C-c 1" 'msk-base-local)
-(ol-global-set-key "C-c 2" 'msk-base-remote)
-(ol-global-set-key "C-c 3" 'msk-local-remote)
-(ol-global-set-key "C-c 4" 'msk-local-merged)
-(ol-global-set-key "C-c 5" 'msk-remote-merged)
 
 ;; ---------------------------------------------------------------------------
 ;; Org mode
 ;; ---------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "os" 'org-babel-demarcate-block)
-
 (ol-evil-define-key visual org-mode-map "g q" 'org-fill-paragraph)
 (ol-evil-define-key normal org-mode-map "g q q" 'org-fill-paragraph)
 
+;; Indent and deindent lists
 (ol-evil-define-key insert org-mode-map "<tab>" 'org-metaright)
 (ol-evil-define-key insert org-mode-map "<backtab>" 'org-metaleft)
 
+;; Toggle headers
 (ol-evil-define-key normal org-mode-map "<tab>" 'org-cycle)
-
-;; ---------------------------------------------------------------------------
-;; Mac
-;; ---------------------------------------------------------------------------
-
-(when (ol-is-mac)
-  (setq mac-option-key-is-
-        mac-command-key-is-meta t
-        mac-command-modifier 'meta
-        mac-option-modifier 'n))
 
 ;; ---------------------------------------------------------------------------
 ;; Ivy and Counsel
@@ -220,45 +219,37 @@
 (ol-override-key "M-x" 'counsel-M-x)
 (ol-global-set-key "C-x C-f" 'counsel-find-file)
 
+(ol-evil-define-key motion ivy-occur-grep-mode-map "o" 'ivy-occur-press)
+(ol-evil-define-key motion ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
+
 ;; -----------------------------------------------------------------------------
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "tt" 'ol-term-named)
 
+;; Some normal state keybinds
 (ol-evil-define-key insert term-raw-map "C-h" #'evil-window-left)
 (ol-evil-define-key insert term-raw-map "C-l" #'evil-window-right)
 (ol-evil-define-key insert term-raw-map "C-j" 'ivy-switch-buffer)
-(ol-evil-define-key insert term-raw-map "C-y" 'term-paste)
-(ol-evil-define-key insert term-raw-map "C-d" 'term-send-raw)
 (ol-evil-define-key insert term-raw-map "C-6" 'evil-switch-to-windows-last-buffer)
 
-;; Hack to do it like this. If done directly, error about prefix key.
-(defun ol-map-ctrl-c ()
-  (ol-evil-define-key insert term-raw-map "C-c" 'term-send-raw))
-  
-(add-hook 'term-mode-hook 'ol-map-ctrl-c)
+;; Make the terminal experience more natural
+(ol-evil-define-key insert term-raw-map "C-y" 'term-paste)
+(ol-evil-define-key insert term-raw-map "C-d" 'term-send-raw)
+(ol-evil-define-key insert term-raw-map "C-c" 'term-send-raw)
 
-(ol-evil-define-key
-  'insert term-raw-map
-  "<up>"
-  (lambda () (interactive) (term-send-raw-string (kbd "C-p"))))
+;; C-pnbf seem to more reliable in terminals in emacs, so remap arrow keys
+(defmacro ol-define-term-key (from to)
+  `(ol-evil-define-key insert
+                       term-raw-map
+                       ,from
+                       (lambda () (interactive) (term-send-raw-string (kbd ,to)))))
 
-(ol-evil-define-key
-  'insert term-raw-map
-  "<down>"
-  (lambda () (interactive) (term-send-raw-string (kbd "C-n"))))
-
-(ol-evil-define-key
-  'insert term-raw-map
-  "<left>"
-  (lambda () (interactive) (term-send-raw-string (kbd "C-b"))))
-
-(ol-evil-define-key
-  'insert term-raw-map
-  "<right>"
-  (lambda () (interactive) (term-send-raw-string (kbd "C-f"))))
-  
+(ol-define-term-key "<up>"    "C-p")
+(ol-define-term-key "<down>"  "C-n")
+(ol-define-term-key "<left>"  "C-b")
+(ol-define-term-key "<right>" "C-f")
 
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
@@ -269,11 +260,14 @@
 (ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
+
+;; Hunk refinement
 (ol-define-key vdiff-mode-map "C-c f" 'ol-vdiff-refine-all-hunks)
 (ol-define-key vdiff-mode-map "C-c F" 'vdiff-refine-this-hunk)
 (ol-define-key vdiff-mode-map "C-c x" 'ol-vdiff-remove-all-refinements)
 (ol-define-key vdiff-mode-map "C-c X" 'vdiff-remove-refinements-in-hunk)
 
+;; Magit integration
 (ol-define-key magit-mode-map "e" 'vdiff-magit-dwim)
 (ol-define-key magit-mode-map "E" 'vdiff-magit)
 (transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
@@ -287,8 +281,8 @@
 
 (ol-global-set-key "C-x d" 'ol-dired)
 
-(ol-evil-define-key 'normal dired-mode-map "o" 'dired-find-file)
-(ol-evil-define-key 'normal dired-mode-map "i" 'dired-up-directory)
+(ol-evil-define-key normal dired-mode-map "o" 'dired-find-file)
+(ol-evil-define-key normal dired-mode-map "i" 'dired-up-directory)
 
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
@@ -297,47 +291,33 @@
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
 
-(ol-evil-define-key 'normal tar-mode-map "o" 'tar-extract)
-(ol-evil-define-key 'normal tar-mode-map "i" 'ol-tar-up-directory)
+;; Keybinds to mimic dired
+(ol-evil-define-key normal tar-mode-map "o" 'tar-extract)
+(ol-evil-define-key normal tar-mode-map "i" 'ol-tar-up-directory)
 
 ;; -----------------------------------------------------------------------------
 ;; archive-mode
 ;; -----------------------------------------------------------------------------
 
-(ol-evil-define-key 'normal archive-mode-map "o" 'archive-extract)
+;; Keybinds to mimic dired
+(ol-evil-define-key normal archive-mode-map "o" 'archive-extract)
 
 ;; ---------------------------------------------------------------------------
 ;; Misc
 ;; ---------------------------------------------------------------------------
 
-;; Make ESC quit prompts
-(ol-global-set-key "<escape>" 'keyboard-escape-quit)
-
 (ol-override-key "M-h" 'help-command)
-
-(defun ol-eval-region ()
-  (interactive)
-  (call-interactively 'eval-region)
-  (message "eval-region"))
-
-(defun ol-eval-buffer ()
-  (interactive)
-  (call-interactively 'eval-buffer)
-  (message "eval-buffer"))
-
-(ol-define-visual-leader-key "er" 'ol-eval-region)
-(ol-define-normal-leader-key "eb" 'ol-eval-buffer)
-
-(ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
-
-(ol-define-normal-leader-key "gt" 'ol-toggle-fundamental-mode)
-
+(ol-global-set-key "<escape>" 'keyboard-escape-quit)
 (ol-global-set-key "C-x C-s" 'ol-save-buffer)
 
-(ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
+(ol-evil-define-key normal global-map "gr" 'revert-buffer-quick)
 
-(ol-evil-define-key 'motion ivy-occur-grep-mode-map "o" 'ivy-occur-press)
-(ol-evil-define-key 'motion ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
+;; TODO: Same if normal and read-only
+(ol-define-key evil-motion-state-map "o" 'push-button)
+
+;;;;----------------------------------------------------------------------------
+;;;; Misc leader
+;;;; ---------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "fs" 'counsel-imenu)
 (ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
@@ -345,9 +325,6 @@
 (ol-define-normal-leader-key "mc" 'ol-center-and-size-frame)
 (ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
 (ol-define-normal-leader-key "sc" 'ol-toggle-spelling)
-
-;; TODO: Same if normal and read-only
-(ol-define-key evil-motion-state-map "o" 'push-button)
 
 ;; -----------------------------------------------------------------------------
 ;; Mouse
