@@ -135,6 +135,7 @@
 (with-eval-after-load 'ivy (evil-collection-ivy-setup))
 
 (evil-set-undo-system 'undo-redo)
+(setc evil-want-Y-yank-to-eol t)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mac
