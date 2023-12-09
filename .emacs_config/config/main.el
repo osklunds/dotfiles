@@ -52,14 +52,14 @@
 ;;;; Misc
 ;;;; ---------------------------------------------------------------------------
 
-(setq gc-cons-threshold (eval-when-compile (* 1024 1024 1024))) ;; 1 GB
+;; Since I disabled auto save, consider having a 30 second idle timer for
+;; garbage collect. The manpage mentioned that garbage collection might happen
+;; at the same time.
 
-(defun ol-garbage-collect ()
-  (message (format "Start garbage-collect at: %s gc-cons before: %s" (current-time-string) gc-cons-percentage))
-  (garbage-collect)
-  (message (format "Finish garbage-collect at: %s" (current-time-string))))
+(setq gc-cons-threshold (* 10 800 1000))
+(setq gc-cons-percentage 0.4)
 
-(run-with-idle-timer (* 2 60 60) t (lambda () (ol-garbage-collect)))
+(setc garbage-collection-messages t)
 
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
