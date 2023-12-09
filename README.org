@@ -7,34 +7,27 @@ dotfiles I use
 
 *** Housekeeping
 
-- Use setc when appropriate
-- Define a wrapper for evil-define-key that does kbd
-- Clean up key bindings file and functions used
 
 *** Must have
 
-- Live preview in fuzzy find and ripgrep etc
-- Cache-less file finder, using counsel-rg?
-- defun wrapper that does native compile. For use on e.g. modeline
+- Native compilation of packages and my files
 
 *** Nice to have
 
-- Make diff colors clearer, maybe mimic vim's
 - Organization
+  - Register external dependencies
   - Machine specific .el file
 - terminal
   - vterm for making the experience more similar to a normal terminal
 - Merge Survival Knife
-- Keybind in normal empties line
+- Undo each step in search-and-replace
 
 *** Not that important
 
 - evil
-  - Make magit ? show bindings for evil mode
   - Exit visual mode when search replace is done
 - alt-ret for continuing list also outside org-mode
 - Switch to vertico/consult/marginella
-  - Will fix live preview of ripgrep results
 
 *** Wanted, but hard to do
 
