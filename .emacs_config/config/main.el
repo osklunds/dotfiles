@@ -83,6 +83,8 @@
   (setq show-trailing-whitespace (not show-trailing-whitespace))
   (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
 
+(setc display-hourglass nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Key bindings
 ;; -----------------------------------------------------------------------------
