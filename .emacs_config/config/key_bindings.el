@@ -236,6 +236,27 @@
   
 (add-hook 'term-mode-hook 'ol-map-ctrl-c)
 
+(evil-define-key
+  'insert term-raw-map
+  (kbd "<up>")
+  (lambda () (interactive) (term-send-raw-string (kbd "C-p"))))
+
+(evil-define-key
+  'insert term-raw-map
+  (kbd "<down>")
+  (lambda () (interactive) (term-send-raw-string (kbd "C-n"))))
+
+(evil-define-key
+  'insert term-raw-map
+  (kbd "<left>")
+  (lambda () (interactive) (term-send-raw-string (kbd "C-b"))))
+
+(evil-define-key
+  'insert term-raw-map
+  (kbd "<right>")
+  (lambda () (interactive) (term-send-raw-string (kbd "C-f"))))
+  
+
 ;; -----------------------------------------------------------------------------
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
