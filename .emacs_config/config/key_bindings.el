@@ -85,6 +85,10 @@
 (ol-define-key evil-operator-state-map "j" 'evil-next-line)
 (ol-define-key evil-operator-state-map "k" 'evil-previous-line)
 
+;; I think this mapping makes more sense, to align down/j/{ and up/k/}
+(ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
+(ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
+
 ;; ---------------------------------------------------------------------------
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
