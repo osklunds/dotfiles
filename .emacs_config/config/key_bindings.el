@@ -347,6 +347,39 @@
 (ol-define-key evil-motion-state-map "o" 'push-button)
 
 ;; -----------------------------------------------------------------------------
+;; Mouse
+;; -----------------------------------------------------------------------------
+
+(defun ol-no-op ()
+  (interactive))
+
+(dolist (key '("<mouse-1>"
+               "<mouse-2>"
+               "<mouse-3>"
+               "<down-mouse-1>"
+               "<down-mouse-2>"
+               "<down-mouse-3>"
+               "<double-mouse-1>"
+               "<double-mouse-2>"
+               "<double-mouse-3>"
+               "<triple-mouse-1>"
+               "<triple-mouse-2>"
+               "<triple-mouse-3>"
+               "<drag-mouse-1>"
+               "<drag-mouse-2>"
+               "<drag-mouse-3>"
+               "<mode-line> <down-mouse-1>"
+               "<mode-line> <mouse-1>"))
+  (global-set-key (kbd key) 'ol-no-op)
+  (define-key button-map (kbd key) nil)
+  (define-key evil-normal-state-map (kbd key) nil)
+  (define-key evil-motion-state-map (kbd key) nil)
+  (define-key evil-visual-state-map (kbd key) nil)
+  (define-key evil-insert-state-map (kbd key) nil))
+
+(setc mouse-1-click-follows-link nil)
+
+;; -----------------------------------------------------------------------------
 ;; server
 ;; -----------------------------------------------------------------------------
 
