@@ -103,17 +103,8 @@
 ;; Windows and buffers
 ;; ---------------------------------------------------------------------------
 
-(defun ol-split-window ()
-  (interactive)
-  (switch-to-buffer-other-window (current-buffer)))
-
-(defun ol-force-split-window ()
-  (interactive)
-  (split-window-right)
-  (evil-window-right 1))
-
 (ol-override-key "M-d" 'ol-split-window)
-(ol-override-key "M-e" 'ol-force-split-window)
+(ol-override-key "M-r" 'ol-force-split-window)
 
 (ol-define-key evil-normal-state-map "q" 'quit-window)
 
@@ -157,8 +148,8 @@
   (interactive)
   (projectile-switch-project-by-name "~/dotfiles"))
 
-(ol-override-key "M-q" 'projectile-find-file)
-(ol-define-key projectile-mode-map "C-c p" 'projectile-command-map)
+(ol-override-key "M-q" 'ol-dwim-find-file-name)
+(ol-override-key "M-e" 'ol-dwim-find-file-content)
 
 ;; ---------------------------------------------------------------------------
 ;; Git
