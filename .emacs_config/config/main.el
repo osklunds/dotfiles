@@ -776,11 +776,11 @@ rg \
 (defconst msk-remote-start-re "^=======")
 (defconst msk-remote-end-re "^>>>>>>>")
 
-(defun msk-put (property value)
-  (put 'msk-state property value))
+(defun msk-put (key value)
+  (put 'msk-state key value))
 
-(defun msk-get (property)
-  (get 'msk-state property))
+(defun msk-get (key)
+  (get 'msk-state key))
 
 (defun msk-list ()
   (symbol-plist 'msk-state))
@@ -800,22 +800,19 @@ rg \
     (list local base remote merged)))
 
 (defun msk-create-buffers ()
-  (let* ((strings (msk-encompass-conflict))
-         (local (generate-new-buffer "LOCAL"))
-         (base (generate-new-buffer "BASE"))
-         (remote (generate-new-buffer "REMOTE"))
-         (merged (generate-new-buffer "MERGED")))
-    (with-current-buffer local
-      (insert (nth 0 strings))
-      (read-only-mode))
-    (with-current-buffer base
-      (insert (nth 1 strings))
-      (read-only-mode))
-    (with-current-buffer remote
-      (insert (nth 2 strings))
-      (read-only-mode))
-    (with-current-buffer merged
-      (insert (nth 3 strings)))))
+  (msk-create-buffer "LOCAL"  'local-string  'local-buffer  t)
+  (msk-create-buffer "BASE"   'base-string   'base-buffer   t)
+  (msk-create-buffer "REMOTE" 'remote-string 'remote-buffer t)
+  (msk-create-buffer "MERGED" 'merged-string 'merged-buffer nil))
+
+(defun msk-create-buffer (name string-key buffer-key read-only)
+  (let ((buffer (generate-new-buffer name)))
+    (with-current-buffer buffer
+      (insert (msk-get string-key))
+      (when read-only
+        (read-only-mode)))
+    (msk-put buffer-key buffer)))
+                   
     
 
 
