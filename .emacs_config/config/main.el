@@ -790,11 +790,14 @@ rg \
          (remote (generate-new-buffer "REMOTE"))
          (merged (generate-new-buffer "MERGED")))
     (with-current-buffer local
-      (insert (nth 0 strings)))
+      (insert (nth 0 strings))
+      (read-only-mode))
     (with-current-buffer base
-      (insert (nth 1 strings)))
+      (insert (nth 1 strings))
+      (read-only-mode))
     (with-current-buffer remote
-      (insert (nth 2 strings)))
+      (insert (nth 2 strings))
+      (read-only-mode))
     (with-current-buffer merged
       (insert (nth 3 strings)))))
     
