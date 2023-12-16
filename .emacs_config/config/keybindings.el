@@ -365,3 +365,9 @@
 
 (ol-define-key evil-normal-state-map "C-x #" #'ol-server-done)
 
+;; -----------------------------------------------------------------------------
+;; Merge Survival Knife (WIP)
+;; -----------------------------------------------------------------------------
+
+(ol-define-normal-leader-key "gm" 'msk-start)
+(ol-define-normal-leader-key "gM" 'msk-stop)
