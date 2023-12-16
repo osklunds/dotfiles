@@ -319,7 +319,7 @@
 ;;;; Misc leader
 ;;;; ---------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "fs" 'counsel-imenu)
+(ol-define-normal-leader-key "ms" 'counsel-imenu)
 (ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
 (ol-define-normal-leader-key "mt" 'ol-transpose-windows)
 (ol-define-normal-leader-key "mc" 'ol-center-and-size-frame)
