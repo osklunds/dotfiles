@@ -769,18 +769,34 @@ rg \
 ;;;; Merge Survival Knife (WIP)
 ;;;; ---------------------------------------------------------------------------
 
-(defvar msk-state ())
+(defvar msk-state nil)
 
 (defconst msk-local-start-re "^<<<<<<<")
 (defconst msk-local-end-re "^|||||||")
 (defconst msk-remote-start-re "^=======")
 (defconst msk-remote-end-re "^>>>>>>>")
 
-(defun msk-encompass-conflict ()
+(defun msk-put (property value)
+  (put 'msk-state property value))
+
+(defun msk-get (property)
+  (get 'msk-state property))
+
+(defun msk-list ()
+  (symbol-plist 'msk-state))
+
+(defun msk-clear ()
+  (setplist 'msk-state nil))
+
+(defun msk-populate-strings ()
   (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
          (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
          (remote (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
          (merged (msk-string-between-regexp msk-local-start-re  msk-remote-end-re   t)))
+    (msk-put 'local-string local)
+    (msk-put 'base-string base)
+    (msk-put 'remote-string remote)
+    (msk-put 'merged-string merged)
     (list local base remote merged)))
 
 (defun msk-create-buffers ()
