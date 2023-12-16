@@ -117,7 +117,7 @@
 
 (setq mouse-highlight nil)
 (setq show-help-function nil)
-(setq command-error-function nil)
+(setq command-error-function 'help-command-error-confusable-suggestions)
 
 (setc native-comp-async-report-warnings-errors nil)
 
@@ -777,15 +777,26 @@ rg \
 (defconst msk-remote-end-re "^>>>>>>>")
 
 (defun msk-encompass-conflict ()
-  (interactive)
   (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
          (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
          (remote (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
          (merged (msk-string-between-regexp msk-local-start-re  msk-remote-end-re   t)))
-    (message "oskar: %s" local)
-    (message "oskar: %s" base)
-    (message "oskar: %s" remote)
-    (message "oskar: %s" merged)))
+    (list local base remote merged)))
+
+(defun msk-create-buffers ()
+  (let* ((strings (msk-encompass-conflict))
+         (local (generate-new-buffer "LOCAL"))
+         (base (generate-new-buffer "BASE"))
+         (remote (generate-new-buffer "REMOTE"))
+         (merged (generate-new-buffer "MERGED")))
+    (with-current-buffer local
+      (insert (nth 0 strings)))
+    (with-current-buffer base
+      (insert (nth 1 strings)))
+    (with-current-buffer remote
+      (insert (nth 2 strings)))
+    (with-current-buffer merged
+      (insert (nth 3 strings)))))
     
 
 
