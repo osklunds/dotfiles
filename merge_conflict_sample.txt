@@ -1,0 +1,13 @@
+shared stuff before
+
+<<<<<<< HEAD
+Change done by local
+More stuff
+||||||| some merge base hash
+Stuff like they were on base
+=======
+Change done by remote
+Other things
+>>>>>>> branch being merged
+
+shared stuff after

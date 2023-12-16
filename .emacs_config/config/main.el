@@ -771,6 +771,43 @@ rg \
 
 (defvar msk-state ())
 
+(defconst msk-local-start-re "^<<<<<<<")
+(defconst msk-local-end-re "^|||||||")
+(defconst msk-remote-start-re "^=======")
+(defconst msk-remote-end-re "^>>>>>>>")
+
+(defun msk-encompass-conflict ()
+  (interactive)
+  (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
+         (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
+         (remote (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
+         (merged (msk-string-between-regexp msk-local-start-re  msk-remote-end-re   t)))
+    (message "oskar: %s" local)
+    (message "oskar: %s" base)
+    (message "oskar: %s" remote)
+    (message "oskar: %s" merged)))
+    
+
+
+
+
+(defun msk-string-between-regexp (start end inclusive)
+  (save-excursion
+    (let* ((start-point nil)
+           (end-point nil))
+      (re-search-forward start)
+      (unless inclusive
+        (next-line))
+      (beginning-of-line)
+      (setq start-point (point))
+      (re-search-forward end)
+      (unless inclusive
+        (previous-line))
+      (end-of-line)
+      (setq end-point (point))
+      (buffer-substring-no-properties start-point end-point))))
+
+
 ;; Copied and modified from magit.
 (defun msk-merge-survival-knife-start ()
   (interactive)
