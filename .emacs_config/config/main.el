@@ -808,11 +808,38 @@ rg \
 (defun msk-create-buffer (name string-key buffer-key read-only)
   (let ((buffer (generate-new-buffer name)))
     (with-current-buffer buffer
+      (display-line-numbers-mode t) ;; workaround due to unknwon bug
+      (insert "\n") ;; workaround due to vdiff bug
       (insert (msk-get string-key))
       (when read-only
         (read-only-mode)))
-    (msk-put buffer-key buffer)))
-                   
+    (msk-put buffer-key buffer))
+
+(defun msk-create-diffs ()
+  (msk-create-diff 'base-buffer 'local-buffer))
+
+(defun msk-create-diff (left-buffer-key right-buffer-key)
+  (vdiff-buffers (msk-get left-buffer-key) (msk-get right-buffer-key)))
+
+(defun msk-cleanup ()
+  (msk-kill-buffer 'local-buffer)
+  (msk-kill-buffer 'base-buffer)
+  (msk-kill-buffer 'remote-buffer)
+  (msk-kill-buffer 'merged-buffer)
+  (msk-clear))
+
+(defun msk-kill-buffer (buffer-key)
+  (when-let (buffer (msk-get buffer-key))
+    (kill-buffer buffer)))
+
+(defun msk-start ()
+  (interactive)
+  (msk-cleanup)
+  (msk-populate-strings)
+  (msk-create-buffers)
+  (msk-create-diffs))
+
+
     
 
 
