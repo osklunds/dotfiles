@@ -833,7 +833,9 @@ rg \
     (vdiff-buffers left-buffer right-buffer)
     (vdiff-refresh)))
 
-(defun msk-cleanup ()
+(defun msk-stop ()
+  (interactive)
+  (msk-restore-windows)
   (dolist (maybe-buffer (msk-list))
     (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
       (when (bufferp maybe-buffer)
@@ -841,10 +843,19 @@ rg \
 
 (defun msk-start ()
   (interactive)
-  (msk-cleanup)
+  (msk-stop)
+  (msk-save-window-configuration)
   (msk-populate-strings)
   (msk-create-buffers)
   (msk-create-diffs))
+
+(defun msk-save-windows ()
+  (msk-put "window-configuration" (current-window-configuration)))
+
+(defun msk-restore-windows ()
+  (if-let (windows (msk-get "window-configuration"))
+      (set-window-configuration windows)
+    (message "Warning: no window config found")))
 
 
     
