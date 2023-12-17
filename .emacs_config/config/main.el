@@ -802,7 +802,8 @@ rg \
   (msk-save-windows)
   (msk-populate-strings)
   (msk-create-buffers)
-  (msk-create-diffs))
+  (msk-create-diffs)
+  (msk-base-local))
 
 (defun msk-stop ()
   ;; TODO: Make it save to original file
