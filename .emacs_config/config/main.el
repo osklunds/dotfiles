@@ -769,6 +769,8 @@ rg \
 ;;;; Merge Survival Knife (WIP)
 ;;;; ---------------------------------------------------------------------------
 
+;; TODO Make this a minor mode
+
 (defvar msk-state nil)
 
 (defconst msk-local-start-re "^<<<<<<<")
@@ -815,6 +817,7 @@ rg \
         (read-only-mode)))
     (msk-put name buffer)))
 
+;; TODO: Create a "4 way diff" with BL and RM are on top, and BR and LM are on top
 (defun msk-create-diffs ()
   (msk-create-diff "BASE" "LOCAL")
   (msk-create-diff "BASE" "REMOTE")
