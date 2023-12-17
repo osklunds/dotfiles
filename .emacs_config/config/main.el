@@ -817,8 +817,10 @@ rg \
   (dolist (maybe-buffer (msk-list))
     (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
       (when (bufferp maybe-buffer)
-        (kill-buffer maybe-buffer))))
-  (msk-clear-state))
+        (let ((bfn (buffer-name maybe-buffer)))
+          (when (and bfn (string-match-p name bfn))
+            (kill-buffer maybe-buffer))))))
+    (msk-clear-state))
 
 (defun msk-save-windows ()
   (msk-put "window-configuration" (current-window-configuration)))
