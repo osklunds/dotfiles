@@ -735,6 +735,8 @@ rg \
 
 (setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
 
+;; TODO: git "rev" which is git log but only current file
+
 ;; TODO: More button isn't shown
 (defun ol-git-log-current (&optional ignore-rev)
   (interactive)
