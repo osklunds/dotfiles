@@ -774,6 +774,11 @@ rg \
 ;; TODO Make this a minor mode
 ;; TODO Add a README which explains with a graph
 
+(defconst msk-local-start-re "^<<<<<<<")
+(defconst msk-local-end-re "^|||||||")
+(defconst msk-remote-start-re "^=======")
+(defconst msk-remote-end-re "^>>>>>>>")
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; State
 ;;;; ---------------------------------------------------------------------------
@@ -802,10 +807,12 @@ rg \
       (msk-stop)
     (msk-cleanup))
   (msk-save-windows)
-  (msk-populate-strings)
-  (msk-create-buffers)
-  (msk-create-diffs)
-  (msk-base-local))
+  (if (msk-find-next-conflict)
+      (progn (msk-populate-strings)
+              (msk-create-buffers)
+              (msk-create-diffs)
+              (msk-base-local))
+    (message "No conflict found")))
 
 (defun msk-stop ()
   ;; TODO: Make it save to original file
@@ -820,7 +827,7 @@ rg \
         (let ((bfn (buffer-name maybe-buffer)))
           (when (and bfn (string-match-p name bfn))
             (kill-buffer maybe-buffer))))))
-    (msk-clear-state))
+  (msk-clear-state))
 
 (defun msk-save-windows ()
   (msk-put "window-configuration" (current-window-configuration)))
@@ -831,10 +838,20 @@ rg \
     (message "Warning: no window config found")))
 
 ;;;; ---------------------------------------------------------------------------
+;;;; Finding a conflict
+;;;; ---------------------------------------------------------------------------
+
+(defun msk-find-next-conflict ()
+  (when (smerge-find-conflict)
+    (re-search-backward msk-local-start-re)))
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Populate the conflict strings
 ;;;; ---------------------------------------------------------------------------
 
 (defun msk-populate-strings ()
+  (unless (looking-at-p msk-local-start-re)
+    (error "Not looking at start, bug"))
   (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
          (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
          (remote (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
@@ -844,11 +861,6 @@ rg \
     (msk-put "remote-string" remote)
     (msk-put "merged-string" merged)
     (list local base remote merged)))
-
-(defconst msk-local-start-re "^<<<<<<<")
-(defconst msk-local-end-re "^|||||||")
-(defconst msk-remote-start-re "^=======")
-(defconst msk-remote-end-re "^>>>>>>>")
 
 (defun msk-string-between-regexp (start end inclusive)
   (save-excursion
@@ -955,6 +967,14 @@ rg \
 (defun msk-remote-merged ()
   (interactive)
   (msk-change-view "REMOTE" "MERGED"))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Saving
+;;;; ---------------------------------------------------------------------------
+
+;; (defun msk-save ()
+  
+(setc diff-refine nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Org mode

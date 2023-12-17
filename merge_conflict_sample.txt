@@ -11,3 +11,20 @@ Other things
 >>>>>>> branch being merged
 
 shared stuff after
+
+hej
+
+<<<<<<< HEAD
+Change done by local
+More stuff
+Other conflict
+||||||| some merge base hash
+Stuff like they were on base
+=======
+Change done by remote
+Other things
+>>>>>>> branch being merged
+
+
+
+hej
