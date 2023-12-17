@@ -889,11 +889,16 @@ rg \
 
 ;; TODO: Create a "4 way diff" with BL and RM are on top, and BR and LM are on top
 (defun msk-create-diffs ()
+  ;; By inhibiting diff vdiff seems to work nicer. No more warnings about
+  ;; sentinel and first diff not showing. It could be that when concurrent async
+  ;; processes things are messed up.
+  (setq vdiff--inhibit-diff-update t)
   (msk-create-diff "BASE" "LOCAL")
   (msk-create-diff "BASE" "REMOTE")
   (msk-create-diff "LOCAL" "REMOTE")
   (msk-create-diff "LOCAL" "MERGED")
-  (msk-create-diff "REMOTE" "MERGED"))
+  (msk-create-diff "REMOTE" "MERGED")
+  (setq vdiff--inhibit-diff-update nil))
 
 (defun msk-create-diff (left right)
   (let* ((left-name (msk-diff-name left right left))
@@ -909,7 +914,7 @@ rg \
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
     (vdiff-buffers left-buffer right-buffer)
-    (vdiff-refresh)))
+    ))
 
 (defun msk-diff-name (left right this)
   (concat this " (" (substring left 0 1) (substring right 0 1) ")"))
@@ -925,8 +930,7 @@ rg \
     (switch-to-buffer (msk-get left-buffer-name))
     (split-window-right)
     (other-window 1)
-    (switch-to-buffer (msk-get right-buffer-name))
-    (vdiff-refresh)))
+    (switch-to-buffer (msk-get right-buffer-name))))
 
 (defun msk-base-local ()
   (interactive)
