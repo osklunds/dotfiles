@@ -914,8 +914,7 @@ rg \
       ;; (read-only-mode))
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
-    (vdiff-buffers left-buffer right-buffer)
-    ))
+    (vdiff-buffers left-buffer right-buffer)))
 
 (defun msk-diff-name (left right this)
   (concat this " (" (substring left 0 1) (substring right 0 1) ")"))
