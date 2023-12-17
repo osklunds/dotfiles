@@ -826,19 +826,31 @@ rg \
   (msk-create-diff "REMOTE" "MERGED"))
 
 (defun msk-create-diff (left right)
-  (let* ((shared-name (concat "diff-" left "-" right))
-         (left-name (concat left ": " shared-name))
-         (right-name (concat right ": " shared-name))
+  (let* ((left-name (msk-diff-name left right left))
+         (right-name (msk-diff-name left right right))
          (left-buffer (make-indirect-buffer (msk-get left) left-name))
          (right-buffer (make-indirect-buffer (msk-get right) right-name)))
+    (with-current-buffer left-buffer
+      (display-line-numbers-mode t)
+      (read-only-mode))
+    (with-current-buffer right-buffer
+      (display-line-numbers-mode t)
+      (read-only-mode))
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
     (vdiff-buffers left-buffer right-buffer)
     (vdiff-refresh)))
 
+(defun msk-diff-name (left right this)
+  (concat this " (" (substring left 0 1) (substring right 0 1) ")"))
+
 (defun msk-stop ()
+  ;; TODO: Make it save to original file
   (interactive)
   (msk-restore-windows)
+  (msk-cleanup))
+
+(defun msk-cleanup ()
   (dolist (maybe-buffer (msk-list))
     (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
       (when (bufferp maybe-buffer)
@@ -846,8 +858,10 @@ rg \
 
 (defun msk-start ()
   (interactive)
-  (msk-stop)
-  (msk-save-window-configuration)
+  (if (msk-list)
+      (msk-stop)
+    (msk-cleanup))
+  (msk-save-windows)
   (msk-populate-strings)
   (msk-create-buffers)
   (msk-create-diffs))
@@ -860,11 +874,35 @@ rg \
       (set-window-configuration windows)
     (message "Warning: no window config found")))
 
+(defun msk-base-local ()
+  (interactive)
+  (msk-change-view "BASE" "LOCAL"))
 
-    
+(defun msk-base-remote ()
+  (interactive)
+  (msk-change-view "BASE" "REMOTE"))
 
+(defun msk-local-remote ()
+  (interactive)
+  (msk-change-view "LOCAL" "REMOTE"))
 
+(defun msk-local-merged ()
+  (interactive)
+  (msk-change-view "LOCAL" "MERGED"))
 
+(defun msk-remote-merged ()
+  (interactive)
+  (msk-change-view "REMOTE" "MERGED"))
+
+(defun msk-change-view (left right)
+  (let* ((left-buffer-name (msk-diff-name left right left))
+         (right-buffer-name (msk-diff-name left right right)))
+    (delete-other-windows)
+    (switch-to-buffer (msk-get left-buffer-name))
+    (split-window-right)
+    (other-window 1)
+    (switch-to-buffer (msk-get right-buffer-name))
+    (vdiff-refresh)))
 
 (defun msk-string-between-regexp (start end inclusive)
   (save-excursion
@@ -881,111 +919,6 @@ rg \
       (end-of-line)
       (setq end-point (point))
       (buffer-substring-no-properties start-point end-point))))
-
-
-;; Copied and modified from magit.
-(defun msk-merge-survival-knife-start ()
-  (interactive)
-  ;; TODO: Check if () first
-  (setq msk-state ())
-  (msk--put-value 'window-configuration (current-window-configuration))
-  (let;; ((file (magit-current-file))
-      (dir (magit-gitdir))
-    (rev-local  (or (magit-name-branch "HEAD")
-                    (magit-commit-p "HEAD")))
-    (rev-remote  (cl-find-if (lambda (head)
-                               (file-exists-p (expand-file-name head dir)))
-                             '("MERGE_HEAD" "CHERRY_PICK_HEAD" "REVERT_HEAD")))
-    (rev-remote  (or (magit-name-branch rev-remote)
-                     (magit-commit-p rev-remote)))
-    (rev-base  (magit-commit-p (magit-git-string "merge-base" rev-local rev-remote)))
-    (file-local (magit--rev-file-name file rev-local rev-remote))
-    (file-remote (magit--rev-file-name file rev-remote rev-local))
-    (file-base (or (magit--rev-file-name file rev-base rev-local)
-                   (magit--rev-file-name file rev-base rev-remote)))
-
-    (buffer-local  (msk--get-revision-buffer rev-local  file-local))
-    (buffer-remote (msk--get-revision-buffer rev-remote file-remote))
-    (buffer-base   (msk--get-revision-buffer rev-base   file-base))
-    (buffer-merged (current-buffer))
-
-    (buffer-base-local (msk--ediff buffer-base buffer-local "BASE LOCAL"))
-    (buffer-base-remote (msk--ediff buffer-base buffer-remote "BASE REMOTE"))
-    (buffer-local-remote (msk--ediff buffer-local buffer-remote "LOCAL REMOTE"))
-    (buffer-local-merged (msk--ediff buffer-local buffer-merged "LOCAL MERGED"))
-    (buffer-remote-merged (msk--ediff buffer-remote buffer-merged "REMOTE MERGED")))
-  
-  (msk--put-value 'base buffer-base)
-  (msk--put-value 'local buffer-local)
-  (msk--put-value 'remote buffer-remote)
-  
-  (msk--put-value 'base-local buffer-base-local)
-  (msk--put-value 'base-remote buffer-base-remote)
-  (msk--put-value 'local-remote buffer-local-remote)
-  (msk--put-value 'local-merged buffer-local-merged)
-  (msk--put-value 'remote-merged buffer-remote-merged)
-  )
-
-(defun msk-merge-survival-knife-stop ()
-  (interactive)
-  ;; TOOD: Iterate instead
-  (kill-buffer (msk--get-value 'base))
-  (kill-buffer (msk--get-value 'local))
-  (kill-buffer (msk--get-value 'remote))
-
-  (kill-buffer (msk--get-value 'base-local))
-  (kill-buffer (msk--get-value 'base-remote))
-  (kill-buffer (msk--get-value 'local-remote))
-  (kill-buffer (msk--get-value 'local-merged))
-  (kill-buffer (msk--get-value 'remote-merged))
-
-  (set-window-configuration (msk--get-value 'window-configuration))
-
-  (setq msk-state ()))
-
-(defun msk-base-local ()
-  (interactive)
-  (msk--compare-buffer-pair 'base-local))
-
-(defun msk-base-remote ()
-  (interactive)
-  (msk--compare-buffer-pair 'base-remote))
-
-(defun msk-local-remote ()
-  (interactive)
-  (msk--compare-buffer-pair 'local-remote))
-
-(defun msk-local-merged ()
-  (interactive)
-  (msk--compare-buffer-pair 'local-merged))
-
-(defun msk-remote-merged ()
-  (interactive)
-  (msk--compare-buffer-pair 'remote-merged))
-
-(defun msk--compare-buffer-pair (ediff-control-buffer)
-  (switch-to-buffer (msk--get-value ediff-control-buffer))
-  (delete-other-windows)
-  (ediff-recenter))
-
-(defun msk--get-revision-buffer (rev file)
-  (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
-
-(defun msk--ediff (bufferLeft bufferRight name)
-  (let;; ((bufferName (format ";;Ediff %s;;" name))
-      (rename-control-panel (lambda() (rename-buffer bufferName)))
-    (not-dedicated-window (lambda() (set-window-dedicated-p (frame-selected-window) nil)))
-    (startup-hooks (cons rename-control-panel (cons not-dedicated-window ())))
-    )
-  
-  (ediff-buffers bufferLeft bufferRight startup-hooks))
-
-(defun msk--put-value (key value)
-  (setq msk-state (plist-put msk-state key value)))
-
-(defun msk--get-value (key)
-  (plist-get msk-state key))
-
 
 ;; Local
 ;; /  |  \

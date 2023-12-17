@@ -371,3 +371,10 @@
 
 (ol-define-normal-leader-key "gm" 'msk-start)
 (ol-define-normal-leader-key "gM" 'msk-stop)
+
+;; TODO only map in msk mode
+(ol-override-key "M-1" 'msk-base-local)
+(ol-override-key "M-2" 'msk-base-remote)
+(ol-override-key "M-3" 'msk-local-remote)
+(ol-override-key "M-4" 'msk-local-merged)
+(ol-override-key "M-5" 'msk-remote-merged)
