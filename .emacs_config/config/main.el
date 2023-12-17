@@ -787,7 +787,7 @@ rg \
 (defun msk-list ()
   (symbol-plist 'msk-state))
 
-(defun msk-clear ()
+(defun msk-clear-state ()
   (setplist 'msk-state nil))
 
 (defun msk-populate-strings ()
@@ -854,7 +854,8 @@ rg \
   (dolist (maybe-buffer (msk-list))
     (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
       (when (bufferp maybe-buffer)
-        (kill-buffer maybe-buffer)))))
+        (kill-buffer maybe-buffer))))
+  (msk-clear-state))
 
 (defun msk-start ()
   (interactive)
