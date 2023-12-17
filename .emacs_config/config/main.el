@@ -813,6 +813,7 @@ rg \
       (display-line-numbers-mode t) ;; workaround due to unknwon bug
       (insert "\n") ;; workaround due to vdiff bug
       (insert (msk-get string-key))
+      (insert "\n") ;; vdiff wants all to end in newline
       ;; (when read-only
       ;;   (read-only-mode)))
     (msk-put name buffer))))
