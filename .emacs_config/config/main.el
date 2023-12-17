@@ -765,18 +765,17 @@ rg \
 (magit-add-section-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
 (remove-hook 'magit-revision-sections-hook 'magit-insert-revision-message)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Merge Survival Knife (WIP)
-;;;; ---------------------------------------------------------------------------
+;; ---------------------------------------------------------------------------
+;; Merge Survival Knife (WIP)
+;; ---------------------------------------------------------------------------
 
 ;; TODO Make this a minor mode
 
-(defvar msk-state nil)
+;;;; ---------------------------------------------------------------------------
+;;;; State
+;;;; ---------------------------------------------------------------------------
 
-(defconst msk-local-start-re "^<<<<<<<")
-(defconst msk-local-end-re "^|||||||")
-(defconst msk-remote-start-re "^=======")
-(defconst msk-remote-end-re "^>>>>>>>")
+(defvar msk-state nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -790,6 +789,45 @@ rg \
 (defun msk-clear-state ()
   (setplist 'msk-state nil))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Start and stop
+;;;; ---------------------------------------------------------------------------
+
+(defun msk-start ()
+  (interactive)
+  (if (msk-list)
+      (msk-stop)
+    (msk-cleanup))
+  (msk-save-windows)
+  (msk-populate-strings)
+  (msk-create-buffers)
+  (msk-create-diffs))
+
+(defun msk-stop ()
+  ;; TODO: Make it save to original file
+  (interactive)
+  (msk-restore-windows)
+  (msk-cleanup))
+
+(defun msk-cleanup ()
+  (dolist (maybe-buffer (msk-list))
+    (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
+      (when (bufferp maybe-buffer)
+        (kill-buffer maybe-buffer))))
+  (msk-clear-state))
+
+(defun msk-save-windows ()
+  (msk-put "window-configuration" (current-window-configuration)))
+
+(defun msk-restore-windows ()
+  (if-let (windows (msk-get "window-configuration"))
+      (set-window-configuration windows)
+    (message "Warning: no window config found")))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Populate the conflict strings
+;;;; ---------------------------------------------------------------------------
+
 (defun msk-populate-strings ()
   (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
          (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
@@ -801,12 +839,38 @@ rg \
     (msk-put "merged-string" merged)
     (list local base remote merged)))
 
+(defconst msk-local-start-re "^<<<<<<<")
+(defconst msk-local-end-re "^|||||||")
+(defconst msk-remote-start-re "^=======")
+(defconst msk-remote-end-re "^>>>>>>>")
+
+(defun msk-string-between-regexp (start end inclusive)
+  (save-excursion
+    (let* ((start-point nil)
+           (end-point nil))
+      (re-search-forward start)
+      (unless inclusive
+        (next-line))
+      (beginning-of-line)
+      (setq start-point (point))
+      (re-search-forward end)
+      (unless inclusive
+        (previous-line))
+      (end-of-line)
+      (setq end-point (point))
+      (buffer-substring-no-properties start-point end-point))))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Create buffers
+;;;; ---------------------------------------------------------------------------
+
 (defun msk-create-buffers ()
   (msk-create-buffer "LOCAL"  "local-string"  t)
   (msk-create-buffer "BASE"   "base-string"   t)
   (msk-create-buffer "REMOTE" "remote-string" t)
   (msk-create-buffer "MERGED" "merged-string" nil))
 
+;; TODO: Common helper for some stuff line line numbers
 (defun msk-create-buffer (name string-key read-only)
   (let ((buffer (generate-new-buffer name)))
     (with-current-buffer buffer
@@ -817,6 +881,10 @@ rg \
       ;; (when read-only
       ;;   (read-only-mode)))
     (msk-put name buffer))))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Create diffs
+;;;; ---------------------------------------------------------------------------
 
 ;; TODO: Create a "4 way diff" with BL and RM are on top, and BR and LM are on top
 (defun msk-create-diffs ()
@@ -845,36 +913,19 @@ rg \
 (defun msk-diff-name (left right this)
   (concat this " (" (substring left 0 1) (substring right 0 1) ")"))
 
-(defun msk-stop ()
-  ;; TODO: Make it save to original file
-  (interactive)
-  (msk-restore-windows)
-  (msk-cleanup))
+;;;; ---------------------------------------------------------------------------
+;;;; Change views
+;;;; ---------------------------------------------------------------------------
 
-(defun msk-cleanup ()
-  (dolist (maybe-buffer (msk-list))
-    (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
-      (when (bufferp maybe-buffer)
-        (kill-buffer maybe-buffer))))
-  (msk-clear-state))
-
-(defun msk-start ()
-  (interactive)
-  (if (msk-list)
-      (msk-stop)
-    (msk-cleanup))
-  (msk-save-windows)
-  (msk-populate-strings)
-  (msk-create-buffers)
-  (msk-create-diffs))
-
-(defun msk-save-windows ()
-  (msk-put "window-configuration" (current-window-configuration)))
-
-(defun msk-restore-windows ()
-  (if-let (windows (msk-get "window-configuration"))
-      (set-window-configuration windows)
-    (message "Warning: no window config found")))
+(defun msk-change-view (left right)
+  (let* ((left-buffer-name (msk-diff-name left right left))
+         (right-buffer-name (msk-diff-name left right right)))
+    (delete-other-windows)
+    (switch-to-buffer (msk-get left-buffer-name))
+    (split-window-right)
+    (other-window 1)
+    (switch-to-buffer (msk-get right-buffer-name))
+    (vdiff-refresh)))
 
 (defun msk-base-local ()
   (interactive)
@@ -896,31 +947,9 @@ rg \
   (interactive)
   (msk-change-view "REMOTE" "MERGED"))
 
-(defun msk-change-view (left right)
-  (let* ((left-buffer-name (msk-diff-name left right left))
-         (right-buffer-name (msk-diff-name left right right)))
-    (delete-other-windows)
-    (switch-to-buffer (msk-get left-buffer-name))
-    (split-window-right)
-    (other-window 1)
-    (switch-to-buffer (msk-get right-buffer-name))
-    (vdiff-refresh)))
-
-(defun msk-string-between-regexp (start end inclusive)
-  (save-excursion
-    (let* ((start-point nil)
-           (end-point nil))
-      (re-search-forward start)
-      (unless inclusive
-        (next-line))
-      (beginning-of-line)
-      (setq start-point (point))
-      (re-search-forward end)
-      (unless inclusive
-        (previous-line))
-      (end-of-line)
-      (setq end-point (point))
-      (buffer-substring-no-properties start-point end-point))))
+;;;; ---------------------------------------------------------------------------
+;;;; Change views
+;;;; ---------------------------------------------------------------------------
 
 ;; Local
 ;; /  |  \
