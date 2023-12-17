@@ -813,9 +813,9 @@ rg \
       (display-line-numbers-mode t) ;; workaround due to unknwon bug
       (insert "\n") ;; workaround due to vdiff bug
       (insert (msk-get string-key))
-      (when read-only
-        (read-only-mode)))
-    (msk-put name buffer)))
+      ;; (when read-only
+      ;;   (read-only-mode)))
+    (msk-put name buffer))))
 
 ;; TODO: Create a "4 way diff" with BL and RM are on top, and BR and LM are on top
 (defun msk-create-diffs ()
@@ -831,11 +831,11 @@ rg \
          (left-buffer (make-indirect-buffer (msk-get left) left-name))
          (right-buffer (make-indirect-buffer (msk-get right) right-name)))
     (with-current-buffer left-buffer
-      (display-line-numbers-mode t)
-      (read-only-mode))
+      (display-line-numbers-mode t))
+      ;; (read-only-mode))
     (with-current-buffer right-buffer
-      (display-line-numbers-mode t)
-      (read-only-mode))
+      (display-line-numbers-mode t))
+      ;; (read-only-mode))
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
     (vdiff-buffers left-buffer right-buffer)
