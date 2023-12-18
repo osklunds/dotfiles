@@ -806,6 +806,7 @@ rg \
   (if (msk-list)
       (msk-stop)
     (msk-cleanup))
+  (msk-save-original-pos)
   (msk-save-windows)
   (if (msk-find-next-conflict)
       (progn (msk-populate-strings)
@@ -828,6 +829,10 @@ rg \
           (when (and bfn (string-match-p name bfn))
             (kill-buffer maybe-buffer))))))
   (msk-clear-state))
+
+(defun msk-save-original-pos ()
+  (msk-put "original-buffer" (current-buffer))
+  (msk-put "original-point" (point)))
 
 (defun msk-save-windows ()
   (msk-put "window-configuration" (current-window-configuration)))
@@ -898,7 +903,7 @@ rg \
       (insert "\n") ;; vdiff wants all to end in newline
       ;; (when read-only
       ;;   (read-only-mode)))
-    (msk-put name buffer))))
+      (msk-put name buffer))))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Create diffs
@@ -924,10 +929,10 @@ rg \
          (right-buffer (make-indirect-buffer (msk-get right) right-name)))
     (with-current-buffer left-buffer
       (display-line-numbers-mode t))
-      ;; (read-only-mode))
+    ;; (read-only-mode))
     (with-current-buffer right-buffer
       (display-line-numbers-mode t))
-      ;; (read-only-mode))
+    ;; (read-only-mode))
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
     (vdiff-buffers left-buffer right-buffer)))
@@ -973,6 +978,13 @@ rg \
 ;;;; ---------------------------------------------------------------------------
 
 ;; (defun msk-save ()
+;;   (let* ((merged-buffer-string (with-current-buffer (msk-get "MERGED")
+;;                                  (buffer-string)))
+;;          (no-properties-string (substring-no-properties merged-buffer-string))
+;;          (new-string (
+;;          (old-string (msk-get "merged-string")))
+;;     (message "oskar old: %s new: %s" old-string new-string)))
+
   
 (setc diff-refine nil)
 
