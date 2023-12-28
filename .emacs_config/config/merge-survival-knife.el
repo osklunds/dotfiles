@@ -29,6 +29,14 @@
 (defun msk-mode-stop ()
   (msk-stop))
 
+(defun msk-mode-enable ()
+  (interactive)
+  (msk-mode t))
+
+(defun msk-mode-disable ()
+  (interactive)
+  (msk-mode -1))
+
 (provide 'msk-mode)
 
 ;;;; ---------------------------------------------------------------------------

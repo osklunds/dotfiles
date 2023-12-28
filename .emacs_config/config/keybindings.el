@@ -369,12 +369,11 @@
 ;; Merge Survival Knife (WIP)
 ;; -----------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "gm" 'msk-start)
-(ol-define-normal-leader-key "gM" 'msk-stop)
+(ol-define-normal-leader-key "gm" 'msk-mode-enable)
+(ol-define-normal-leader-key "gM" 'msk-mode-disable)
 
-;; TODO only map in msk mode
-(ol-override-key "M-1" 'msk-base-local)
-(ol-override-key "M-2" 'msk-base-remote)
-(ol-override-key "M-3" 'msk-local-remote)
-(ol-override-key "M-4" 'msk-local-merged)
-(ol-override-key "M-5" 'msk-remote-merged)
+(ol-evil-define-key normal msk-mode-map "M-1" 'msk-base-local)
+(ol-evil-define-key normal msk-mode-map "M-2" 'msk-base-remote)
+(ol-evil-define-key normal msk-mode-map "M-3" 'msk-local-remote)
+(ol-evil-define-key normal msk-mode-map "M-4" 'msk-local-merged)
+(ol-evil-define-key normal msk-mode-map "M-5" 'msk-remote-merged)
