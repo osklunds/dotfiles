@@ -28,6 +28,7 @@
 (dolist (file '("main"
                 "rust"
                 "haskell"
+                "merge-survival-knife"
                 "keybindings"
                 "colors"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
