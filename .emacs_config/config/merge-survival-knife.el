@@ -79,7 +79,10 @@
       (progn (msk-populate-strings)
              (msk-create-buffers)
              (msk-create-diffs)
-             (msk-base-local))
+             ;; Due to vdiff bug, need to skip refresh for the first diff
+             (setq msk-skip-vdiff-refresh t)
+             (msk-base-local)
+             (setq msk-skip-vdiff-refresh nil))
     (message "No conflict found")))
 
 (defun msk-stop ()
@@ -210,14 +213,21 @@
 ;;;; Change views
 ;;;; ---------------------------------------------------------------------------
 
+(defvar msk-skip-vdiff-refresh nil)
+
 (defun msk-change-view (left right)
   (let* ((left-buffer-name (msk-diff-name left right left))
-         (right-buffer-name (msk-diff-name left right right)))
+         (right-buffer-name (msk-diff-name left right right))
+         (pair-key (concat "has-shown" left right)))
     (delete-other-windows)
     (switch-to-buffer (msk-get left-buffer-name))
     (split-window-right)
     (other-window 1)
-    (switch-to-buffer (msk-get right-buffer-name))))
+    (switch-to-buffer (msk-get right-buffer-name))
+    (unless (msk-get pair-key)
+      (msk-put pair-key t)
+      (unless msk-skip-vdiff-refresh
+        (vdiff-refresh)))))
 
 (defun msk-base-local ()
   (interactive)
