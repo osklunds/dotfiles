@@ -370,7 +370,7 @@
 ;; -----------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "gm" 'msk-mode-enable)
-(ol-define-normal-leader-key "gM" 'msk-mode-disable)
+(ol-evil-define-key normal msk-mode-map "C-c q" 'msk-mode-disable)
 
 (ol-evil-define-key normal msk-mode-map "M-1" 'msk-base-local)
 (ol-evil-define-key normal msk-mode-map "M-2" 'msk-base-remote)
