@@ -72,9 +72,7 @@
 
 (defun msk-start ()
   (interactive)
-  (if (msk-list)
-      (msk-stop)
-    (msk-cleanup))
+  (msk-cleanup)
   (msk-save-windows)
   (msk-save-original-pos)
   (if (msk-find-next-conflict)
