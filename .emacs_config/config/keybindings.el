@@ -175,7 +175,7 @@
 
 (ol-define-normal-leader-key "gb" 'magit-blame-addition)
 
-(ol-define-normal-leader-key "gl" 'ol-git-log-current)
+(ol-define-normal-leader-key "gl" 'ol-git-log-dwim)
 
 (ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
 (ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)

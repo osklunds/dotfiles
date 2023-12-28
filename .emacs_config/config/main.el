@@ -739,6 +739,14 @@ rg \
 ;; TODO: git "rev" which is git log but only current file
 
 ;; TODO: More button isn't shown
+
+(defun ol-git-log-dwim ()
+  (interactive)
+  (let* ((branch (magit-get-current-branch))
+         (main (ol-main-branch))
+         (ignore-rev (unless (equal branch main) main)))
+    (ol-git-log branch ignore-rev)))
+
 (defun ol-git-log-current (&optional ignore-rev)
   (interactive)
   (ol-git-log (magit-get-current-branch) ignore-rev))
