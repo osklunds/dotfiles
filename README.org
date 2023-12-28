@@ -16,6 +16,7 @@ dotfiles I use
 *** Nice to have
 
 - Organization
+  - dummy lisp functions for header organization
   - Register external dependencies
   - Machine specific .el file
 - terminal
