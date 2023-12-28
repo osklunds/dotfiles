@@ -770,6 +770,9 @@ rg \
 ;; Merge Survival Knife (WIP)
 ;; ---------------------------------------------------------------------------
 
+;; To make sure smerge doesn't add refinements to conflicts
+(setc diff-refine nil)
+
 ;; TODO Make this a minor mode
 ;; TODO Add a README which explains with a graph
 
@@ -828,23 +831,6 @@ rg \
           (when (and bfn (string-match-p name bfn))
             (kill-buffer maybe-buffer))))))
   (msk-clear-state))
-
-(defun msk-save-solved-conflict ()
-  (switch-to-buffer (msk-get "original-buffer"))
-  (goto-char (msk-get "original-point"))
-  (cl-assert (msk-find-next-conflict))
-  (let* ((old-string (msk-get "merged-string"))
-         (new-string (msk-get-solved-conflict-string)))
-    (cl-assert (= 1 (replace-string-in-region old-string new-string)))))
-
-(defun msk-get-solved-conflict-string ()
-  (let ((string (with-current-buffer (msk-get "MERGED")
-                  (buffer-substring-no-properties (point-min) (point-max)))))
-    (unless (string-prefix-p "\n" string)
-      (error "The merged string must begin with a newline"))
-    (unless (string-suffix-p "\n" string)
-      (error "The merged string must end with a newline"))
-    (substring string 1 -1)))
 
 (defun msk-save-original-pos ()
   (msk-put "original-buffer" (current-buffer))
@@ -990,20 +976,26 @@ rg \
   (msk-change-view "REMOTE" "MERGED"))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Saving
+;;;; Saving the solved conflict
 ;;;; ---------------------------------------------------------------------------
 
-;; (defun msk-save ()
-;;   (let* ((merged-buffer-string (with-current-buffer (msk-get "MERGED")
-;;                                  (buffer-string)))
-;;          (no-properties-string (substring-no-properties merged-buffer-string))
-;;          (new-string (
-;;          (old-string (msk-get "merged-string")))
-;;     (message "oskar old: %s new: %s" old-string new-string)))
+(defun msk-save-solved-conflict ()
+  (switch-to-buffer (msk-get "original-buffer"))
+  (goto-char (msk-get "original-point"))
+  (cl-assert (msk-find-next-conflict))
+  (let* ((old-string (msk-get "merged-string"))
+         (new-string (msk-get-solved-conflict-string)))
+    (cl-assert (= 1 (replace-string-in-region old-string new-string)))))
 
+(defun msk-get-solved-conflict-string ()
+  (let ((string (with-current-buffer (msk-get "MERGED")
+                  (buffer-substring-no-properties (point-min) (point-max)))))
+    (unless (string-prefix-p "\n" string)
+      (error "The merged string must begin with a newline"))
+    (unless (string-suffix-p "\n" string)
+      (error "The merged string must end with a newline"))
+    (substring string 1 -1)))
   
-(setc diff-refine nil)
-
 ;; -----------------------------------------------------------------------------
 ;; Org mode
 ;; -----------------------------------------------------------------------------
