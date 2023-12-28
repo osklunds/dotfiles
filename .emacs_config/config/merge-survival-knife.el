@@ -48,7 +48,6 @@
 (defconst msk-remote-start-re "^=======")
 (defconst msk-remote-end-re "^>>>>>>>")
 
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; State
 ;;;; ---------------------------------------------------------------------------
@@ -163,17 +162,20 @@
   (msk-create-buffer "REMOTE" "remote-string" t)
   (msk-create-buffer "MERGED" "merged-string" nil))
 
-;; TODO: Common helper for some stuff line line numbers
 (defun msk-create-buffer (name string-key read-only)
   (let ((buffer (generate-new-buffer name)))
     (with-current-buffer buffer
-      (display-line-numbers-mode t) ;; workaround due to unknwon bug
       (insert "\n") ;; workaround due to vdiff bug
       (insert (msk-get string-key))
       (insert "\n") ;; vdiff wants all to end in newline
-      ;; (when read-only
-      ;;   (read-only-mode)))
-      (msk-put name buffer))))
+      (msk-put name buffer))
+    (msk-set-buffer-properties buffer read-only)))
+
+(defun msk-set-buffer-properties (buffer read-only)
+  (with-current-buffer buffer
+    (display-line-numbers-mode t) ;; workaround due to unknwon bug
+    (when read-only
+      (read-only-mode))))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Create diffs
@@ -185,24 +187,20 @@
   ;; sentinel and first diff not showing. It could be that when concurrent async
   ;; processes things are messed up.
   (setq vdiff--inhibit-diff-update t)
-  (msk-create-diff "BASE" "LOCAL")
-  (msk-create-diff "BASE" "REMOTE")
-  (msk-create-diff "LOCAL" "REMOTE")
-  (msk-create-diff "LOCAL" "MERGED")
-  (msk-create-diff "REMOTE" "MERGED")
+  (msk-create-diff "BASE"   "LOCAL"  t)
+  (msk-create-diff "BASE"   "REMOTE" t)
+  (msk-create-diff "LOCAL"  "REMOTE" t)
+  (msk-create-diff "LOCAL"  "MERGED" nil)
+  (msk-create-diff "REMOTE" "MERGED" nil)
   (setq vdiff--inhibit-diff-update nil))
 
-(defun msk-create-diff (left right)
+(defun msk-create-diff (left right right-read-only)
   (let* ((left-name (msk-diff-name left right left))
          (right-name (msk-diff-name left right right))
          (left-buffer (make-indirect-buffer (msk-get left) left-name))
          (right-buffer (make-indirect-buffer (msk-get right) right-name)))
-    (with-current-buffer left-buffer
-      (display-line-numbers-mode t))
-    ;; (read-only-mode))
-    (with-current-buffer right-buffer
-      (display-line-numbers-mode t))
-    ;; (read-only-mode))
+    (msk-set-buffer-properties left-buffer t)
+    (msk-set-buffer-properties right-buffer right-read-only)
     (msk-put left-name left-buffer)
     (msk-put right-name right-buffer)
     (vdiff-buffers left-buffer right-buffer)))
