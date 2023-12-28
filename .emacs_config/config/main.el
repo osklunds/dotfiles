@@ -768,6 +768,13 @@ rg \
 (magit-add-section-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
 (remove-hook 'magit-revision-sections-hook 'magit-insert-revision-message)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Merge conflicts
+;;;; ---------------------------------------------------------------------------
+
+;; To make sure smerge doesn't add refinements to conflicts
+(setc diff-refine nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Org mode
 ;; -----------------------------------------------------------------------------

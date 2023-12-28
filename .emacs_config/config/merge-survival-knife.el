@@ -3,16 +3,43 @@
 ;; Merge Survival Knife (WIP)
 ;; ---------------------------------------------------------------------------
 
-;; To make sure smerge doesn't add refinements to conflicts
-(setc diff-refine nil)
-
-;; TODO Make this a minor mode
 ;; TODO Add a README which explains with a graph
+
+
+;;;; ---------------------------------------------------------------------------
+;;;; Minor mode
+;;;; ---------------------------------------------------------------------------
+
+(defvar msk-mode-map (make-sparse-keymap))
+
+;;;###autoload
+(define-minor-mode msk-mode
+  "Minor mode for solving merge conflicts."
+  :init-value nil
+  :lighter " msk-mode"
+  :keymap msk-mode-map
+  :global t
+  (cond
+   (msk-mode (msk-mode-start))
+   (t        (msk-mode-stop))))
+
+(defun msk-mode-start ()
+  (msk-start))
+
+(defun msk-mode-stop ()
+  (msk-stop))
+
+(provide 'msk-mode)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Constants
+;;;; ---------------------------------------------------------------------------
 
 (defconst msk-local-start-re "^<<<<<<<")
 (defconst msk-local-end-re "^|||||||")
 (defconst msk-remote-start-re "^=======")
 (defconst msk-remote-end-re "^>>>>>>>")
+
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; State
