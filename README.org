@@ -63,7 +63,7 @@ BASE       |       MERGED
       \    |    /
        \   |   /
         \  |  /
-        REMOTE
+         REMOTE
 
 #+end_src
 
