@@ -775,6 +775,14 @@ rg \
 ;; To make sure smerge doesn't add refinements to conflicts
 (setc diff-refine nil)
 
+;; Copied/inspired from
+;; https://stumbles.id.au/auto-starting-emacs-smerge-mode-for-git.html
+(defun vc-git-find-file-hook ()
+  (when (save-excursion
+      (goto-char (point-min))
+      (re-search-forward "^<<<<<<< " nil t))
+    (smerge-mode)))
+
 ;; -----------------------------------------------------------------------------
 ;; Org mode
 ;; -----------------------------------------------------------------------------
