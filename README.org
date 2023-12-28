@@ -42,3 +42,71 @@ dotfiles I use
 - Conflict markers highlight all the way to the left and right edges, like VSCode, and like e.g. CursorLine and DiffAdd
 - Better diff, like Gerrit
 -  line numbers also in terminal mode
+
+* "Merge Survival Knife"
+
+** Principles
+
+This tool sets up five different views of the merge conflict according to the figure below.
+
+#+begin_src
+
+         LOCAL
+        /  |  \
+       /   |   \
+      /    |    \
+     /     |     \
+    /      |      \
+BASE       |       MERGED
+    \      |      /
+     \     |     /
+      \    |    /
+       \   |   /
+        \  |  /
+        REMOTE
+
+#+end_src
+
+LOCAL is the version in the target branch, "your changes".
+REMOTE is the version in the branch you're merging in, "others' changes".
+BASE is the merge base between LOCAL and REMOTE.
+MERGED is the merged result.
+
+I use the different diffs the following way:
+
+- BASE <-> LOCAL for understanding what changes I have made since the merge base.
+- BASE <-> REMOTE for understanding what changes other people have made since the merge base.
+- LOCAL <-> REMOTE if LOCAL and REMOTE have made very similar changes, I use this to understand the difference between them. Useful if you have manually copy-pasted code from the branch to merge from, but also made a few changes on your own.
+- REMOTE <-> MERGED for understanding what changes I will "apply" to the branch I'm merging from, if I were to merge my changes to it. For example, if I create a branch based on the main branch, I do a few changes, and main does a few changes, then this diff shows what I would apply to main if I merge to main.
+- LOCAL <-> MERGED for understanding what changes remote will "apply" to my branch after I merge.
+
+BASE <-> LOCAL shows your intention. So that diff should look very similar to REMOTE <-> MERGED if you have correctly preserved your intentions after the merge.
+
+Similiarly, BASE <-> REMOTE shows others' intentions, so it should look the same as LOCAL <-> MERGED.
+
+In other words, I use 
+
+- BASE <-> LOCAL
+- BASE <-> REMOTE
+- LOCAL <-> REMOTE
+
+for understanding the conflict, and
+
+- REMOTE <-> MERGED
+- LOCAL <-> MERGED
+
+for reviewing my resolution of the conflict.
+
+** How to use it
+
+The tool is based on [[https://github.com/justbur/emacs-vdiff][vdiff]].
+
+| My key    | Command             | Description                                       |
+|-----------+---------------------+---------------------------------------------------|
+| =SPC g m= | =msk-mode-enable=   | Start solving the merge conflict the cursor is in |
+| =C-c q=   | =msk-mode-disable=  | Save your resolution of the merge conflict        |
+| =M-1=     | =msk-base-local=    | Change diff view to BASE-LOCAL                    |
+| =M-2=     | =msk-base-remote=   | Change diff view to BASE-REMOTE                   |
+| =M-3=     | =msk-local-remote=  | Change diff view to LOCAL-REMOTE                  |
+| =M-4=     | =msk-local-merged=  | Change diff view to LOCAL-MERGED                  |
+| =M-5=     | =msk-remote-merged= | Change diff view to REMOTE-MERGED                 |
