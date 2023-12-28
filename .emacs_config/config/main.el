@@ -593,8 +593,10 @@ rg \
 
 ;; To make sure the commit message is always uncluttered
 (defun ol-git-commit-setup ()
-  (insert "\n\n")
-  (beginning-of-buffer))
+  (let ((prefix "\n\n"))
+    (unless (looking-at-p prefix)
+      (insert "\n\n")
+      (beginning-of-buffer))))
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
 
