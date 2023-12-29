@@ -18,6 +18,9 @@
   "Convenient version of customize-set-variable."
   `(customize-set-variable ',var ,val))
 
+(defun ol-require-external (cmd)
+  (cl-assert (executable-find cmd)))
+
 ;; -----------------------------------------------------------------------------
 ;; General
 ;; -----------------------------------------------------------------------------
@@ -407,6 +410,8 @@
         preffered
       "find")))
 
+(ol-require-external "rg")
+
 ;;;; -------------------------------------------------------------------------
 ;;;; Find file content
 ;;;; -------------------------------------------------------------------------
@@ -567,6 +572,7 @@ rg \
 
 (require 'magit)
 (require 'magit-blame)
+(ol-require-external "git")
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Blame
@@ -947,6 +953,7 @@ rg \
 (setc vdiff-subtraction-fill-char ? )
 
 (setc vdiff-diff-algorithm 'diff)
+(ol-require-external "diff")
 
 (setc vdiff-fold-padding 10)
 

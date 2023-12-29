@@ -1,5 +1,6 @@
 
 (require 'rust-mode)
+(ol-require-external "rust-analyzer")
 
 (add-hook 'rust-mode-hook 'lsp)
 
