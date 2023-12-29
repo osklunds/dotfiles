@@ -753,11 +753,13 @@ rg \
                     (t rev-arg)))
          (file-arg (plist-get args :file))
          (file (cond ((null file-arg) nil)
-                     (t (list file))))
+                     (t (list "--" file))))
          (ignore-rev (plist-get args :ignore-rev))
-         (magit-log-args (append ol-magit-log-default-arguments
-                                 (ol-make-ignore-rev-args ignore-rev))))
-    (magit-log-other (list rev) magit-log-args file)))
+         (magit-log-args (append (list rev)
+                                 ol-magit-log-default-arguments
+                                 (ol-make-ignore-rev-args ignore-rev)
+                                 file)))
+    (magit-log-other magit-log-args)))
 
 (defun ol-make-ignore-rev-args (ignore-rev)
   (when ignore-rev
