@@ -17,7 +17,6 @@ dotfiles I use
 
 - Organization
   - dummy lisp functions for header organization
-  - Register external dependencies
   - Machine specific .el file
 - terminal
   - vterm for making the experience more similar to a normal terminal
