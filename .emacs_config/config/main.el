@@ -739,11 +739,11 @@ rg \
 (defun ol-git-log-dwim (&optional arg)
   (interactive "P")
   (let* ((input (if arg
-                    (read-from-minibuffer "git log args (a)ll revs, (t)his file only: ")
+                    (read-from-minibuffer "git log args (i)nclude commits in main, (t)his file only: ")
                   ""))
          (branch (magit-get-current-branch))
          (main (ol-main-branch))
-         (ignore-rev (when (and (not (string-match-p "a" input))
+         (ignore-rev (when (and (not (string-match-p "i" input))
                                 (not (equal branch main)))
                        main))
          (file (when (string-match-p "t" input)
