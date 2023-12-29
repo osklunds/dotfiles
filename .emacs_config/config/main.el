@@ -736,8 +736,6 @@ rg \
 
 (setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
 
-;; TODO: More button isn't shown
-
 (defun ol-git-log-dwim (&optional arg)
   (interactive "P")
   (let* ((input (if arg
@@ -750,13 +748,10 @@ rg \
                        main))
          (file (when (string-match-p "t" input)
                  (buffer-file-name))))
-    (ol-git-log :rev branch :ignore-rev ignore-rev :file file)))
+    (ol-git-log branch :ignore-rev ignore-rev :file file)))
 
-(defun ol-git-log (&rest args)
-  (let* ((rev-arg (plist-get args :rev))
-         (rev (cond ((null rev-arg) (magit-get-current-branch))
-                    (t rev-arg)))
-         (ignore-rev (plist-get args :ignore-rev))
+(defun ol-git-log (rev &rest args)
+  (let* ((ignore-rev (plist-get args :ignore-rev))
          (file-arg (plist-get args :file))
          (file (cond ((null file-arg) nil)
                      (t (list file))))
