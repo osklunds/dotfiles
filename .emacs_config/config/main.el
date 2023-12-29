@@ -736,31 +736,27 @@ rg \
 
 (setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
 
-;; TODO: git "rev" which is git log but only current file
-
 ;; TODO: More button isn't shown
 
-(defun ol-git-log-dwim ()
-  (interactive)
+(defun ol-git-log-dwim (&optional arg)
+  (interactive "P")
   (let* ((branch (magit-get-current-branch))
          (main (ol-main-branch))
-         (ignore-rev (unless (equal branch main) main)))
-    (ol-git-log branch ignore-rev)))
+         (ignore-rev (unless (equal branch main) main))
+         (file (when arg (buffer-file-name))))
+    (ol-git-log :rev branch :ignore-rev ignore-rev :file file)))
 
-(defun ol-git-log-current (&optional ignore-rev)
-  (interactive)
-  (ol-git-log (magit-get-current-branch) ignore-rev))
-
-(defun ol-git-log-other (&optional ignore-rev)
-  (interactive)
-  (ol-git-log (car (magit-log-read-revs)) ignore-rev))
-
-(defun ol-git-log (rev &optional ignore-rev)
-  (interactive)
-  (let ((args (append (list rev)
-                      ol-magit-log-default-arguments
-                      (ol-make-ignore-rev-args ignore-rev))))
-    (magit-log-other args nil)))
+(defun ol-git-log (&rest args)
+  (let* ((rev-arg (plist-get args :rev))
+         (rev (cond ((null rev-arg) (magit-get-current-branch))
+                    (t rev-arg)))
+         (file-arg (plist-get args :file))
+         (file (cond ((null file-arg) nil)
+                     (t (list file))))
+         (ignore-rev (plist-get args :ignore-rev))
+         (magit-log-args (append ol-magit-log-default-arguments
+                                 (ol-make-ignore-rev-args ignore-rev))))
+    (magit-log-other (list rev) magit-log-args file)))
 
 (defun ol-make-ignore-rev-args (ignore-rev)
   (when ignore-rev

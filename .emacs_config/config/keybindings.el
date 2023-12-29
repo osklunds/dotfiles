@@ -309,6 +309,7 @@
 ;; Misc
 ;; ---------------------------------------------------------------------------
 
+(ol-override-key "M-u" 'universal-argument)
 (ol-override-key "M-h" 'help-command)
 (ol-global-set-key "<escape>" 'keyboard-escape-quit)
 (ol-global-set-key "C-x C-s" 'ol-save-buffer)
