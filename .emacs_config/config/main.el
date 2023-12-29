@@ -391,26 +391,46 @@
 ;; Inspired by counsel-file-jump
 ;; TODO: Make async like counsel-rg
 (defun ol-find-file-name (directory prompt)
-  (let ((find-program (ol-find-file-name-command)))
-    (counsel-require-program find-program)
-    (let ((default-directory directory))
-      (ivy-read (concat "Find file [" prompt "]: ")
-                (counsel--find-return-list counsel-file-jump-args)
-                :action #'find-file
-                :preselect (counsel--preselect-file)
-                :require-match 'confirm-after-completion
-                :history 'file-name-history
-                :keymap counsel-file-jump-map
-                :caller 'ol-find-file-name))))
+  (let* ((default-directory directory)
+         (cmd-and-args (ol-find-file-name-command-and-args))
+         (cmd (car cmd-and-args))
+         (find-program cmd) ;; Overrides the program used for finding
+         (find-program-args (cadr cmd-and-args)))
+    (ivy-read (concat "Find file [" prompt "]: ")
+              (counsel--find-return-list find-program-args)
+              :action #'find-file
+              :preselect (counsel--preselect-file)
+              :require-match 'confirm-after-completion
+              :history 'file-name-history
+              :keymap counsel-file-jump-map
+              :caller 'ol-find-file-name)))
 
-(defun ol-find-file-name-command ()
-  ;; TODO DOn't have ol-find as a script, defne "rg --files || true" inline instead
-  (let* ((preffered "ol-find"))
-    (if (executable-find preffered (file-remote-p default-directory))
-        preffered
-      "find")))
+(defun ol-find-file-name-command-and-args ()
+  (let ((candidates all-ol-find-file-name-command-and-args)
+        (result nil))
+    (while (not result)
+      (let* ((candidate (car candidates))
+             (cmd (car candidate)))
+        (if (executable-find cmd)
+              (setq result candidate)
+          (setq candidates (cdr candidates)))))
+    result))
+
+(defconst all-ol-find-file-name-command-and-args
+  (list (list "rg" '("--files"))
+        (list "find" counsel-file-jump-args)))
 
 (ol-require-external "rg")
+
+;; To handle rg returning error codes even if partial result
+;; Inspired/copied from
+;; https://github.com/doomemacs/doomemacs/issues/3038#issuecomment-832077836
+(advice-add 'counsel--call
+            :around
+            (lambda (func &rest args)
+              (cl-letf (((symbol-function #'process-exit-status)
+                         (lambda (_proc) 0)))
+                (apply func args))))
 
 ;;;; -------------------------------------------------------------------------
 ;;;; Find file content
