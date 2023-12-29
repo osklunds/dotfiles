@@ -95,6 +95,9 @@
 (ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
 (ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
 
+;; Movement
+(ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
+
 ;; ---------------------------------------------------------------------------
 ;; Find and replace
 ;; ---------------------------------------------------------------------------
