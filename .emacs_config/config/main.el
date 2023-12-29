@@ -343,8 +343,6 @@
 (setc ivy-height 20)
 (ivy-mode t)
 
-;; TODO: Maybe this can be solved by advising ivy-read instead. If
-;; caller is ivy-switch-buffer, then change the preselect argument.
 (defun ol-ivy-switch-buffer ()
   "Copy of ivy-switch-buffer, but allow visible buffers in preselect"
   (interactive)
