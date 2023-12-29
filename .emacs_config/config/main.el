@@ -1094,7 +1094,7 @@ rg \
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-mode-line-left-part ()
-  (quote (" " (:eval (ol-evil-segment))
+  (quote ("   " (:eval (ol-evil-segment))
           "  " (:eval (ol-buffer-name-segment))
           " " (:eval (ol-file-state-segment))
           " " "%l:%c"
@@ -1130,7 +1130,8 @@ rg \
 
 (defun ol-mode-line-right-part ()
   (quote ((:eval (ol-branch-name-segment))
-          "  " ((:eval (ol-project-name-segment))))))
+          "  " ((:eval (ol-project-name-segment)))
+          "  ")))
 
 (defun ol-branch-name-segment ()
   (if-let ((file (or (buffer-file-name) default-directory)))
@@ -1155,7 +1156,7 @@ rg \
   (let* ((left-formatted (format-mode-line left))
          (right-formatted (format-mode-line right))
 
-         (available-width (- (window-width) (length left-formatted) 1))
+         (available-width (- (window-total-width) (length left-formatted) 1))
          (align-format-string (format "%%s %%%ds " available-width)))
     (format align-format-string left-formatted right-formatted)))
 
