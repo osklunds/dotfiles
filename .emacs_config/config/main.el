@@ -763,6 +763,22 @@ rg \
   (when ignore-rev
     (list "--first-parent" "--not" ignore-rev "--not")))
 
+;; Inspired by magit-log-header-line-sentence
+(defun ol-magit-log-header-line (revs args files)
+  (concat "Commits in "
+          (mapconcat #'identity revs " ")
+          (when-let ((index (cl-position "--not" args :test 'equal)))
+            (concat ", but not in " (nth (+ index 1) args) (when files ",")))
+          (and files (concat " touching "
+                             (mapconcat #'identity files " ")))))
+
+;; TODO: Maybe generalize this type of testing and use in more places?
+(cl-assert (let ((expected "Commits in test, but not in main, touching colors.el")
+                 (actual (ol-magit-log-header-line (list "test") (list "--first-parent" "--not" "main" "--not") (list "colors.el"))))
+             (equal expected actual)))
+
+(setc magit-log-header-line-function 'ol-magit-log-header-line)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Revision
 ;;;; ---------------------------------------------------------------------------
