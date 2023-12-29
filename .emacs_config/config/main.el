@@ -746,6 +746,7 @@ rg \
          (file (when arg (buffer-file-name))))
     (ol-git-log :rev branch :ignore-rev ignore-rev :file file)))
 
+
 (defun ol-git-log (&rest args)
   (let* ((rev-arg (plist-get args :rev))
          (rev (cond ((null rev-arg) (magit-get-current-branch))
