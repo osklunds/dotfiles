@@ -740,21 +740,26 @@ rg \
 
 (defun ol-git-log-dwim (&optional arg)
   (interactive "P")
-  (let* ((branch (magit-get-current-branch))
+  (let* ((input (if arg
+                    (read-from-minibuffer "git log args (a)ll revs, (t)his file only: ")
+                  ""))
+         (branch (magit-get-current-branch))
          (main (ol-main-branch))
-         (ignore-rev (unless (equal branch main) main))
-         (file (when arg (buffer-file-name))))
+         (ignore-rev (when (and (not (string-match-p "a" input))
+                                (not (equal branch main)))
+                       main))
+         (file (when (string-match-p "t" input)
+                 (buffer-file-name))))
     (ol-git-log :rev branch :ignore-rev ignore-rev :file file)))
-
 
 (defun ol-git-log (&rest args)
   (let* ((rev-arg (plist-get args :rev))
          (rev (cond ((null rev-arg) (magit-get-current-branch))
                     (t rev-arg)))
+         (ignore-rev (plist-get args :ignore-rev))
          (file-arg (plist-get args :file))
          (file (cond ((null file-arg) nil)
                      (t (list "--" file))))
-         (ignore-rev (plist-get args :ignore-rev))
          (magit-log-args (append (list rev)
                                  ol-magit-log-default-arguments
                                  (ol-make-ignore-rev-args ignore-rev)
