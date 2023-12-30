@@ -25,6 +25,8 @@
 ;; Buffer name
 ;;------------------------------------------------------------------------------
 
+;; TODO: Doing M-q for finding files doesn't work correctly in vterm buffers
+
 (defvar-local ol-vterm-manually-renamed nil)
 
 (defun ol-vterm-set-title (title)
