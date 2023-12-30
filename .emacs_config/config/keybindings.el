@@ -370,7 +370,7 @@
 (ol-define-key evil-normal-state-map "C-x #" #'ol-server-done)
 
 ;; -----------------------------------------------------------------------------
-;; Merge Survival Knife (WIP)
+;; Merging
 ;; -----------------------------------------------------------------------------
 
 (ol-define-normal-leader-key "gm" 'msk-mode-enable)
@@ -381,3 +381,11 @@
 (ol-evil-define-key normal msk-mode-map "M-3" 'msk-local-remote)
 (ol-evil-define-key normal msk-mode-map "M-4" 'msk-local-merged)
 (ol-evil-define-key normal msk-mode-map "M-5" 'msk-remote-merged)
+
+;; TODO evil define key would be better but didn't work
+(ol-define-key smerge-mode-map "C-c n" 'smerge-next)
+(ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
+(ol-define-key smerge-mode-map "C-c l" 'smerge-keep-upper)
+(ol-define-key smerge-mode-map "C-c r" 'smerge-keep-lower)
+(ol-define-key smerge-mode-map "C-c b" 'smerge-keep-base)
+(ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
