@@ -16,3 +16,26 @@ export PATH="$DOTFILES_REPO/scripts:$PATH"
 
 source "$HOME/.aliases.sh"
 
+# Copied from emacs-libvterm
+function vterm_printf(){
+    printf "\e]%s\e\\" "$1"
+}
+
+# Copied from emacs-libvterm
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    function clear(){
+        vterm_printf "51;Evterm-clear-scrollback";
+        tput clear;
+    }
+fi
+
+# Copied from emacs-libvterm (but also modified)
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }"'echo -ne "\033]0;${PWD}\007"'
+
+# Copied from emacs-libvterm
+vterm_prompt_end(){
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)"
+}
+
+# Copied from emacs-libvterm
+PS1=$PS1'\[$(vterm_prompt_end)\]'

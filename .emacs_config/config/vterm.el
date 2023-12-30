@@ -18,6 +18,11 @@
 (add-hook 'evil-insert-state-entry-hook 'ol-vterm-disable-cursorline)
 (add-hook 'evil-insert-state-exit-hook 'ol-vterm-enable-cursorline)
 
+(add-to-list 'evil-insert-state-modes 'vterm-mode)
+(setc vterm-max-scrollback 100000)
+
+(setc vterm-buffer-name-string "*%s*")
+
 ;; -----------------------------------------------------------------------------
 ;; Opening a terminal
 ;;------------------------------------------------------------------------------
@@ -35,10 +40,11 @@
   (let ((vterm-buffer-name name))
     (vterm)))
 
-
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
 ;;------------------------------------------------------------------------------
+
+(ol-evil-define-key insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
 (ol-global-set-key "C-x t" 'ol-vterm)
 
