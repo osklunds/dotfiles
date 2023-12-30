@@ -136,3 +136,6 @@
 [submodule ".emacs_config/packages/frame-local"]
 	path = .emacs_config/packages/frame-local
 	url = https://github.com/sebastiencs/frame-local.git
+[submodule ".emacs_config/packages/emacs-libvterm"]
+	path = .emacs_config/packages/emacs-libvterm
+	url = https://github.com/akermu/emacs-libvterm
