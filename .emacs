@@ -29,9 +29,9 @@
                 "rust"
                 "haskell"
                 "merge-survival-knife"
-                "vterm"
                 "keybindings"
-                "colors"))
+                "colors"
+                "vterm"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
     (load path)))
 

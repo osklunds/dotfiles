@@ -21,6 +21,7 @@ dotfiles I use
 
 - Undo each step in search-and-replace
 - Show git branch in non-file buffers too
+- motion to move subword
 
 *** Not that important
 
