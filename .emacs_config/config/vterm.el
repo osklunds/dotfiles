@@ -34,10 +34,10 @@
 
 (advice-add 'vterm--set-title :override 'ol-vterm-set-title)
 
-(defun ol-vterm-rename-buffer (&rest r)
-  (setq-local ol-vterm-manually-renamed t))
-
-(advice-add 'rename-buffer :after 'ol-vterm-rename-buffer)
+(defun ol-rename-buffer ()
+  (interactive)
+  (setq-local ol-vterm-manually-renamed t)
+  (call-interactively 'rename-buffer))
 
 ;; -----------------------------------------------------------------------------
 ;; Keybindings

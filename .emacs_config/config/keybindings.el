@@ -330,7 +330,8 @@
 (ol-define-normal-leader-key "mc" 'ol-center-and-size-frame)
 (ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
 (ol-define-normal-leader-key "sc" 'ol-toggle-spelling)
-(ol-define-normal-leader-key "bn" 'rename-buffer)
+(ol-define-normal-leader-key "bn" 'ol-print-buffer-file-name)
+(ol-define-normal-leader-key "br" 'ol-rename-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; Mouse

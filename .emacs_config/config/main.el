@@ -37,6 +37,10 @@
 ;;;; File Management
 ;;;; ---------------------------------------------------------------------------
 
+(defun ol-print-buffer-file-name ()
+  (interactive)
+  (message "%s" (buffer-file-name)))
+
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Backup
 ;;;;;; -------------------------------------------------------------------------
@@ -67,7 +71,7 @@
 ;;;;;; -------------------------------------------------------------------------
 
 ;; Disable auto revert while I experiment with performance
-(global-auto-revert-mode nil)
+(global-auto-revert-mode t)
 (setc global-auto-revert-non-file-buffers t)
 (setc auto-revert-verbose nil)
 
