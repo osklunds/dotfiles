@@ -21,24 +21,22 @@
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
 (setc vterm-max-scrollback 100000)
 
-(setc vterm-buffer-name-string "*%s*")
-
 ;; -----------------------------------------------------------------------------
-;; Opening a terminal
+;; Buffer name
 ;;------------------------------------------------------------------------------
 
-(defun ol-vterm ()
-  (interactive)
-  (let* ((name (ol-vterm-name default-directory))
-         (name (generate-new-buffer-name name)))
-    (ol-vterm-named name)))
+(defvar-local ol-vterm-manually-renamed nil)
 
-(defun ol-vterm-name (dir)
-  (concat "*" (file-name-nondirectory (directory-file-name dir)) "*"))
+(defun ol-vterm-set-title (title)
+  (unless ol-vterm-manually-renamed
+    (rename-buffer (string-truncate-left title 50))))
 
-(defun ol-vterm-named (name)
-  (let ((vterm-buffer-name name))
-    (vterm)))
+(advice-add 'vterm--set-title :override 'ol-vterm-set-title)
+
+(defun ol-vterm-rename-buffer (&rest r)
+  (setq-local ol-vterm-manually-renamed t))
+
+(advice-add 'rename-buffer :after 'ol-vterm-rename-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
@@ -46,7 +44,7 @@
 
 (ol-evil-define-key insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
-(ol-global-set-key "C-x t" 'ol-vterm)
+(ol-global-set-key "C-x t" 'vterm)
 
 ;; Some normal state keybinds
 (ol-evil-define-key insert vterm-mode-map "C-h" #'evil-window-left)
