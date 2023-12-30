@@ -29,7 +29,7 @@
     (ol-vterm-named name)))
 
 (defun ol-vterm-name (dir)
-  (file-name-nondirectory (directory-file-name dir)))
+  (concat "*" (file-name-nondirectory (directory-file-name dir)) "*"))
 
 (defun ol-vterm-named (name)
   (let ((vterm-buffer-name name))
@@ -40,7 +40,7 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "tt" 'ol-term-named)
+(ol-global-set-key "C-x t" 'ol-vterm)
 
 ;; Some normal state keybinds
 (ol-evil-define-key insert vterm-mode-map "C-h" #'evil-window-left)
