@@ -29,7 +29,8 @@
 
 (defun ol-vterm-set-title (title)
   (unless ol-vterm-manually-renamed
-    (rename-buffer (string-truncate-left title 50))))
+    (let ((new-title (ol-regexp-group ":\\(/.*\\)$" title 1)))
+      (rename-buffer (string-truncate-left new-title 50)))))
 
 (advice-add 'vterm--set-title :override 'ol-vterm-set-title)
 
