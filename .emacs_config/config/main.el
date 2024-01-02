@@ -496,6 +496,7 @@ rg \
 (setc lsp-completion-provider :none) ;; to prevent overriding my own company backends
 (setc lsp-response-timeout 4)
 (setc lsp-enable-file-watchers nil) ;; to prevent "nested too deep" warning
+(setc lsp-log-io nil) ;; Enable for easier debugging
 
 ;;;; -------------------------------------------------------------------------
 ;;;; Abbreviations (for completions)
