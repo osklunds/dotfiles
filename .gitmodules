@@ -139,3 +139,6 @@
 [submodule ".emacs_config/packages/emacs-libvterm"]
 	path = .emacs_config/packages/emacs-libvterm
 	url = https://github.com/akermu/emacs-libvterm
+[submodule ".emacs_config/packages/lsp-haskell"]
+	path = .emacs_config/packages/lsp-haskell
+	url = https://github.com/emacs-lsp/lsp-haskell.git
