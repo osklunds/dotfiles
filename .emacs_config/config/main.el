@@ -106,6 +106,10 @@
   (setq show-trailing-whitespace (not show-trailing-whitespace))
   (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
 
+;; To make sure e.g. ♝ are monospaced
+(set-fontset-font t 'symbol
+                  (font-spec :family "DejaVu Sans Mono"))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
 ;;;; ---------------------------------------------------------------------------
