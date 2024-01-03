@@ -309,6 +309,9 @@
 ;; Misc
 ;; ---------------------------------------------------------------------------
 
+(ol-define-key evil-insert-state-map "<tab>" 'ol-insert-tab)
+(ol-evil-define-key insert vterm-mode-map "<tab>" 'vterm-send-tab)
+
 (ol-override-key "M-:" 'eval-expression)
 (ol-override-key "M-u" 'universal-argument)
 (ol-override-key "M-h" 'help-command)
