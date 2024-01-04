@@ -763,10 +763,11 @@ rg \
     (string-match-p regex all-branches)))
 
 ;; Valid assumption in this repo
-(cl-assert (ol-does-branch-exist "main"))
-(cl-assert (not (ol-does-branch-exist "mai")))
-(cl-assert (not (ol-does-branch-exist "ain")))
-(cl-assert (not (ol-does-branch-exist "random")))
+(let ((default-directory "~/own_repos/dotfiles/"))
+  (cl-assert (ol-does-branch-exist "main"))
+  (cl-assert (not (ol-does-branch-exist "mai")))
+  (cl-assert (not (ol-does-branch-exist "ain")))
+  (cl-assert (not (ol-does-branch-exist "random"))))
 
 (defun ol-merge-base-with-main ()
   (ol-merge-base (ol-main-branch) "HEAD"))
