@@ -438,14 +438,15 @@
 (advice-add 'counsel--call :around 'ol-counsel--call-advice)
 
 (defun ol-counsel--call-advice (func &rest args)
-  (message "advice called with: %s" args)
+  ;; (message "advice called with: %s" args)
   (let* ((old-fun (symbol-function #'process-file)))
-    (message "old-fun is: %s" old-fun)
+    ;; (message "old-fun is: %s" old-fun)
     (cl-letf (((symbol-function 'process-file) (lambda (&rest process-file-args)
-                                                 (message "inner called with: %s" process-file-args)
+                                                 ;; (message "inner called with: %s" process-file-args)
                                                  (apply old-fun process-file-args)
                                                  0)))
-      (apply func args))))
+      (apply func args)))
+  )
 
 ;;;; -------------------------------------------------------------------------
 ;;;; Find file content
