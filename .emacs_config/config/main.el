@@ -758,8 +758,15 @@ rg \
       "master")))
 
 (defun ol-does-branch-exist (branch)
-  (let ((all-branches (shell-command-to-string "git branch --list")))
-    (string-match-p branch all-branches)))
+  (let ((all-branches (shell-command-to-string "git branch --list"))
+        (regex (concat "[ \\n]" branch "$")))
+    (string-match-p regex all-branches)))
+
+;; Valid assumption in this repo
+(cl-assert (ol-does-branch-exist "main"))
+(cl-assert (not (ol-does-branch-exist "mai")))
+(cl-assert (not (ol-does-branch-exist "ain")))
+(cl-assert (not (ol-does-branch-exist "random")))
 
 (defun ol-merge-base-with-main ()
   (ol-merge-base (ol-main-branch) "HEAD"))
