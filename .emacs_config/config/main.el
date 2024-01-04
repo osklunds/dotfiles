@@ -758,7 +758,8 @@ rg \
       "master")))
 
 (defun ol-does-branch-exist (branch)
-  (equal (magit-rev-branch branch) branch))
+  (let ((all-branches (shell-command-to-string "git branch --list")))
+    (string-match-p branch all-branches)))
 
 (defun ol-merge-base-with-main ()
   (ol-merge-base (ol-main-branch) "HEAD"))
