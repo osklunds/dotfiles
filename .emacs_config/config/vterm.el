@@ -51,8 +51,6 @@
 (ol-global-set-key "C-x t" 'vterm)
 
 ;; Some normal state keybinds
-(ol-evil-define-key insert vterm-mode-map "C-h" #'evil-window-left)
-(ol-evil-define-key insert vterm-mode-map "C-l" #'evil-window-right)
 (ol-evil-define-key insert vterm-mode-map "C-j" 'ivy-switch-buffer)
 (ol-evil-define-key insert vterm-mode-map "C-6" 'evil-switch-to-windows-last-buffer)
 

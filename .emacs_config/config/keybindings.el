@@ -78,6 +78,8 @@
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
 (ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
+(ol-define-key evil-insert-state-map "C-h" #'evil-window-left)
+(ol-define-key evil-insert-state-map "C-l" #'evil-window-right)
 
 ;; Clear search highlights
 (ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
@@ -232,8 +234,6 @@
 (ol-define-normal-leader-key "tt" 'ol-term-named)
 
 ;; Some normal state keybinds
-(ol-evil-define-key insert term-raw-map "C-h" #'evil-window-left)
-(ol-evil-define-key insert term-raw-map "C-l" #'evil-window-right)
 (ol-evil-define-key insert term-raw-map "C-j" 'ivy-switch-buffer)
 (ol-evil-define-key insert term-raw-map "C-6" 'evil-switch-to-windows-last-buffer)
 
