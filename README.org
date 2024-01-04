@@ -18,6 +18,9 @@ dotfiles I use
 
 *** Nice to have
 
+- Merge commit analyzer
+  - Check diff between merge base and both parents
+  - Also check changes in files made by both parents
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
 - Show git branch in non-file buffers too
 - motion to move subword
@@ -28,6 +31,7 @@ dotfiles I use
 - make ivy-read async for files, just like for file content
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - push-button also in normal-mode if read-only file
+- e.g. 31j movement should be recorded to allow C-o jumping
 
 *** Not that important
 
