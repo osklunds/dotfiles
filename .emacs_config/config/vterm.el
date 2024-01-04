@@ -22,6 +22,21 @@
 (setc vterm-max-scrollback 100000)
 
 ;; -----------------------------------------------------------------------------
+;; Copying
+;;------------------------------------------------------------------------------
+
+(defun ol-vterm-disable-copy-mode ()
+  (when (equal major-mode 'vterm-mode)
+    (vterm-copy-mode -1)))
+
+(defun ol-vterm-enable-copy-mode ()
+  (when (equal major-mode 'vterm-mode)
+    (vterm-copy-mode t)))
+
+(add-hook 'evil-insert-state-entry-hook 'ol-vterm-disable-copy-mode)
+(add-hook 'evil-insert-state-exit-hook 'ol-vterm-enable-copy-mode)
+
+;; -----------------------------------------------------------------------------
 ;; Buffer name
 ;;------------------------------------------------------------------------------
 
