@@ -14,6 +14,7 @@ dotfiles I use
   - Keybinds for 4-way diff and showing just merged, local etc
 - vterm (under evaluation)
 - org mode list and tab-key behavior
+  - o/O should create a new list item
 - file names when creating a new file with C-x C-f
 
 *** Nice to have
@@ -32,6 +33,7 @@ dotfiles I use
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - push-button also in normal-mode if read-only file
 - e.g. 31j movement should be recorded to allow C-o jumping
+- esc key in transient
 
 *** Not that important
 
