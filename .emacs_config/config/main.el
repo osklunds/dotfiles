@@ -1005,6 +1005,7 @@ rg \
 
 (defun ol-server-done ()
   (interactive)
+  (save-buffer)
   (server-done))
 
 ;; -----------------------------------------------------------------------------
