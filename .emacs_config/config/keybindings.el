@@ -326,6 +326,8 @@
 
 (ol-evil-define-key normal global-map "gr" 'revert-buffer-quick)
 
+(ol-global-set-key "C-x f" 'ol-find-file-empty)
+
 ;; TODO: Same if normal and read-only
 (ol-define-key evil-motion-state-map "o" 'push-button)
 
