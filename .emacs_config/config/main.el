@@ -1124,7 +1124,6 @@ rg \
 
 (advice-add 'ediff-quit :around #'disable-y-or-n-p)
 
-
 ;; -----------------------------------------------------------------------------
 ;; Modeline
 ;; -----------------------------------------------------------------------------
@@ -1186,8 +1185,8 @@ rg \
 
 (defun ol-branch-name-segment ()
   (if-let ((file (or (buffer-file-name) default-directory)))
-      (if-let ((branch-name vc-mode))
-          (substring-no-properties branch-name 5)
+      (if-let (branch-name (vc-git--symbolic-ref file))
+          branch-name
         "")
     ""))
 
