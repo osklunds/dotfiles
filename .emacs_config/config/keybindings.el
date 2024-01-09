@@ -366,6 +366,7 @@
                "<drag-mouse-1>"
                "<drag-mouse-2>"
                "<drag-mouse-3>"
+               "<vertical-line> <down-mouse-1>"
                "<mode-line> <down-mouse-1>"
                "<mode-line> <mouse-1>"))
   (ol-global-set-key key 'ol-no-op)
