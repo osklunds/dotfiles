@@ -873,6 +873,16 @@ rg \
 (setc org-goto-interface 'outline-path-completion)
 (setc org-outline-path-complete-in-steps nil)
 
+;; TODO: Do something similar for evil-open, i.e. o
+(defun ol-org-return ()
+  (interactive)
+  (if (ol-org-in-item-p)
+      (org-insert-item)
+    (org-return)))
+
+(defun ol-org-in-item-p ()
+  (string-match-p "^ *-" (thing-at-point 'line t)))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Spelling
 ;;;; ---------------------------------------------------------------------------

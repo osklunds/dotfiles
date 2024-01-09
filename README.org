@@ -13,8 +13,6 @@ dotfiles I use
 - Merge Survival Knife (under evaluation)
   - Keybinds for 4-way diff and showing just merged, local etc
 - vterm (under evaluation)
-- org mode list and tab-key behavior
-  - o/O should create a new list item
 - file names when creating a new file with C-x C-f
 
 *** Nice to have

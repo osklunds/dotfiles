@@ -207,6 +207,8 @@
 ;; Toggle headers
 (ol-evil-define-key normal org-mode-map "<tab>" 'org-cycle)
 
+(ol-evil-define-key insert org-mode-map "<return>" 'ol-org-return)
+
 ;; ---------------------------------------------------------------------------
 ;; Ivy and Counsel
 ;; ---------------------------------------------------------------------------
