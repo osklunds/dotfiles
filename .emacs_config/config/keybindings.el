@@ -294,6 +294,8 @@
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 
+(ol-define-normal-leader-key "dh" (lambda () (interactive) (dired "~")))
+
 ;; -----------------------------------------------------------------------------
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
