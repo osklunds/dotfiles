@@ -32,6 +32,7 @@ dotfiles I use
 - push-button also in normal-mode if read-only file
 - e.g. 31j movement should be recorded to allow C-o jumping
 - esc key in transient
+- projectile project switch, if universal-arg, open dired instead
 
 *** Not that important
 

@@ -21,6 +21,8 @@
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
 (setc vterm-max-scrollback 100000)
 
+;; TODO: Re-use existing buffer if exists
+
 ;; -----------------------------------------------------------------------------
 ;; Copying
 ;;------------------------------------------------------------------------------
