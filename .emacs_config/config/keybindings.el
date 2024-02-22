@@ -133,6 +133,7 @@
 ;;;;;; -------------------------------------------------------------------------
 
 (ol-define-key company-active-map "<return>" 'company-abort)
+(ol-define-key company-active-map "C-g" nil)
 (ol-define-key company-active-map "<tab>" 'company-complete-selection)
 (ol-define-key company-active-map "C-j" 'company-select-next)
 (ol-define-key company-active-map "C-k" 'company-select-previous)
