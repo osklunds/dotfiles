@@ -4,7 +4,7 @@
 
 (add-hook 'haskell-mode-hook 'lsp)
 
-(setc haskell-indentation-layout-offset 4)
+(setc haskell-indentation-layout-offset 0)
 (setc haskell-indentation-starter-offset 4)
 (setc haskell-indentation-left-offset 4)
 (setc haskell-indentation-where-pre-offset 4)
