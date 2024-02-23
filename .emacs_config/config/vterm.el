@@ -48,8 +48,12 @@
 
 (defun ol-vterm-set-title (title)
   (unless ol-vterm-manually-renamed
-    (let ((new-title (concat "term: " (ol-regexp-group ":\\(/.*\\)$" title 1))))
-      (rename-buffer (string-truncate-left new-title 50)))))
+    (let* ((current-name (buffer-name))
+           (desired-title (concat "term: " (ol-regexp-group ":\\(/.*\\)$" title 1)))
+           (regexp (concat "^" (regexp-quote desired-title) "\\(<[0-9]>\\)?$")))
+      (unless (string-match-p regexp current-name)
+        (let ((new-title (generate-new-buffer-name desired-title)))
+      (rename-buffer (string-truncate-left new-title 50)))))))
 ;; TODO: Add dired prefix to dired buffers
 
 (advice-add 'vterm--set-title :override 'ol-vterm-set-title)
