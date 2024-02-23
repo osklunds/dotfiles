@@ -21,7 +21,14 @@
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
 (setc vterm-max-scrollback 100000)
 
-;; TODO: Re-use existing buffer if exists
+(defun ol-vterm ()
+  (interactive)
+  (let ((desired-name (ol-vterm-get-desired-buffer-name-from-cwd default-directory))
+        (pred (lambda (buffer)
+                (ol-vterm-buffer-name-matches (buffer-name buffer) desired-name))))
+    (if-let ((existing-buffer (seq-find pred (buffer-list))))
+        (switch-to-buffer existing-buffer)
+      (vterm))))
 
 ;; -----------------------------------------------------------------------------
 ;; Copying
@@ -46,14 +53,30 @@
 
 (defvar-local ol-vterm-manually-renamed nil)
 
+(defun ol-vterm-get-cwd-from-prompt (prompt)
+  (concat (ol-regexp-group ":\\(/.*\\)$" prompt 1) "/"))
+
+(defun ol-vterm-get-desired-buffer-name-from-cwd (cwd)
+  (concat "term: " (string-replace (expand-file-name "~/") "~/" cwd)))
+
+(defun ol-vterm-buffer-name-matches (name desired-name)
+  (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
+    (string-match-p regexp name)))
+
+(cl-assert (ol-vterm-buffer-name-matches "some-name" "some-name"))
+(cl-assert (ol-vterm-buffer-name-matches "some-name<2>" "some-name"))
+(cl-assert (not (ol-vterm-buffer-name-matches "some-name-more" "some-name")))
+(cl-assert (not (ol-vterm-buffer-name-matches "some-name" "some-name-more")))
+
 (defun ol-vterm-set-buffer-name (prompt)
   (unless ol-vterm-manually-renamed
     (let* ((current-name (buffer-name))
-           (desired-name (concat "term: " (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
-           (regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
-      (unless (string-match-p regexp current-name)
+           (cwd (ol-vterm-get-cwd-from-prompt prompt))
+           (desired-name (ol-vterm-get-desired-buffer-name-from-cwd cwd)))
+      (unless (ol-vterm-buffer-name-matches current-name desired-name)
         (let ((new-name (generate-new-buffer-name desired-name)))
-      (rename-buffer (string-truncate-left new-name 50)))))))
+          (rename-buffer (string-truncate-left new-name 50)))))))
+
 ;; TODO: Add dired prefix to dired buffers
 
 (advice-add 'vterm--set-title :override 'ol-vterm-set-buffer-name)
@@ -69,7 +92,7 @@
 
 (ol-evil-define-key insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
-(ol-global-set-key "C-x t" 'vterm)
+(ol-global-set-key "C-x t" 'ol-vterm)
 
 ;; Some normal state keybinds
 (ol-evil-define-key insert vterm-mode-map "C-j" 'ivy-switch-buffer)
