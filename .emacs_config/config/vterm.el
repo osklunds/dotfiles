@@ -55,7 +55,9 @@
   (concat (ol-regexp-group ":\\(/.*\\)$" prompt 1) "/"))
 
 (defun ol-vterm-get-desired-buffer-name-from-cwd (cwd)
-  (concat "term: " (string-replace (expand-file-name "~/") "~/" cwd)))
+  (concat "term: " (string-truncate-left
+                    (string-replace (expand-file-name "~/") "~/" cwd)
+                    40)))
 
 (defun ol-vterm-buffer-name-matches (name desired-name)
   (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
@@ -73,7 +75,7 @@
            (desired-name (ol-vterm-get-desired-buffer-name-from-cwd cwd)))
       (unless (ol-vterm-buffer-name-matches current-name desired-name)
         (let ((new-name (generate-new-buffer-name desired-name)))
-          (rename-buffer (string-truncate-left new-name 50)))))))
+          (rename-buffer new-name))))))
 
 ;; TODO: Add dired prefix to dired buffers
 
