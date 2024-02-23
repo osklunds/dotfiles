@@ -1237,6 +1237,18 @@ rg \
 (setc dired-recursive-copies 'always)
 (setc dired-recursive-deletes 'always)
 
+(add-hook 'dired-after-readin-hook 'ol-dired-rename-hook)
+
+(defun ol-dired-rename-hook ()
+  (rename-buffer
+   (generate-new-buffer-name
+    (ol-get-buffer-name-from-path "dired" dired-directory))))
+
+(defun ol-get-buffer-name-from-path (prefix path)
+  (concat prefix ": " (string-truncate-left
+                       (string-replace (expand-file-name "~/") "~/" path)
+                       40)))
+
 ;; -----------------------------------------------------------------------------
 ;; tar
 ;; -----------------------------------------------------------------------------
