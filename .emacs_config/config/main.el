@@ -123,6 +123,9 @@
                 (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
                 (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
                 (empty-line . empty-line) (unknown . question-mark)))
+
+(setc view-inhibit-help-message t)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
 ;;;; ---------------------------------------------------------------------------
