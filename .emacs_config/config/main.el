@@ -87,13 +87,6 @@
 ;;;; Performance
 ;;;; ---------------------------------------------------------------------------
 
-;; TODO: Since I disabled auto save, consider having a 30 second idle timer for
-;; garbage collect. The manpage mentioned that garbage collection might happen
-;; at the same time.
-
-(setq gc-cons-threshold (* 10 800 1000)) ;; 10x the default
-(setq gc-cons-percentage 0.4) ;; default is 0.1
-
 (setc garbage-collection-messages nil)
 
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
