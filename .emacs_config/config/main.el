@@ -32,11 +32,10 @@
 
 (setc enable-local-variables nil)
 
-(defun ol-startup-hook ()
-  (setq inhibit-trace nil)
+(defun ol-window-setup-hook ()
   (toggle-frame-maximized))
 
-(add-hook 'emacs-startup-hook 'ol-startup-hook)
+(add-hook 'emacs-startup-hook 'ol-window-setup-hook)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; File Management
