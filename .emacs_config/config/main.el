@@ -225,23 +225,6 @@
       (other-window 1))))
 
 ;;;;;; -------------------------------------------------------------------------
-;;;;;; Frame size and position
-;;;;;; -------------------------------------------------------------------------
-
-(defun ol-set-frame-size ()
-  (set-frame-height (selected-frame) 54)
-  (set-frame-width (selected-frame) 240))
-
-(defun ol-center-frame ()
-  (modify-frame-parameters (selected-frame)
-                           '((user-position . t) (top . 0.5) (left . 0.5))))
-
-(defun ol-center-and-size-frame ()
-  (interactive)
-  (ol-set-frame-size)
-  (ol-center-frame))
-
-;;;;;; -------------------------------------------------------------------------
 ;;;;;; Splitting
 ;;;;;; -------------------------------------------------------------------------
 
