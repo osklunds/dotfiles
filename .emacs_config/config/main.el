@@ -78,10 +78,10 @@
 ;;;;;; Auto revert
 ;;;;;; -------------------------------------------------------------------------
 
-;; Disable auto revert while I experiment with performance
 (global-auto-revert-mode t)
 (setc global-auto-revert-non-file-buffers t)
 (setc auto-revert-verbose nil)
+(setc revert-without-query '(".*"))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Performance
