@@ -255,6 +255,10 @@
 ;; Key bindings/Evil
 ;; -----------------------------------------------------------------------------
 
+;;;; ---------------------------------------------------------------------------
+;;;; General
+;;;;----------------------------------------------------------------------------
+
 ;; These must be set before evil is loaded
 (setq evil-want-integration t)
 (setq evil-want-keybinding nil) ;; Use evil-collection instead for other packages
@@ -263,12 +267,25 @@
 (require 'evil)
 (evil-mode t)
 
+(evil-set-undo-system 'undo-redo)
 (setc evil-want-C-u-scroll t)
 (setc evil-search-module 'evil-search)
 (setc evil-disable-insert-state-bindings t)
 (setc evil-emacs-state-modes nil)
-
 (setq evil-insert-state-cursor 'box)
+(setc evil-want-Y-yank-to-eol t)
+
+(require 'evil-collection)
+(with-eval-after-load 'dired (evil-collection-dired-setup))
+(with-eval-after-load 'magit (evil-collection-magit-setup))
+(with-eval-after-load 'term (evil-collection-term-setup))
+(with-eval-after-load 'ivy (evil-collection-ivy-setup))
+
+(require 'evil-nerd-commenter)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Words (don't come easy, to me)
+;;;;----------------------------------------------------------------------------
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda () (modify-syntax-entry ?- "w")))
@@ -276,15 +293,42 @@
 (add-hook 'after-change-major-mode-hook
           (lambda () (modify-syntax-entry ?_ "w")))
 
-(require 'evil-collection)
+(advice-add 'evil-ex-start-word-search
+            :filter-args
+            (lambda (args) (apply 'ol-evil-ex-start-word-search-new-args args)))
 
-(with-eval-after-load 'dired (evil-collection-dired-setup))
-(with-eval-after-load 'magit (evil-collection-magit-setup))
-(with-eval-after-load 'term (evil-collection-term-setup))
-(with-eval-after-load 'ivy (evil-collection-ivy-setup))
+(defun ol-evil-ex-start-word-search-new-args (unbounded direction count &optional symbol)
+  `(t ,direction ,count ,symbol))
 
-(evil-set-undo-system 'undo-redo)
-(setc evil-want-Y-yank-to-eol t)
+;;;; ---------------------------------------------------------------------------
+;;;; Relative line jump list
+;;;;----------------------------------------------------------------------------
+
+(defun ol-evil-line-motion-add-to-jump-list-advice (&optional count)
+  (when count
+    (evil-set-jump)))
+
+(advice-add 'evil-next-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
+(advice-add 'evil-previous-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Operator tweaks
+;;;;----------------------------------------------------------------------------
+
+(defun ol-evil-operator-save-point-advice (func &rest args)
+  (save-excursion
+    (apply func args)))
+
+(advice-add 'evil-indent :around 'ol-evil-operator-save-point-advice)
+;; TODO: Doesn't work for the one below
+(advice-add 'evilnc-comment-operator :around 'ol-evil-operator-save-point-advice)
+
+(defun ol-evilnc-comment-operator-advice (start end type)
+  `(,start ,end 'line))
+
+(advice-add 'evilnc-comment-operator
+            :filter-args
+            (lambda (args) (apply 'ol-evilnc-comment-operator-advice args)))
 
 ;; -----------------------------------------------------------------------------
 ;; Text editing
