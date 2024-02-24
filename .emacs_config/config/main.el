@@ -4,7 +4,7 @@
 ;; -----------------------------------------------------------------------------
 
 ;; Taken from https://emacs.stackexchange.com/a/24658
-(defun advice-unadvice (sym)
+(defun ol-unadvice (sym)
   "Remove all advices from symbol SYM."
   (interactive "aFunction symbol: ")
   (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
