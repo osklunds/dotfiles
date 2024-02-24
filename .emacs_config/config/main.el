@@ -9,6 +9,11 @@
   (interactive "aFunction symbol: ")
   (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
 
+(defun ol-trace ()
+  (interactive)
+  (setq inhibit-trace nil)
+  (call-interactively 'trace-function-background))
+
 (defun ol-regexp-group (regexp string group)
   "Search STRING for REGEXP and return the match GROUP."
   (when (string-match regexp string)
