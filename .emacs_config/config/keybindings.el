@@ -110,6 +110,11 @@
 
 ;; Movement
 (ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
+(ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)
+(ol-define-key evil-motion-state-map "0" 'evil-first-non-blank-of-visual-line) ;; Unclear why this isn't enough
+(ol-define-key evil-normal-state-map "0" 'evil-first-non-blank-of-visual-line)
+(ol-define-key evil-visual-state-map "0" 'evil-first-non-blank-of-visual-line)
+(ol-define-key evil-operator-state-map "0" 'evil-first-non-blank-of-visual-line)
 
 ;; ---------------------------------------------------------------------------
 ;; Find and replace
