@@ -267,7 +267,8 @@
   (cl-assert (msk-find-next-conflict))
   (let* ((old-string (msk-get "merged-string"))
          (new-string (msk-get-solved-conflict-string)))
-    (cl-assert (= 1 (replace-string-in-region old-string new-string)))))
+    (unless (string-equal old-string new-string)
+      (cl-assert (= 1 (replace-string-in-region old-string new-string))))))
 
 (defun msk-get-solved-conflict-string ()
   (let ((string (with-current-buffer (msk-get "MERGED")
