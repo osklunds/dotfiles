@@ -349,6 +349,12 @@
   (interactive)
   (insert "    "))
 
+(defun ol-hide-chars ()
+  (setq buffer-display-table (make-display-table))
+  (aset buffer-display-table ?\^M []))
+
+(add-hook 'after-change-major-mode-hook 'ol-hide-chars)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find and replace
 ;;;; ---------------------------------------------------------------------------
