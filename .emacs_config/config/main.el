@@ -658,8 +658,10 @@ rg \
 (setc company-dabbrev-code-everywhere t)
 (setc company-dabbrev-code-modes t)
 
+(add-hook 'text-mode-hook 'company-mode)
 (add-hook 'prog-mode-hook 'company-mode)
 (add-hook 'org-mode-hook 'company-mode)
+
 (add-hook 'company-mode-hook 'company-box-mode)
 
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
