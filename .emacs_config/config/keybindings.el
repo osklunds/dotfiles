@@ -433,6 +433,11 @@
 (ol-evil-define-key 'normal msk-mode-map "M-4" 'msk-local-merged)
 (ol-evil-define-key 'normal msk-mode-map "M-5" 'msk-remote-merged)
 
+(ol-evil-define-key 'normal msk-mode-map "C-c l" 'smerge-keep-upper)
+(ol-evil-define-key 'normal msk-mode-map "C-c r" 'smerge-keep-lower)
+(ol-evil-define-key 'normal msk-mode-map "C-c b" 'smerge-keep-base)
+(ol-evil-define-key 'normal msk-mode-map "C-c a" 'smerge-keep-all)
+
 ;; TODO evil define key would be better but didn't work
 (ol-define-key smerge-mode-map "C-c n" 'smerge-next)
 (ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
