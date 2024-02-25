@@ -24,6 +24,8 @@
 (defun ol-global-set-key (key fun)
   (global-set-key (kbd key) fun))
 
+;; TODO: Can avoid 'normal instead of normal by doing a wrapper macro
+;; that calls this fun instead
 (defun ol-evil-define-key (state map key fun)
   (dolist (mapped-key (ol-map-key key))
     (evil-define-key state map (kbd mapped-key) fun)))
