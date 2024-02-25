@@ -15,16 +15,13 @@ shared stuff after
 hej
 
 <<<<<<< HEAD
-Change done by local
-More stuff
-Other conflict
+Add red paint
 ||||||| some merge base hash
-Stuff like they were on base
+Add no paint
 =======
-Change done by remote
-Other things
+Add blue paint
 >>>>>>> branch being merged
 
-
+Hint: The solution to the above is "Add red and blue paint"
 
 hej

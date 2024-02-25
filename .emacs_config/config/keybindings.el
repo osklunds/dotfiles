@@ -434,6 +434,10 @@
 (ol-evil-define-key 'normal msk-mode-map "M-3" 'msk-local-remote)
 (ol-evil-define-key 'normal msk-mode-map "M-4" 'msk-local-merged)
 (ol-evil-define-key 'normal msk-mode-map "M-5" 'msk-remote-merged)
+
+(ol-evil-define-key 'normal msk-mode-map "M-8" 'msk-local-changes-compare)
+(ol-evil-define-key 'normal msk-mode-map "M-9" 'msk-remote-changes-compare)
+
 (ol-evil-define-key 'normal msk-mode-map "M-m" 'msk-original-buffer)
 
 (ol-evil-define-key 'normal msk-mode-map "C-c l" 'smerge-keep-upper)

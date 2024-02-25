@@ -267,6 +267,44 @@
       (delete-other-windows)
       (switch-to-buffer msk-original-buffer))))
 
+;; TODO: There's lots of duplication here and with the normal change-view.
+;; When I've evaluated whether this is useful, I'll try to do something about
+;; it.
+(defun msk-change-to-4-way-view (left-top right-top left-bottom right-bottom)
+  (let* ((left-top-buffer-name (msk-diff-name left-top right-top left-top))
+         (right-top-buffer-name (msk-diff-name left-top right-top right-top))
+         (pair-key-top (concat "has-shown" left-top right-top))
+         (left-bottom-buffer-name (msk-diff-name left-bottom right-bottom left-bottom))
+         (right-bottom-buffer-name (msk-diff-name left-bottom right-bottom right-bottom))
+         (pair-key-bottom (concat "has-shown" left-bottom right-bottom)))
+    (delete-other-windows)
+
+    (switch-to-buffer (msk-get left-top-buffer-name))
+    (select-window (split-window-right))
+    (switch-to-buffer (msk-get right-top-buffer-name))
+    (select-window (split-root-window-below))
+    (switch-to-buffer (msk-get left-bottom-buffer-name))
+    (select-window (split-window-right))
+    (switch-to-buffer (msk-get right-bottom-buffer-name))
+
+    (unless (msk-get pair-key-top)
+      (msk-put pair-key-top t)
+      (unless msk-skip-vdiff-refresh
+        (vdiff-refresh)))
+
+    (unless (msk-get pair-key-bottom)
+      (msk-put pair-key-bottom t)
+      (unless msk-skip-vdiff-refresh
+        (vdiff-refresh)))))
+
+(defun msk-local-changes-compare ()
+  (interactive)
+  (msk-change-to-4-way-view "BASE" "LOCAL" "REMOTE" "MERGED"))
+
+(defun msk-remote-changes-compare ()
+  (interactive)
+  (msk-change-to-4-way-view "BASE" "REMOTE" "LOCAL" "MERGED"))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Saving the solved conflict
 ;;;; ---------------------------------------------------------------------------
