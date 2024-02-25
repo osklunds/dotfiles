@@ -13,7 +13,6 @@ dotfiles I use
 
 - Native compilation of packages and my files
 - Merge Survival Knife (under evaluation)
-  - Keybinds for 4-way diff and showing just merged, local etc
 - vterm (under evaluation)
 - file names when creating a new file with C-x C-f
 
@@ -21,12 +20,12 @@ dotfiles I use
 
 - When doing find-file, don't create file if no selection
 - Merge commit analyzer
-  - Check diff between merge base and both parents
+  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
-- motion to move subword
-- lsp diagnostics
 - show number of search hits when searching
+- motion to move subword (could use C-w C-e etc?)
+- lsp diagnostics
 - goto-last-change
 - Make magit use the highlighted file instead of prompting and using the highlighted file as default
 - make ivy-read async for files, just like for file content
