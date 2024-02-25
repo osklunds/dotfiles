@@ -556,6 +556,13 @@ rg \
       (setq default-directory directory)
       (compilation-mode t))
     (switch-to-buffer-other-window buffer)))
+
+(defun ol-swiper--line-advice (func &rest args)
+  (cl-letf (((symbol-function 'buffer-substring) 'buffer-substring-no-properties))
+    (apply func args)))
+
+(advice-add 'swiper--line :around 'ol-swiper--line-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Languages
 ;; -----------------------------------------------------------------------------
