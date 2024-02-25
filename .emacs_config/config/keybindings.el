@@ -144,6 +144,7 @@
 ;;;; ---------------------------------------------------------------------------
 
 (ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
+(ol-evil-define-key 'normal prog-mode-map "gc" 'evilnc-comment-operator)
 
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Completion
