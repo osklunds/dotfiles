@@ -539,8 +539,23 @@ rg \
   (ol-find-file-content default-directory "cwd"))
 
 (defun ol-find-file-content (directory prompt)
+  (if (file-remote-p directory)
+      (ol-sync-find-file-content directory prompt)
+    (ol-async-find-file-content directory prompt)))
+
+(defun ol-async-find-file-content (directory prompt)
   (counsel-rg "" directory "" (concat "Find file content [" prompt "]: ")))
 
+(defun ol-sync-find-file-content (directory prompt)
+  (let* ((prompt (concat "Find file content sync [" prompt "]: "))
+         (pattern (read-from-minibuffer prompt))
+         (cmd (concat "rg --no-heading --line-number --with-filename \"" pattern "\""))
+         (buffer (get-buffer-create "*ol-sync-find-file-content*")))
+    (shell-command cmd buffer)
+    (with-current-buffer buffer
+      (setq default-directory directory)
+      (compilation-mode t))
+    (switch-to-buffer-other-window buffer)))
 ;; -----------------------------------------------------------------------------
 ;; Languages
 ;; -----------------------------------------------------------------------------
