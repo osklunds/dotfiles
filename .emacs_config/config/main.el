@@ -507,6 +507,7 @@
 
 ;; Changing states
 (ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
+(ol-define-key evil-visual-state-map "C-n" 'evil-normal-state)
 
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
