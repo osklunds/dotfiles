@@ -567,11 +567,15 @@ rg \
 ;; Languages
 ;; -----------------------------------------------------------------------------
 
-(defun ol-symbol-search ()
+(defun ol-symbol-search (&optional arg)
   (interactive)
   (if (equal major-mode 'org-mode)
       (org-goto)
+    (when arg
+      (setq imenu--index-alist nil))
     (counsel-imenu)))
+
+(setc imenu-max-item-length 200)
 
 ;;;; -------------------------------------------------------------------------
 ;;;; LSP
