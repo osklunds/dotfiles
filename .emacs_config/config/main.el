@@ -402,6 +402,7 @@
 
 (require 'ivy)
 (setc ivy-height 20)
+(setc ivy-wrap t)
 (ivy-mode t)
 
 (defun ol-ivy-switch-buffer ()
