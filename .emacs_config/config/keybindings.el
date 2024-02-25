@@ -4,7 +4,7 @@
 ;; ---------------------------------------------------------------------------
 
 ;; Changing states
-(ol-define-key evil-insert-state-map "C-g" 'evil-normal-state)
+(ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
 
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
@@ -72,6 +72,7 @@
 
 (ol-define-key company-active-map 'return 'company-abort)
 (ol-define-key company-active-map "C-g" nil)
+(ol-define-key company-active-map "C-n" nil)
 (ol-define-key company-active-map 'tab 'company-complete-selection)
 (ol-define-key company-active-map "C-j" 'company-select-next)
 (ol-define-key company-active-map "C-k" 'company-select-previous)

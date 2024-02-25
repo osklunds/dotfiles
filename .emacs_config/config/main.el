@@ -1,6 +1,6 @@
 
 ;; -----------------------------------------------------------------------------
-;; Helpers
+;; Helpers and preamble
 ;; -----------------------------------------------------------------------------
 
 ;; Taken from https://emacs.stackexchange.com/a/24658
@@ -119,6 +119,9 @@
 ;;;; Colors
 ;;;;----------------------------------------------------------------------------
 
+(require 'doom-themes)
+(load-theme 'doom-one-light t)
+
 (defun ol-set-face (face &rest properties)
   (apply 'set-face-attribute (append (list face nil) properties)))
 
@@ -130,7 +133,7 @@
   (ol-copy-face to :background from))
 
 ;; -----------------------------------------------------------------------------
-;; General
+;; Misc
 ;; -----------------------------------------------------------------------------
 
 (setc enable-local-variables nil)
@@ -138,11 +141,11 @@
 (defun ol-window-setup-hook ()
   (toggle-frame-maximized))
 
-(add-hook 'emacs-startup-hook 'ol-window-setup-hook)
+(add-hook 'window-setup-hook 'ol-window-setup-hook)
 
-;;;; ---------------------------------------------------------------------------
-;;;; File Management
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; File Management
+;; -----------------------------------------------------------------------------
 
 (defun ol-print-buffer-file-name ()
   (interactive)
@@ -152,9 +155,9 @@
   (interactive)
   (counsel-find-file nil ""))
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Backup
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Backup
+;;;; ---------------------------------------------------------------------------
 
 ;; No ~ files
 (setc make-backup-files nil)
@@ -162,9 +165,9 @@
 ;; To prevent stutter when auto-saving. I use super-save and git to compensate
 (setc auto-save-default nil)
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Save
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Save
+;;;; ---------------------------------------------------------------------------
 
 (require 'super-save)
 (super-save-mode t)
@@ -177,18 +180,18 @@
 
 (save-place-mode t)
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Auto revert
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Auto revert
+;;;; ---------------------------------------------------------------------------
 
 (global-auto-revert-mode t)
 (setc global-auto-revert-non-file-buffers t)
 (setc auto-revert-verbose nil)
 (setc revert-without-query '(".*"))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Performance
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Performance
+;;------------------------------------------------------------------------------
 
 (setc garbage-collection-messages nil)
 
@@ -201,7 +204,7 @@
 ;; User Interface
 ;; -----------------------------------------------------------------------------
 
-(fset 'yes-or-no-p 'y-or-n-p) ;; change all prompts to y or n
+(fset 'yes-or-no-p 'y-or-n-p)
 
 (setq-default show-trailing-whitespace nil)
 
@@ -216,18 +219,17 @@
 
 (setc isearch-lazy-count t)
 
-(setq-default fringe-indicator-alist
-              '((continuation nil nil)
-                (truncation left-arrow right-arrow)
-                (overlay-arrow . right-triangle)
-                (up . up-arrow)
-                (down . down-arrow)
-                (top top-left-angle top-right-angle)
-                (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
-                (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
-                (empty-line . empty-line) (unknown . question-mark)))
+(global-hl-line-mode)
+(make-variable-buffer-local 'global-hl-line-mode)
 
-(setc view-inhibit-help-message t)
+;; The column at e.g. 80 chars
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(global-visual-line-mode t)
+(setq-default visual-line-mode t)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
@@ -255,8 +257,21 @@
 
 (setc display-hourglass nil)
 
+(setq-default fringe-indicator-alist
+              '((continuation nil nil)
+                (truncation left-arrow right-arrow)
+                (overlay-arrow . right-triangle)
+                (up . up-arrow)
+                (down . down-arrow)
+                (top top-left-angle top-right-angle)
+                (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
+                (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
+                (empty-line . empty-line) (unknown . question-mark)))
+
+(setc view-inhibit-help-message t)
+
 ;;;; ---------------------------------------------------------------------------
-;;;; Line and column numbers
+;;;; Line numbers
 ;;;; ---------------------------------------------------------------------------
 
 (global-display-line-numbers-mode t)
@@ -264,26 +279,21 @@
 (setc display-line-numbers-grow-only t)
 (setc display-line-numbers-width-start 10000)
 
-(global-hl-line-mode)
-(make-variable-buffer-local 'global-hl-line-mode)
-
-(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+;; -----------------------------------------------------------------------------
+;; Windows, buffers, frames
+;; -----------------------------------------------------------------------------
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Windows, buffers, frames
+;;;; Balanced windows
 ;;;; ---------------------------------------------------------------------------
-
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Balanced windows
-;;;;;; -------------------------------------------------------------------------
 
 (require 'balanced-windows)
 
 (balanced-windows-mode)
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Only two windows
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Only two windows
+;;;; ---------------------------------------------------------------------------
 
 (defvar ol-split-style 'vertical)
 
@@ -306,9 +316,9 @@
 
 (setc split-window-preferred-function #'ol-split-window-sensibly)
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Transposing
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Transposing
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-transpose-windows ()
   (interactive)
@@ -327,9 +337,9 @@
       (switch-to-buffer (other-buffer))
       (other-window 1))))
 
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Splitting
-;;;;;; -------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Splitting
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-split-window ()
   (interactive)
@@ -344,23 +354,9 @@
   (split-window-right)
   (evil-window-right 1))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Misc
-;;;; ---------------------------------------------------------------------------
-
-(require 'rainbow-delimiters)
-
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-
-(global-visual-line-mode t)
-
 ;; -----------------------------------------------------------------------------
-;; Key bindings/Evil
+;; Evil
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; General
-;;;;----------------------------------------------------------------------------
 
 (evil-set-undo-system 'undo-redo)
 (setc evil-want-C-u-scroll t)
@@ -382,21 +378,18 @@
 ;;;; Words (don't come easy, to me)
 ;;;;----------------------------------------------------------------------------
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda () (modify-syntax-entry ?- "w")))
+(add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
+(add-hook 'after-change-major-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
 
-(add-hook 'after-change-major-mode-hook
-          (lambda () (modify-syntax-entry ?_ "w")))
+(defun ol-evil-ex-start-word-search-args-advice (unbounded direction count &optional symbol)
+  `(t ,direction ,count ,symbol))
 
 (advice-add 'evil-ex-start-word-search
             :filter-args
-            (lambda (args) (apply 'ol-evil-ex-start-word-search-new-args args)))
-
-(defun ol-evil-ex-start-word-search-new-args (unbounded direction count &optional symbol)
-  `(t ,direction ,count ,symbol))
+            (lambda (args) (apply 'ol-evil-ex-start-word-search-args-advice args)))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Relative line jump list
+;;;; Relative line jumps into jump list
 ;;;;----------------------------------------------------------------------------
 
 (defun ol-evil-line-motion-add-to-jump-list-advice (&optional count)
@@ -419,6 +412,7 @@
 (advice-add 'evilnc-comment-operator :around 'ol-evil-operator-save-point-advice)
 
 (defun ol-evilnc-comment-operator-advice (start end type)
+  ;; Always set type to 'line
   `(,start ,end 'line))
 
 (advice-add 'evilnc-comment-operator
@@ -436,10 +430,6 @@
 
 (setq-default fill-column 80)
 
-(setq-default visual-line-mode t)
-
-(require 'evil-nerd-commenter)
-
 (defun ol-insert-tab ()
   (interactive)
   (insert "    "))
@@ -450,28 +440,28 @@
 
 (add-hook 'after-change-major-mode-hook 'ol-hide-chars)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Find and replace
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Find and replace
+;; -----------------------------------------------------------------------------
 
-(defconst full-range "%")
-(defconst from-here-range ",$")
+(defconst ol-full-range "%")
+(defconst ol-from-here-range ",$")
 
 (defun ol-full-replace-visual-selection ()
   (interactive)
-  (ol-replace-visual-selection full-range))
+  (ol-replace-visual-selection ol-full-range))
 
 (defun ol-from-here-replace-visual-selection ()
   (interactive)
-  (ol-replace-visual-selection from-here-range))
+  (ol-replace-visual-selection ol-from-here-range))
 
 (defun ol-full-replace-symbol ()
   (interactive)
-  (ol-replace-symbol full-range))
+  (ol-replace-symbol ol-full-range))
 
 (defun ol-from-here-replace-symbol ()
   (interactive)
-  (ol-replace-symbol from-here-range))
+  (ol-replace-symbol ol-from-here-range))
 
 (defun ol-replace-symbol (range)
   (let ((text (thing-at-point 'symbol 'no-properties)))
@@ -496,8 +486,10 @@
 ;; -----------------------------------------------------------------------------
 
 (require 'ivy)
+
 (setc ivy-height 20)
 (setc ivy-wrap t)
+
 (ivy-mode t)
 
 (defun ol-ivy-switch-buffer ()
@@ -525,9 +517,9 @@
       (ivy-partial-or-done)
     (ivy-alt-done)))
 
-;;;; -------------------------------------------------------------------------
-;;;; Find file name
-;;;; -------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Find file name
+;; -----------------------------------------------------------------------------
 
 ;; TODO: Prefix arg that means not following ignore
 ;; Could also consider transient for ripgrep
@@ -588,22 +580,20 @@
 ;; To handle rg returning error codes even if partial result
 ;; Inspired/copied from
 ;; https://github.com/doomemacs/doomemacs/issues/3038#issuecomment-832077836
-(advice-add 'counsel--call :around 'ol-counsel--call-advice)
 
 (defun ol-counsel--call-advice (func &rest args)
-  ;; (message "advice called with: %s" args)
   (let* ((old-fun (symbol-function #'process-file)))
-    ;; (message "old-fun is: %s" old-fun)
-    (cl-letf (((symbol-function 'process-file) (lambda (&rest process-file-args)
-                                                 ;; (message "inner called with: %s" process-file-args)
-                                                 (apply old-fun process-file-args)
-                                                 0)))
-      (apply func args)))
-  )
+    (cl-letf (((symbol-function 'process-file)
+               (lambda (&rest process-file-args)
+                 (apply old-fun process-file-args)
+                 0)))
+      (apply func args))))
 
-;;;; -------------------------------------------------------------------------
-;;;; Find file content
-;;;; -------------------------------------------------------------------------
+(advice-add 'counsel--call :around 'ol-counsel--call-advice)
+
+;; -----------------------------------------------------------------------------
+;; Find file content
+;; -----------------------------------------------------------------------------
 
 (setc counsel-rg-base-command "\
 rg \
@@ -659,11 +649,11 @@ rg \
 (advice-add 'swiper--line :around 'ol-swiper--line-advice)
 
 ;; -----------------------------------------------------------------------------
-;; Languages
+;; Programming
 ;; -----------------------------------------------------------------------------
 
 (defun ol-symbol-search (&optional arg)
-  (interactive)
+  (interactive "P")
   (if (equal major-mode 'org-mode)
       (org-goto)
     (when arg
@@ -672,9 +662,9 @@ rg \
 
 (setc imenu-max-item-length 200)
 
-;;;; -------------------------------------------------------------------------
-;;;; LSP
-;;;; -------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; LSP
+;; -----------------------------------------------------------------------------
 
 (require 'lsp-mode)
 
@@ -701,12 +691,12 @@ rg \
 
 (setc lsp-log-io nil)
 
-;;;; -------------------------------------------------------------------------
-;;;; Abbreviations (for completions)
-;;;; -------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Abbreviations (for completions)
+;; -----------------------------------------------------------------------------
 
 ;; Copied from https://stackoverflow.com/a/15389612
-(defadvice expand-abbrev (after my-expand-abbrev activate)
+(defadvice ol-expand-abbrev (after ol-expand-abbrev activate)
    ;; if there was an expansion
    (if ad-return-value
        ;; start idle timer to ensure insertion of abbrev activator
@@ -722,9 +712,9 @@ rg \
 
 (setc save-abbrevs 'silently)
 
-;;;; -------------------------------------------------------------------------
-;;;; Completion
-;;;; -------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Completion
+;; -----------------------------------------------------------------------------
 
 (require 'company)
 (require 'company-box)
@@ -761,9 +751,9 @@ rg \
 
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Emacs Lisp
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Emacs Lisp
+;; -----------------------------------------------------------------------------
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table
   '(
@@ -772,12 +762,6 @@ rg \
     ("sep2" ";;;; ---------------------------------------------------------------------------\n;;;; @@\n;;;;----------------------------------------------------------------------------")
     ("sep3" ";;;;;; -------------------------------------------------------------------------\n;;;;;; @@\n;;;;;;--------------------------------------------------------------------------")
     ))
-
-;; -----------------------------------------------------------------------------
-;; Theme
-;; -----------------------------------------------------------------------------
-
-(require 'doom-themes)
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile
@@ -806,7 +790,6 @@ rg \
 ;; -----------------------------------------------------------------------------
 
 (require 'magit)
-(require 'magit-blame)
 (ol-require-external "git")
 
 ;;;; ---------------------------------------------------------------------------
@@ -825,13 +808,13 @@ rg \
         )
       )
 
-(defun ol-magit-blame-run-process-args (revision file args &optional lines)
+(defun ol-magit-blame-run-process-args-advice (revision file args &optional lines)
   ;; To handle symlinks
-  (list revision (file-truename file) args lines))
+  `(,revision ,(file-truename file) ,args ,lines))
 
 (advice-add 'magit-blame-run-process
             :filter-args
-            (lambda (args) (apply 'ol-magit-blame-run-process-args args)))
+            (lambda (args) (apply 'ol-magit-blame-run-process-args-advice args)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Commit
@@ -848,8 +831,6 @@ rg \
       (beginning-of-buffer))))
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
-
-(setc magit-commit-show-diff t)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Status
@@ -915,15 +896,16 @@ rg \
 
 (setc magit-diff-paint-whitespace nil)
 
+;; TODO: set using transient instead
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
 
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
 
-;;;;;; ---------------------------------------------------------------------------
+;;;;;; -------------------------------------------------------------------------
 ;;;;;; Diffing all files
-;;;;;; ---------------------------------------------------------------------------
+;;;;;; -------------------------------------------------------------------------
 
 (defun ol-diff-all-files-main ()
   (interactive)
@@ -933,9 +915,9 @@ rg \
   (interactive)
   (magit-diff-range "HEAD"))
 
-;;;;;; ---------------------------------------------------------------------------
+;;;;;; -------------------------------------------------------------------------
 ;;;;;; Diffing the current file
-;;;;;; ---------------------------------------------------------------------------
+;;;;;; -------------------------------------------------------------------------
 
 (defun ol-diff-current-file-main ()
   (interactive)
@@ -953,34 +935,6 @@ rg \
 
 (defun ol-get-revision-buffer (rev file)
   (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
-
-;;;;;; ---------------------------------------------------------------------------
-;;;;;; Helpers
-;;;;;; ---------------------------------------------------------------------------
-
-(defun ol-main-branch ()
-  (let ((main-branch "main"))
-    (if (ol-does-branch-exist main-branch)
-        main-branch
-      "master")))
-
-(defun ol-does-branch-exist (branch)
-  (let ((all-branches (shell-command-to-string "git branch --list"))
-        (regex (concat "[ \\n]" branch "$")))
-    (string-match-p regex all-branches)))
-
-;; Valid assumption in this repo
-(let ((default-directory (file-name-directory load-file-name)))
-  (cl-assert (ol-does-branch-exist "main"))
-  (cl-assert (not (ol-does-branch-exist "mai")))
-  (cl-assert (not (ol-does-branch-exist "ain")))
-  (cl-assert (not (ol-does-branch-exist "random"))))
-
-(defun ol-merge-base-with-main ()
-  (ol-merge-base (ol-main-branch) "HEAD"))
-
-(defun ol-merge-base (rev-a rev-b)
-  (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Log
@@ -1074,7 +1028,7 @@ rg \
 ;; To make sure smerge doesn't add refinements to conflicts
 (setc diff-refine nil)
 
-;; Copied/inspired from
+;; Copied/inspired from, to automatically start smerge
 ;; https://stumbles.id.au/auto-starting-emacs-smerge-mode-for-git.html
 (defun vc-git-find-file-hook ()
   (when (save-excursion
@@ -1097,6 +1051,34 @@ rg \
   (evil-force-normal-state))
 
 (advice-add 'msk-original-buffer :after 'ol-msk-original-buffer-fix-keybinds)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Helpers
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
+(defun ol-does-branch-exist (branch)
+  (let ((all-branches (shell-command-to-string "git branch --list"))
+        (regex (concat "[ \\n]" branch "$")))
+    (string-match-p regex all-branches)))
+
+;; Valid assumption in this repo
+(let ((default-directory (file-name-directory load-file-name)))
+  (cl-assert (ol-does-branch-exist "main"))
+  (cl-assert (not (ol-does-branch-exist "mai")))
+  (cl-assert (not (ol-does-branch-exist "ain")))
+  (cl-assert (not (ol-does-branch-exist "random"))))
+
+(defun ol-merge-base-with-main ()
+  (ol-merge-base (ol-main-branch) "HEAD"))
+
+(defun ol-merge-base (rev-a rev-b)
+  (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
 
 ;; -----------------------------------------------------------------------------
 ;; Org mode
@@ -1125,9 +1107,9 @@ rg \
 (defun ol-org-in-item-p ()
   (string-match-p "^ *-" (thing-at-point 'line t)))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Spelling
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Spelling
+;; -----------------------------------------------------------------------------
 
 (defun ol-toggle-spelling ()
   (interactive)
@@ -1142,14 +1124,12 @@ rg \
 (require 'term)
 
 (defun ol-disable-cursorline-for-terms ()
-  (if (equal major-mode 'term-mode)
-      (setq global-hl-line-mode nil)
-    nil))
+  (when (equal major-mode 'term-mode)
+      (setq global-hl-line-mode nil)))
 
 (defun ol-enable-cursorline-for-terms ()
-  (if (equal major-mode 'term-mode)
-      (setq global-hl-line-mode t)
-    nil))
+  (when (equal major-mode 'term-mode)
+      (setq global-hl-line-mode t)))
 
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
@@ -1208,9 +1188,9 @@ rg \
 ;; For line mode, shell works better than term/ansi-term. In shell, company mode
 ;; works but not in term.
 
-;;;; ---------------------------------------------------------------------------
-;;;; emacs server
-;;;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; emacs server
+;; -----------------------------------------------------------------------------
          
 (defun ol-start-server ()
   (interactive)
@@ -1242,10 +1222,6 @@ rg \
 ;; Vdiff
 ;; -----------------------------------------------------------------------------
 
-;;;; ---------------------------------------------------------------------------
-;;;; General
-;;;; ---------------------------------------------------------------------------
-
 (require 'vdiff)
 (require 'vdiff-magit)
 
@@ -1272,7 +1248,7 @@ rg \
   (vdiff--scroll-function))
 
 ;; TODO: Calling fix scroll automatically as part of vdiff next hunk doesn't
-;; work.
+;; work. Probably related to the fixes/bugs I had to do for msk.
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Truncate lines
@@ -1341,18 +1317,15 @@ rg \
 
 (require 'ediff)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Misc
-;;;; ---------------------------------------------------------------------------
-
 (setc ediff-window-setup-function 'ediff-setup-windows-plain)
 (setc ediff-split-window-function 'split-window-horizontally)
+
 ;; Copied from https://emacs.stackexchange.com/a/24602
-(defun disable-y-or-n-p (orig-fun &rest args)
+(defun ol-disable-y-or-n-p (orig-fun &rest args)
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
     (apply orig-fun args)))
 
-(advice-add 'ediff-quit :around #'disable-y-or-n-p)
+(advice-add 'ediff-quit :around #'ol-disable-y-or-n-p)
 
 ;; -----------------------------------------------------------------------------
 ;; Modeline
