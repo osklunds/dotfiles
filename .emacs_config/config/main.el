@@ -1324,8 +1324,12 @@ rg \
 
 (defconst ol-not-in-main-branch-arg "--not-in-main-branch")
 
+;; TODO: Replace existing instead
+(transient-replace-suffix 'magit-log "=p" `(4 "=p" "First parent" "--first-parent"))
+(transient-replace-suffix 'magit-log "=m" `(4 "=m" "Omit merges" "--no-merges"))
+                      
 (transient-append-suffix 'magit-log "=p"
-  `("-m" "Hide commits in main/master" ,ol-not-in-main-branch-arg))
+  `(4 "-m" "Hide commits in main/master" ,ol-not-in-main-branch-arg))
 
 (defun ol-magit-process-git-arguments (args)
   (if (cl-find ol-not-in-main-branch-arg args :test 'string-equal)
