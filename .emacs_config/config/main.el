@@ -434,6 +434,8 @@
 ;;;; Find file name
 ;;;; -------------------------------------------------------------------------
 
+;; TODO: Prefix arg that means not following ignore
+;; Could also consider transient for ripgrep
 (defun ol-dwim-find-file-name ()
   "Search for file names."
   (interactive)
@@ -517,12 +519,14 @@ rg \
 --color never \
 %s || true")
 
-(defun ol-dwim-find-file-content ()
+(defun ol-dwim-find-file-content (&optional arg)
   "Search for file content."
-  (interactive)
-  (if-let ((root (ol-dwim-use-project-root)))
-      (ol-project-find-file-content root)
-    (ol-cwd-find-file-content)))
+  (interactive "P")
+  (if arg
+      (if-let ((root (ol-dwim-use-project-root)))
+          (ol-project-find-file-content root)
+        (ol-cwd-find-file-content))
+    (swiper)))
 
 (defun ol-project-find-file-content (&optional root)
   "Search for file content in the current project."
