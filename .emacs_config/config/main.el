@@ -424,6 +424,12 @@
   :initial-input ""
   :display-transformer-fn #'counsel-M-x-transformer)
 
+(defun ol-ivy-done (&optional arg)
+  (interactive "P")
+  (if arg
+      (ivy-partial-or-done)
+    (ivy-alt-done)))
+
 ;;;; -------------------------------------------------------------------------
 ;;;; Find file name
 ;;;; -------------------------------------------------------------------------
