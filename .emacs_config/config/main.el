@@ -894,6 +894,7 @@ rg \
 ;; TODO: Maybe these can be saved better with transient?
 (defconst ol-magit-log-default-arguments '("-n256"))
 
+;; TOOD: Set these using dwim command
 (put 'magit-log-mode 'magit-log-default-arguments ol-magit-log-default-arguments)
 (put 'magit-log-select-mode 'magit-log-default-arguments ol-magit-log-default-arguments)
 
@@ -927,6 +928,7 @@ rg \
     (list "--first-parent" "--not" ignore-rev "--not")))
 
 ;; Inspired by magit-log-header-line-sentence
+;; TODO: simplify/change
 (defun ol-magit-log-header-line (revs args files)
   (concat "Commits in "
           (mapconcat #'identity revs " ")
@@ -941,6 +943,22 @@ rg \
              (equal expected actual)))
 
 (setc magit-log-header-line-function 'ol-magit-log-header-line)
+
+(defconst ol-not-in-main-branch-arg "--not-in-main-branch")
+
+(transient-append-suffix 'magit-log "=p"
+  `("-m" "Hide commits in main/master" ,ol-not-in-main-branch-arg))
+
+(defun ol-magit-process-git-arguments (args)
+  (if (cl-find ol-not-in-main-branch-arg args :test 'string-equal)
+      (flatten-tree (cl-substitute
+                     `("--not" ,(ol-main-branch) "--not")
+                     ol-not-in-main-branch-arg
+                     args
+                     :test 'string-equal))
+    args))
+
+(advice-add 'magit-process-git-arguments :filter-return 'ol-magit-process-git-arguments)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Revision
