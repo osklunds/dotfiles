@@ -7,7 +7,6 @@ dotfiles I use
 
 *** Housekeeping
 
-- Skip separate colors and keybindings files
 
 *** Must have
 

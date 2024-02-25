@@ -73,6 +73,8 @@
   (setq-local ol-vterm-manually-renamed t)
   (call-interactively 'rename-buffer))
 
+(ol-define-normal-leader-key "br" 'ol-rename-buffer)
+
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
 ;;------------------------------------------------------------------------------

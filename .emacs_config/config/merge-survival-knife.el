@@ -36,7 +36,7 @@
   (interactive)
   (msk-mode -1))
 
-(provide 'msk-mode)
+(provide 'merge-survival-knife)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Constants
