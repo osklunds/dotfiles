@@ -730,6 +730,14 @@ rg \
         )
       )
 
+(defun ol-magit-blame-run-process-args (revision file args &optional lines)
+  ;; To handle symlinks
+  (list revision (file-truename file) args lines))
+
+(advice-add 'magit-blame-run-process
+            :filter-args
+            (lambda (args) (apply 'ol-magit-blame-run-process-args args)))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Commit
 ;;;; ---------------------------------------------------------------------------
