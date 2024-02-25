@@ -640,6 +640,13 @@ rg \
                           :separate
                           company-dabbrev-code)))
 
+(defun ol-shell-company-backends ()
+  (setq-local company-backends '((company-abbrev
+                                  :separate
+                                  company-dabbrev-code))))
+
+(add-hook 'sh-mode-hook 'ol-shell-company-backends)
+
 (setc company-minimum-prefix-length 1)
 (setc company-idle-delay 0.0)
 (setc company-selection-wrap-around t)
