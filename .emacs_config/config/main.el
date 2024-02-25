@@ -26,6 +26,109 @@
 (defun ol-require-external (cmd)
   (cl-assert (executable-find cmd)))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Keybinds
+;;;;----------------------------------------------------------------------------
+
+;; These must be set before evil is loaded
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
+(setq evil-respect-visual-line-mode t)
+
+(require 'evil)
+(evil-mode t)
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Wrappers
+;;;;;; -------------------------------------------------------------------------
+
+;; To handle both GUI and terminal
+(defun ol-map-key (key)
+  (pcase key
+    ('return  '("<return>" "RET"))
+    ('tab     '("<tab>" "TAB"))
+    ('backtab '("<backtab>" "S-TAB"))
+    ('c-6     '("C-6" "C-^"))
+    (_        `(,key))))
+
+(defun ol-define-key (map key fun)
+  (dolist (mapped-key (ol-map-key key))
+    (define-key map (kbd mapped-key) fun)))
+
+;; TODO: Delete this
+(defun ol-global-set-key (key fun)
+  (global-set-key (kbd key) fun))
+
+;; TODO: Can avoid 'normal instead of normal by doing a wrapper macro
+;; that calls this fun instead
+(defun ol-evil-define-key (state map key fun)
+  (dolist (mapped-key (ol-map-key key))
+    (evil-define-key state map (kbd mapped-key) fun)))
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Leader
+;;;;;; -------------------------------------------------------------------------
+
+(defvar ol-normal-leader-map (make-sparse-keymap))
+(defvar ol-visual-leader-map (make-sparse-keymap))
+
+(ol-define-key evil-motion-state-map "SPC"   ol-normal-leader-map)
+(ol-define-key evil-motion-state-map "C-SPC" ol-normal-leader-map)
+(ol-define-key evil-visual-state-map "SPC"   ol-visual-leader-map)
+
+(defun ol-define-normal-leader-key (key fun)
+  (ol-define-key ol-normal-leader-map key fun))
+
+(defun ol-define-visual-leader-key (key fun)
+  (ol-define-key ol-visual-leader-map key fun))
+
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Override
+;;;;;; -------------------------------------------------------------------------
+
+;; Overriding inspired by: https://emacs.stackexchange.com/a/358
+
+(defvar ol-override-mode-map (make-sparse-keymap))
+
+;;;###autoload
+(define-minor-mode ol-override-mode
+  "Minor mode for overriding keys"
+  :init-value t
+  :lighter " ol-override-mode"
+  :keymap ol-override-mode-map)
+
+;;;###autoload
+(define-globalized-minor-mode global-ol-override-mode ol-override-mode ol-override-mode)
+
+(add-to-list 'emulation-mode-map-alists `((ol-override-mode . ,ol-override-mode-map)))
+
+;; Turn off the minor mode in the minibuffer
+(defun turn-off-ol-override-mode ()
+  (ol-override-mode -1))
+
+(add-hook 'minibuffer-setup-hook #'turn-off-ol-override-mode)
+
+(provide 'ol-override-mode)
+
+(ol-override-mode t)
+
+(defun ol-override-key (key fun)
+  (ol-define-key ol-override-mode-map key fun))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Colors
+;;;;----------------------------------------------------------------------------
+
+(defun ol-set-face (face &rest properties)
+  (apply 'set-face-attribute (append (list face nil) properties)))
+
+(defun ol-copy-face (to attribute from)
+  (ol-set-face to attribute (face-attribute from attribute)))
+
+(defun ol-copy-face-fg-bg (to from)
+  (ol-copy-face to :foreground from)
+  (ol-copy-face to :background from))
+
 ;; -----------------------------------------------------------------------------
 ;; General
 ;; -----------------------------------------------------------------------------
@@ -258,14 +361,6 @@
 ;;;; ---------------------------------------------------------------------------
 ;;;; General
 ;;;;----------------------------------------------------------------------------
-
-;; These must be set before evil is loaded
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil) ;; Use evil-collection instead for other packages
-(setq evil-respect-visual-line-mode t)
-
-(require 'evil)
-(evil-mode t)
 
 (evil-set-undo-system 'undo-redo)
 (setc evil-want-C-u-scroll t)
