@@ -252,10 +252,12 @@
   (interactive)
   (msk-change-view "REMOTE" "MERGED"))
 
-(defun msk-original-buffer ()
-  (interactive)
-  (switch-to-buffer msk-original-buffer)
-  (delete-other-windows))
+(defun msk-original-buffer (&optional arg)
+  (interactive "P")
+  (if arg
+        (select-window (split-root-window-below))
+    (delete-other-windows))
+  (switch-to-buffer msk-original-buffer))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Saving the solved conflict
