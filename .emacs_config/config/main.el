@@ -1361,7 +1361,10 @@ rg \
 
 (defun ol-dired ()
   (interactive)
-  (dired default-directory))
+  (cond
+   (tar-superior-buffer (switch-to-buffer tar-superior-buffer))
+   (archive-superior-buffer (switch-to-buffer archive-superior-buffer))
+   (t (dired default-directory))))
 
 (setc dired-listing-switches "-Alh")
 (setc dired-recursive-copies 'always)
@@ -1380,7 +1383,7 @@ rg \
                        40)))
 
 ;; -----------------------------------------------------------------------------
-;; tar
+;; tar-mode
 ;; -----------------------------------------------------------------------------
 
 (require 'tar-mode)
@@ -1389,13 +1392,16 @@ rg \
   (interactive)
   (if tar-superior-buffer
       (switch-to-buffer tar-superior-buffer)
-    (message "No parent tar found")))
+    (ol-dired)))
 
-;; TODO Need to find a way to get the original name
-;; (defun ol-tar-path ()
-;;   (interactive)
-;;   (ol-tar-path-inner tar-superior-buffer ""))
+;; -----------------------------------------------------------------------------
+;; archive-mode
+;;------------------------------------------------------------------------------
 
-;; (defun ol-tar-path-inner (superior-buffer acc-path)
-;;   (if superior-buffer
-;;       (let* ((new-acc-path (
+(require 'archive-mode)
+
+(defun ol-archive-up-directory ()
+  (interactive)
+  (if archive-superior-buffer
+      (switch-to-buffer archive-superior-buffer)
+    (ol-dired)))
