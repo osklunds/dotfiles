@@ -123,6 +123,7 @@
 (ol-define-normal-leader-key "R" 'ol-full-replace-symbol)
 (ol-define-normal-leader-key "r" 'ol-from-here-replace-symbol)
 
+(ol-define-visual-leader-key "R" 'ol-full-replace-visual-selection)
 (ol-define-visual-leader-key "r" 'ol-from-here-replace-visual-selection)
 
 ;; ---------------------------------------------------------------------------
