@@ -998,6 +998,11 @@ rg \
      (4 nil t t)
      (5 nil t t))))
 
+(defun ol-msk-original-buffer-fix-keybinds (&rest args)
+  (evil-force-normal-state))
+
+(advice-add 'msk-original-buffer :after 'ol-msk-original-buffer-fix-keybinds)
+
 ;; -----------------------------------------------------------------------------
 ;; Org mode
 ;; -----------------------------------------------------------------------------

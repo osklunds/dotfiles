@@ -51,7 +51,10 @@
 ;;;; State
 ;;;; ---------------------------------------------------------------------------
 
+;; TODOL Split more between state and separate vars. E.g. only temp buffers in
+;; state list
 (defvar msk-state nil)
+(defvar msk-original-buffer nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -74,6 +77,7 @@
   (msk-cleanup)
   (msk-save-windows)
   (msk-save-original-pos)
+  (setq msk-original-buffer (current-buffer))
   (if (msk-find-next-conflict)
       (progn (msk-populate-strings)
              (msk-create-buffers)
@@ -247,6 +251,11 @@
 (defun msk-remote-merged ()
   (interactive)
   (msk-change-view "REMOTE" "MERGED"))
+
+(defun msk-original-buffer ()
+  (interactive)
+  (switch-to-buffer msk-original-buffer)
+  (delete-other-windows))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Saving the solved conflict
