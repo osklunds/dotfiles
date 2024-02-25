@@ -55,7 +55,7 @@
   (concat (ol-regexp-group ":\\(/.*\\)$" prompt 1) "/"))
 
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
-  (ol-get-buffer-name-from-path ("vterm" path))
+  (ol-get-buffer-name-from-path ("vterm" path)))
 
 (defun ol-vterm-buffer-name-matches (name desired-name)
   (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
@@ -86,15 +86,17 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(ol-evil-define-key insert vterm-mode-map "C-SPC" ol-normal-leader-map)
+(ol-evil-define-key 'insert vterm-mode-map 'tab 'vterm-send-tab)
+
+(ol-evil-define-key 'insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
 (ol-global-set-key "C-x t" 'ol-vterm)
 
 ;; Some normal state keybinds
-(ol-evil-define-key insert vterm-mode-map "C-j" 'ivy-switch-buffer)
-(ol-evil-define-key insert vterm-mode-map "C-6" 'evil-switch-to-windows-last-buffer)
+(ol-evil-define-key 'insert vterm-mode-map "C-j" 'ivy-switch-buffer)
+(ol-evil-define-key 'insert vterm-mode-map 'c-6 'evil-switch-to-windows-last-buffer)
 
 ;; Make the terminal experience more natural
-(ol-evil-define-key insert vterm-mode-map "C-y" 'vterm-yank)
-(ol-evil-define-key insert vterm-mode-map "C-d" 'vterm--self-insert)
-(ol-evil-define-key insert vterm-mode-map "C-c" 'vterm--self-insert)
+(ol-evil-define-key 'insert vterm-mode-map "C-y" 'vterm-yank)
+(ol-evil-define-key 'insert vterm-mode-map "C-d" 'vterm--self-insert)
+(ol-evil-define-key 'insert vterm-mode-map "C-c" 'vterm--self-insert)
