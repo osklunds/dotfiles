@@ -974,6 +974,8 @@ rg \
 ;;;; Merge conflicts
 ;;;; ---------------------------------------------------------------------------
 
+(require 'smerge-mode)
+
 ;; To make sure smerge doesn't add refinements to conflicts
 (setc diff-refine nil)
 
@@ -984,6 +986,17 @@ rg \
       (goto-char (point-min))
       (re-search-forward "^<<<<<<< " nil t))
     (smerge-mode)))
+
+;; Copied and modified from smerge-mode. This is to make sure markers override
+;; keywords from other modes
+(defconst smerge-font-lock-keywords
+  '((smerge-find-conflict
+     (0 smerge-markers-face prepend t)
+     (1 smerge-upper-face prepend t)
+     (2 smerge-base-face prepend t)
+     (3 smerge-lower-face prepend t)
+     (4 nil t t)
+     (5 nil t t))))
 
 ;; -----------------------------------------------------------------------------
 ;; Org mode
