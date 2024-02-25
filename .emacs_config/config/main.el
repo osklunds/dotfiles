@@ -927,7 +927,7 @@ rg \
 ;; -----------------------------------------------------------------------------
 
 ;; Copied from https://stackoverflow.com/a/15389612
-(defadvice ol-expand-abbrev (after ol-expand-abbrev activate)
+(defadvice expand-abbrev (after ol-expand-abbrev activate)
    ;; if there was an expansion
    (if ad-return-value
        ;; start idle timer to ensure insertion of abbrev activator
