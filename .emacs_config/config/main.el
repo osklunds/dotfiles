@@ -1372,15 +1372,25 @@ rg \
 
 (add-hook 'dired-after-readin-hook 'ol-dired-rename-hook)
 
+;; TODO: Consider "dired: current file name<parent dirs>" instead
 (defun ol-dired-rename-hook ()
-  (rename-buffer
-   (generate-new-buffer-name
-    (ol-get-buffer-name-from-path "dired" dired-directory))))
+  (let ((desired-name (ol-get-buffer-name-from-path "dired" dired-directory)))
+    (unless (ol-buffer-name-matches (buffer-name) desired-name)
+      (rename-buffer (generate-new-buffer-name desired-name)))))
 
 (defun ol-get-buffer-name-from-path (prefix path)
   (concat prefix ": " (string-truncate-left
                        (string-replace (expand-file-name "~/") "~/" path)
                        40)))
+
+(defun ol-buffer-name-matches (name desired-name)
+  (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
+    (string-match-p regexp name)))
+
+(cl-assert (ol-buffer-name-matches "some-name" "some-name"))
+(cl-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
+(cl-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
+(cl-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
 
 ;; -----------------------------------------------------------------------------
 ;; tar-mode

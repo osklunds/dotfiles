@@ -23,9 +23,9 @@
 
 (defun ol-vterm ()
   (interactive)
-  (let ((desired-name (ol-vterm-get-desired-buffer-name-from-cwd default-directory))
+  (let ((desired-name (ol-vterm-get-desired-buffer-name-from-path default-directory))
         (pred (lambda (buffer)
-                (ol-vterm-buffer-name-matches (buffer-name buffer) desired-name))))
+                (ol-buffer-name-matches (buffer-name buffer) desired-name))))
     (if-let ((existing-buffer (seq-find pred (buffer-list))))
         (switch-to-buffer existing-buffer)
       (vterm))))
@@ -57,21 +57,12 @@
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
   (ol-get-buffer-name-from-path ("vterm" path)))
 
-(defun ol-vterm-buffer-name-matches (name desired-name)
-  (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
-    (string-match-p regexp name)))
-
-(cl-assert (ol-vterm-buffer-name-matches "some-name" "some-name"))
-(cl-assert (ol-vterm-buffer-name-matches "some-name<2>" "some-name"))
-(cl-assert (not (ol-vterm-buffer-name-matches "some-name-more" "some-name")))
-(cl-assert (not (ol-vterm-buffer-name-matches "some-name" "some-name-more")))
-
 (defun ol-vterm-set-buffer-name (prompt)
   (unless ol-vterm-manually-renamed
     (let* ((current-name (buffer-name))
            (path (ol-vterm-get-cwd-from-prompt prompt))
            (desired-name (ol-vterm-get-desired-buffer-name-from-path path)))
-      (unless (ol-vterm-buffer-name-matches current-name desired-name)
+      (unless (ol-buffer-name-matches current-name desired-name)
         (let ((new-name (generate-new-buffer-name desired-name)))
           (rename-buffer new-name))))))
 
