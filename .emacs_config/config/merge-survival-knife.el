@@ -55,6 +55,7 @@
 ;; state list
 (defvar msk-state nil)
 (defvar msk-original-buffer nil)
+(defvar msk-show-original-buffer nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -230,7 +231,9 @@
     (unless (msk-get pair-key)
       (msk-put pair-key t)
       (unless msk-skip-vdiff-refresh
-        (vdiff-refresh)))))
+        (vdiff-refresh)))
+    (when msk-show-original-buffer
+        (msk-original-buffer t))))
 
 (defun msk-base-local ()
   (interactive)
@@ -254,10 +257,15 @@
 
 (defun msk-original-buffer (&optional arg)
   (interactive "P")
+  (setq msk-show-original-buffer arg)
   (if arg
+      (progn
         (select-window (split-root-window-below))
-    (delete-other-windows))
-  (switch-to-buffer msk-original-buffer))
+          (switch-to-buffer msk-original-buffer))
+    (if-let ((window (get-buffer-window msk-original-buffer)))
+        (delete-window window)
+      (delete-other-windows)
+      (switch-to-buffer msk-original-buffer))))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Saving the solved conflict
