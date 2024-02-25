@@ -231,6 +231,19 @@
 (global-visual-line-mode t)
 (setq-default visual-line-mode t)
 
+(ol-set-face 'default :height 90)
+
+(defconst ol-white "#ffffff") ;; ff works better than white in terminal
+(defconst ol-black "#000000")
+
+(ol-set-face 'default :foreground ol-black :background ol-white)
+(ol-set-face 'font-lock-comment-face :foreground "#5f8700")
+(ol-set-face 'font-lock-string-face :foreground "#d78700")
+
+(unless (display-graphic-p)
+  (ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
+  (ol-set-face 'hl-line :background "#eeeeee"))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
 ;;;; ---------------------------------------------------------------------------
@@ -517,6 +530,16 @@
       (ivy-partial-or-done)
     (ivy-alt-done)))
 
+(setc swiper-faces '(swiper-match-face-1
+                     swiper-match-face-2
+                     swiper-match-face-2
+                     swiper-match-face-2))
+
+(setq swiper-background-faces '(swiper-background-match-face-1
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2))
+
 ;; -----------------------------------------------------------------------------
 ;; Find file name
 ;; -----------------------------------------------------------------------------
@@ -751,6 +774,23 @@ rg \
 
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
 
+;; Making ivy and company look consistent
+(dolist (face '(ivy-minibuffer-match-face-1
+                ivy-minibuffer-match-face-2
+                ivy-minibuffer-match-face-3
+                ivy-minibuffer-match-face-4))
+  (ol-copy-face-fg-bg face 'company-tooltip-common)
+  (ol-set-face face :weight 'bold)
+  (ol-set-face face :background ol-white))
+
+(defconst ol-completion-selection-color "#d7e4e8")
+
+(ol-set-face 'ivy-current-match :weight 'bold)
+(ol-set-face 'ivy-current-match :background ol-completion-selection-color)
+(ol-set-face 'company-box-background :background ol-white)
+(ol-set-face 'company-box-selection :background ol-completion-selection-color)
+
+
 ;; -----------------------------------------------------------------------------
 ;; Emacs Lisp
 ;; -----------------------------------------------------------------------------
@@ -807,6 +847,8 @@ rg \
          )
         )
       )
+
+(ol-set-face 'magit-blame-margin :background "#e4e4e4")
 
 (defun ol-magit-blame-run-process-args-advice (revision file args &optional lines)
   ;; To handle symlinks
@@ -903,6 +945,25 @@ rg \
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
 
+(defconst ol-diff-green "#9fec9d")
+(defconst ol-diff-dark-red "#e45649")
+(defconst ol-diff-light-red "#f5d9d6")
+(defconst ol-diff-dark-orange "#ffd787")
+(defconst ol-diff-light-orange "#f6eee8")
+
+(defun ol-magit-diff-set-face (face-to-set face-val)
+  (ol-set-face face-to-set
+               :background face-val
+               :foreground 'unspecified))
+
+(unless (display-graphic-p)
+  (ol-magit-diff-set-face 'magit-diff-added-highlight   ol-diff-green)
+  (ol-magit-diff-set-face 'magit-diff-added             ol-diff-green)
+  (ol-magit-diff-set-face 'magit-diff-base-highlight    ol-diff-dark-orange)
+  (ol-magit-diff-set-face 'magit-diff-base              ol-diff-dark-orange)
+  (ol-magit-diff-set-face 'magit-diff-removed-highlight ol-diff-light-red)
+  (ol-magit-diff-set-face 'magit-diff-removed           ol-diff-light-red))
+
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Diffing all files
 ;;;;;; -------------------------------------------------------------------------
@@ -940,6 +1001,8 @@ rg \
 ;;;; Log
 ;;;; ---------------------------------------------------------------------------
 
+(ol-set-face 'magit-log-date :foreground "#da8548")
+
 ;; TODO: Maybe these can be saved better with transient?
 (defconst ol-magit-log-default-arguments '("-n256"))
 
@@ -952,7 +1015,8 @@ rg \
 (defun ol-git-log-dwim (&optional arg)
   (interactive "P")
   (let* ((input (if arg
-                    (read-from-minibuffer "git log args (i)nclude commits in main, (t)his file only: ")
+                    (read-from-minibuffer
+                     "git log args (i)nclude commits in main, (t)his file only: ")
                   ""))
          (branch (magit-get-current-branch))
          (main (ol-main-branch))
@@ -988,7 +1052,10 @@ rg \
 
 ;; TODO: Maybe generalize this type of testing and use in more places?
 (cl-assert (let ((expected "Commits in test, but not in main, touching colors.el")
-                 (actual (ol-magit-log-header-line (list "test") (list "--first-parent" "--not" "main" "--not") (list "colors.el"))))
+                 (actual (ol-magit-log-header-line
+                          (list "test")
+                          (list "--first-parent" "--not" "main" "--not")
+                          (list "colors.el"))))
              (equal expected actual)))
 
 (setc magit-log-header-line-function 'ol-magit-log-header-line)
@@ -1035,6 +1102,13 @@ rg \
       (goto-char (point-min))
       (re-search-forward "^<<<<<<< " nil t))
     (smerge-mode)))
+
+(defun ol-smerge-set-face (face-to-set face-val)
+  (ol-set-face face-to-set :background face-val :foreground ol-black :weight 'normal))
+
+(ol-smerge-set-face 'smerge-base ol-diff-dark-orange)
+(ol-smerge-set-face 'smerge-lower ol-diff-light-red)
+(ol-smerge-set-face 'smerge-upper ol-diff-green)
 
 ;; Copied and modified from smerge-mode. This is to make sure markers override
 ;; keywords from other modes
@@ -1107,6 +1181,10 @@ rg \
 (defun ol-org-in-item-p ()
   (string-match-p "^ *-" (thing-at-point 'line t)))
 
+(ol-set-face 'org-block :background
+             (color-darken-name
+              (face-attribute 'default :background) 3))
+
 ;; -----------------------------------------------------------------------------
 ;; Spelling
 ;; -----------------------------------------------------------------------------
@@ -1121,6 +1199,20 @@ rg \
 ;; Terminal
 ;; -----------------------------------------------------------------------------
 
+;; Notes for myself on terminals
+;; You can only edit text in either line mode or char mode - never mixed. So
+;; workflows could look like
+;; Line mode: type text in the prompt and jump around using normal movement ops.
+;; When you're done, press enter. One caveat is that I have to make evil insert
+;; not enter char mode for this.
+;; Char mode: like a regular terminal. Note, you can still use normal mode for
+;; read only to other parts of the shell, then go to insert mode and paste using
+;; C-y.
+;; To begin with, I'll stick to char mode, as it's the most similar to
+;; terminals I'm used to.
+;; For line mode, shell works better than term/ansi-term. In shell, company mode
+;; works but not in term.
+
 (require 'term)
 
 (defun ol-disable-cursorline-for-terms ()
@@ -1133,6 +1225,24 @@ rg \
 
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
+
+(defun ol-set-term-buffer-maximum-size ()
+  (setc term-buffer-maximum-size 10000000000))
+
+(add-hook 'term-mode-hook 'ol-set-term-buffer-maximum-size)
+
+;; Hack to do it like this. If done directly, colors aren't set it seems
+(defun ol-set-term-colors ()
+  ;; TODO Do this, setting all colors:
+  ;; https://emacs.stackexchange.com/questions/28825/how-do-you-set-colors-for-term
+  (ol-set-face 'term-color-black :foreground ol-black :background ol-white)
+  (ol-set-face 'term :foreground ol-black :background ol-white))
+
+(add-hook 'term-mode-hook 'ol-set-term-colors)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Functions for opening a terminal
+;;;;----------------------------------------------------------------------------
 
 (defun ol-term ()
   (interactive)
@@ -1157,6 +1267,10 @@ rg \
 (setq kill-buffer-query-functions nil)
 (setc confirm-kill-processes nil)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Long lines
+;;;;----------------------------------------------------------------------------
+
 (defun ol-window-max-chars-per-line (oldfun &optional window face)
   (let* ((buffer (window-buffer window))
          (mm (with-current-buffer (window-buffer window) major-mode)))
@@ -1168,25 +1282,6 @@ rg \
       (apply oldfun (list window face)))))
 
 (advice-add 'window-max-chars-per-line :around 'ol-window-max-chars-per-line)
-
-(defun ol-set-term-buffer-maximum-size ()
-  (setc term-buffer-maximum-size 10000000000))
-
-(add-hook 'term-mode-hook 'ol-set-term-buffer-maximum-size)
-
-;; Notes for myself on terminals
-;; You can only edit text in either line mode or char mode - never mixed. So
-;; workflows could look like
-;; Line mode: type text in the prompt and jump around using normal movement ops.
-;; When you're done, press enter. One caveat is that I have to make evil insert
-;; not enter char mode for this.
-;; Char mode: like a regular terminal. Note, you can still use normal mode for
-;; read only to other parts of the shell, then go to insert mode and paste using
-;; C-y.
-;; To begin with, I'll stick to char mode, as it's the most similar to
-;; terminals I'm used to.
-;; For line mode, shell works better than term/ansi-term. In shell, company mode
-;; works but not in term.
 
 ;; -----------------------------------------------------------------------------
 ;; emacs server
@@ -1238,6 +1333,30 @@ rg \
 (setc vdiff-fold-string-function 'ol-vdiff-fold-string)
 
 (setc vdiff-magit-stage-is-2way t)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Colors
+;;;;----------------------------------------------------------------------------
+
+(ol-copy-face-fg-bg 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
+
+(defun ol-vdiff-set-face (face-to-set face-val)
+  (ol-set-face face-to-set
+               :inherit nil
+               :extend t
+               :background face-val
+               :foreground 'unspecified))
+
+;; Add
+(ol-vdiff-set-face 'vdiff-addition-face ol-diff-green)
+(ol-vdiff-set-face 'vdiff-refine-added ol-diff-green)
+
+;; Delete
+(ol-vdiff-set-face 'vdiff-subtraction-face ol-diff-dark-red)
+
+;; Change
+(ol-vdiff-set-face 'vdiff-refine-changed ol-diff-dark-orange)
+(ol-vdiff-set-face 'vdiff-change-face ol-diff-light-orange)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Synced scroll
@@ -1327,6 +1446,31 @@ rg \
 
 (advice-add 'ediff-quit :around #'ol-disable-y-or-n-p)
 
+;; These actually made some more sense once I understood them. In ediff, there's
+;; a "current" diff, and "other" diffs. The currently selected diff is
+;; highlighted using these "current" faces below. The non-selected other diffs
+;; are highlighted alternatingly with the odd and even faces.
+
+(ol-copy-face-fg-bg 'ediff-current-diff-A        'magit-diff-removed)
+(ol-copy-face-fg-bg 'ediff-current-diff-B        'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-current-diff-C        'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-current-diff-Ancestor 'magit-diff-base)
+
+(ol-copy-face-fg-bg 'ediff-fine-diff-A           'magit-diff-removed-highlight)
+(ol-copy-face-fg-bg 'ediff-fine-diff-B           'magit-diff-added-highlight)
+(ol-copy-face-fg-bg 'ediff-fine-diff-C           'magit-diff-added-highlight)
+(ol-copy-face-fg-bg 'ediff-fine-diff-Ancestor    'magit-diff-base-highlight)
+
+(ol-copy-face-fg-bg 'ediff-even-diff-A           'magit-diff-removed)
+(ol-copy-face-fg-bg 'ediff-even-diff-B           'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-even-diff-C           'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-even-diff-Ancestor    'magit-diff-base)
+
+(ol-copy-face-fg-bg 'ediff-odd-diff-A            'magit-diff-removed)
+(ol-copy-face-fg-bg 'ediff-odd-diff-B            'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-odd-diff-C            'magit-diff-added)
+(ol-copy-face-fg-bg 'ediff-odd-diff-Ancestor     'magit-diff-base)
+
 ;; -----------------------------------------------------------------------------
 ;; Modeline
 ;; -----------------------------------------------------------------------------
@@ -1341,6 +1485,32 @@ rg \
 (defface ol-evil-emacs-state-mode-line-face '() "")
 (defface ol-evil-operator-state-mode-line-face '() "")
 (defface ol-buffer-name-mode-line-face '() "")
+
+(ol-set-face 'mode-line :overline 'unspecified :underline 'unspecified)
+
+(if (display-graphic-p)
+    (ol-set-face 'mode-line :background "#d7e4e8")
+  (ol-set-face 'mode-line :background "#cccccc"))
+
+(ol-set-face 'mode-line-inactive
+             :background "#e9eded"
+             :overline 'unspecified
+             :underline 'unspecified)
+
+(ol-set-face 'ol-buffer-name-mode-line-face
+             :weight 'bold)
+
+(ol-copy-face-fg-bg 'ol-evil-normal-state-mode-line-face 'font-lock-comment-face)
+(ol-copy-face-fg-bg 'ol-evil-insert-state-mode-line-face 'font-lock-keyword-face)
+(ol-copy-face-fg-bg 'ol-evil-visual-state-mode-line-face 'warning)
+(ol-copy-face-fg-bg 'ol-evil-emacs-state-mode-line-face 'font-lock-builtin-face)
+
+(dolist (face '(ol-evil-normal-state-mode-line-face
+                ol-evil-insert-state-mode-line-face
+                ol-evil-visual-state-mode-line-face
+                ol-evil-emacs-state-mode-line-face
+                ol-evil-operator-state-mode-line-face))
+  (ol-set-face face :weight 'bold))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Left part
