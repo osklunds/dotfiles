@@ -875,7 +875,7 @@ rg \
     (string-match-p regex all-branches)))
 
 ;; Valid assumption in this repo
-(let ((default-directory "~/own_repos/dotfiles/"))
+(let ((default-directory (file-name-directory load-file-name)))
   (cl-assert (ol-does-branch-exist "main"))
   (cl-assert (not (ol-does-branch-exist "mai")))
   (cl-assert (not (ol-does-branch-exist "ain")))
