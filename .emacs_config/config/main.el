@@ -1274,7 +1274,7 @@ rg \
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-mode-line-left-part ()
-  (quote ("   " (:eval (ol-evil-segment))
+  (quote ((:eval (ol-evil-segment))
           "  " (:eval (ol-buffer-name-segment))
           " " (:eval (ol-file-state-segment))
           " " "%l:%c"
@@ -1311,13 +1311,12 @@ rg \
 (defun ol-mode-line-right-part ()
   (quote ((:eval (ol-branch-name-segment))
           "  " ((:eval (ol-project-name-segment)))
-          "  ")))
+          )))
 
+;; TOOD: Handle when checked out commit or remote branch
 (defun ol-branch-name-segment ()
-  (if-let ((file (or (buffer-file-name) default-directory)))
-      (if-let (branch-name (vc-git--symbolic-ref file))
-          branch-name
-        "")
+  (if-let ((branch (magit-get-current-branch)))
+      branch
     ""))
 
 (defun ol-project-name-segment ()
@@ -1336,9 +1335,12 @@ rg \
   (let* ((left-formatted (format-mode-line left))
          (right-formatted (format-mode-line right))
 
-         (available-width (- (window-total-width) (length left-formatted) 1))
-         (align-format-string (format "%%s %%%ds " available-width)))
-    (format align-format-string left-formatted right-formatted)))
+         (total-width (- (window-total-width) 5))
+         (available-width (- total-width (length left-formatted) 1))
+         (align-format-string (format "%%s %%%ds " available-width))
+         (formatted (format align-format-string left-formatted right-formatted))
+         (truncated (truncate-string-to-width formatted total-width)))
+    (concat "   " truncated "  ")))
 
 (setq-default mode-line-format
               (quote ((:eval (ol-render-mode-line
