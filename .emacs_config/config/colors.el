@@ -111,6 +111,15 @@
 (ol-set-face 'company-box-background :background ol-white)
 (ol-set-face 'company-box-selection :background ol-completion-selection-color)
 
+(setc swiper-faces '(swiper-match-face-1
+                     swiper-match-face-2
+                     swiper-match-face-2
+                     swiper-match-face-2))
+
+(setq swiper-background-faces '(swiper-background-match-face-1
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2))
 
 ;; ---------------------------------------------------------------------------
 ;; Magit
