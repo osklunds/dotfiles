@@ -236,8 +236,6 @@
 (set-fontset-font t 'symbol
                   (font-spec :family "DejaVu Sans Mono"))
 
-(setc isearch-lazy-count t)
-
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
 
@@ -676,6 +674,12 @@
 
 (global-evil-visualstar-mode)
 
+(setc isearch-wrap-pause 'no-ding)
+(setc isearch-lazy-count t)
+(setc lazy-highlight-initial-delay 0)
+(setc isearch-repeat-on-direction-change t)
+(setc lazy-highlight-cleanup nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
@@ -717,6 +721,13 @@
   (if arg
       (ivy-partial-or-done)
     (ivy-alt-done)))
+
+(defun ol-swiper--cleanup-advice (func &rest args)
+  ;; So that swiper highlights are always cleaned up
+  (let ((lazy-highlight-cleanup t))
+    (apply func args)))
+
+(advice-add 'swiper--cleanup :around 'ol-swiper--cleanup-advice)
 
 (setc swiper-faces '(swiper-match-face-1
                      swiper-match-face-2
