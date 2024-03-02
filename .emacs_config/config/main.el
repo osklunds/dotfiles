@@ -513,9 +513,6 @@
 (ol-define-key evil-insert-state-map "C-h" #'evil-window-left)
 (ol-define-key evil-insert-state-map "C-l" #'evil-window-right)
 
-;; Clear search highlights
-(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
-
 ;; Scolling
 (ol-define-key evil-motion-state-map "M-j" 'evil-scroll-line-down)
 (ol-define-key evil-motion-state-map "M-k" 'evil-scroll-line-up)
@@ -533,71 +530,6 @@
 (ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
 (ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)
 (ol-define-key evil-motion-state-map "0" 'evil-first-non-blank-of-visual-line) ;; Unclear why this isn't enough
-(ol-define-key evil-normal-state-map "0" 'evil-first-non-blank-of-visual-line)
-(ol-define-key evil-visual-state-map "0" 'evil-first-non-blank-of-visual-line)
-(ol-define-key evil-operator-state-map "0" 'evil-first-non-blank-of-visual-line)
-;; Changing states
-(ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
-
-;; Window movement
-(ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
-(ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
-(ol-define-key evil-insert-state-map "C-h" #'evil-window-left)
-(ol-define-key evil-insert-state-map "C-l" #'evil-window-right)
-
-;; Clear search highlights
-(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
-
-;; Scolling
-(ol-define-key evil-motion-state-map "M-j" 'evil-scroll-line-down)
-(ol-define-key evil-motion-state-map "M-k" 'evil-scroll-line-up)
-
-;; To work around a bug that prevents yank/delete full lines when doing
-;; e.g. d2j. Affects also when a logical line fits the window width.
-(ol-define-key evil-operator-state-map "j" 'evil-next-line)
-(ol-define-key evil-operator-state-map "k" 'evil-previous-line)
-
-;; I think this mapping makes more sense, to align down/j/{ and up/k/}
-(ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
-(ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
-
-;; Movement
-(ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
-(ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)
-(ol-define-key evil-motion-state-map "0" 'evil-first-non-blank-of-visual-line) ;; Unclear why this isn't enough
-(ol-define-key evil-normal-state-map "0" 'evil-first-non-blank-of-visual-line)
-(ol-define-key evil-visual-state-map "0" 'evil-first-non-blank-of-visual-line)
-(ol-define-key evil-operator-state-map "0" 'evil-first-non-blank-of-visual-line)
-;; Changing states
-(ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
-
-;; Window movement
-(ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
-(ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
-(ol-define-key evil-insert-state-map "C-h" #'evil-window-left)
-(ol-define-key evil-insert-state-map "C-l" #'evil-window-right)
-
-;; Clear search highlights
-(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
-
-;; Scolling
-(ol-define-key evil-motion-state-map "M-j" 'evil-scroll-line-down)
-(ol-define-key evil-motion-state-map "M-k" 'evil-scroll-line-up)
-
-;; To work around a bug that prevents yank/delete full lines when doing
-;; e.g. d2j. Affects also when a logical line fits the window width.
-(ol-define-key evil-operator-state-map "j" 'evil-next-line)
-(ol-define-key evil-operator-state-map "k" 'evil-previous-line)
-
-;; I think this mapping makes more sense, to align down/j/{ and up/k/}
-(ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
-(ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
-
-;; Movement
-(ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
-(ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)
-;; Unclear why this isn't enough
-(ol-define-key evil-motion-state-map "0" 'evil-first-non-blank-of-visual-line) 
 (ol-define-key evil-normal-state-map "0" 'evil-first-non-blank-of-visual-line)
 (ol-define-key evil-visual-state-map "0" 'evil-first-non-blank-of-visual-line)
 (ol-define-key evil-operator-state-map "0" 'evil-first-non-blank-of-visual-line)
