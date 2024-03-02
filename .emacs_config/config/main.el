@@ -612,6 +612,31 @@
 (setc isearch-repeat-on-direction-change t)
 (setc lazy-highlight-cleanup nil)
 
+(defun ol-isearch-vim-like-forward ()
+  (interactive)
+  (evil-set-jump)
+  (isearch-repeat-forward))
+
+(ol-define-key evil-motion-state-map "n" 'ol-isearch-vim-like-forward)
+
+(defun ol-isearch-vim-like-backward ()
+  (interactive)
+  (evil-set-jump)
+  (isearch-repeat-backward))
+
+(ol-define-key evil-motion-state-map "N" 'ol-isearch-vim-like-backward)
+
+(defun ol-highlight-cleanup ()
+  (interactive)
+  ;; Doing both until I've migrated completely to iserach
+  (lazy-highlight-cleanup t)
+  (evil-ex-nohighlight))
+
+(ol-define-key evil-motion-state-map "?" 'ol-highlight-cleanup)
+
+(ol-define-key evil-motion-state-map "/" 'isearch-forward)
+
+
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
