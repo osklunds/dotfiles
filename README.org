@@ -14,9 +14,11 @@ dotfiles I use
 - Merge Survival Knife (under evaluation)
 - vterm (under evaluation)
 - file names when creating a new file with C-x C-f
+- relative VISUAL line numbers. Maybe easy to hack yourself?
 
 *** Nice to have
 
+- More than one help window, and don't make them disappear so quickly
 - When doing find-file, don't create file if no selection
 - Merge commit analyzer
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
