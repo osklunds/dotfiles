@@ -1836,7 +1836,7 @@ rg \
           "" (:eval (ol-relative-position-segment)))))
 
 (defun ol-search-hits-segment ()
-  (when anzu--state
+  (when (and anzu--state evil-ex-search-start-point)
     (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
 
 (defun ol-evil-segment ()
