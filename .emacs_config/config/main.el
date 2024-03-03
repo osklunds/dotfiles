@@ -610,7 +610,7 @@
 (setc isearch-lazy-count t)
 (setc lazy-highlight-initial-delay 0)
 (setc isearch-repeat-on-direction-change t)
-(setc lazy-highlight-cleanup nil)
+(setc lazy-highlight-cleanup t)
 
 (defun ol-isearch-vim-like-forward ()
   (interactive)
@@ -668,7 +668,8 @@
 (defun ol-isearch-message-prefix (&rest args)
   (concat (isearch-lazy-count-format) " I-search: "))
 
-(advice-add 'isearch-message-prefix :override 'ol-isearch-message-prefix)
+;; (advice-add 'isearch-message-prefix :override 'ol-isearch-message-prefix)
+
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
