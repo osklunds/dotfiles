@@ -630,12 +630,44 @@
   (interactive)
   ;; Doing both until I've migrated completely to iserach
   (lazy-highlight-cleanup t)
+  (isearch-exit) ;; To remove the "current" highlight
   (evil-ex-nohighlight))
 
 (ol-define-key evil-motion-state-map "?" 'ol-highlight-cleanup)
-
 (ol-define-key evil-motion-state-map "/" 'isearch-forward)
 
+(defun ol-begin-search-word ()
+  (interactive)
+  (let ((string (evil-find-thing t 'evil-word)))
+    (ol-begin-search string)))
+
+(defun ol-begin-search (string)
+  (isearch-forward nil 1)
+  (isearch-yank-string string)
+  (isearch-exit)
+  (ol-isearch-vim-like-forward))
+
+(ol-define-key evil-motion-state-map "*" 'ol-begin-search-word)
+
+;; Inspiration from evil-visualstar
+(defun ol-begin-search-selection (beg end)
+  (when (evil-visual-state-p)
+    (evil-exit-visual-state)
+    (let ((selection (regexp-quote (buffer-substring-no-properties beg end))))
+      (ol-begin-search selection))))
+
+(evil-define-motion ol-visual-search (beg end)
+  :jump t
+  :repeat nil
+  (interactive "<r>")
+  (ol-visual-search beg end))
+
+(ol-define-key evil-visual-state-map "*" 'ol-visual-search)
+
+(defun ol-isearch-message-prefix (&rest args)
+  (concat (isearch-lazy-count-format) " I-search: "))
+
+(advice-add 'isearch-message-prefix :override 'ol-isearch-message-prefix)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
