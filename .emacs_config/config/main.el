@@ -617,14 +617,15 @@
   (evil-set-jump)
   (isearch-repeat-forward))
 
-(ol-define-key evil-motion-state-map "n" 'ol-isearch-vim-like-forward)
+;; (ol-define-key evil-motion-state-map "n" 'ol-isearch-vim-like-forward)
+(ol-define-key evil-motion-state-map "n" 'evil-search-next)
 
 (defun ol-isearch-vim-like-backward ()
   (interactive)
   (evil-set-jump)
   (isearch-repeat-backward))
 
-(ol-define-key evil-motion-state-map "N" 'ol-isearch-vim-like-backward)
+(ol-define-key evil-motion-state-map "N" 'evil-search-previous)
 
 (defun ol-highlight-cleanup ()
   (interactive)
@@ -634,7 +635,7 @@
   (evil-ex-nohighlight))
 
 (ol-define-key evil-motion-state-map "?" 'ol-highlight-cleanup)
-(ol-define-key evil-motion-state-map "/" 'isearch-forward)
+(ol-define-key evil-motion-state-map "/" 'evil-search-forward)
 
 (defun ol-begin-search-word ()
   (interactive)
@@ -647,7 +648,7 @@
   (isearch-exit)
   (ol-isearch-vim-like-forward))
 
-(ol-define-key evil-motion-state-map "*" 'ol-begin-search-word)
+(ol-define-key evil-motion-state-map "*" 'evil-search-word-forward)
 
 ;; Inspiration from evil-visualstar
 (defun ol-begin-search-selection (beg end)
@@ -662,7 +663,7 @@
   (interactive "<r>")
   (ol-visual-search beg end))
 
-(ol-define-key evil-visual-state-map "*" 'ol-visual-search)
+(ol-define-key evil-visual-state-map "*" 'evil-visualstar/begin-search-forward)
 
 (defun ol-isearch-message-prefix (&rest args)
   (concat (isearch-lazy-count-format) " I-search: "))
