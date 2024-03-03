@@ -719,15 +719,14 @@
          (find-program-args (cadr cmd-and-args)))
     (ivy-read (concat "Find file [" prompt "]: ")
               (counsel--find-return-list find-program-args)
-              :action #'find-file
+              :action #'find-file-existing
               :preselect (counsel--preselect-file)
               :require-match 'confirm-after-completion
               :history 'file-name-history
               :keymap counsel-file-jump-map
               :caller 'ol-find-file-name)))
 
-(defun ol-find-file-name-command-and-args ()
-  (let ((candidates all-ol-find-file-name-command-and-args)
+(defun ol-find-file-name-command-and-args () (let ((candidates all-ol-find-file-name-command-and-args)
         (result nil))
     (while (not result)
       (let* ((candidate (car candidates))

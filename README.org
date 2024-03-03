@@ -17,7 +17,6 @@ dotfiles I use
 *** Nice to have
 
 - More than one help window, and don't make them disappear so quickly
-- When doing find-file, don't create file if no selection
 - Merge commit analyzer
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
