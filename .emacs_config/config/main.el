@@ -305,7 +305,7 @@
 ;;;; ---------------------------------------------------------------------------
 
 (global-display-line-numbers-mode t)
-(setc display-line-numbers-type
+(setc display-line-numbers-type 'visual)
 (setc display-line-numbers-grow-only t)
 (setc display-line-numbers-width-start 10000)
 
