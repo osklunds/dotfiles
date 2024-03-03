@@ -148,3 +148,6 @@
 [submodule ".emacs_config/packages/evil-anzu"]
 	path = .emacs_config/packages/evil-anzu
 	url = https://github.com/emacsorphanage/evil-anzu.git
+[submodule ".emacs_config/packages/goto-chg"]
+	path = .emacs_config/packages/goto-chg
+	url = https://github.com/emacs-evil/goto-chg.git
