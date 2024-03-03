@@ -17,8 +17,6 @@ dotfiles I use
 *** Nice to have
 
 - More than one help window, and don't make them disappear so quickly
-- Merge commit analyzer
-  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
 - motion to move subword (could use C-w C-e etc?)
@@ -27,13 +25,15 @@ dotfiles I use
 - make ivy-read async for files, just like for file content
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - push-button also in normal-mode if read-only file
-- projectile project switch, if universal-arg, open dired instead
+- cleaner magit transient
 
 *** Not that important
 
 - alt-ret for continuing list also outside org-mode
 - Switch to vertico/consult/marginella
 - cache modeline segments, like doom modeline
+- Merge commit analyzer
+  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
 
 *** Wanted, but hard to do
 

@@ -988,6 +988,11 @@ rg \
 
 (setc projectile-switch-project-action 'ol-dwim-find-file-name)
 
+(defun ol-projectile-commander (&rest args)
+  (projectile-dired))
+
+(advice-add 'projectile-commander :override 'ol-projectile-commander)
+
 (require 'counsel-projectile)
 (require 'projectile-ripgrep)
 
