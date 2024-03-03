@@ -654,12 +654,6 @@
 (ol-override-key "M-x" 'counsel-M-x)
 (ol-global-set-key "C-x C-f" 'counsel-find-file)
 
-(defun ol-ivy-done (&optional arg)
-  (interactive "P")
-  (if arg
-      (ivy-partial-or-done)
-    (ivy-alt-done)))
-
 (defun ol-swiper--cleanup-advice (func &rest args)
   ;; So that swiper highlights are always cleaned up
   (let ((lazy-highlight-cleanup t))
@@ -677,8 +671,7 @@
                                 swiper-background-match-face-2
                                 swiper-background-match-face-2))
 
-(ol-define-key ivy-minibuffer-map 'tab 'ol-ivy-done)
-(ol-define-key ivy-minibuffer-map "M-u" 'universal-argument)
+(ol-define-key ivy-minibuffer-map 'tab 'ivy-alt-done)
 (ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
 (ol-define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
 

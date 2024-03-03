@@ -13,7 +13,6 @@ dotfiles I use
 - Native compilation of packages and my files
 - Merge Survival Knife (under evaluation)
 - vterm (under evaluation)
-- file names when creating a new file with C-x C-f
 
 *** Nice to have
 
