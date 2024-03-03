@@ -142,3 +142,9 @@
 [submodule ".emacs_config/packages/lsp-haskell"]
 	path = .emacs_config/packages/lsp-haskell
 	url = https://github.com/emacs-lsp/lsp-haskell.git
+[submodule ".emacs_config/packages/anzu"]
+	path = .emacs_config/packages/anzu
+	url = https://github.com/emacsorphanage/anzu.git
+[submodule ".emacs_config/packages/evil-anzu"]
+	path = .emacs_config/packages/evil-anzu
+	url = https://github.com/emacsorphanage/evil-anzu.git

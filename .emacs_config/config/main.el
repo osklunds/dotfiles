@@ -670,6 +670,12 @@
 
 ;; (advice-add 'isearch-message-prefix :override 'ol-isearch-message-prefix)
 
+(require 'anzu)
+(require 'evil-anzu)
+
+(global-anzu-mode t)
+
+(setc anzu-cons-mode-line-p nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
@@ -1884,11 +1890,16 @@ rg \
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-mode-line-left-part ()
-  (quote ((:eval (ol-evil-segment))
+  (quote ((:eval (ol-search-hits-segment))
+          (:eval (ol-evil-segment))
           "  " (:eval (ol-buffer-name-segment))
           " " (:eval (ol-file-state-segment))
           " " "%l:%c"
           "" (:eval (ol-relative-position-segment)))))
+
+(defun ol-search-hits-segment ()
+  (when anzu--state
+    (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
 
 (defun ol-evil-segment ()
   (let ((evil-face (cond ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
