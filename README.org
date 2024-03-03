@@ -14,7 +14,6 @@ dotfiles I use
 - Merge Survival Knife (under evaluation)
 - vterm (under evaluation)
 - file names when creating a new file with C-x C-f
-- relative VISUAL line numbers. Maybe easy to hack yourself?
 
 *** Nice to have
 
