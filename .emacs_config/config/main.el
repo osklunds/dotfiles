@@ -526,6 +526,9 @@
 (ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
 (ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
 
+;; Clear search highlights
+(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
+
 ;; Movement
 (ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
 (ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)

@@ -24,7 +24,6 @@ dotfiles I use
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
-- show number of search hits when searching
 - motion to move subword (could use C-w C-e etc?)
 - lsp diagnostics
 - goto-last-change
