@@ -886,8 +886,6 @@ rg \
 (setc lsp-enable-file-watchers nil) ;; to prevent "nested too deep" warning
 (setc lsp-log-io nil) ;; Enable for easier debugging
 
-(setc lsp-log-io nil)
-
 ;; -----------------------------------------------------------------------------
 ;; Abbreviations (for completions)
 ;; -----------------------------------------------------------------------------
