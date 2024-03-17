@@ -1970,16 +1970,43 @@ rg \
 
 (add-hook 'dired-after-readin-hook 'ol-dired-rename-hook)
 
-;; TODO: Consider "dired: current file name<parent dirs>" instead
 (defun ol-dired-rename-hook ()
-  (let ((desired-name (ol-get-buffer-name-from-path "dired" dired-directory)))
+  (let* ((path (or dired-directory default-directory))
+         (desired-name (ol-get-buffer-name-from-path dired-directory)))
     (unless (ol-buffer-name-matches (buffer-name) desired-name)
       (rename-buffer (generate-new-buffer-name desired-name)))))
 
-(defun ol-get-buffer-name-from-path (prefix path)
-  (concat prefix ": " (string-truncate-left
-                       (string-replace (expand-file-name "~/") "~/" path)
-                       40)))
+(defun ol-get-buffer-name-from-path (path &optional prefix)
+  (let* ((abbreviated-path (abbreviate-file-name path))
+         (name (cond
+                ((string-equal abbreviated-path "~/") "~/")
+                ((string-equal abbreviated-path "/") "/")
+                (t (let* ((path2 (directory-file-name abbreviated-path))
+                          (current-dir (file-name-nondirectory path2))
+                          (parent-dir (directory-file-name (file-name-directory path2)))
+                          (truncated-parent-dir (string-truncate-left parent-dir 40)))
+                     (concat current-dir "  <" truncated-parent-dir ">")))))
+         (prefix2 (when prefix
+                    (concat prefix ": "))))
+    (concat prefix2 name)))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc/iptables")
+                         "iptables  </etc>"))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc")
+                         "etc  </>"))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "/")
+                         "/"))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "~/")
+                         "~/"))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc/iptables" "dired")
+                         "dired: iptables  </etc>"))
+
+(cl-assert (string-equal (ol-get-buffer-name-from-path "~/" "dired")
+                         "dired: ~/"))
 
 (defun ol-buffer-name-matches (name desired-name)
   (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
@@ -1989,6 +2016,7 @@ rg \
 (cl-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
 (cl-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
 (cl-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
+(cl-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
 
 ;; -----------------------------------------------------------------------------
 ;; tar-mode

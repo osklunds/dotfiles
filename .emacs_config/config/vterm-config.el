@@ -55,7 +55,7 @@
   (concat (ol-regexp-group ":\\(/.*\\)$" prompt 1) "/"))
 
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
-  (ol-get-buffer-name-from-path "vterm" path))
+  (ol-get-buffer-name-from-path path "vterm"))
 
 (defun ol-vterm-set-buffer-name (prompt)
   (unless ol-vterm-manually-renamed
