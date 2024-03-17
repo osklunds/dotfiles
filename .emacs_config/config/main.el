@@ -1953,6 +1953,7 @@ rg \
 
 (ol-define-normal-leader-key "dh" (lambda () (interactive) (dired "~")))
 
+(ol-evil-define-key 'normal dired-mode-map "S" 'dired-do-relsymlink)
 
 (defun ol-dired ()
   (interactive)
