@@ -629,6 +629,8 @@
 
 (global-evil-visualstar-mode)
 
+(ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
+
 (require 'anzu)
 (require 'evil-anzu)
 
