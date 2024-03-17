@@ -1943,6 +1943,8 @@ rg \
 (require 'dired)
 
 (setc dired-kill-when-opening-new-dired-buffer t)
+(setc dired-auto-revert-buffer 'dired-directory-changed-p)
+
 (ol-evil-define-key 'normal dired-mode-map "o" 'dired-find-file)
 (ol-evil-define-key 'normal dired-mode-map "i" 'dired-up-directory)
 
