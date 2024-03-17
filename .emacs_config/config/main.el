@@ -837,6 +837,9 @@ rg \
 
 (advice-add 'swiper--line :around 'ol-swiper--line-advice)
 
+(setq swiper-use-visual-line nil)
+(setq swiper-use-visual-line-p (lambda (a) nil))
+
 ;; -----------------------------------------------------------------------------
 ;; Programming
 ;; -----------------------------------------------------------------------------
