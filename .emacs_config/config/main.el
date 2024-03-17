@@ -962,6 +962,9 @@ rg \
 (ol-set-face 'company-box-background :background ol-white)
 (ol-set-face 'company-box-selection :background ol-completion-selection-color)
 
+(ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
+(ol-set-face 'company-tooltip-scrollbar-track :background nil :inherit 'tooltip)
+
 (ol-define-key company-active-map 'return 'company-abort)
 (ol-define-key company-active-map "C-g" nil)
 (ol-define-key company-active-map "C-n" nil)
