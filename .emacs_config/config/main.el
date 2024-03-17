@@ -546,6 +546,9 @@
 ;; Clear search highlights
 (ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
 
+(ol-define-key evil-ex-completion-map "C-n" 'abort-recursive-edit)
+(ol-define-key evil-ex-search-keymap "C-n" 'abort-recursive-edit)
+
 ;; Movement
 (ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
 (ol-define-key evil-motion-state-map "^" 'evil-beginning-of-visual-line)
@@ -689,6 +692,8 @@
 (ol-define-key ivy-minibuffer-map 'tab 'ivy-alt-done)
 (ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
 (ol-define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
+(ol-define-key ivy-minibuffer-map "C-n" 'minibuffer-keyboard-quit)
+(ol-define-key minibuffer-local-map "C-n" 'minibuffer-keyboard-quit)
 
 (ol-define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
 (ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
