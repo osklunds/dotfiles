@@ -211,6 +211,22 @@
 
 (setc garbage-collection-messages nil)
 
+(setq gc-cons-threshold (* 8 100 1000 1000))
+(setq gc-cons-percentage 10.0)
+
+(defun ol-garbage-collect ()
+  (interactive)
+  (let ((secs-before (float-time)))
+    (message (format "Start garbage-collect at %s" (current-time-string)))
+    (garbage-collect)
+    (let* ((secs-after (float-time))
+           (time-diff (- secs-after secs-before)))
+      (message (format "Finish garbage-collect at: %s.    Took %g seconds."
+                       (current-time-string)
+                       time-diff)))))
+
+(run-with-idle-timer (* 30 60) t 'ol-garbage-collect)
+
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
 ;; Supposedly can improve scroll performance
