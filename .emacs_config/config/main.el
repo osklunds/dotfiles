@@ -505,9 +505,16 @@
     (apply func args)))
 
 (advice-add 'evil-indent :around 'ol-evil-operator-save-point-advice)
-;; TODO: Doesn't work for the one below
-(advice-add 'evilnc-comment-operator :around 'ol-evil-operator-save-point-advice)
 
+;; The above advice didn't work for comment operator. Point seems to be changed
+;; before the underlying function is called.
+(defun ol-evilnc-comment-operator ()
+  (interactive)
+  (save-excursion
+    (call-interactively 'evilnc-comment-operator)))
+
+(ol-evil-define-key 'normal prog-mode-map "gc" 'ol-evilnc-comment-operator)
+  
 (defun ol-evilnc-comment-operator-advice (start end type)
   ;; Always set type to 'line
   `(,start ,end 'line))
@@ -857,7 +864,6 @@ rg \
 (setc imenu-max-item-length 200)
 
 (ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
-(ol-evil-define-key 'normal prog-mode-map "gc" 'evilnc-comment-operator)
 
 ;; -----------------------------------------------------------------------------
 ;; LSP
