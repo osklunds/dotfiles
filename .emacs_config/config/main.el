@@ -149,7 +149,6 @@
 
 (ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
 
-;; TODO: Same if normal and read-only
 (ol-define-key evil-motion-state-map "o" 'push-button)
 
 (ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
