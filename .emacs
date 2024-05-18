@@ -28,7 +28,7 @@
 
 (dolist (file '("main"
                 "rust"
-                "haskell"
+                "haskell-config"
                 "go"
                 "merge-survival-knife"
                 "vterm-config"))
