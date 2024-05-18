@@ -15,6 +15,7 @@
 (setq load-path (append load-path
                         '("~/.emacs_config/config")
                         (file-expand-wildcards "~/.emacs_config/packages/*")
+                        (file-expand-wildcards "~/.emacs_config/packages/*/src/*")
                         (file-expand-wildcards "~/.emacs_config/packages/*/clients")
                         (file-expand-wildcards "~/.emacs_config/packages/*/lisp")))
 
@@ -30,6 +31,7 @@
                 "rust"
                 "haskell-config"
                 "go"
+                "java-config"
                 "merge-survival-knife"
                 "vterm-config"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))

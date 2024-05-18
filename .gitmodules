@@ -154,3 +154,18 @@
 [submodule ".emacs_config/packages/go-mode.el"]
 	path = .emacs_config/packages/go-mode.el
 	url = https://github.com/dominikh/go-mode.el.git
+[submodule ".emacs_config/packages/lsp-java"]
+	path = .emacs_config/packages/lsp-java
+	url = https://github.com/emacs-lsp/lsp-java.git
+[submodule ".emacs_config/packages/treemacs"]
+	path = .emacs_config/packages/treemacs
+	url = https://github.com/Alexander-Miller/treemacs.git
+[submodule ".emacs_config/packages/lsp-treemacs"]
+	path = .emacs_config/packages/lsp-treemacs
+	url = https://github.com/emacs-lsp/lsp-treemacs.git
+[submodule ".emacs_config/packages/pfuture"]
+	path = .emacs_config/packages/pfuture
+	url = https://github.com/Alexander-Miller/pfuture.git
+[submodule ".emacs_config/packages/emacs-request"]
+	path = .emacs_config/packages/emacs-request
+	url = https://github.com/tkf/emacs-request.git
