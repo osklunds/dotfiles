@@ -29,6 +29,7 @@
 (dolist (file '("main"
                 "rust"
                 "haskell"
+                "go"
                 "merge-survival-knife"
                 "vterm-config"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
