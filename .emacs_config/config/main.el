@@ -242,7 +242,7 @@
 
 (defun ol-toggle-show-trailing-whitespace ()
   (interactive)
-  (setq show-trailing-whitespace (not show-trailing-whitespace))
+  (setq-local show-trailing-whitespace (not show-trailing-whitespace))
   (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
 
 (ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
