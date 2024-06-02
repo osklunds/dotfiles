@@ -1270,11 +1270,18 @@ rg \
 
 (ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
 
-(defun ol-diff-current-file (rev-other)
+(defun ol-diff-current-file (rev-left &optional rev-right)
+  (let* ((buffer-left (ol-get-revision-buffer-current-file rev-left))
+         (buffer-right (if rev-right
+                           (ol-get-revision-buffer-current-file rev-right)
+                         (current-buffer))))
+    (vdiff-buffers buffer-left buffer-right)))
+
+(defun ol-get-revision-buffer-current-file (rev)
   (let* ((file (magit-current-file))
-         (file-other (magit--rev-file-name file "HEAD" rev-other))
-         (buffer-other (ol-get-revision-buffer rev-other file-other)))
-    (vdiff-buffers buffer-other (current-buffer))))
+         ;; Assuming the file name didn't change between HEAD and worktree
+         (file-in-rev (magit--rev-file-name file "HEAD" rev)))
+    (ol-get-revision-buffer rev file-in-rev)))
 
 (defun ol-get-revision-buffer (rev file)
   (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
@@ -1442,6 +1449,35 @@ rg \
 (ol-define-key smerge-mode-map "C-c b" 'smerge-keep-base)
 (ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Merge experiment
+;;;;----------------------------------------------------------------------------
+
+(defun ol-diff-base-local ()
+  (interactive)
+  (ol-diff-current-file (ol-merge-base "HEAD" "MERGE_HEAD") "HEAD"))
+
+(defun ol-diff-base-remote ()
+  (interactive)
+  (ol-diff-current-file (ol-merge-base "HEAD" "MERGE_HEAD") "MERGE_HEAD"))
+
+(defun ol-diff-local-remote ()
+  (interactive)
+  (ol-diff-current-file "HEAD" "MERGE_HEAD"))
+
+(defun ol-diff-local-merged ()
+  (interactive)
+  (ol-diff-current-file "HEAD"))
+
+(defun ol-diff-remote-merged ()
+  (interactive)
+  (ol-diff-current-file "MERGE_HEAD"))
+
+(ol-define-key smerge-mode-map "M-1" 'ol-diff-base-local)
+(ol-define-key smerge-mode-map "M-2" 'ol-diff-base-remote)
+(ol-define-key smerge-mode-map "M-3" 'ol-diff-local-remote)
+(ol-define-key smerge-mode-map "M-4" 'ol-diff-local-merged)
+(ol-define-key smerge-mode-map "M-5" 'ol-diff-remote-merged)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Helpers
