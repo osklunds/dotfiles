@@ -54,9 +54,11 @@
 ;; TODOL Split more between state and separate vars. E.g. only temp buffers in
 ;; state list
 (defvar msk-state nil)
+(defvar msk-show-bottom-buffer nil)
+
 (defvar msk-original-buffer nil)
 (defvar msk-original-buffer-point nil)
-(defvar msk-show-bottom-buffer nil)
+(defvar msk-original-window-configuration nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -106,17 +108,18 @@
   (msk-clear-state)
   (setq msk-original-buffer nil)
   (setq msk-original-buffer-point nil)
+  (setq msk-original-window-configuration nil)
   (setq msk-show-bottom-buffer nil))
 
 (defun msk-save-original-pos ()
   (setq msk-original-buffer-point (point)))
 
 (defun msk-save-windows ()
-  (msk-put "window-configuration" (current-window-configuration)))
+  (setq msk-original-window-configuration (current-window-configuration)))
 
 (defun msk-restore-windows ()
-  (if-let (windows (msk-get "window-configuration"))
-      (set-window-configuration windows)
+  (if msk-original-window-configuration
+      (set-window-configuration msk-original-window-configuration)
     (message "Warning: no window config found")))
 
 ;;;; ---------------------------------------------------------------------------
