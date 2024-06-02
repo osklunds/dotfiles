@@ -40,7 +40,7 @@
 
 (defun msk-cant-save-reminder ()
   (interactive)
-  (user-error "Can't save temp buffers"))
+  (user-error "Can't save temp buffers in msk-mode"))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Constants
@@ -64,6 +64,7 @@
 (defvar msk-original-buffer-point nil)
 (defvar msk-original-window-configuration nil)
 
+;; TODO: Consider plist for these
 (defvar msk-local-string nil)
 (defvar msk-base-string nil)
 (defvar msk-remote-string nil)
