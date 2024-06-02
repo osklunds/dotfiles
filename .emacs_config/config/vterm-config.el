@@ -76,6 +76,11 @@
 
 (ol-define-normal-leader-key "br" 'ol-rename-buffer)
 
+(defun ol-vterm-named ()
+  (interactive)
+  (vterm)
+  (ol-rename-buffer))
+
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
 ;;------------------------------------------------------------------------------

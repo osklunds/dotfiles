@@ -1648,21 +1648,18 @@ rg \
 
 (defun ol-term-named (name &optional cmd-on-create)
   (interactive (list (read-string "Name: " nil nil "terminal")))
-  (let* ((term-name (ol-name-to-term-buffer-name name))
-         (existing-buffer (get-buffer term-name))
+  (let* ((existing-buffer (get-buffer name))
          (new-buffer (if existing-buffer
                          existing-buffer
-                       (ol-term))))
+                       (vterm name))))
     (switch-to-buffer new-buffer)
-    (rename-buffer term-name)
-    (when (and cmd-on-create (not existing-buffer))
-      (process-send-string new-buffer (concat cmd-on-create "\n")))
-    new-buffer))
+    (with-current-buffer new-buffer
+      (setq-local ol-vterm-manually-renamed t)
+      (when (and cmd-on-create (not existing-buffer))
+        (vterm-send-string new-buffer (concat cmd-on-create "\n"))))
+      new-buffer))
 
 (ol-define-normal-leader-key "tt" 'ol-term-named)
-
-(defun ol-name-to-term-buffer-name (name)
-  (concat "*" name "*"))
 
 (setq kill-buffer-query-functions nil)
 (setc confirm-kill-processes nil)
