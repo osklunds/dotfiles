@@ -107,7 +107,6 @@
   (setq msk-show-bottom-buffer nil))
 
 (defun msk-save-original-pos ()
-  (msk-put "original-buffer" (current-buffer))
   (msk-put "original-point" (point)))
 
 (defun msk-save-windows ()
@@ -336,7 +335,7 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun msk-save-solved-conflict ()
-  (switch-to-buffer (msk-get "original-buffer"))
+  (switch-to-buffer (msk-original-buffer))
   (goto-char (msk-get "original-point"))
   (cl-assert (msk-find-next-conflict))
   (let* ((old-string (msk-get "merged-string"))
