@@ -38,6 +38,10 @@
 
 (provide 'merge-survival-knife)
 
+(defun msk-cant-save-reminder ()
+  (interactive)
+  (user-error "Can't save temp buffers"))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Constants
 ;;;; ---------------------------------------------------------------------------

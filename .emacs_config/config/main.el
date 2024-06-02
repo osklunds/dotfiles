@@ -1442,6 +1442,8 @@ rg \
 (ol-evil-define-key 'normal msk-mode-map "C-c b" 'smerge-keep-base)
 (ol-evil-define-key 'normal msk-mode-map "C-c a" 'smerge-keep-all)
 
+(ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
+
 ;; TODO evil define key would be better but didn't work
 (ol-define-key smerge-mode-map "C-c n" 'smerge-next)
 (ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
