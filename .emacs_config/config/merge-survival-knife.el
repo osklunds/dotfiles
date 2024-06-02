@@ -246,7 +246,7 @@
     (other-window 1)
     (switch-to-buffer (msk-get right-buffer-name))
     (unless (msk-get pair-key)
-    (msk-put pair-key t)
+      (msk-put pair-key t)
       (unless msk-skip-vdiff-refresh
         (vdiff-refresh)))
     (pcase msk-show-bottom-buffer
