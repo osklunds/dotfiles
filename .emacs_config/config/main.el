@@ -904,6 +904,11 @@ rg \
 
 (ol-global-set-key "M-/" 'evilnc-comment-or-uncomment-lines)
 
+(defun ol-counsel-imenu-advice (&rest _args)
+  (evil-set-jump))
+
+(advice-add 'counsel-imenu-action :before 'ol-counsel-imenu-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; LSP
 ;; -----------------------------------------------------------------------------
