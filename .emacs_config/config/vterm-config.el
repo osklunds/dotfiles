@@ -19,7 +19,8 @@
 (add-hook 'evil-insert-state-exit-hook 'ol-vterm-enable-cursorline)
 
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
-(setc vterm-max-scrollback 100000)
+(setc vterm-max-scrollback 2000)
+(setc vterm-min-window-width 1000)
 
 (defun ol-vterm ()
   (interactive)
