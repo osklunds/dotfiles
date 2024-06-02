@@ -55,7 +55,7 @@
 ;; state list
 (defvar msk-state nil)
 (defvar msk-original-buffer nil)
-(defvar msk-show-original-buffer nil)
+(defvar msk-show-bottom-buffer nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -102,7 +102,9 @@
         (let ((bfn (buffer-name maybe-buffer)))
           (when (and bfn (string-match-p name bfn))
             (kill-buffer maybe-buffer))))))
-  (msk-clear-state))
+  (msk-clear-state)
+  (setq msk-original-buffer nil)
+  (setq msk-show-bottom-buffer nil))
 
 (defun msk-save-original-pos ()
   (msk-put "original-buffer" (current-buffer))
@@ -219,7 +221,7 @@
 
 (defvar msk-skip-vdiff-refresh nil)
 
-(defun msk-change-view (left right)
+(defun msk-change-view (left right &optional hide-bottom)
   (let* ((left-buffer-name (msk-diff-name left right left))
          (right-buffer-name (msk-diff-name left right right))
          (pair-key (concat "has-shown" left right)))
@@ -229,35 +231,45 @@
     (other-window 1)
     (switch-to-buffer (msk-get right-buffer-name))
     (unless (msk-get pair-key)
-      (msk-put pair-key t)
+    (msk-put pair-key t)
       (unless msk-skip-vdiff-refresh
         (vdiff-refresh)))
-    (when msk-show-original-buffer
-        (msk-original-buffer t))))
+    (when hide-bottom
+      (setq msk-show-bottom-buffer nil))
+    (pcase msk-show-bottom-buffer
+      ('original (progn
+                   (msk-original-buffer t)
+                   (other-window 2)))
+      ('merged (progn
+                 (msk-merged-buffer t)
+                 (other-window 2)))
+      (_ nil))))
 
-(defun msk-base-local ()
-  (interactive)
-  (msk-change-view "BASE" "LOCAL"))
+(defun msk-base-local (&optional hide-bottom)
+  (interactive "P")
+  (msk-change-view "BASE" "LOCAL" hide-bottom))
 
-(defun msk-base-remote ()
-  (interactive)
-  (msk-change-view "BASE" "REMOTE"))
+(defun msk-base-remote (&optional hide-bottom)
+  (interactive "P")
+  (msk-change-view "BASE" "REMOTE" hide-bottom))
 
-(defun msk-local-remote ()
-  (interactive)
-  (msk-change-view "LOCAL" "REMOTE"))
+(defun msk-local-remote (&optional hide-bottom)
+  (interactive "P")
+  (msk-change-view "LOCAL" "REMOTE" hide-bottom))
 
-(defun msk-local-merged ()
-  (interactive)
-  (msk-change-view "LOCAL" "MERGED"))
+(defun msk-local-merged (&optional hide-bottom)
+  (interactive "P")
+  (msk-change-view "LOCAL" "MERGED" hide-bottom))
 
-(defun msk-remote-merged ()
-  (interactive)
-  (msk-change-view "REMOTE" "MERGED"))
+(defun msk-remote-merged (&optional hide-bottom)
+  (interactive "P")
+  (msk-change-view "REMOTE" "MERGED" hide-bottom))
 
 (defun msk-original-buffer (&optional arg)
   (interactive "P")
-  (setq msk-show-original-buffer arg)
+  (if arg
+      (setq msk-show-bottom-buffer 'original)
+    (setq msk-show-bottom-buffer nil))
   (if arg
       (progn
         (select-window (split-root-window-below))
@@ -266,6 +278,20 @@
         (delete-window window)
       (delete-other-windows)
       (switch-to-buffer msk-original-buffer))))
+
+(defun msk-merged-buffer (&optional keep-others)
+  (interactive "P")
+  (if keep-others
+      (setq msk-show-bottom-buffer 'merged)
+    (setq msk-show-bottom-buffer nil))
+  (if keep-others
+      (progn
+        (select-window (split-root-window-below))
+        (switch-to-buffer (msk-get "MERGED")))
+    (if-let ((window (get-buffer-window (msk-get "MERGED"))))
+        (delete-window window)
+      (delete-other-windows)
+      (switch-to-buffer (msk-get "MERGED")))))
 
 ;; TODO: There's lots of duplication here and with the normal change-view.
 ;; When I've evaluated whether this is useful, I'll try to do something about

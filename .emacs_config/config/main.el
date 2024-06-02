@@ -1434,7 +1434,8 @@ rg \
 (ol-evil-define-key 'normal msk-mode-map "M-8" 'msk-local-changes-compare)
 (ol-evil-define-key 'normal msk-mode-map "M-9" 'msk-remote-changes-compare)
 
-(ol-evil-define-key 'normal msk-mode-map "M-m" 'msk-original-buffer)
+(ol-evil-define-key 'normal msk-mode-map "M-m" 'msk-merged-buffer)
+(ol-evil-define-key 'normal msk-mode-map "M-o" 'msk-original-buffer)
 
 (ol-evil-define-key 'normal msk-mode-map "C-c l" 'smerge-keep-upper)
 (ol-evil-define-key 'normal msk-mode-map "C-c r" 'smerge-keep-lower)
