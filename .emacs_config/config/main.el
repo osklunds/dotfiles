@@ -550,9 +550,6 @@
 (ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
 (ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
 
-;; Clear search highlights
-(ol-define-key evil-normal-state-map "?" 'evil-ex-nohighlight)
-
 (ol-define-key evil-ex-completion-map "C-n" 'abort-recursive-edit)
 (ol-define-key evil-ex-search-keymap "C-n" 'abort-recursive-edit)
 
@@ -590,6 +587,16 @@
 ;; -----------------------------------------------------------------------------
 ;; Find and replace
 ;; -----------------------------------------------------------------------------
+
+(ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Replace commands
+;;;;----------------------------------------------------------------------------
+
+(require 'evil-visualstar)
+
+(global-evil-visualstar-mode)
 
 (defconst ol-full-range "%")
 (defconst ol-from-here-range ",$")
@@ -632,11 +639,9 @@
         (lambda () (backward-char 3))
       (evil-ex ex-command))))
 
-(require 'evil-visualstar)
-
-(global-evil-visualstar-mode)
-
-(ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
+;;;; ---------------------------------------------------------------------------
+;;;; Number of search hits
+;;;;----------------------------------------------------------------------------
 
 (require 'anzu)
 (require 'evil-anzu)
@@ -644,6 +649,40 @@
 (global-anzu-mode t)
 
 (setc anzu-cons-mode-line-p nil)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Making Evil more similar to Vim
+;;;;----------------------------------------------------------------------------
+
+(defvar ol-evil-is-searching nil)
+
+(defun ol-update-evil-search (&rest _args)
+  (if ol-evil-is-searching
+      (evil-ex-search-activate-highlight evil-ex-search-pattern)
+    (evil-ex-nohighlight)))
+
+(defun ol-update-evil-search-visible-buffers ()
+  (dolist (window (window-list))
+    (with-current-buffer (window-buffer window)
+      (ol-update-evil-search))))
+
+(add-hook 'window-selection-change-functions 'ol-update-evil-search)
+
+(defun ol-evil-start-search-advice (&rest _args)
+  (setq ol-evil-is-searching t)
+  (ol-update-evil-search-visible-buffers))
+
+(advice-add 'evil-ex-start-search :after 'ol-evil-start-search-advice)
+(advice-add 'evil-ex-start-word-search :after 'ol-evil-start-search-advice)
+(advice-add 'evil-ex-search-next :after 'ol-evil-start-search-advice)
+(advice-add 'evil-ex-search-previous :after 'ol-evil-start-search-advice)
+
+(defun ol-evil-stop-search ()
+  (interactive)
+  (setq ol-evil-is-searching nil)
+  (ol-update-evil-search-visible-buffers))
+
+(ol-define-key evil-motion-state-map "?" 'ol-evil-stop-search)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
