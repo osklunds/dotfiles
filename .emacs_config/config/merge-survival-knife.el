@@ -60,6 +60,11 @@
 (defvar msk-original-buffer-point nil)
 (defvar msk-original-window-configuration nil)
 
+(defvar msk-local-string nil)
+(defvar msk-base-string nil)
+(defvar msk-remote-string nil)
+(defvar msk-merged-string nil)
+
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
 
@@ -109,6 +114,12 @@
   (setq msk-original-buffer nil)
   (setq msk-original-buffer-point nil)
   (setq msk-original-window-configuration nil)
+
+  (setq msk-local-string nil)
+  (setq msk-base-string nil)
+  (setq msk-remote-string nil)
+  (setq msk-merged-string nil)
+
   (setq msk-show-bottom-buffer nil))
 
 (defun msk-save-original-pos ()
@@ -137,15 +148,10 @@
 (defun msk-populate-strings ()
   (unless (looking-at-p msk-local-start-re)
     (error "Not looking at start, bug"))
-  (let* ((local  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
-         (base   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
-         (remote (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
-         (merged (msk-string-between-regexp msk-local-start-re  msk-remote-end-re   t)))
-    (msk-put "local-string" local)
-    (msk-put "base-string" base)
-    (msk-put "remote-string" remote)
-    (msk-put "merged-string" merged)
-    (list local base remote merged)))
+  (setq msk-local-string  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
+  (setq msk-base-string   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
+  (setq msk-remote-string (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
+  (setq msk-merged-string (msk-string-between-regexp msk-local-start-re  msk-remote-end-re   t)))
 
 (defun msk-string-between-regexp (start end inclusive)
   (save-excursion
@@ -168,16 +174,16 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun msk-create-buffers ()
-  (msk-create-buffer "LOCAL"  "local-string"  t)
-  (msk-create-buffer "BASE"   "base-string"   t)
-  (msk-create-buffer "REMOTE" "remote-string" t)
-  (msk-create-buffer "MERGED" "merged-string" nil))
+  (msk-create-buffer "LOCAL"  msk-local-string  t)
+  (msk-create-buffer "BASE"   msk-base-string   t)
+  (msk-create-buffer "REMOTE" msk-remote-string t)
+  (msk-create-buffer "MERGED" msk-merged-string nil))
 
-(defun msk-create-buffer (name string-key read-only)
+(defun msk-create-buffer (name string read-only)
   (let ((buffer (generate-new-buffer name)))
     (with-current-buffer buffer
       (insert "\n") ;; workaround due to vdiff bug
-      (insert (msk-get string-key))
+      (insert string)
       (insert "\n") ;; vdiff wants all to end in newline
       (msk-put name buffer))
     (msk-set-buffer-properties buffer read-only)))
@@ -343,7 +349,7 @@
   (switch-to-buffer (msk-original-buffer))
   (goto-char msk-original-buffer-point)
   (cl-assert (msk-find-next-conflict))
-  (let* ((old-string (msk-get "merged-string"))
+  (let* ((old-string msk-merged-string)
          (new-string (msk-get-solved-conflict-string)))
     (unless (string-equal old-string new-string)
       (cl-assert (= 1 (replace-string-in-region old-string new-string))))))
