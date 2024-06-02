@@ -235,7 +235,7 @@
 
 (defvar msk-skip-vdiff-refresh nil)
 
-(defun msk-change-view (left right &optional hide-bottom)
+(defun msk-change-view (left right)
   (let* ((left-buffer-name (msk-diff-name left right left))
          (right-buffer-name (msk-diff-name left right right))
          (pair-key (concat "has-shown" left right)))
@@ -248,64 +248,64 @@
     (msk-put pair-key t)
       (unless msk-skip-vdiff-refresh
         (vdiff-refresh)))
-    (when hide-bottom
-      (setq msk-show-bottom-buffer nil))
     (pcase msk-show-bottom-buffer
       ('original (progn
-                   (msk-original-buffer t)
+                   (setq msk-show-bottom-buffer nil)
+                   (msk-original-buffer)
                    (other-window 2)))
       ('merged (progn
-                 (msk-merged-buffer t)
+                 (setq msk-show-bottom-buffer nil)
+                 (msk-merged-buffer)
                  (other-window 2)))
       (_ nil))))
 
-(defun msk-base-local (&optional hide-bottom)
-  (interactive "P")
-  (msk-change-view "BASE" "LOCAL" hide-bottom))
+(defun msk-base-local ()
+  (interactive)
+  (msk-change-view "BASE" "LOCAL"))
 
-(defun msk-base-remote (&optional hide-bottom)
-  (interactive "P")
-  (msk-change-view "BASE" "REMOTE" hide-bottom))
+(defun msk-base-remote ()
+  (interactive)
+  (msk-change-view "BASE" "REMOTE"))
 
-(defun msk-local-remote (&optional hide-bottom)
-  (interactive "P")
-  (msk-change-view "LOCAL" "REMOTE" hide-bottom))
+(defun msk-local-remote ()
+  (interactive)
+  (msk-change-view "LOCAL" "REMOTE"))
 
-(defun msk-local-merged (&optional hide-bottom)
-  (interactive "P")
-  (msk-change-view "LOCAL" "MERGED" hide-bottom))
+(defun msk-local-merged ()
+  (interactive)
+  (msk-change-view "LOCAL" "MERGED"))
 
-(defun msk-remote-merged (&optional hide-bottom)
-  (interactive "P")
-  (msk-change-view "REMOTE" "MERGED" hide-bottom))
+(defun msk-remote-merged ()
+  (interactive)
+  (msk-change-view "REMOTE" "MERGED"))
 
-(defun msk-original-buffer (&optional arg)
-  (interactive "P")
-  (if arg
-      (setq msk-show-bottom-buffer 'original)
-    (setq msk-show-bottom-buffer nil))
-  (if arg
+(defun msk-original-buffer ()
+  (interactive)
+  (if (eq msk-show-bottom-buffer 'original)
       (progn
-        (select-window (split-root-window-below))
-          (switch-to-buffer msk-original-buffer))
-    (if-let ((window (get-buffer-window msk-original-buffer)))
-        (delete-window window)
-      (delete-other-windows)
-      (switch-to-buffer msk-original-buffer))))
+        (when-let ((window (get-buffer-window msk-original-buffer)))
+          (delete-window window))
+        (setq msk-show-bottom-buffer nil))
+    ;; TODO: Ugly since assumes the other window is the merged buffer
+    ;; this will be improved once window/layouts are used
+    (when msk-show-bottom-buffer
+      (delete-window (get-buffer-window (msk-get "MERGED"))))
+    (setq msk-show-bottom-buffer 'original)
+    (select-window (split-root-window-below))
+    (switch-to-buffer msk-original-buffer)))
 
-(defun msk-merged-buffer (&optional keep-others)
-  (interactive "P")
-  (if keep-others
-      (setq msk-show-bottom-buffer 'merged)
-    (setq msk-show-bottom-buffer nil))
-  (if keep-others
+(defun msk-merged-buffer ()
+  (interactive)
+  (if (eq msk-show-bottom-buffer 'merged)
       (progn
-        (select-window (split-root-window-below))
-        (switch-to-buffer (msk-get "MERGED")))
-    (if-let ((window (get-buffer-window (msk-get "MERGED"))))
-        (delete-window window)
-      (delete-other-windows)
-      (switch-to-buffer (msk-get "MERGED")))))
+        (when-let ((window (get-buffer-window (msk-get "MERGED"))))
+          (delete-window window))
+        (setq msk-show-bottom-buffer nil))
+    (when msk-show-bottom-buffer
+      (delete-window (get-buffer-window msk-original-buffer)))
+    (setq msk-show-bottom-buffer 'merged)
+    (select-window (split-root-window-below))
+    (switch-to-buffer (msk-get "MERGED"))))
 
 ;; TODO: There's lots of duplication here and with the normal change-view.
 ;; When I've evaluated whether this is useful, I'll try to do something about
