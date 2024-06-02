@@ -289,6 +289,7 @@
         (setq msk-show-bottom-buffer nil))
     ;; TODO: Ugly since assumes the other window is the merged buffer
     ;; this will be improved once window/layouts are used
+    ;; Use one window config per combination, lazily create them
     (when msk-show-bottom-buffer
       (delete-window (get-buffer-window (msk-get "MERGED"))))
     (setq msk-show-bottom-buffer 'original)
