@@ -55,6 +55,7 @@
 ;; state list
 (defvar msk-state nil)
 (defvar msk-original-buffer nil)
+(defvar msk-original-buffer-point nil)
 (defvar msk-show-bottom-buffer nil)
 
 (defun msk-put (key value)
@@ -104,10 +105,11 @@
             (kill-buffer maybe-buffer))))))
   (msk-clear-state)
   (setq msk-original-buffer nil)
+  (setq msk-original-buffer-point nil)
   (setq msk-show-bottom-buffer nil))
 
 (defun msk-save-original-pos ()
-  (msk-put "original-point" (point)))
+  (setq msk-original-buffer-point (point)))
 
 (defun msk-save-windows ()
   (msk-put "window-configuration" (current-window-configuration)))
@@ -336,7 +338,7 @@
 
 (defun msk-save-solved-conflict ()
   (switch-to-buffer (msk-original-buffer))
-  (goto-char (msk-get "original-point"))
+  (goto-char msk-original-buffer-point)
   (cl-assert (msk-find-next-conflict))
   (let* ((old-string (msk-get "merged-string"))
          (new-string (msk-get-solved-conflict-string)))
