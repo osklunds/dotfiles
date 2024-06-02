@@ -1721,7 +1721,7 @@ rg \
 
 (setc vdiff-subtraction-fill-char ? )
 
-(setc vdiff-diff-algorithm 'diff)
+(setc vdiff-diff-algorithm 'git-diff-patience)
 (ol-require-external "diff")
 
 (setc vdiff-fold-padding 10)
