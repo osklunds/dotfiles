@@ -58,7 +58,6 @@
 ;; TODOL Split more between state and separate vars. E.g. only temp buffers in
 ;; state list
 (defvar msk-state nil)
-(defvar msk-show-bottom-buffer nil)
 
 (defvar msk-original-buffer nil)
 (defvar msk-original-buffer-point nil)
@@ -69,6 +68,15 @@
 (defvar msk-base-string nil)
 (defvar msk-remote-string nil)
 (defvar msk-merged-string nil)
+
+(defvar msk-window-configs nil)
+
+;; View
+(defvar msk-left-top nil)
+(defvar msk-right-top nil)
+(defvar msk-left-bottom nil)
+(defvar msk-right-bottom nil)
+(defvar msk-bottom nil)
 
 (defun msk-put (key value)
   (put 'msk-state (intern key) value))
@@ -96,6 +104,7 @@
       (progn (msk-populate-strings)
              (msk-create-buffers)
              (msk-create-diffs)
+             (msk-put "original" msk-original-buffer)
              ;; Due to vdiff bug, need to skip refresh for the first diff
              (setq msk-skip-vdiff-refresh t)
              (msk-base-local)
@@ -125,7 +134,13 @@
   (setq msk-remote-string nil)
   (setq msk-merged-string nil)
 
-  (setq msk-show-bottom-buffer nil))
+  (setq msk-window-configs nil)
+
+  (setq msk-left-top nil)
+  (setq msk-right-top nil)
+  (setq msk-left-bottom nil)
+  (setq msk-right-bottom nil)
+  (setq msk-bottom nil))
 
 (defun msk-save-original-pos ()
   (setq msk-original-buffer-point (point)))
@@ -234,125 +249,126 @@
 ;;;; Change views
 ;;;; ---------------------------------------------------------------------------
 
-(defvar msk-skip-vdiff-refresh nil)
+(defun msk-set-view (left-top right-top left-bottom right-bottom bottom)
+  (setq msk-left-top left-top)
+  (setq msk-right-top right-top)
+  (setq msk-left-bottom left-bottom)
+  (setq msk-right-bottom right-bottom)
+  (setq msk-bottom bottom))
 
-(defun msk-change-view (left right)
-  (let* ((left-buffer-name (msk-diff-name left right left))
-         (right-buffer-name (msk-diff-name left right right))
-         (pair-key (concat "has-shown" left right)))
-    (delete-other-windows)
-    (switch-to-buffer (msk-get left-buffer-name))
-    (split-window-right)
-    (other-window 1)
-    (switch-to-buffer (msk-get right-buffer-name))
-    (unless (msk-get pair-key)
-      (msk-put pair-key t)
-      (unless msk-skip-vdiff-refresh
-        (vdiff-refresh)))
-    (pcase msk-show-bottom-buffer
-      ('original (progn
-                   (setq msk-show-bottom-buffer nil)
-                   (msk-original-buffer)
-                   (other-window 2)))
-      ('merged (progn
-                 (setq msk-show-bottom-buffer nil)
-                 (msk-merged-buffer)
-                 (other-window 2)))
-      (_ nil))))
+(defun msk-refresh-view ()
+  (let ((window-config-key (format "%s %s %s %s %s"
+                                   msk-left-top
+                                   msk-right-top
+                                   msk-left-bottom
+                                   msk-right-bottom
+                                   msk-bottom)))
+    (if-let (window-config (plist-get msk-window-configs window-config-key 'string-equal))
+        (set-window-configuration window-config)
 
-(defun msk-base-local ()
-  (interactive)
-  (msk-change-view "BASE" "LOCAL"))
+      ;; Prepare - get to known state
+      (delete-other-windows)
 
-(defun msk-base-remote ()
-  (interactive)
-  (msk-change-view "BASE" "REMOTE"))
+      (when msk-left-top
+        (cl-assert msk-right-top)
+        ;; left-top
+        (switch-to-buffer (msk-get (msk-diff-name msk-left-top msk-right-top msk-left-top)))
 
-(defun msk-local-remote ()
-  (interactive)
-  (msk-change-view "LOCAL" "REMOTE"))
+        ;; right-top
+        (select-window (split-window-right))
+        (switch-to-buffer (msk-get (msk-diff-name msk-left-top msk-right-top msk-right-top)))
 
-(defun msk-local-merged ()
-  (interactive)
-  (msk-change-view "LOCAL" "MERGED"))
+        (msk-initial-refresh msk-left-top msk-right-top))
 
-(defun msk-remote-merged ()
-  (interactive)
-  (msk-change-view "REMOTE" "MERGED"))
+      (when msk-left-bottom
+        (cl-assert msk-right-bottom)
 
-(defun msk-original-buffer ()
-  (interactive)
-  (if (eq msk-show-bottom-buffer 'original)
-      (progn
-        (when-let ((window (get-buffer-window msk-original-buffer)))
-          (delete-window window))
-        (setq msk-show-bottom-buffer nil))
-    ;; TODO: Ugly since assumes the other window is the merged buffer
-    ;; this will be improved once window/layouts are used
-    ;; Use one window config per combination, lazily create them
-    (when msk-show-bottom-buffer
-      (delete-window (get-buffer-window (msk-get "MERGED"))))
-    (setq msk-show-bottom-buffer 'original)
-    (select-window (split-root-window-below))
-    (switch-to-buffer msk-original-buffer)))
+        ;; left-bottom
+        (select-window (split-root-window-below))
+        (switch-to-buffer (msk-diff-name msk-left-bottom msk-right-bottom msk-left-bottom))
 
-(defun msk-merged-buffer ()
-  (interactive)
-  (if (eq msk-show-bottom-buffer 'merged)
-      (progn
-        (when-let ((window (get-buffer-window (msk-get "MERGED"))))
-          (delete-window window))
-        (setq msk-show-bottom-buffer nil))
-    (when msk-show-bottom-buffer
-      (delete-window (get-buffer-window msk-original-buffer)))
-    (setq msk-show-bottom-buffer 'merged)
-    (select-window (split-root-window-below))
-    (switch-to-buffer (msk-get "MERGED"))))
+        ;; right-bottom
+        (select-window (split-window-right))
+        (switch-to-buffer (msk-diff-name msk-left-bottom msk-right-bottom msk-right-bottom))
 
-;; TODO: There's lots of duplication here and with the normal change-view.
-;; When I've evaluated whether this is useful, I'll try to do something about
-;; it.
-(defun msk-change-to-4-way-view (left-top right-top left-bottom right-bottom)
-  (let* ((left-top-buffer-name (msk-diff-name left-top right-top left-top))
-         (right-top-buffer-name (msk-diff-name left-top right-top right-top))
-         (pair-key-top (concat "has-shown" left-top right-top))
-         (left-bottom-buffer-name (msk-diff-name left-bottom right-bottom left-bottom))
-         (right-bottom-buffer-name (msk-diff-name left-bottom right-bottom right-bottom))
-         (pair-key-bottom (concat "has-shown" left-bottom right-bottom)))
-    (delete-other-windows)
+        (msk-initial-refresh msk-left-bottom msk-right-bottom))
 
-    (switch-to-buffer (msk-get left-top-buffer-name))
-    (select-window (split-window-right))
-    (switch-to-buffer (msk-get right-top-buffer-name))
-    (select-window (split-root-window-below))
-    (switch-to-buffer (msk-get left-bottom-buffer-name))
-    (select-window (split-window-right))
-    (switch-to-buffer (msk-get right-bottom-buffer-name))
+      (when msk-bottom
+        ;; bottom
+        (select-window (split-root-window-below))
+        (switch-to-buffer (msk-get msk-bottom)))
 
-    (unless (msk-get pair-key-top)
-      (msk-put pair-key-top t)
-      (unless msk-skip-vdiff-refresh
-        (vdiff-refresh)))
+      (setq msk-window-configs (plist-put msk-window-configs
+                                          window-config-key
+                                          (current-window-configuration)
+                                          'string-equal)))))
 
-    (unless (msk-get pair-key-bottom)
-      (msk-put pair-key-bottom t)
+(defun msk-initial-refresh (left right)
+  (let ((has-shown-key (concat "has-shown" left right)))
+    (unless (msk-get has-shown-key)
+      (msk-put has-shown-key t)
       (unless msk-skip-vdiff-refresh
         (vdiff-refresh)))))
 
+(defvar msk-skip-vdiff-refresh nil)
+
+(defun msk-base-local ()
+  (interactive)
+  (msk-set-view "BASE" "LOCAL" nil nil msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-base-remote ()
+  (interactive)
+  (msk-set-view "BASE" "REMOTE" nil nil msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-local-remote ()
+  (interactive)
+  (msk-set-view "LOCAL" "REMOTE" nil nil msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-local-merged ()
+  (interactive)
+  (msk-set-view "LOCAL" "MERGED" nil nil msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-remote-merged ()
+  (interactive)
+  (msk-set-view "REMOTE" "MERGED" nil nil msk-bottom)
+  (msk-refresh-view))
+
 (defun msk-local-changes-compare ()
   (interactive)
-  (msk-change-to-4-way-view "BASE" "LOCAL" "REMOTE" "MERGED"))
+  (msk-set-view "BASE" "LOCAL" "REMOTE" "MERGED" msk-bottom)
+  (msk-refresh-view))
 
 (defun msk-remote-changes-compare ()
   (interactive)
-  (msk-change-to-4-way-view "BASE" "REMOTE" "LOCAL" "MERGED"))
+  (msk-set-view "BASE" "REMOTE" "LOCAL" "MERGED" msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-original-buffer ()
+  (interactive)
+  (if (string-equal msk-bottom "original")
+      (setq msk-bottom nil)
+    (setq msk-bottom "original"))
+  (msk-set-view msk-left-top msk-right-top msk-left-bottom msk-right-bottom msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-merged-buffer ()
+  (interactive)
+  (if (string-equal msk-bottom "MERGED")
+      (setq msk-bottom nil)
+    (setq msk-bottom "MERGED"))
+  (msk-set-view msk-left-top msk-right-top msk-left-bottom msk-right-bottom msk-bottom)
+  (msk-refresh-view))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Saving the solved conflict
 ;;;; ---------------------------------------------------------------------------
 
 (defun msk-save-solved-conflict ()
-  (switch-to-buffer (msk-original-buffer))
+  (switch-to-buffer msk-original-buffer)
   (goto-char msk-original-buffer-point)
   (cl-assert (msk-find-next-conflict))
   (let* ((old-string msk-merged-string)
