@@ -214,16 +214,24 @@
 (setq gc-cons-threshold (* 8 100 1000 1000))
 (setq gc-cons-percentage 10.0)
 
-(defun ol-garbage-collect ()
+(defun ol-garbage-collect (&optional quiet)
   (interactive)
   (let ((secs-before (float-time)))
-    (message (format "Start garbage-collect at %s" (current-time-string)))
+    (unless quiet
+      (message (format "Start garbage-collect at %s" (current-time-string))))
     (garbage-collect)
     (let* ((secs-after (float-time))
            (time-diff (- secs-after secs-before)))
-      (message (format "Finish garbage-collect at: %s.    Took %g seconds."
-                       (current-time-string)
-                       time-diff)))))
+      (unless quiet
+        (message (format "Finish garbage-collect at: %s.    Took %g seconds."
+                         (current-time-string)
+                         time-diff))))))
+
+(defun ol-frame-out-of-focus ()
+  (unless (frame-focus-state)
+    (ol-garbage-collect 'quiet)))
+
+(add-function :after after-focus-change-function 'ol-frame-out-of-focus)
 
 (run-with-idle-timer (* 30 60) t 'ol-garbage-collect)
 
