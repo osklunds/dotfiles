@@ -571,6 +571,13 @@
 
 (ol-define-key evil-insert-state-map 'tab 'ol-insert-tab)
 
+;;;; ---------------------------------------------------------------------------
+;;;; go to definition
+;;;;----------------------------------------------------------------------------
+
+;; Original: (evil-goto-definition-imenu evil-goto-definition-semantic evil-goto-definition-xref evil-goto-definition-search)
+(setc evil-goto-definition-functions '(evil-goto-definition-xref))
+
 ;; -----------------------------------------------------------------------------
 ;; Text editing
 ;; -----------------------------------------------------------------------------
