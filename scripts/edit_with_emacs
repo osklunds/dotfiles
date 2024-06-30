@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emacsclient --socket-name ol-server-0 "$1" &

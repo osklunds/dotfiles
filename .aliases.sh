@@ -47,7 +47,7 @@ alias ea='e ~/.aliases.sh && ra'
 alias ra='source ~/.bashrc'
 
 # Editors
-alias e='vim'
+alias e='edit_with_emacs'
 alias em='emacs-gtk &'
 
 # Cargo
