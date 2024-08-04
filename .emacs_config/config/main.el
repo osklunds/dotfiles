@@ -2157,3 +2157,11 @@ rg \
 (ol-evil-define-key 'normal archive-mode-map "i" 'ol-archive-up-directory)
 
 (ol-evil-define-key 'normal archive-mode-map "C" 'archive-copy-file)
+
+;; -----------------------------------------------------------------------------
+;; Docker
+;;------------------------------------------------------------------------------
+
+(require 'dockerfile-mode)
+(require 'yaml-mode)
+

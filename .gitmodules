@@ -169,3 +169,9 @@
 [submodule ".emacs_config/packages/emacs-request"]
 	path = .emacs_config/packages/emacs-request
 	url = https://github.com/tkf/emacs-request.git
+[submodule ".emacs_config/packages/dockerfile-mode"]
+	path = .emacs_config/packages/dockerfile-mode
+	url = https://github.com/spotify/dockerfile-mode.git
+[submodule ".emacs_config/packages/yaml-mode"]
+	path = .emacs_config/packages/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
