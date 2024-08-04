@@ -20,7 +20,8 @@
 
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
 (setc vterm-max-scrollback 2000)
-(setc vterm-min-window-width 1000)
+(setc vterm-min-window-width 60)
+(setc vterm-kill-buffer-on-exit nil)
 
 (defun ol-vterm ()
   (interactive)
