@@ -781,7 +781,7 @@
     (ol-cwd-find-file-name)))
 
 (defun ol-dwim-use-project-root ()
-  (and (not (equal major-mode 'dired-mode)) (projectile-project-root)))
+  (and (not (cl-member major-mode '(dired-mode vterm-mode))) (projectile-project-root)))
 
 (defun ol-project-find-file-name (&optional root)
   "Search for file names in the current project."
