@@ -221,6 +221,11 @@
 
 (save-place-mode t)
 
+(defun ol-save-on-minibuffer (&rest _)
+  (super-save-command))
+
+(advice-add 'read-from-minibuffer :before 'ol-save-on-minibuffer)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Auto revert
 ;;;; ---------------------------------------------------------------------------
