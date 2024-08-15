@@ -1080,13 +1080,14 @@ rg \
                           company-capf
                           :separate
                           company-dabbrev-code)))
+(make-variable-buffer-local 'company-backends)
 
-(defun ol-shell-company-backends ()
+(defun ol-no-company-capf ()
   (setq-local company-backends '((company-abbrev
                                   :separate
                                   company-dabbrev-code))))
 
-(add-hook 'sh-mode-hook 'ol-shell-company-backends)
+(add-hook 'sh-mode-hook 'ol-no-company-capf)
 
 (setc company-minimum-prefix-length 1)
 (setc company-idle-delay 0.0)
