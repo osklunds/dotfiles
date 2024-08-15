@@ -2082,7 +2082,7 @@ rg \
           "" (:eval (ol-relative-position-segment)))))
 
 (defun ol-search-hits-segment ()
-  (when (and anzu--state evil-ex-search-start-point)
+  (when (and (mode-line-window-selected-p) anzu--state evil-ex-search-start-point)
     (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
 
 (defun ol-evil-segment ()
@@ -2101,7 +2101,7 @@ rg \
   (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
 
 (defun ol-file-state-segment ()
-  (if buffer-read-only
+  (if (or buffer-read-only (not buffer-file-name))
       "%%%%"
     (if (buffer-modified-p) "*" "-")))
 
