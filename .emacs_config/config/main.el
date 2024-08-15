@@ -1786,7 +1786,7 @@ rg \
     (with-current-buffer new-buffer
       (setq-local ol-vterm-manually-renamed t)
       (when (and cmd-on-create (not existing-buffer))
-        (vterm-send-string new-buffer (concat cmd-on-create "\n"))))
+        (vterm-send-string (concat cmd-on-create "\n"))))
       new-buffer))
 
 (ol-define-normal-leader-key "tt" 'ol-term-named)
