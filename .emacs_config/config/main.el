@@ -119,6 +119,10 @@
 ;;;; Colors
 ;;;;----------------------------------------------------------------------------
 
+;; To avoid problem with recursive load error
+(require 'jka-compr)
+(require 'faces)
+
 (require 'doom-themes)
 (load-theme 'doom-one-light t)
 
