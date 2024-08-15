@@ -1540,6 +1540,14 @@ rg \
 (defun ol-msk-original-buffer-fix-keybinds (&rest args)
   (evil-force-normal-state))
 
+(defun ol-smerge-keep-both ()
+  (interactive)
+  (smerge-match-conflict)
+  (delete-region (match-end 3) (match-end 0))
+  (delete-region (match-end 1) (match-beginning 3))
+  (delete-region (match-beginning 0) (match-beginning 1))
+  (smerge-auto-leave))
+
 (advice-add 'msk-original-buffer :after 'ol-msk-original-buffer-fix-keybinds)
 
 (ol-define-normal-leader-key "gm" 'msk-mode-enable)
@@ -1559,7 +1567,7 @@ rg \
 
 (ol-evil-define-key 'normal msk-mode-map "C-c l" 'smerge-keep-upper)
 (ol-evil-define-key 'normal msk-mode-map "C-c r" 'smerge-keep-lower)
-(ol-evil-define-key 'normal msk-mode-map "C-c b" 'smerge-keep-base)
+(ol-evil-define-key 'normal msk-mode-map "C-c b" 'ol-smerge-keep-both)
 (ol-evil-define-key 'normal msk-mode-map "C-c a" 'smerge-keep-all)
 
 (ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
@@ -1569,7 +1577,7 @@ rg \
 (ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
 (ol-define-key smerge-mode-map "C-c l" 'smerge-keep-upper)
 (ol-define-key smerge-mode-map "C-c r" 'smerge-keep-lower)
-(ol-define-key smerge-mode-map "C-c b" 'smerge-keep-base)
+(ol-define-key smerge-mode-map "C-c b" 'ol-smerge-keep-both)
 (ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
 
 ;;;; ---------------------------------------------------------------------------
