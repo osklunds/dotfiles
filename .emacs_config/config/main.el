@@ -497,6 +497,7 @@
 (setc evil-search-module 'evil-search)
 (setc evil-disable-insert-state-bindings t)
 (setc evil-emacs-state-modes nil)
+(setc evil-insert-state-modes nil)
 (setq evil-insert-state-cursor 'box)
 (setc evil-want-Y-yank-to-eol t)
 
