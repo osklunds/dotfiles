@@ -751,7 +751,7 @@
 (defvar ol-evil-is-searching nil)
 
 (defun ol-update-evil-search (&rest _args)
-  (if ol-evil-is-searching
+  (if (and ol-evil-is-searching (not (eq major-mode 'minibuffer-mode)))
       (evil-ex-search-activate-highlight evil-ex-search-pattern)
     (evil-ex-nohighlight)))
 
