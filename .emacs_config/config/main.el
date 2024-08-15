@@ -1280,38 +1280,31 @@ rg \
 (defun ol-magit-set-simple-status-header ()
   (magit-set-header-line-format "Magit Status"))
 
-(defconst ol-magit-status-simple-sections
-  '(ol-magit-set-simple-status-header
-    magit-insert-untracked-files
-    magit-insert-unstaged-changes
-    magit-insert-staged-changes
-    magit-insert-stashes))
-
 (defun ol-magit-set-full-status-header ()
   (magit-set-header-line-format "Magit Full Status"))
 
-(defconst ol-magit-status-full-sections
-  '(ol-magit-set-full-status-header
-    magit-insert-unpushed-to-pushremote
-    magit-insert-unpushed-to-upstream
-    magit-insert-unpulled-from-pushremote
-    magit-insert-unpulled-from-upstream))
+(defun ol-magit-status-sections (full is-merging)
+  (append
+   '(ol-magit-set-simple-status-header
+     magit-insert-untracked-files
+     magit-insert-unstaged-changes)
+   (when (or full (not is-merging))
+     '(magit-insert-staged-changes))
+   '(magit-insert-stashes)
+   (when full
+     (list 'ol-magit-set-full-status-header
+           'magit-insert-unpushed-to-pushremote
+           'magit-insert-unpushed-to-upstream
+           'magit-insert-unpulled-from-pushremote
+           'magit-insert-unpulled-from-upstream))))
 
-(defun ol-magit-status ()
-  (interactive)
-  (setc magit-status-sections-hook ol-magit-status-simple-sections)
+(defun ol-magit-status (&optional full)
+  (interactive "P")
+  (setc magit-status-sections-hook
+        (ol-magit-status-sections full (magit-merge-in-progress-p)))
   (magit-status))
 
 (ol-define-normal-leader-key "gs" 'ol-magit-status)
-
-(defun ol-magit-full-status ()
-  (interactive)
-  (setc magit-status-sections-hook (append
-                                    ol-magit-status-simple-sections
-                                    ol-magit-status-full-sections))
-  (magit-status))
-
-(ol-define-normal-leader-key "gS" 'ol-magit-full-status)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Mode toggling
