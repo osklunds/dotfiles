@@ -761,6 +761,7 @@
       (ol-update-evil-search))))
 
 (add-hook 'window-selection-change-functions 'ol-update-evil-search)
+(add-hook 'switch-to-buffer :after 'ol-update-evil-search)
 
 (defun ol-evil-start-search-advice (&rest _args)
   (setq ol-evil-is-searching t)
