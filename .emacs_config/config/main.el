@@ -1495,11 +1495,11 @@ rg \
 ;;;; Revision
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-magit-set-revision-header ()
-  (magit-set-header-line-format (magit-rev-format "%B" magit-buffer-revision)))
-
-(magit-add-section-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
-(remove-hook 'magit-revision-sections-hook 'magit-insert-revision-message)
+(setc magit-revision-insert-related-refs-display-alist
+      '((follows . nil)
+        (precedes . nil)
+        (merged . nil)
+        (contained . nil)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge conflicts
