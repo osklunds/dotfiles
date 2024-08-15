@@ -2251,6 +2251,21 @@ rg \
       '(("\\.pcap$" "wireshark&")
         ("\\.\\(crt\\)\\|\\(pem\\)$" "openssl x509 -noout -text -in")
         ("\\.csr$" "openssl req -text -noout -verify -in")))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Shell command buffers
+;;;;----------------------------------------------------------------------------
+
+(defun ol-dired-set-shell-command-buffer-name (func &rest args)
+  (let* ((old-fun (symbol-function #'shell-command)))
+    (cl-letf (((symbol-function 'shell-command)
+               (lambda (command)
+                 (funcall old-fun command
+                          (concat "*Shell Command Output: '" command "'*")))))
+      (apply func args))))
+
+(advice-add 'dired-run-shell-command :around 'ol-dired-set-shell-command-buffer-name)
+
 ;; -----------------------------------------------------------------------------
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
