@@ -2161,6 +2161,7 @@ rg \
 ;; -----------------------------------------------------------------------------
 
 (require 'dired)
+(require 'dired-x)
 
 (setc dired-kill-when-opening-new-dired-buffer t)
 (setc dired-auto-revert-buffer 'dired-directory-changed-p)
@@ -2187,6 +2188,10 @@ rg \
 (setc dired-listing-switches "-Alh")
 (setc dired-recursive-copies 'always)
 (setc dired-recursive-deletes 'always)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Buffer name
+;;;;----------------------------------------------------------------------------
 
 (add-hook 'dired-after-readin-hook 'ol-dired-rename-hook)
 
@@ -2238,6 +2243,14 @@ rg \
 (cl-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
 (cl-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Default shell commands
+;;;;----------------------------------------------------------------------------
+
+(setc dired-guess-shell-alist-user
+      '(("\\.pcap$" "wireshark&")
+        ("\\.\\(crt\\)\\|\\(pem\\)$" "openssl x509 -noout -text -in")
+        ("\\.csr$" "openssl req -text -noout -verify -in")))
 ;; -----------------------------------------------------------------------------
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
