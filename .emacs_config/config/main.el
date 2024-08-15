@@ -1210,6 +1210,21 @@ rg \
 (ol-define-key magit-mode-map "SPC" nil)
 (ol-define-key magit-diff-mode-map "SPC" nil)
 
+(setc magit-display-buffer-function 'ol-magit-display-buffer-traditional)
+
+(defun ol-magit-display-buffer-traditional (buffer)
+  "Display BUFFER the way this has traditionally been done."
+  (display-buffer
+   buffer (if (and (derived-mode-p 'magit-mode)
+                   (not (memq (with-current-buffer buffer major-mode)
+                              '(magit-process-mode
+                                magit-revision-mode
+                                magit-diff-mode
+                                magit-stash-mode
+                                magit-status-mode))))
+              '(display-buffer-same-window)
+            '(nil (inhibit-same-window . t))))) ; This is the line I changed
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Blame
 ;;;; ---------------------------------------------------------------------------
