@@ -779,6 +779,18 @@
 
 (ol-define-key evil-motion-state-map "?" 'ol-evil-stop-search)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Don't move for first search
+;;;;----------------------------------------------------------------------------
+
+(defun ol-dont-move-advice (func &rest args)
+  (save-excursion
+    (apply func args)
+    (evil-ex-search-previous)))
+
+(advice-add 'evil-ex-start-word-search :around 'ol-dont-move-advice)
+(advice-add 'evil-visualstar/begin-search :around 'ol-dont-move-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Ivy and counsel
 ;; -----------------------------------------------------------------------------
