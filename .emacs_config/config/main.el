@@ -616,6 +616,33 @@
 (setc evil-goto-definition-functions '(evil-goto-definition-xref
                                        ol-evil-definition-not-found))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Subword
+;;;;----------------------------------------------------------------------------
+
+;; TODO: Handle elisp having special symbols
+;; TODO: Handle camel case
+;; TODO: Probably re-use thing mechanics
+;; TODO: forward and backward not consistent with beginning and end
+
+(defun ol-subword-forward ()
+  (interactive)
+  (ol-subword 1))
+
+(defun ol-subword-backward ()
+  (interactive)
+  (ol-subword -1))
+
+(defun ol-subword (count)
+  (let ((regexp (if (looking-at-p "[a-zA-Z0-9]")
+                    "[^a-zA-Z0-9]"
+                  "[a-zA-Z0-9]")))
+    (search-forward-regexp regexp nil nil count))
+  (when (> count 0)
+    (backward-char count)))
+
+(ol-define-key evil-motion-state-map "L" 'ol-subword-forward)
+(ol-define-key evil-motion-state-map "H" 'ol-subword-backward)
 
 ;; -----------------------------------------------------------------------------
 ;; Text editing
