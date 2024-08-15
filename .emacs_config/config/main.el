@@ -157,6 +157,27 @@
 
 (ol-define-normal-leader-key "mm" 'toggle-frame-maximized)
 
+(defvar ol-before-plain-view nil)
+
+(defun ol-plain-view ()
+  "To make copy paste from non-GUI emacs simpler"
+  (interactive)
+  (if ol-before-plain-view
+      (progn
+        (pcase-let ((`(,window-config ,mode) ol-before-plain-view))
+          (set-window-configuration window-config)
+          (funcall mode)
+          (display-line-numbers-mode 1))
+        (setq ol-before-plain-view nil))
+    (let ((window-config (current-window-configuration))
+          (mode major-mode))
+      (setq ol-before-plain-view (list window-config mode))
+      (delete-other-windows)
+      (text-mode)
+      (display-line-numbers-mode -1))))
+
+(ol-define-normal-leader-key "mp" 'ol-plain-view)
+
 ;; -----------------------------------------------------------------------------
 ;; File Management
 ;; -----------------------------------------------------------------------------
