@@ -1016,6 +1016,8 @@ rg \
 
 (advice-add 'counsel-imenu-action :before 'ol-counsel-imenu-advice)
 
+(add-hook 'c-mode-hook (lambda () (c-toggle-comment-style -1)))
+
 ;; -----------------------------------------------------------------------------
 ;; LSP
 ;; -----------------------------------------------------------------------------
