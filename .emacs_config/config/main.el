@@ -732,6 +732,18 @@
 
 (setc anzu-cons-mode-line-p nil)
 
+(defun ol-anzu--use-result-cache-p (func &rest args)
+  (and anzu--cached-positions (apply func args)))
+
+(advice-add 'anzu--use-result-cache-p :around 'ol-anzu--use-result-cache-p)
+
+(defun ol-anzu-reset-cache (&rest _)
+  (setq anzu--cached-positions nil))
+
+;; todo hook for everything that can be re-used with super save
+(add-hook 'window-selection-change-functions 'ol-anzu-reset-cache)
+(advice-add 'switch-to-buffer :after 'ol-anzu-reset-cache)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Making Evil more similar to Vim
 ;;;;----------------------------------------------------------------------------
