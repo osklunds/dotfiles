@@ -79,7 +79,7 @@
 
 (defun ol-vterm-named ()
   (interactive)
-  (vterm)
+  (vterm t)
   (ol-rename-buffer))
 
 ;; -----------------------------------------------------------------------------
