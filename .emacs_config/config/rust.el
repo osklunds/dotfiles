@@ -12,5 +12,6 @@
 
 (define-abbrev-table 'rust-mode-abbrev-table
   '(
-    ("asdfg" "mode-spec-abbreviation@@test")
+    ("dbg" "println!(\"{:?}\", @@);")
+    ("dbgg" "println!(\"\\n\\n  {:?}   \\n\\n\\n\\n\", @@);")
    ))
