@@ -14,22 +14,22 @@ dotfiles I use
 
 *** Nice to have
 
+- Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. (BIG)
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
 - lsp diagnostics
 - Make magit use the highlighted file instead of prompting and using the highlighted file as default
-- make ivy-read async for files, just like for file content (BIG)
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - cleaner magit transient (BIG)
+- Merge commit analyzer
+  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
+  - Also check changes in files made by both parents
 
 *** Not that important
 
 - alt-ret for continuing list also outside org-mode
 - Switch to vertico/consult/marginella
 - cache modeline segments, like doom modeline
-- Merge commit analyzer
-  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
-  - Also check changes in files made by both parents
 
 *** Wanted, but hard to do
 
