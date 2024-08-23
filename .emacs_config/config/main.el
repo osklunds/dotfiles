@@ -1046,6 +1046,8 @@ rg \
 (setc lsp-log-io nil) ;; Enable for easier debugging
 
 (setc lsp-completion-enable-additional-text-edit nil)
+(setc lsp-completion-default-behaviour :insert)
+
 (ol-define-normal-leader-key "mr" 'lsp-rename)
 
 ;; -----------------------------------------------------------------------------
