@@ -10,6 +10,8 @@
 
 (advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
 
+(setc lsp-rust-analyzer-completion-add-call-parenthesis nil)
+
 (define-abbrev-table 'rust-mode-abbrev-table
   '(
     ("dbg" "println!(\"{:?}\", @@);")
