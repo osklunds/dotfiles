@@ -1052,6 +1052,11 @@ rg \
 
 (ol-define-normal-leader-key "mr" 'lsp-rename)
 
+(add-hook 'lsp-after-apply-edits-hook
+          (lambda (operation)
+            (when (eq operation 'rename)
+              (save-buffer))))
+
 ;; -----------------------------------------------------------------------------
 ;; Abbreviations (for completions)
 ;; -----------------------------------------------------------------------------
