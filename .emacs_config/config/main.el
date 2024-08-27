@@ -2272,6 +2272,17 @@ rg \
 (advice-add 'dired-run-shell-command :around 'ol-dired-set-shell-command-buffer-name)
 
 ;; -----------------------------------------------------------------------------
+;; shell-command
+;;------------------------------------------------------------------------------
+
+(defun ol-shell-command (command)
+  (interactive)
+  (let ((bfn (generate-new-buffer-name (concat "*Shell Command Output: '" command "'*"))))
+    (shell-command command bfn)))
+
+(ol-global-set-key "M-!" 'shell-command)
+
+;; -----------------------------------------------------------------------------
 ;; tar-mode
 ;; -----------------------------------------------------------------------------
 
