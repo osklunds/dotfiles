@@ -190,7 +190,9 @@
 
 (defun ol-find-file-empty ()
   (interactive)
-  (counsel-find-file nil ""))
+  ;; Need to override major-mode because if dired, counsel ignores initial dir
+  (let ((major-mode 'fundamental-mode))
+    (counsel-find-file nil "/")))
 
 (ol-global-set-key "C-x f" 'ol-find-file-empty)
 
