@@ -50,12 +50,19 @@ alias ra='source ~/.bashrc'
 alias e='edit_with_emacs'
 alias em='emacs-gtk &'
 
-# Cargo
+# Rust
 alias cb='cargo build'
-alias ct='cargo test'
 alias cr='cargo run'
-alias cf='cargo fmt'
+alias cf='\cargo fmt'
 alias rt='./run_tests.sh'
+
+if  command -v -- sort-cargo-errors > /dev/null 2>&1; then
+    alias cargo='sort-cargo-errors'
+fi
+
+ct() {
+    RUST_BACKTRACE=1 cargo test "$1" -- --show-output --test-threads 1 --color always
+}
 
 # Misc
 lc() {
