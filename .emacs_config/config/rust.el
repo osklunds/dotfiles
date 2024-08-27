@@ -16,4 +16,8 @@
   '(
     ("dbg" "println!(\"{:?}\", @@);")
     ("dbgg" "println!(\"\\n\\n  {:?}   \\n\\n\\n\\n\", @@);")
-   ))
+    ("ar" "// Arrange")
+    ("ac" "// Act")
+    ("as" "// Assert")
+    ))
+
