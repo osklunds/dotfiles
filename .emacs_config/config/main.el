@@ -259,9 +259,16 @@
                          (current-time-string)
                          time-diff))))))
 
+(defvar ol-last-gc nil)
+
 (defun ol-frame-out-of-focus ()
   (unless (frame-focus-state)
-    (ol-garbage-collect 'quiet)))
+    ;; this function is called 4 times whenever I alt-tab, so to make
+    ;; sure gc is not invoked right after it has already been done,
+    ;; have some margin.
+    (when (or (null ol-last-gc) (> (- (float-time) ol-last-gc) 5.0))
+      (setq ol-last-gc (float-time))
+      (ol-garbage-collect 'quiet))))
 
 (add-function :after after-focus-change-function 'ol-frame-out-of-focus)
 
