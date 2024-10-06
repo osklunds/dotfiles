@@ -780,6 +780,7 @@
   (ol-update-evil-search-visible-buffers))
 
 (ol-define-key evil-motion-state-map "?" 'ol-evil-stop-search)
+(ol-define-key evil-insert-state-map "M-/" 'ol-evil-stop-search)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Don't move for first search
