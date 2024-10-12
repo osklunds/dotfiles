@@ -20,7 +20,6 @@
 
 (add-to-list 'evil-insert-state-modes 'vterm-mode)
 (setc vterm-max-scrollback 2000)
-(setc vterm-min-window-width 60)
 (setc vterm-kill-buffer-on-exit nil)
 
 (defun ol-vterm ()
@@ -100,3 +99,17 @@
 (ol-evil-define-key 'insert vterm-mode-map "C-y" 'vterm-yank)
 (ol-evil-define-key 'insert vterm-mode-map "C-d" 'vterm--self-insert)
 (ol-evil-define-key 'insert vterm-mode-map "C-c" 'vterm--self-insert)
+
+;; -----------------------------------------------------------------------------
+;; Width
+;;------------------------------------------------------------------------------
+
+(setc vterm-min-window-width 60)
+(make-local-variable vterm-min-window-width)
+
+(defun ol-vterm-set-width ()
+  (interactive)
+  (let ((width (read-from-minibuffer "vterm width: " nil nil nil 'ol-vterm-width "2000")))
+    (setq vterm-min-window-width (string-to-number width))))
+
+(ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
