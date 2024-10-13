@@ -105,7 +105,7 @@
 ;;------------------------------------------------------------------------------
 
 (setc vterm-min-window-width 60)
-(make-local-variable vterm-min-window-width)
+(make-local-variable 'vterm-min-window-width)
 
 (defun ol-vterm-set-width ()
   (interactive)
