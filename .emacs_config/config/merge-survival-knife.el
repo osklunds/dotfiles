@@ -19,14 +19,8 @@
   :keymap msk-mode-map
   :global t
   (cond
-   (msk-mode (msk-mode-start))
-   (t        (msk-mode-stop))))
-
-(defun msk-mode-start ()
-  (msk-start))
-
-(defun msk-mode-stop ()
-  (msk-stop))
+   (msk-mode (msk-start))
+   (t        (msk-stop))))
 
 (defun msk-mode-enable ()
   (interactive)
