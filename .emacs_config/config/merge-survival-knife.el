@@ -22,8 +22,17 @@
    (msk-mode (msk-start))
    (t        (msk-stop))))
 
-(defun msk-mode-enable ()
-  (interactive)
+;; 'conflict-area
+;; 'entire-file
+;; merge-commit
+(defvar msk-variant nil)
+
+(defvar msk-file nil)
+
+(defun msk-mode-enable (&optional variant)
+  (interactive "P")
+  (setq msk-variant (or variant 'conflict-area))
+  (setq msk-file (buffer-file-name))
   (msk-mode t))
 
 (defun msk-mode-disable ()
@@ -94,16 +103,14 @@
   (msk-save-windows)
   (msk-save-original-pos)
   (setq msk-original-buffer (current-buffer))
-  (if (msk-find-next-conflict)
-      (progn (msk-populate-strings)
-             (msk-create-buffers)
-             (msk-create-diffs)
-             (msk-put "original" msk-original-buffer)
-             ;; Due to vdiff bug, need to skip refresh for the first diff
-             (setq msk-skip-vdiff-refresh t)
-             (msk-base-local)
-             (setq msk-skip-vdiff-refresh nil))
-    (message "No conflict found")))
+  (msk-check-preconditions)
+  (progn (msk-create-buffers)
+         (msk-create-diffs)
+         (msk-put "original" msk-original-buffer)
+         ;; Due to vdiff bug, need to skip refresh for the first diff
+         (setq msk-skip-vdiff-refresh t)
+         (msk-base-local)
+         (setq msk-skip-vdiff-refresh nil)))
 
 (defun msk-stop ()
   (interactive)
@@ -148,6 +155,17 @@
     (message "Warning: no window config found")))
 
 ;;;; ---------------------------------------------------------------------------
+;;;; Preconditions
+;;;;----------------------------------------------------------------------------
+
+(defun msk-check-preconditions ()
+  (pcase msk-variant
+    ('conflict-area (unless (msk-find-next-conflict)
+                      (user-error "No conflict found")))
+    ('entire-file (unless (magit-merge-in-progress-p)
+                    (user-error "Not merging")))))
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Finding a conflict
 ;;;; ---------------------------------------------------------------------------
 
@@ -156,8 +174,20 @@
     (re-search-backward msk-local-start-re)))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Populate the conflict strings
+;;;; Create buffers
 ;;;; ---------------------------------------------------------------------------
+
+(defun msk-create-buffers ()
+  (pcase msk-variant
+    ('conflict-area (msk-create-string-buffers))
+    ('entire-file (msk-create-file-buffers))))
+
+(defun msk-create-string-buffers ()
+  (msk-populate-strings)
+  (msk-create-string-buffer "LOCAL"  msk-local-string  t)
+  (msk-create-string-buffer "BASE"   msk-base-string   t)
+  (msk-create-string-buffer "REMOTE" msk-remote-string t)
+  (msk-create-string-buffer "MERGED" msk-merged-string nil))
 
 (defun msk-populate-strings ()
   (unless (looking-at-p msk-local-start-re)
@@ -183,17 +213,7 @@
       (setq end-point (point))
       (buffer-substring-no-properties start-point end-point))))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Create buffers
-;;;; ---------------------------------------------------------------------------
-
-(defun msk-create-buffers ()
-  (msk-create-buffer "LOCAL"  msk-local-string  t)
-  (msk-create-buffer "BASE"   msk-base-string   t)
-  (msk-create-buffer "REMOTE" msk-remote-string t)
-  (msk-create-buffer "MERGED" msk-merged-string nil))
-
-(defun msk-create-buffer (name string read-only)
+(defun msk-create-string-buffer (name string read-only)
   (let ((buffer (generate-new-buffer name)))
     (with-current-buffer buffer
       (insert "\n") ;; workaround due to vdiff bug
@@ -207,6 +227,21 @@
     (display-line-numbers-mode t) ;; workaround due to unknwon bug
     (when read-only
       (read-only-mode))))
+
+(defun msk-create-file-buffers ()
+  (let* ((local-rev "HEAD")
+         (remote-rev "MERGE_HEAD")
+         (base-rev (magit-commit-p (magit-git-string "merge-base" local-rev remote-rev)))
+         (merged-rev "{worktree}"))
+    (msk-create-file-buffer "LOCAL"  local-rev)
+    (msk-create-file-buffer "BASE"   base-rev)
+    (msk-create-file-buffer "REMOTE" remote-rev)
+    (msk-create-file-buffer "MERGED" merged-rev)))
+
+(defun msk-create-file-buffer (name rev)
+  (let* ((buffer-original (magit-find-file-noselect rev (buffer-file-name)))
+         (buffer (make-indirect-buffer buffer-original name)))
+    (msk-put name buffer)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Create diffs
