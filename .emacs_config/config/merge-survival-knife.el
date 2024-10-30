@@ -397,13 +397,14 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun msk-save-solved-conflict ()
-  (switch-to-buffer msk-original-buffer)
-  (goto-char msk-original-buffer-point)
-  (cl-assert (msk-find-next-conflict))
-  (let* ((old-string msk-merged-string)
-         (new-string (msk-get-solved-conflict-string)))
-    (unless (string-equal old-string new-string)
-      (cl-assert (= 1 (replace-string-in-region old-string new-string))))))
+  (when (equal msk-variant 'conflict-area)
+    (switch-to-buffer msk-original-buffer)
+    (goto-char msk-original-buffer-point)
+    (cl-assert (msk-find-next-conflict))
+    (let* ((old-string msk-merged-string)
+           (new-string (msk-get-solved-conflict-string)))
+      (unless (string-equal old-string new-string)
+        (cl-assert (= 1 (replace-string-in-region old-string new-string)))))))
 
 (defun msk-get-solved-conflict-string ()
   (let ((string (with-current-buffer (msk-get "MERGED")
