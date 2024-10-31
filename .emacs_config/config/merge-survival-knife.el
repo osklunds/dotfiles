@@ -24,7 +24,7 @@
 
 ;; 'conflict-area
 ;; 'entire-file
-;; merge-commit
+;; ('merge-commit merge-commit)
 (defvar msk-variant nil)
 
 (defvar msk-file nil)
@@ -160,10 +160,15 @@
 
 (defun msk-check-preconditions ()
   (pcase msk-variant
-    ('conflict-area (unless (msk-find-next-conflict)
-                      (user-error "No conflict found")))
-    ('entire-file (unless (magit-merge-in-progress-p)
-                    (user-error "Not merging")))))
+    ('conflict-area
+     (unless (msk-find-next-conflict)
+       (user-error "No conflict found")))
+    ('entire-file
+     (unless (magit-merge-in-progress-p)
+       (user-error "Not merging")))
+    (`(merge-commit ,merge-commit)
+     (unless (length= (magit-commit-parents merge-commit) 2)
+       (user-error "Selected commit doesn't have 2 parents")))))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Finding a conflict
@@ -180,7 +185,7 @@
 (defun msk-create-buffers ()
   (pcase msk-variant
     ('conflict-area (msk-create-string-buffers))
-    ('entire-file (msk-create-file-buffers))))
+    (t (msk-create-file-buffers))))
 
 (defun msk-create-string-buffers ()
   (msk-populate-strings)
@@ -229,10 +234,21 @@
       (read-only-mode))))
 
 (defun msk-create-file-buffers ()
-  (let* ((local-rev "HEAD")
-         (remote-rev "MERGE_HEAD")
-         (base-rev (magit-commit-p (magit-git-string "merge-base" local-rev remote-rev)))
-         (merged-rev "{worktree}"))
+  (pcase-let ((`(,local-rev ,remote-rev ,base-rev ,merged-rev)
+               (pcase msk-variant
+                 ('entire-file
+                  (list
+                   "HEAD"
+                   "MERGE_HEAD"
+                   (magit-commit-p (magit-git-string "merge-base" "HEAD" "MERGE_HEAD"))
+                   "{worktree}"))
+                 (`(merge-commit ,merge-commit)
+                  (pcase-let ((`(,p1 ,p2) (magit-commit-parents merge-commit)))
+                    (list
+                     p1
+                     p2
+                     (magit-commit-p (magit-git-string "merge-base" p1 p2))
+                     merge-commit))))))
     (msk-create-file-buffer "LOCAL"  local-rev)
     (msk-create-file-buffer "BASE"   base-rev)
     (msk-create-file-buffer "REMOTE" remote-rev)
