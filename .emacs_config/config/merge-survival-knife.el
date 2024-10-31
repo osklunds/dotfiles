@@ -256,7 +256,7 @@
 
 (defun msk-create-file-buffer (name rev)
   (let* ((buffer-original (magit-find-file-noselect rev (buffer-file-name)))
-         (buffer (make-indirect-buffer buffer-original name)))
+         (buffer (make-indirect-buffer buffer-original name 'clone)))
     (msk-put name buffer)))
 
 ;;;; ---------------------------------------------------------------------------
