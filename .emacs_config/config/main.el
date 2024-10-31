@@ -2311,6 +2311,17 @@ rg \
 (ol-evil-define-key 'normal tar-mode-map "o" 'tar-view)
 (ol-evil-define-key 'normal tar-mode-map "i" 'ol-tar-up-directory)
 
+(defun ol-add-tar-font-lock-keywords ()
+  (font-lock-add-keywords
+   nil
+   (list
+    (list ".*PaxHeaders.*" (list 0 ''file-name-shadow))
+    )))
+
+(add-hook 'tar-mode-hook 'ol-add-tar-font-lock-keywords)
+
+                         
+
 ;; -----------------------------------------------------------------------------
 ;; archive-mode
 ;;------------------------------------------------------------------------------

@@ -24,7 +24,6 @@ dotfiles I use
 - Merge commit analyzer
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
-- hide paxheaders in tar mode, or at least gray out using font-lock
 
 *** Not that important
 
