@@ -46,8 +46,11 @@
       (magit-find-file rev (magit-current-file))
       (msk-mode-enable (list 'merge-commit rev))))
 
-   ((and smerge-mode (msk-inside-conflict-p))
+   ((msk-inside-conflict-p)
     (msk-mode-enable 'conflict-area))
+
+   ((magit-merge-in-progress-p)
+    (msk-mode-enable 'entire-file))
 
    (t (user-error "Couldn't read your mind"))))
 
