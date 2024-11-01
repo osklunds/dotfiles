@@ -44,9 +44,22 @@
          (magit-current-file))
     (let ((rev magit-buffer-revision-hash))
       (magit-find-file rev (magit-current-file))
-      (msk-mode-enable (list 'merge-commit rev)))
+      (msk-mode-enable (list 'merge-commit rev))))
 
-   (t (user-error "Couldn't read your mind")))))
+   ((and smerge-mode (msk-inside-conflict-p))
+    (msk-mode-enable 'conflict-area))
+
+   (t (user-error "Couldn't read your mind"))))
+
+(defun msk-inside-conflict-p ()
+  (save-excursion
+    (beginning-of-line)
+    (let ((start-or-end
+           (concat "\\(" msk-local-start-re "\\)\\|\\(" msk-remote-end-re "\\)")))
+    (if (looking-at-p start-or-end)
+        t
+      (re-search-backward start-or-end nil 'no-error)
+      (looking-at-p msk-local-start-re)))))
 
 (defun msk-mode-disable ()
   (interactive)
@@ -174,7 +187,7 @@
 (defun msk-check-preconditions ()
   (pcase msk-variant
     ('conflict-area
-     (unless (msk-find-next-conflict)
+     (unless (msk-inside-conflict-p)
        (user-error "No conflict found")))
     ('entire-file
      (unless (magit-merge-in-progress-p)
@@ -211,8 +224,9 @@
   (msk-create-string-buffer "MERGED" msk-merged-string nil))
 
 (defun msk-populate-strings ()
-  (unless (looking-at-p msk-local-start-re)
-    (error "Not looking at start, bug"))
+  (unless (msk-inside-conflict-p)
+    (error "No conflict, bug"))
+  (msk-find-next-conflict)
   (setq msk-local-string  (msk-string-between-regexp msk-local-start-re  msk-local-end-re    nil))
   (setq msk-base-string   (msk-string-between-regexp msk-local-end-re    msk-remote-start-re nil))
   (setq msk-remote-string (msk-string-between-regexp msk-remote-start-re msk-remote-end-re   nil))
