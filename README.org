@@ -20,10 +20,12 @@ dotfiles I use
 - lsp diagnostics
 - Make magit use the highlighted file instead of prompting and using the highlighted file as default
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
+- rg options, e.g. ignore gitignore, only certain file types, fold on file, etc
 - cleaner magit transient (BIG)
 - Merge commit analyzer
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
+- Make relative line numebrs correct in vdiff
 
 *** Not that important
 
