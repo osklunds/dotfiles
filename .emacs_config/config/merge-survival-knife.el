@@ -32,8 +32,21 @@
 (defun msk-mode-enable (&optional variant)
   (interactive "P")
   (setq msk-variant (or variant 'conflict-area))
-  (setq msk-file (buffer-file-name))
+  (setq msk-file (or (buffer-file-name) magit-buffer-file-name))
   (msk-mode t))
+
+(defun msk-mode-dwim ()
+  (interactive)
+  (cond
+   ((and (equal major-mode 'magit-revision-mode)
+         magit-buffer-revision-hash
+         (msk-has-2-parents magit-buffer-revision-hash)
+         (magit-current-file))
+    (let ((rev magit-buffer-revision-hash))
+      (magit-find-file rev (magit-current-file))
+      (msk-mode-enable (list 'merge-commit rev)))
+
+   (t (user-error "Couldn't read your mind")))))
 
 (defun msk-mode-disable ()
   (interactive)
@@ -167,8 +180,11 @@
      (unless (magit-merge-in-progress-p)
        (user-error "Not merging")))
     (`(merge-commit ,merge-commit)
-     (unless (length= (magit-commit-parents merge-commit) 2)
+     (unless (msk-has-2-parents merge-commit)
        (user-error "Selected commit doesn't have 2 parents")))))
+
+(defun msk-has-2-parents (commit)
+  (length= (magit-commit-parents commit) 2))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Finding a conflict
@@ -185,7 +201,7 @@
 (defun msk-create-buffers ()
   (pcase msk-variant
     ('conflict-area (msk-create-string-buffers))
-    (t (msk-create-file-buffers))))
+    (_ (msk-create-file-buffers))))
 
 (defun msk-create-string-buffers ()
   (msk-populate-strings)
@@ -255,7 +271,7 @@
     (msk-create-file-buffer "MERGED" merged-rev)))
 
 (defun msk-create-file-buffer (name rev)
-  (let* ((buffer-original (magit-find-file-noselect rev (buffer-file-name)))
+  (let* ((buffer-original (magit-find-file-noselect rev msk-file))
          (buffer (make-indirect-buffer buffer-original name 'clone)))
     (msk-put name buffer)))
 
