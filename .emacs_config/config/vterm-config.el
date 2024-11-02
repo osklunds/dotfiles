@@ -109,7 +109,7 @@
 
 (defun ol-vterm-set-width ()
   (interactive)
-  (let ((width (read-from-minibuffer "vterm width: " nil nil nil 'ol-vterm-width "2000")))
-    (setq vterm-min-window-width (string-to-number width))))
+  (let ((width (read-from-minibuffer "vterm width (default: 2000): " nil nil 'read 'ol-vterm-width "2000")))
+    (setq vterm-min-window-width width)))
 
 (ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
