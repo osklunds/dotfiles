@@ -69,4 +69,9 @@
   (set-window-configuration mca-original-window-configuration)
   (setq mca-original-window-configuration nil))
 
+;; todos:
+;; set buffer names to LOCAL, RMEOTE etc when doing vdiff
+;; calculate a list of all files changed in both BASE..LOCAL and BASE..REMOTE
+;; or LOCAL..MERGED and REMOTE..MERGED
+
 (provide 'merge-commit-analyzer)
