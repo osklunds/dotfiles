@@ -69,6 +69,4 @@
   (set-window-configuration mca-original-window-configuration)
   (setq mca-original-window-configuration nil))
 
-
-
-
+(provide 'merge-commit-analyzer)

@@ -1617,6 +1617,7 @@ rg \
 ;;;;----------------------------------------------------------------------------
 
 (require 'merge-survival-knife)
+(require 'merge-commit-analyzer)
 
 ;; To make sure smerge doesn't add refinements to conflicts
 (setc diff-refine nil)
