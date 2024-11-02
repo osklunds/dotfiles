@@ -48,6 +48,11 @@
       (magit-find-file rev (magit-current-file))
       (msk-mode-enable (list 'merge-commit rev))))
 
+   ((and (equal major-mode 'magit-revision-mode)
+         magit-buffer-revision-hash
+         (msk-has-2-parents magit-buffer-revision-hash))
+    (mca-mode))
+
    ((msk-inside-conflict-p)
     (msk-mode-enable 'conflict-area))
 
@@ -66,9 +71,12 @@
       (re-search-backward start-or-end nil 'no-error)
       (looking-at-p msk-local-start-re)))))
 
-(defun msk-mode-disable ()
+(defun msk-mode-disable-dwim ()
   (interactive)
-  (msk-mode -1))
+  (if msk-mode
+      (msk-mode -1)
+    (when mca-mode
+      (mca-mode -1))))
 
 (provide 'merge-survival-knife)
 

@@ -1627,8 +1627,8 @@ rg \
 (advice-add 'msk-original-buffer :after 'ol-msk-original-buffer-fix-keybinds)
 
 (ol-define-normal-leader-key "gm" 'msk-mode-dwim)
-(ol-evil-define-key 'normal msk-mode-map "C-c q" 'msk-mode-disable)
-(ol-evil-define-key 'normal mca-mode-map "C-c q" 'mca-stop)
+(ol-evil-define-key 'normal msk-mode-map "C-c q" 'msk-mode-disable-dwim)
+(ol-evil-define-key 'normal mca-mode-map "C-c q" 'msk-mode-disable-dwim)
 
 (ol-evil-define-key 'normal msk-mode-map "M-1" 'msk-base-local)
 (ol-evil-define-key 'normal msk-mode-map "M-2" 'msk-base-remote)
