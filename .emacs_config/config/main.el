@@ -1565,14 +1565,10 @@ rg \
 (add-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Merge conflicts
-;;;; ---------------------------------------------------------------------------
+;;;; smerge
+;;;;----------------------------------------------------------------------------
 
 (require 'smerge-mode)
-(require 'merge-survival-knife)
-
-;; To make sure smerge doesn't add refinements to conflicts
-(setc diff-refine nil)
 
 ;; Copied/inspired from, to automatically start smerge
 ;; https://stumbles.id.au/auto-starting-emacs-smerge-mode-for-git.html
@@ -1600,9 +1596,6 @@ rg \
      (4 nil t t)
      (5 nil t t))))
 
-(defun ol-msk-original-buffer-fix-keybinds (&rest args)
-  (evil-force-normal-state))
-
 (defun ol-smerge-keep-both ()
   (interactive)
   (smerge-match-conflict)
@@ -1610,6 +1603,26 @@ rg \
   (delete-region (match-end 1) (match-beginning 3))
   (delete-region (match-beginning 0) (match-beginning 1))
   (smerge-auto-leave))
+
+;; TODO evil define key would be better but didn't work
+(ol-define-key smerge-mode-map "C-c n" 'smerge-next)
+(ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
+(ol-define-key smerge-mode-map "C-c l" 'smerge-keep-upper)
+(ol-define-key smerge-mode-map "C-c r" 'smerge-keep-lower)
+(ol-define-key smerge-mode-map "C-c b" 'ol-smerge-keep-both)
+(ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Merge Survival Knife
+;;;;----------------------------------------------------------------------------
+
+(require 'merge-survival-knife)
+
+;; To make sure smerge doesn't add refinements to conflicts
+(setc diff-refine nil)
+
+(defun ol-msk-original-buffer-fix-keybinds (&rest args)
+  (evil-force-normal-state))
 
 (advice-add 'msk-original-buffer :after 'ol-msk-original-buffer-fix-keybinds)
 
@@ -1634,14 +1647,6 @@ rg \
 (ol-evil-define-key 'normal msk-mode-map "C-c a" 'smerge-keep-all)
 
 (ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
-
-;; TODO evil define key would be better but didn't work
-(ol-define-key smerge-mode-map "C-c n" 'smerge-next)
-(ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
-(ol-define-key smerge-mode-map "C-c l" 'smerge-keep-upper)
-(ol-define-key smerge-mode-map "C-c r" 'smerge-keep-lower)
-(ol-define-key smerge-mode-map "C-c b" 'ol-smerge-keep-both)
-(ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge experiment
