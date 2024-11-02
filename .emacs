@@ -33,6 +33,7 @@
                 "go"
                 "java-config"
                 "merge-survival-knife"
+                "merge-commit-analyzer"
                 "docker"
                 "vterm-config"))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))

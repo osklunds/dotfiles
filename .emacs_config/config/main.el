@@ -1422,7 +1422,7 @@ rg \
 
 (defun ol-diff-all-files-main ()
   (interactive)
-  (magit-diff-range (ol-merge-base-with-main)))
+  (magit-diff-range (msk-merge-base-with-main)))
 
 (ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
 
@@ -1438,7 +1438,7 @@ rg \
 
 (defun ol-diff-current-file-main ()
   (interactive)
-  (ol-diff-current-file (ol-merge-base-with-main)))
+  (ol-diff-current-file (msk-merge-base-with-main)))
 
 (ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
 
@@ -1649,11 +1649,11 @@ rg \
 
 (defun ol-diff-base-local ()
   (interactive)
-  (ol-diff-current-file (ol-merge-base "HEAD" "MERGE_HEAD") "HEAD"))
+  (ol-diff-current-file (msk-merge-base "HEAD" "MERGE_HEAD") "HEAD"))
 
 (defun ol-diff-base-remote ()
   (interactive)
-  (ol-diff-current-file (ol-merge-base "HEAD" "MERGE_HEAD") "MERGE_HEAD"))
+  (ol-diff-current-file (msk-merge-base "HEAD" "MERGE_HEAD") "MERGE_HEAD"))
 
 (defun ol-diff-local-remote ()
   (interactive)
@@ -1695,11 +1695,8 @@ rg \
   (cl-assert (not (ol-does-branch-exist "ain")))
   (cl-assert (not (ol-does-branch-exist "random"))))
 
-(defun ol-merge-base-with-main ()
-  (ol-merge-base (ol-main-branch) "HEAD"))
-
-(defun ol-merge-base (rev-a rev-b)
-  (magit-commit-p (magit-git-string "merge-base" rev-a rev-b)))
+(defun msk-merge-base-with-main ()
+  (msk-merge-base (ol-main-branch) "HEAD"))
 
 ;; -----------------------------------------------------------------------------
 ;; Transient

@@ -1,9 +1,11 @@
 
 ;; ---------------------------------------------------------------------------
-;; Merge Survival Knife (WIP)
+;; Merge Survival Knife
 ;; ---------------------------------------------------------------------------
 
 (require 'vdiff)
+(require 'magit)
+(require 'vdiff-magit)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Minor mode
@@ -15,7 +17,7 @@
 (define-minor-mode msk-mode
   "Minor mode for solving merge conflicts."
   :init-value nil
-  :lighter " msk-mode"
+  :lighter "msk-mode"
   :keymap msk-mode-map
   :global t
   (cond
@@ -273,7 +275,7 @@
                   (list
                    "HEAD"
                    "MERGE_HEAD"
-                   (magit-commit-p (magit-git-string "merge-base" "HEAD" "MERGE_HEAD"))
+                   (msk-merge-base "HEAD" "MERGE_HEAD")
                    "{worktree}"))
                  (`(merge-commit ,merge-commit)
                   (pcase-let ((`(,p1 ,p2) (magit-commit-parents merge-commit)))
@@ -286,6 +288,9 @@
     (msk-create-file-buffer "BASE"   base-rev)
     (msk-create-file-buffer "REMOTE" remote-rev)
     (msk-create-file-buffer "MERGED" merged-rev)))
+
+(defun msk-merge-base (c1 c2)
+  (magit-commit-p (magit-git-string "merge-base" c1 c2)))
 
 (defun msk-create-file-buffer (name rev)
   (let* ((buffer-original (magit-find-file-noselect rev msk-file))
