@@ -72,13 +72,6 @@
       (re-search-backward start-or-end nil 'no-error)
       (looking-at-p msk-local-start-re)))))
 
-(defun msk-mode-disable-dwim ()
-  (interactive)
-  (if msk-mode
-      (msk-mode -1)
-    (when mca-mode
-      (mca-mode -1))))
-
 (provide 'merge-survival-knife)
 
 (defun msk-cant-save-reminder ()
