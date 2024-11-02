@@ -1927,6 +1927,8 @@ rg \
 (ol-require-external "diff")
 
 (setc vdiff-fold-padding 10)
+;; I have it here for easy on-demand customization
+(setq vdiff--after-change-refresh-delay 1)
 
 (defun ol-vdiff-fold-string (n-lines first-line-text width)
   (format "   %d lines\n" n-lines))
