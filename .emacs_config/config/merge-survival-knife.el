@@ -97,15 +97,15 @@
 ;;;; State
 ;;;; ---------------------------------------------------------------------------
 
-;; TODOL Split more between state and separate vars. E.g. only temp buffers in
-;; state list
-(defvar msk-state nil)
+(defvar msk-buffer-lookup-list nil)
+(defvar msk-shown-diffs nil)
+
+(defvar msk-buffers-to-kill nil)
 
 (defvar msk-original-buffer nil)
 (defvar msk-original-buffer-point nil)
 (defvar msk-original-window-configuration nil)
 
-;; TODO: Consider plist for these
 (defvar msk-local-string nil)
 (defvar msk-base-string nil)
 (defvar msk-remote-string nil)
@@ -120,17 +120,15 @@
 (defvar msk-right-bottom nil)
 (defvar msk-bottom nil)
 
-(defun msk-put (key value)
-  (put 'msk-state (intern key) value))
+(defun msk-put-buffer (key value)
+  (add-to-list 'msk-buffer-lookup-list `(,key . ,value)))
 
-(defun msk-get (key)
-  (get 'msk-state (intern key)))
+(defun msk-get-buffer (key)
+  (cdr (assoc key msk-buffer-lookup-list 'string-equal)))
 
-(defun msk-list ()
-  (symbol-plist 'msk-state))
-
-(defun msk-clear-state ()
-  (setplist 'msk-state nil))
+(msk-put-buffer "test" (current-buffer))
+(cl-assert (equal (current-buffer) (msk-get-buffer "test")))
+(setq msk-buffer-lookup-list nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Start and stop
@@ -145,7 +143,6 @@
   (msk-check-preconditions)
   (progn (msk-create-buffers)
          (msk-create-diffs)
-         (msk-put "original" msk-original-buffer)
          ;; Due to vdiff bug, need to skip refresh for the first diff
          (setq msk-skip-vdiff-refresh t)
          (msk-base-local)
@@ -158,13 +155,13 @@
   (msk-cleanup))
 
 (defun msk-cleanup ()
-  (dolist (maybe-buffer (msk-list))
-    (dolist (name '("BASE" "LOCAL" "REMOTE" "MERGED"))
-      (when (bufferp maybe-buffer)
-        (let ((bfn (buffer-name maybe-buffer)))
-          (when (and bfn (string-match-p name bfn))
-            (kill-buffer maybe-buffer))))))
-  (msk-clear-state)
+  (setq msk-buffer-lookup-list nil)
+  (setq msk-shown-diffs nil)
+
+  (dolist (buffer msk-buffers-to-kill)
+    (kill-buffer buffer))
+  (setq msk-buffers-to-kill nil)
+  
   (setq msk-original-buffer nil)
   (setq msk-original-buffer-point nil)
   (setq msk-original-window-configuration nil)
@@ -267,7 +264,8 @@
       (insert "\n") ;; workaround due to vdiff bug
       (insert string)
       (insert "\n") ;; vdiff wants all to end in newline
-      (msk-put name buffer))
+      (msk-put-buffer name buffer)
+      (add-to-list 'msk-buffers-to-kill buffer))
     (msk-set-buffer-properties buffer read-only)))
 
 (defun msk-set-buffer-properties (buffer read-only)
@@ -303,7 +301,8 @@
 (defun msk-create-file-buffer (name rev)
   (let* ((buffer-original (magit-find-file-noselect rev msk-file))
          (buffer (make-indirect-buffer buffer-original name 'clone)))
-    (msk-put name buffer)))
+    (msk-put-buffer name buffer)
+    (add-to-list 'msk-buffers-to-kill buffer)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Create diffs
@@ -325,12 +324,16 @@
 (defun msk-create-diff (left right right-read-only)
   (let* ((left-name (msk-diff-name left right left))
          (right-name (msk-diff-name left right right))
-         (left-buffer (make-indirect-buffer (msk-get left) left-name))
-         (right-buffer (make-indirect-buffer (msk-get right) right-name)))
+         (left-buffer (make-indirect-buffer (msk-get-buffer left) left-name))
+         (right-buffer (make-indirect-buffer (msk-get-buffer right) right-name)))
     (msk-set-buffer-properties left-buffer t)
     (msk-set-buffer-properties right-buffer right-read-only)
-    (msk-put left-name left-buffer)
-    (msk-put right-name right-buffer)
+
+    (msk-put-buffer left-name left-buffer)
+    (add-to-list 'msk-buffers-to-kill left-buffer)
+    (msk-put-buffer right-name right-buffer)
+    (add-to-list 'msk-buffers-to-kill right-buffer)
+
     (vdiff-buffers left-buffer right-buffer)))
 
 (defun msk-diff-name (left right this)
@@ -363,11 +366,11 @@
       (when msk-left-top
         (cl-assert msk-right-top)
         ;; left-top
-        (switch-to-buffer (msk-get (msk-diff-name msk-left-top msk-right-top msk-left-top)))
+        (switch-to-buffer (msk-get-buffer (msk-diff-name msk-left-top msk-right-top msk-left-top)))
 
         ;; right-top
         (select-window (split-window-right))
-        (switch-to-buffer (msk-get (msk-diff-name msk-left-top msk-right-top msk-right-top)))
+        (switch-to-buffer (msk-get-buffer (msk-diff-name msk-left-top msk-right-top msk-right-top)))
 
         (msk-initial-refresh msk-left-top msk-right-top))
 
@@ -387,7 +390,7 @@
       (when msk-bottom
         ;; bottom
         (select-window (split-root-window-below))
-        (switch-to-buffer (msk-get msk-bottom)))
+        (switch-to-buffer (msk-get-buffer msk-bottom)))
 
       (setq msk-window-configs (plist-put msk-window-configs
                                           window-config-key
@@ -396,10 +399,11 @@
 
 (defun msk-initial-refresh (left right)
   (let ((has-shown-key (concat "has-shown" left right)))
-    (unless (msk-get has-shown-key)
-      (msk-put has-shown-key t)
+    (unless (cl-member has-shown-key msk-shown-diffs :test 'string-equal)
+      (add-to-list 'msk-shown-diffs has-shown-key)
       (unless msk-skip-vdiff-refresh
-        (vdiff-refresh)))))
+        (vdiff-refresh)
+        (message "oskar: %s" has-shown-key)))))
 
 (defvar msk-skip-vdiff-refresh nil)
 
@@ -464,12 +468,12 @@
     (goto-char msk-original-buffer-point)
     (cl-assert (msk-find-next-conflict))
     (let* ((old-string msk-merged-string)
-           (new-string (msk-get-solved-conflict-string)))
+           (new-string (msk-get-buffer-solved-conflict-string)))
       (unless (string-equal old-string new-string)
         (cl-assert (= 1 (replace-string-in-region old-string new-string)))))))
 
-(defun msk-get-solved-conflict-string ()
-  (let ((string (with-current-buffer (msk-get "MERGED")
+(defun msk-get-buffer-solved-conflict-string ()
+  (let ((string (with-current-buffer (msk-get-buffer "MERGED")
                   (buffer-substring-no-properties (point-min) (point-max)))))
     (unless (string-prefix-p "\n" string)
       (error "The merged string must begin with a newline"))
