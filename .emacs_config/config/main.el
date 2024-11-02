@@ -725,6 +725,7 @@
     (ol-replace-text text range)))
 
 (defun ol-replace-text (text range)
+  (evil-set-jump)
   (let ((ex-command (format "%ss/%s/%s/gc" range text text)))
     (minibuffer-with-setup-hook
         (lambda () (backward-char 3))
