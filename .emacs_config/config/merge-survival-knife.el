@@ -299,10 +299,13 @@
   (magit-commit-p (magit-git-string "merge-base" c1 c2)))
 
 (defun msk-create-file-buffer (name rev)
-  (let* ((buffer-original (magit-find-file-noselect rev msk-file))
-         (buffer (make-indirect-buffer buffer-original name 'clone)))
+  (let* ((original-buffer-list (buffer-list))
+         (raw-buffer (magit-find-file-noselect rev msk-file))
+         (buffer (make-indirect-buffer raw-buffer name 'clone)))
     (msk-put-buffer name buffer)
-    (add-to-list 'msk-buffers-to-kill buffer)))
+    (add-to-list 'msk-buffers-to-kill buffer)
+    (unless (cl-member raw-buffer original-buffer-list)
+      (add-to-list 'msk-buffers-to-kill raw-buffer))))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Create diffs
@@ -402,8 +405,7 @@
     (unless (cl-member has-shown-key msk-shown-diffs :test 'string-equal)
       (add-to-list 'msk-shown-diffs has-shown-key)
       (unless msk-skip-vdiff-refresh
-        (vdiff-refresh)
-        (message "oskar: %s" has-shown-key)))))
+        (vdiff-refresh)))))
 
 (defvar msk-skip-vdiff-refresh nil)
 
