@@ -31,10 +31,12 @@
 
 (defvar msk-file nil)
 
-(defun msk-mode-enable (&optional variant)
+(defun msk-mode-enable (&optional variant file)
   (interactive "P")
   (setq msk-variant (or variant 'conflict-area))
-  (setq msk-file (or (buffer-file-name) magit-buffer-file-name))
+  (setq msk-file (or file (buffer-file-name) magit-buffer-file-name))
+  (unless file
+    (user-error "no file provided"))
   (msk-mode t))
 
 (defun msk-mode-dwim ()
@@ -45,8 +47,7 @@
          (msk-has-2-parents magit-buffer-revision-hash)
          (magit-current-file))
     (let ((rev magit-buffer-revision-hash))
-      (magit-find-file rev (magit-current-file))
-      (msk-mode-enable (list 'merge-commit rev))))
+      (msk-mode-enable (list 'merge-commit rev) (magit-current-file))))
 
    ((and (equal major-mode 'magit-revision-mode)
          magit-buffer-revision-hash
