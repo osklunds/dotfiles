@@ -1094,6 +1094,12 @@ rg \
 (require 'company)
 (require 'company-box)
 
+(global-company-mode t)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Backend
+;;;;----------------------------------------------------------------------------
+
 (setc company-backends '((company-abbrev
                           :separate
                           company-capf
@@ -1108,24 +1114,33 @@ rg \
 
 (add-hook 'sh-mode-hook 'ol-no-company-capf)
 
-(setc company-minimum-prefix-length 1)
-(setc company-idle-delay 0.0)
-(setc company-selection-wrap-around t)
-(setc company-tooltip-align-annotations t)
-
 (setc company-dabbrev-minimum-length 2)
 (setc company-dabbrev-other-buffers nil)
 (setc company-dabbrev-code-other-buffers nil)
 (setc company-dabbrev-code-everywhere t)
 (setc company-dabbrev-code-modes t)
 
-(add-hook 'text-mode-hook 'company-mode)
-(add-hook 'prog-mode-hook 'company-mode)
-(add-hook 'org-mode-hook 'company-mode)
+;;;; ---------------------------------------------------------------------------
+;;;; Frontend
+;;;;----------------------------------------------------------------------------
+
+(setc company-minimum-prefix-length 1)
+(setc company-idle-delay 0.0)
+(setc company-selection-wrap-around t)
+(setc company-tooltip-align-annotations t)
 
 (add-hook 'company-mode-hook 'company-box-mode)
 
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
+
+(setc company-frontends '(
+                          company-pseudo-tooltip-unless-just-one-frontend
+                          company-preview-if-just-one-frontend
+                          ))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Colors
+;;;;----------------------------------------------------------------------------
 
 ;; Making ivy and company look consistent
 (dolist (face '(ivy-minibuffer-match-face-1
@@ -1145,6 +1160,10 @@ rg \
 
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
 (ol-set-face 'company-tooltip-scrollbar-track :background nil :inherit 'tooltip)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Keybinds
+;;;;----------------------------------------------------------------------------
 
 (ol-define-key company-active-map 'return 'company-abort)
 (ol-define-key company-active-map "C-g" nil)
