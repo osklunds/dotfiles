@@ -305,7 +305,7 @@
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 (require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 
 (global-visual-line-mode t)
 (setq-default visual-line-mode t)
