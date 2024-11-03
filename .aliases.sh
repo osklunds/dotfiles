@@ -4,6 +4,7 @@ alias ll='ls -la'
 alias ft='rg'
 alias ff='rg --files | rg'
 alias cdr='cd ~/repos'
+alias duh='du -sch .[!.]* * |sort -h'
 
 # Git
 
