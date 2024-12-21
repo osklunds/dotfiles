@@ -1,5 +1,5 @@
 
 (define-abbrev-table 'c++-mode-abbrev-table
   '(
-    ("dbg" "std::cout << @@ << std::endl;")
+    ("dbg" "std::cout << \"oskar: \" << @@ << std::endl;")
     ))
