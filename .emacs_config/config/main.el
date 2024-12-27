@@ -1052,7 +1052,8 @@ rg \
 (setc lsp-completion-provider :none) ;; to prevent overriding my own company backends
 (setc lsp-response-timeout 10)
 (setc lsp-enable-file-watchers nil) ;; to prevent "nested too deep" warning
-(setc lsp-log-io nil) ;; Enable for easier debugging
+(setc lsp-log-io nil)
+;; (setc lsp-log-io t) ;; Enable for easier debugging
 
 (setc lsp-completion-enable-additional-text-edit nil)
 (setc lsp-completion-default-behaviour :insert)

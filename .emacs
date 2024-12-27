@@ -32,7 +32,7 @@
                 "haskell-config"
                 "go"
                 "java-config"
-                "c-config"
+                "cpp-config"
                 "merge-survival-knife"
                 "merge-commit-analyzer"
                 "docker"
