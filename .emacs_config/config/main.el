@@ -824,10 +824,8 @@
               :matcher #'ivy--switch-buffer-matcher
               :caller 'ivy-switch-buffer)))
 
-(advice-add 'ivy-switch-buffer :override #'ol-ivy-switch-buffer)
-
-(ol-override-key "C-j" 'ivy-switch-buffer)
-(ol-global-set-key "C-x C-b" 'ivy-switch-buffer)
+(ol-override-key "C-j" 'ol-ivy-switch-buffer)
+(ol-global-set-key "C-x C-b" 'ol-ivy-switch-buffer)
 
 (require 'counsel)
 
