@@ -48,7 +48,7 @@ alias ea='e ~/.aliases.sh && ra'
 alias ra='source ~/.bashrc'
 
 # Editors
-alias e='edit_with_emacs'
+alias ec='edit_with_emacs'
 alias em='emacs-gtk &'
 
 # Rust

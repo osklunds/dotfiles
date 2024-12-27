@@ -1,3 +1,3 @@
 #!/bin/bash
 
-emacsclient --socket-name ol-server-0 "$1" &
+emacsclient --socket-name "$EMACS_SERVER_NAME" "$1" &
