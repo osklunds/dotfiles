@@ -26,6 +26,7 @@ dotfiles I use
   - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
   - Also check changes in files made by both parents
 - Make relative line numebrs correct in vdiff
+- Tweak lsp settings so that they don't send unused stuff. Could speed up GC
 
 *** Not that important
 
