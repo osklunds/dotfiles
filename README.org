@@ -28,6 +28,7 @@ dotfiles I use
 - Make relative line numebrs correct in vdiff
 - Tweak lsp settings so that they don't send unused stuff. Could speed up GC
 - More colorful dired, like ll
+- for dwim find file, support git ls-files, git grep, rg options (for ignoring ignore)
 
 *** Not that important
 
