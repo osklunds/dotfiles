@@ -194,6 +194,8 @@
 (add-hook 'window-selection-change-functions 'ol-window-buffer-change-old)
 (add-hook 'window-selection-change-functions 'ol-window-buffer-change-new)
 
+;; window-selection-change-functions is actually run after, then it's too late,
+;; so need these too
 (dolist (cmd '(switch-to-buffer
                other-window
                windmove-up
@@ -206,7 +208,6 @@
                ))
   (advice-add cmd :before 'ol-window-buffer-change-old)
   (advice-add cmd :after 'ol-window-buffer-change-new))
-
 
 ;; -----------------------------------------------------------------------------
 ;; File Management
