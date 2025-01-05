@@ -2302,6 +2302,8 @@ rg \
 (setc dired-recursive-copies 'always)
 (setc dired-recursive-deletes 'always)
 
+(advice-add 'wdired-exit :around #'ol-disable-y-or-n-p)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Buffer name
 ;;;;----------------------------------------------------------------------------
