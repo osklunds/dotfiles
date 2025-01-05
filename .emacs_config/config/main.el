@@ -191,7 +191,6 @@
 (defun ol-window-buffer-change-new (&rest _r)
   (run-hooks 'ol-window-buffer-change-new-hook))
 
-(add-hook 'window-selection-change-functions 'ol-window-buffer-change-old)
 (add-hook 'window-selection-change-functions 'ol-window-buffer-change-new)
 
 ;; window-selection-change-functions is actually run after, then it's too late,
