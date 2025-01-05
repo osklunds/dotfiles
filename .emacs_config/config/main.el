@@ -204,6 +204,7 @@
                next-buffer
                previous-buffer
                read-from-minibuffer
+               display-buffer
                ))
   (advice-add cmd :before 'ol-window-buffer-change-old)
   (advice-add cmd :after 'ol-window-buffer-change-new))
