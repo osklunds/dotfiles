@@ -179,6 +179,36 @@
 (ol-define-normal-leader-key "mp" 'ol-plain-view)
 
 ;; -----------------------------------------------------------------------------
+;; Window/buffer changes
+;;------------------------------------------------------------------------------
+
+(defvar ol-window-buffer-change-old-hook nil)
+(defvar ol-window-buffer-change-new-hook nil)
+
+(defun ol-window-buffer-change-old (&rest _r)
+  (run-hooks 'ol-window-buffer-change-old-hook))
+
+(defun ol-window-buffer-change-new (&rest _r)
+  (run-hooks 'ol-window-buffer-change-new-hook))
+
+(add-hook 'window-selection-change-functions 'ol-window-buffer-change-old)
+(add-hook 'window-selection-change-functions 'ol-window-buffer-change-new)
+
+(dolist (cmd '(switch-to-buffer
+               other-window
+               windmove-up
+               windmove-down
+               windmove-left
+               windmove-right
+               next-buffer
+               previous-buffer
+               read-from-minibuffer
+               ))
+  (advice-add cmd :before 'ol-window-buffer-change-old)
+  (advice-add cmd :after 'ol-window-buffer-change-new))
+
+
+;; -----------------------------------------------------------------------------
 ;; File Management
 ;; -----------------------------------------------------------------------------
 
@@ -211,9 +241,14 @@
 ;;;; ---------------------------------------------------------------------------
 
 (require 'super-save)
-(super-save-mode t)
-(setq save-silently t)
 
+;; Need to be set before enabling
+(setc super-save-hook-triggers '(ol-window-buffer-change-old-hook))
+(setc super-save-triggers nil)
+
+(super-save-mode t)
+
+(setq save-silently t)
 (defun ol-save-buffer ()
   (interactive)
   (save-buffer)
@@ -222,11 +257,6 @@
 (ol-global-set-key "C-x C-s" 'ol-save-buffer)
 
 (save-place-mode t)
-
-(defun ol-save-on-minibuffer (&rest _)
-  (super-save-command))
-
-(advice-add 'read-from-minibuffer :before 'ol-save-on-minibuffer)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Auto revert
@@ -750,9 +780,7 @@
 (defun ol-anzu-reset-cache (&rest _)
   (setq anzu--cached-positions nil))
 
-;; todo hook for everything that can be re-used with super save
-(add-hook 'window-selection-change-functions 'ol-anzu-reset-cache)
-(advice-add 'switch-to-buffer :after 'ol-anzu-reset-cache)
+(add-hook 'ol-window-buffer-change-new-hook 'ol-anzu-reset-cache)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Making Evil more similar to Vim
@@ -770,8 +798,7 @@
     (with-current-buffer (window-buffer window)
       (ol-update-evil-search))))
 
-(add-hook 'window-selection-change-functions 'ol-update-evil-search)
-(add-hook 'switch-to-buffer :after 'ol-update-evil-search)
+(add-hook 'ol-window-buffer-change-new-hook 'ol-update-evil-search)
 
 (defun ol-evil-start-search-advice (&rest _args)
   (setq ol-evil-is-searching t)
