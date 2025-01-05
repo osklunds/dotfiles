@@ -104,12 +104,12 @@
 ;; Width
 ;;------------------------------------------------------------------------------
 
-(setc vterm-min-window-width 60)
+(setc vterm-min-window-width 1000)
 (make-local-variable 'vterm-min-window-width)
 
 (defun ol-vterm-set-width ()
   (interactive)
-  (let ((width (read-from-minibuffer "vterm width (default: 2000): " nil nil 'read 'ol-vterm-width "2000")))
+  (let ((width (read-from-minibuffer "vterm width (default: 1000): " nil nil 'read 'ol-vterm-width "1000")))
     (setq vterm-min-window-width width)))
 
 (ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
