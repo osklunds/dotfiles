@@ -2214,7 +2214,8 @@ rg \
   (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
 
 (defun ol-file-state-segment ()
-  (if (or buffer-read-only (not buffer-file-name))
+  (if (and (not (cl-member major-mode '(wdired-mode)))
+           (or buffer-read-only (not buffer-file-name)))
       "%%%%"
     (if (buffer-modified-p) "*" "-")))
 
