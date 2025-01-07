@@ -2299,7 +2299,8 @@ rg \
 
 (ol-global-set-key "C-x d" 'ol-dired)
 
-(setc dired-listing-switches "-Alhv --time-style=long-iso")
+;; No -v because then B comes before a
+(setc dired-listing-switches "-Alh --time-style=long-iso")
 (setc dired-recursive-copies 'always)
 (setc dired-recursive-deletes 'always)
 

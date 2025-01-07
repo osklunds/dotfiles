@@ -1,6 +1,6 @@
 
 # Files
-alias ll='ls -Alhv --time-style=long-iso'
+alias ll='ls -Alh --time-style=long-iso'
 alias ft='rg'
 alias ff='rg --files | rg'
 alias cdr='cd ~/repos'
