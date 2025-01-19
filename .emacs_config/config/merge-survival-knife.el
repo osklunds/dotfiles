@@ -35,7 +35,7 @@
   (interactive "P")
   (setq msk-variant (or variant 'conflict-area))
   (setq msk-file (or file (buffer-file-name) magit-buffer-file-name))
-  (unless (or (equal msk-variant 'conflict-area) file)
+  (unless (or (equal msk-variant 'conflict-area) msk-file)
     (user-error "no file provided"))
   (msk-mode t))
 
