@@ -1451,6 +1451,23 @@ rg \
   (ol-magit-diff-set-face 'magit-diff-removed           ol-diff-light-red))
 
 ;;;;;; -------------------------------------------------------------------------
+;;;;;; In magit diff, vidff the highlighted file directly
+;;;;;;--------------------------------------------------------------------------
+
+;; todo: handle when nil file, i.e. in diff when file as added
+(defun ol-magit-ediff-read-files (revA revB fileB)
+  (let ((fileA (magit--rev-file-name fileB revA revB)))
+    (list fileA fileB)))
+
+(defun ol-vdiff-magit-dwim-advice (func &rest args)
+  (cl-letf (((symbol-function 'magit-ediff--read-files)
+             (lambda (&rest magit-ediff--read-files-args)
+               (apply 'ol-magit-ediff-read-files magit-ediff-read-files))))
+    (apply func args)))
+
+(advice-add 'vdiff-magit-dwim :around 'ol-vdiff-magit-dwim-advice)
+
+;;;;;; -------------------------------------------------------------------------
 ;;;;;; Diffing all files
 ;;;;;; -------------------------------------------------------------------------
 
