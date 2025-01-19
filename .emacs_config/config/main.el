@@ -2256,11 +2256,26 @@ rg \
           "  " ((:eval (ol-project-name-segment)))
           )))
 
-;; TOOD: Handle when checked out commit or remote branch
 (defun ol-branch-name-segment ()
-  (if-let ((branch (magit-get-current-branch)))
+  (if-let ((branch (ol-get-current-branch)))
       branch
     ""))
+
+(defvar ol-branch-cache nil)
+
+;; todo: update mode-line async and cache result
+(defun ol-get-current-branch ()
+  (if-let ((branch (magit-get-current-branch)))
+      branch
+    (when-let ((commit-id (magit-git-string "rev-parse" "HEAD")))
+      (if-let ((cached (cdr (assoc commit-id ol-branch-cache))))
+          cached
+        (let ((regex "HEAD detached at \\(.+\\)")
+              (status (magit-git-string "status")))
+          (string-match regex status)
+          (when-let ((calculated (match-string 1 status)))
+            (add-to-list 'ol-branch-cache `(,commit-id . ,calculated))
+            calculated))))))
 
 (defun ol-project-name-segment ()
   (let* ((name (projectile-project-name)))
