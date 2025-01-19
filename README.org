@@ -30,6 +30,8 @@ dotfiles I use
 - More colorful dired, like ll
 - for dwim find file, support git ls-files, git grep, rg options (for ignoring ignore), select if cwd or root
 - Use window display changed function for super save, etc
+- vdiff: the problem is that overlays are not being allowed to be partially inisivible. But only at top
+- vim mark, but name them, cycle through with ivy
 
 *** Not that important
 
