@@ -303,8 +303,6 @@
 
 (add-function :after after-focus-change-function 'ol-frame-out-of-focus)
 
-(run-with-idle-timer (* 30 60) t 'ol-garbage-collect)
-
 (setq read-process-output-max (* 1024 1024)) ;; 1 MB
 
 ;; Supposedly can improve scroll performance
