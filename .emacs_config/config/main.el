@@ -1460,9 +1460,9 @@ rg \
     (list fileA fileB)))
 
 (defun ol-vdiff-magit-dwim-advice (func &rest args)
-  (cl-letf (((symbol-function 'magit-ediff--read-files)
-             (lambda (&rest magit-ediff--read-files-args)
-               (apply 'ol-magit-ediff-read-files magit-ediff-read-files))))
+  (cl-letf (((symbol-function 'magit-ediff-read-files)
+             (lambda (&rest magit-ediff-read-files-args)
+               (apply 'ol-magit-ediff-read-files magit-ediff-read-files-args))))
     (apply func args)))
 
 (advice-add 'vdiff-magit-dwim :around 'ol-vdiff-magit-dwim-advice)
