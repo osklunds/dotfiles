@@ -58,7 +58,12 @@
 (defun ol-rust-cargo-check ()
   (interactive)
   (save-buffer)
-  (ol-send-cmd-to-visible-vterm-buffers "cargo check"))
+  (ol-send-cmd-to-visible-vterm-buffers "cargo check --tests"))
+
+(defun ol-rust-cargo-build ()
+  (interactive)
+  (save-buffer)
+  (ol-send-cmd-to-visible-vterm-buffers "cargo build --tests"))
 
 (defun ol-send-cmd-to-visible-vterm-buffers (cmd)
   (dolist (window (window-list))
@@ -67,4 +72,5 @@
         (vterm-send-string (concat cmd "\n"))))))
 
 (ol-evil-define-key 'normal rust-mode-map "C-c C-c" 'ol-rust-cargo-check)
+(ol-evil-define-key 'normal rust-mode-map "C-c C-b" 'ol-rust-cargo-build)
 
