@@ -4,7 +4,13 @@
 (ol-require-external "cargo")
 (ol-require-external "rustfmt")
 
-(ol-evil-define-key 'normal rust-mode-map "C-c C-q" 'rust-format-buffer)
+(defun ol-rust-format-buffer ()
+  (interactive)
+  (save-buffer)
+  (rust-format-buffer)
+  (save-buffer))
+
+(ol-evil-define-key 'normal rust-mode-map "C-c C-q" 'ol-rust-format-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; LSP
