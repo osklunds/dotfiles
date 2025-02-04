@@ -2,6 +2,9 @@
 (require 'rust-mode)
 (ol-require-external "rust-analyzer")
 (ol-require-external "cargo")
+(ol-require-external "rustfmt")
+
+(ol-evil-define-key 'normal rust-mode-map "C-c C-q" 'rust-format-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; LSP
