@@ -62,7 +62,8 @@ if  command -v -- sort-cargo-errors > /dev/null 2>&1; then
 fi
 
 ct() {
-    RUST_BACKTRACE=1 cargo test "$1" -- --show-output --test-threads 1 --color always
+    # RUST_BACKTRACE=1 cargo test "$1" -- --show-output --test-threads 1 --color always
+    RUST_BACKTRACE=1 cargo test "$1" -- --nocapture --test-threads 1 --color always
 }
 
 # Misc
