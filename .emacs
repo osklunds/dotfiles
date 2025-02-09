@@ -36,7 +36,9 @@
                 "merge-survival-knife"
                 "merge-commit-analyzer"
                 "docker"
-                "vterm-config"))
+                "vterm-config"
+                "ol-tiny-lsp-client"
+                ))
   (let ((path (concat "~/.emacs_config/config/" file ".el")))
     (load path)))
 
