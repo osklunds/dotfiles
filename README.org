@@ -32,6 +32,9 @@ dotfiles I use
 - Use window display changed function for super save, etc
 - vdiff: the problem is that overlays are not being allowed to be partially inisivible. But only at top
 - vim mark, but name them, cycle through with ivy
+- when new buffer, ALWAYS switch to it for consistent behavior
+- fix auto-save for q (bury-buffer)
+- fundamental-mode normal-state keybinds. Add some plain-state
 
 *** Not that important
 
