@@ -786,7 +786,7 @@
 
 ;; Fixing case sensitive
 (defun ol-anzu--case-fold-search--advice (&rest r)
-  (eq (evil-ex-regex-case (nth 0 evil-ex-search-pattern) evil-ex-search-case)
+  (eq (evil-ex-regex-case (nth 0 (or evil-ex-search-pattern '(""))) evil-ex-search-case)
       'insensitive))
 
 (advice-add 'anzu--case-fold-search :override 'ol-anzu--case-fold-search--advice)
