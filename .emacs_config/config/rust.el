@@ -62,7 +62,7 @@
               (cmd (concat "ct " test-name)))
     (ol-send-cmd-to-visible-vterm-buffers cmd)))
 
-(ol-evil-define-key 'normal rust-mode-map "C-c r" 'ol-rust-run-current-test)
+(ol-evil-define-key 'normal rust-mode-map "C-c e" 'ol-rust-run-current-test)
 
 (defun ol-rust-cargo-check ()
   (interactive)
