@@ -1460,7 +1460,7 @@ rg \
 (defun ol-magit-ediff-read-files (revA revB fileB)
   (let* ((fileA (magit--rev-file-name fileB revA revB))
          (fileA (or fileA fileB))) ;; if fileB didn't exist in revA, i.e was added since revA
-    (list fileB fileB)))
+    (list fileA fileB)))
 
 (defun ol-vdiff-magit-dwim-advice (func &rest args)
   (cl-letf (((symbol-function 'magit-ediff-read-files)
