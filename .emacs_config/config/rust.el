@@ -105,3 +105,9 @@
       (user-error "No current or last test"))))
 
 (ol-evil-define-key 'normal rust-mode-map "C-c e" 'ol-rust-run-test-dwim)
+
+(defun ol-rust-run-all-tests ()
+  (interactive)
+  (ol-send-cmd-to-visible-vterm-buffers "ct"))
+
+(ol-evil-define-key 'normal rust-mode-map "C-c E" 'ol-rust-run-all-tests)
