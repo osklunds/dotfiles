@@ -66,6 +66,8 @@
 ;;;; Run test
 ;;;;----------------------------------------------------------------------------
 
+(defvar ol-rust-last-test-name nil)
+
 (defun ol-rust-name-of-test ()
   (if-let ((name (ol-rust-get-function-on-current-line)))
       (save-excursion
@@ -83,11 +85,23 @@
     (beginning-of-line)
     (ol-regexp-group "^ *fn \\([a-zA-Z0-9_]+\\)" (thing-at-point 'line t) 1)))
 
-(defun ol-rust-run-current-test ()
-  (interactive)
+(defun ol-rust-run-test (test-name)
   (save-buffer)
-  (when-let* ((test-name (ol-rust-name-of-test))
-              (cmd (concat "ct " test-name)))
+  (let ((cmd (concat "ct " test-name)))
+    (setq ol-rust-last-test-name test-name)
     (ol-send-cmd-to-visible-vterm-buffers cmd)))
 
-(ol-evil-define-key 'normal rust-mode-map "C-c e" 'ol-rust-run-current-test)
+(defun ol-rust-run-current-test ()
+  (interactive)
+  (when-let* ((test-name (ol-rust-name-of-test)))
+    (ol-rust-run-test test-name)))
+
+(defun ol-rust-run-test-dwim ()
+  (interactive)
+  (if-let ((current (ol-rust-name-of-test)))
+      (ol-rust-run-test current)
+    (if ol-rust-last-test-name
+        (ol-rust-run-test ol-rust-last-test-name)
+      (user-error "No current or last test"))))
+
+(ol-evil-define-key 'normal rust-mode-map "C-c e" 'ol-rust-run-test-dwim)
