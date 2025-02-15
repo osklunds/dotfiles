@@ -1470,6 +1470,9 @@ rg \
 
 (advice-add 'vdiff-magit-dwim :around 'ol-vdiff-magit-dwim-advice)
 
+;; todo: do the above also for index and HEAD. If a file is renamed, diff
+;; doesn't work. Same for ediff
+
 ;;;;;; -------------------------------------------------------------------------
 ;;;;;; Diffing all files
 ;;;;;; -------------------------------------------------------------------------
