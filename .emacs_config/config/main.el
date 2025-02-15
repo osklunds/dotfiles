@@ -1458,8 +1458,9 @@ rg \
 
 ;; todo: handle when nil file, i.e. in diff when file as added
 (defun ol-magit-ediff-read-files (revA revB fileB)
-  (let ((fileA (magit--rev-file-name fileB revA revB)))
-    (list fileA fileB)))
+  (let* ((fileA (magit--rev-file-name fileB revA revB))
+         (fileA (or fileA fileB))) ;; if fileB didn't exist in revA, i.e was added since revA
+    (list fileB fileB)))
 
 (defun ol-vdiff-magit-dwim-advice (func &rest args)
   (cl-letf (((symbol-function 'magit-ediff-read-files)
