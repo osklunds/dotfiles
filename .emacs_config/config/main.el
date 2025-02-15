@@ -1319,6 +1319,8 @@ rg \
               '(display-buffer-same-window)
             '(nil (inhibit-same-window . t))))) ; This is the line I changed
 
+(setc magit-section-disable-line-numbers nil)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Blame
 ;;;; ---------------------------------------------------------------------------
