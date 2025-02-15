@@ -43,12 +43,17 @@
 ;; Terminal integration
 ;;------------------------------------------------------------------------------
 
-(defun ol-rust-name-of-function ()
+(defun ol-rust-name-of-test ()
   (if-let ((name (ol-rust-get-function-on-current-line)))
-      name
+      (save-excursion
+        (previous-line)
+        (beginning-of-line)
+        (if (looking-at-p (regexp-quote "#[test]"))
+            name
+          nil))
     (save-excursion
       (rust-beginning-of-defun)
-      (ol-rust-name-of-function))))
+      (ol-rust-name-of-test))))
 
 (defun ol-rust-get-function-on-current-line ()
   (save-excursion
@@ -58,7 +63,7 @@
 (defun ol-rust-run-current-test ()
   (interactive)
   (save-buffer)
-  (when-let* ((test-name (ol-rust-name-of-function))
+  (when-let* ((test-name (ol-rust-name-of-test))
               (cmd (concat "ct " test-name)))
     (ol-send-cmd-to-visible-vterm-buffers cmd)))
 
