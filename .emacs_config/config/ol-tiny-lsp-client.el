@@ -22,10 +22,8 @@
   (advice-add 'xref-backend-definitions
               :filter-return
               'ol-tlc-xref-debug)
-
   (ol-define-normal-leader-key "ll" 'tlc-open-log-file)
-
-
+  (ol-define-normal-leader-key "li" 'tlc-info)
   )
 
 (defun ol-prefer-tlc-xref ()
