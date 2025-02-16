@@ -15,7 +15,7 @@
 ;; (remove-hook 'rust-mode-hook 'ol-tlc-hook)
 
 (defun ol-tlc-hook ()
-  (setc lsp-log-io t)
+  (setc lsp-log-io nil)
   (setq lsp--show-message nil)
   (tlc-mode)
   (ol-prefer-tlc-xref)
