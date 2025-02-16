@@ -352,6 +352,8 @@
   (ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
   (ol-set-face 'hl-line :background "#eeeeee"))
 
+(setc help-window-select t)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Reduce Clutter
 ;;;; ---------------------------------------------------------------------------
