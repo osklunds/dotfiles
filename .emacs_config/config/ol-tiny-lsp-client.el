@@ -24,6 +24,8 @@
               'ol-tlc-xref-debug)
   (ol-define-normal-leader-key "ll" 'tlc-open-log-file)
   (ol-define-normal-leader-key "li" 'tlc-info)
+  (ol-define-normal-leader-key "lr" 'tlc-restart-server)
+  (ol-define-normal-leader-key "ls" 'tlc-stop-server)
   )
 
 (defun ol-prefer-tlc-xref ()
