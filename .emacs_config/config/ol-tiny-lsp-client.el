@@ -11,6 +11,13 @@
 (setc tlc-log-emacs-debug t)
 (setc tlc-log-to-stdio t)
 
+(setq load-path (cons  "/usr/lib64/erlang/lib/tools-4.1/emacs" load-path))
+(setq erlang-root-dir "/usr/lib64/erlang")
+(setq exec-path (cons "/usr/lib64/erlang/bin" exec-path))
+(require 'erlang-start)
+
+(add-hook 'erlang-mode-hook 'ol-tlc-hook)
+
 (add-hook 'rust-mode-hook 'ol-tlc-hook)
 ;; (remove-hook 'rust-mode-hook 'ol-tlc-hook)
 
@@ -37,4 +44,5 @@
     (message "tiny-lsp-client FAILED"))
   result)
 
+(setc tlc-find-root-function 'tlc-dev-find-root-default-function)
 
