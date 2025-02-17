@@ -11,6 +11,12 @@ dotfiles I use
 *** Must have
 
 - Native compilation of packages and my files
+- Try corfu
+- Try vertico/consult/marginella
+- Try project.el
+- Download all packages and store as check-in
+- Pass ripgrep args to both find file name and find file content, understand how it works
+- Only keep the theme I use from doom-themes
 
 *** Nice to have
 
@@ -39,7 +45,6 @@ dotfiles I use
 *** Not that important
 
 - alt-ret for continuing list also outside org-mode
-- Switch to vertico/consult/marginella
 - cache modeline segments, like doom modeline
 
 *** Wanted, but hard to do
