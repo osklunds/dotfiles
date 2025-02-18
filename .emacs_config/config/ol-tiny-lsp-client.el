@@ -9,7 +9,7 @@
 (setc tlc-log-stderr t)
 (setc tlc-log-rust-debug t)
 (setc tlc-log-emacs-debug t)
-(setc tlc-log-to-stdio t)
+(setc tlc-log-to-stdio nil)
 
 (setq load-path (cons  "/usr/lib64/erlang/lib/tools-4.1/emacs" load-path))
 (setq erlang-root-dir "/usr/lib64/erlang")
