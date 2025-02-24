@@ -2055,6 +2055,9 @@ rg \
 ;; TODO: Calling fix scroll automatically as part of vdiff next hunk doesn't
 ;; work. Probably related to the fixes/bugs I had to do for msk.
 
+(advice-add 'vdiff-next-hunk :after (lambda (&rest r) (ol-vdiff-fix-scroll)))
+(advice-add 'vdiff-previous-hunk :after (lambda (&rest r) (ol-vdiff-fix-scroll)))
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Truncate lines
 ;;;; ---------------------------------------------------------------------------
