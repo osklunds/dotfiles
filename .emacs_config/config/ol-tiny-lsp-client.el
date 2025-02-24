@@ -16,8 +16,8 @@
 (setq exec-path (cons "/usr/lib64/erlang/bin" exec-path))
 (require 'erlang-start)
 
+(add-hook 'c++-mode-hook 'ol-tlc-hook)
 (add-hook 'erlang-mode-hook 'ol-tlc-hook)
-
 (add-hook 'rust-mode-hook 'ol-tlc-hook)
 ;; (remove-hook 'rust-mode-hook 'ol-tlc-hook)
 
