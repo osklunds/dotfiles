@@ -1239,6 +1239,12 @@ rg \
 (ol-define-visual-leader-key "er" 'ol-eval-region)
 (ol-define-normal-leader-key "eb" 'ol-eval-buffer)
 
+(defun ol-indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(ol-evil-define-key 'normal emacs-lisp-mode-map "C-c C-q" 'ol-indent-buffer)
+
 ;; -----------------------------------------------------------------------------
 ;; Projectile
 ;; -----------------------------------------------------------------------------
