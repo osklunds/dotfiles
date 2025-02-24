@@ -1097,6 +1097,8 @@ rg \
 (setc lsp-completion-enable-additional-text-edit nil)
 (setc lsp-completion-default-behaviour :insert)
 
+(setc lsp-enable-on-type-formatting nil)
+
 (ol-define-normal-leader-key "mr" 'lsp-rename)
 
 (add-hook 'lsp-after-apply-edits-hook
