@@ -22,17 +22,10 @@
 ;; (remove-hook 'rust-mode-hook 'ol-tlc-hook)
 
 (defun ol-tlc-hook ()
-  (setc lsp-log-io nil)
+  (setc lsp-log-io t)
   (setq lsp--show-message nil)
   (tlc-mode)
   (ol-prefer-tlc-xref)
-  (advice-add 'xref-backend-definitions
-              :filter-return
-              'ol-tlc-xref-debug)
-  (ol-define-normal-leader-key "ll" 'tlc-open-log-file)
-  (ol-define-normal-leader-key "li" 'tlc-info)
-  (ol-define-normal-leader-key "lr" 'tlc-restart-server)
-  (ol-define-normal-leader-key "ls" 'tlc-stop-server)
   )
 
 (defun ol-prefer-tlc-xref ()
@@ -44,5 +37,13 @@
     (message "tiny-lsp-client FAILED"))
   result)
 
-(setc tlc-find-root-function 'tlc-dev-find-root-default-function)
+(setc tlc-find-root-function 'tlc-dev-find-root-function)
+
+(advice-add 'tlc-xref-backend
+            :filter-return
+            'ol-tlc-xref-debug)
+(ol-define-normal-leader-key "ll" 'tlc-open-log-file)
+(ol-define-normal-leader-key "li" 'tlc-info)
+(ol-define-normal-leader-key "lr" 'tlc-restart-server)
+(ol-define-normal-leader-key "ls" 'tlc-stop-server)
 
