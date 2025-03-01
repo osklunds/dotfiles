@@ -16,7 +16,7 @@
 ;; LSP
 ;;------------------------------------------------------------------------------
 
-(add-hook 'rust-mode-hook 'lsp)
+;; (add-hook 'rust-mode-hook 'lsp)
 
 (defun ol-lsp-rust-analyzer--make-init-options (original)
   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
@@ -63,6 +63,8 @@
 (ol-evil-define-key 'normal rust-mode-map "C-c C-c" 'ol-rust-cargo-check)
 (ol-evil-define-key 'normal rust-mode-map "C-c C-b" 'ol-rust-cargo-build)
 
+(ol-evil-define-key 'normal rust-mode-map "SPC SPC c" 'ol-rust-cargo-check)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Run test
 ;;;;----------------------------------------------------------------------------
@@ -106,9 +108,11 @@
       (user-error "No current or last test"))))
 
 (ol-evil-define-key 'normal rust-mode-map "C-c e" 'ol-rust-run-test-dwim)
+(ol-evil-define-key 'normal rust-mode-map "SPC SPC e" 'ol-rust-run-test-dwim)
 
 (defun ol-rust-run-all-tests ()
   (interactive)
   (ol-send-cmd-to-visible-vterm-buffers "ct"))
 
 (ol-evil-define-key 'normal rust-mode-map "C-c E" 'ol-rust-run-all-tests)
+(ol-evil-define-key 'normal rust-mode-map "SPC SPC E" 'ol-rust-run-all-tests)
