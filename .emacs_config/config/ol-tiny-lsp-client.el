@@ -41,3 +41,5 @@
 (ol-define-normal-leader-key "lr" 'tlc-restart-server)
 (ol-define-normal-leader-key "ls" 'tlc-stop-server)
 
+(ol-define-key evil-insert-state-map "M-p" 'completion-at-point)
+
