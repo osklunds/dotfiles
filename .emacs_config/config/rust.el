@@ -18,6 +18,9 @@
 
 ;; (add-hook 'rust-mode-hook 'lsp)
 
+;; it seems rust-mode's imenu is better than lsp's. So maybe don't need that
+;; functionality for tlc
+
 (defun ol-lsp-rust-analyzer--make-init-options (original)
   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
     (append original extra)))
