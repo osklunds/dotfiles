@@ -920,6 +920,7 @@
     (ol-cwd-find-file-name)))
 
 (defun ol-dwim-use-project-root ()
+  ;; todo: don't have vterm here, but files aren't found if using project root
   (and (not (cl-member major-mode '(dired-mode vterm-mode))) (projectile-project-root)))
 
 (defun ol-project-find-file-name (&optional root)
