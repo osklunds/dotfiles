@@ -20,3 +20,5 @@
           (vterm-send-string cmd))))))
 
 (ol-evil-define-key 'normal java-mode-map "C-c r" 'ol-java-run-current-test)
+
+(provide 'ol-java)

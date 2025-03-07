@@ -47,3 +47,4 @@
 
 (ol-define-key evil-insert-state-map "M-p" 'completion-at-point)
 
+(provide 'ol-tiny-lsp-client)

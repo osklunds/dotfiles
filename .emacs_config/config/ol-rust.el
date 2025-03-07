@@ -119,3 +119,5 @@
 
 (ol-evil-define-key 'normal rust-mode-map "C-c E" 'ol-rust-run-all-tests)
 (ol-evil-define-key 'normal rust-mode-map "SPC SPC E" 'ol-rust-run-all-tests)
+
+(provide 'ol-rust)

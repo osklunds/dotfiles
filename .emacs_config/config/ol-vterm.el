@@ -1,10 +1,4 @@
 
-;; vterm is kept in a separate file until my experiments are done
-
-;; -----------------------------------------------------------------------------
-;; General
-;;------------------------------------------------------------------------------
-
 (require 'vterm)
 
 (defun ol-vterm-disable-cursorline ()
@@ -113,3 +107,5 @@
     (setq vterm-min-window-width width)))
 
 (ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
+
+(provide 'ol-vterm)

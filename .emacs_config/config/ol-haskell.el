@@ -34,3 +34,5 @@
     (ol-send-cmd-to-visible-vterm-buffers (concat ":l " module))))
 
 (ol-evil-define-key 'normal haskell-mode-map "C-c l" 'ol-haskell-load-current-module)
+
+(provide 'ol-haskell)

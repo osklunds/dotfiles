@@ -3,3 +3,5 @@
 
 (ol-require-external "go")
 (ol-require-external "gopls")
+
+(provide 'ol-go)
