@@ -928,31 +928,21 @@
 ;; Find file name
 ;; -----------------------------------------------------------------------------
 
-;; TODO: Prefix arg that means not following ignore
-;; Could also consider transient for ripgrep
-(defun ol-dwim-find-file-name ()
-  "Search for file names."
-  (interactive)
-  (if-let ((root (ol-dwim-use-project-root)))
-      (ol-project-find-file-name root)
-    (ol-cwd-find-file-name)))
+(defun ol-dwim-find-file-name (&optional prefer-project-root)
+  (interactive "P")
+  (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
+      (ol-find-file-name root "project")
+    (ol-find-file-name default-directory "cwd")))
 
-(defun ol-dwim-use-project-root ()
-  ;; todo: don't have vterm here, but files aren't found if using project root
-  (and (not (cl-member major-mode '(dired-mode vterm-mode))) (projectile-project-root)))
-
-(defun ol-project-find-file-name (&optional root)
-  "Search for file names in the current project."
-  (interactive)
-  (ol-find-file-name (or root (projectile-project-root)) "project"))
-
-(defun ol-cwd-find-file-name ()
-  "Search for file names in the current directory."
-  (interactive)
-  (ol-find-file-name default-directory "cwd"))
+(defun ol-dwim-use-project-root (&optional prefer-project-root)
+  (let ((root (projectile-project-root)))
+    (cond
+     ((and root prefer-project-root) root)
+     ;; todo: don't have vterm here, but files aren't found if using project root
+     ((cl-member major-mode '(dired-mode vterm-mode)) nil)
+     (t root))))
 
 ;; Inspired by counsel-file-jump
-;; TODO: Make async like counsel-rg
 (defun ol-find-file-name (directory prompt)
   (let* ((default-directory directory)
          (cmd-and-args (ol-find-file-name-command-and-args))
@@ -968,13 +958,14 @@
               :keymap counsel-file-jump-map
               :caller 'ol-find-file-name)))
 
-(defun ol-find-file-name-command-and-args () (let ((candidates all-ol-find-file-name-command-and-args)
+(defun ol-find-file-name-command-and-args ()
+  (let ((candidates all-ol-find-file-name-command-and-args)
         (result nil))
     (while (not result)
       (let* ((candidate (car candidates))
              (cmd (car candidate)))
         (if (executable-find cmd)
-              (setq result candidate)
+            (setq result candidate)
           (setq candidates (cdr candidates)))))
     result))
 
@@ -999,8 +990,50 @@
 (advice-add 'counsel--call :around 'ol-counsel--call-advice)
 
 ;; -----------------------------------------------------------------------------
+;; Find with arbitrary cmd
+;; -----------------------------------------------------------------------------
+
+;; for file name: --no-ignore is relevant
+;; for file content: --ignore and globs and filetypes are relevant
+
+;; Useful examples (todo: make them templates you can complete-read)
+;; rg --files --no-ignore -- file name filtered
+;; rg --no-ignore -g '*.el'
+;; find . -name '*.el'
+
+(defun ol-find-cmd (&optional prefer-project-root)
+  (interactive "P")
+  (let* ((root (ol-dwim-use-project-root prefer-project-root))
+         (default-directory (or root default-directory))
+         (prompt (if root "Cmd [project]: " "Cmd [cwd]: ")))
+    (ivy-read prompt
+              'ol-find-cmd-fn
+              :dynamic-collection t
+              :initial-input ""
+              :action 'find-file-existing
+              :require-match t
+              :history 'ol-find-cmd
+              :caller 'ol-find-cmd)))
+
+(defun ol-find-cmd-fn (input)
+  (let* ((split (counsel--split-command-args input))
+         (after (car split))
+         (before (cdr split))
+         (cmd (if (string-equal after "")
+                  (concat "(unset TERM; " before " )")
+                (let* ((regex (counsel--grep-regex after))
+                       (quoted (shell-quote-argument regex)))
+                  (concat "(unset TERM; " before " | rg " quoted " )")))))
+    (counsel--async-command cmd))
+  nil)
+
+(ol-define-normal-leader-key "mc" 'ol-find-cmd)
+
+;; -----------------------------------------------------------------------------
 ;; Find file content
 ;; -----------------------------------------------------------------------------
+
+(ol-define-normal-leader-key "mo" 'swiper)
 
 (setc counsel-rg-base-command "\
 rg \
@@ -1011,24 +1044,12 @@ rg \
 --color never \
 %s || true")
 
-(defun ol-dwim-find-file-content (&optional arg)
-  "Search for file content."
+(defun ol-dwim-find-file-content (&optional prefer-project-root)
   (interactive "P")
   (if arg
-      (if-let ((root (ol-dwim-use-project-root)))
-          (ol-project-find-file-content root)
-        (ol-cwd-find-file-content))
-    (swiper)))
-
-(defun ol-project-find-file-content (&optional root)
-  "Search for file content in the current project."
-  (interactive)
-  (ol-find-file-content (or root (projectile-project-root)) "project"))
-
-(defun ol-cwd-find-file-content ()
-  "Search for file content in the current directory."
-  (interactive)
-  (ol-find-file-content default-directory "cwd"))
+      (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
+          (ol-find-file-content root "project")
+        (ol-find-file-content default-directory "cwd"))))
 
 (defun ol-find-file-content (directory prompt)
   (if (file-remote-p directory)
