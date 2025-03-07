@@ -41,6 +41,7 @@ dotfiles I use
 - when new buffer, ALWAYS switch to it for consistent behavior
 - fix auto-save for q (bury-buffer)
 - fundamental-mode normal-state keybinds. Add some plain-state
+- consider change ctrl to meta
 
 *** Not that important
 
