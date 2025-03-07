@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (setc enable-local-variables nil)
 
 (defun ol-window-setup-hook ()

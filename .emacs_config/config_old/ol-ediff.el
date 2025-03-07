@@ -2,6 +2,7 @@
 ;; This file is deprecated now that I use vdiff
 
 (require 'ediff)
+(require 'ol-util)
 
 (setc ediff-window-setup-function 'ediff-setup-windows-plain)
 (setc ediff-split-window-function 'split-window-horizontally)

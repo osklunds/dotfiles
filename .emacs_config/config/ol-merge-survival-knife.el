@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'merge-survival-knife)
 (require 'merge-commit-analyzer)
 

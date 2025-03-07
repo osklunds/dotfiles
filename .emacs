@@ -24,6 +24,8 @@
 
 (setq vc-follow-symlinks t)
 
+(byte-recompile-directory "~/.emacs_config" 0)
+
 (dolist (file (directory-files "~/.emacs_config/config/" nil "\\.el$"))
   (require (intern (file-name-sans-extension file))))
 

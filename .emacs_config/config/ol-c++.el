@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (ol-require-external "clangd")
 
 (define-abbrev-table 'c++-mode-abbrev-table

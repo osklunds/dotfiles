@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 ;; This file is deprecated now that I use vterm.
 
 ;; Notes for myself on terminals

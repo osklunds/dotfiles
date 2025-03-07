@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'vterm)
 
 (defun ol-vterm-disable-cursorline ()

@@ -119,3 +119,79 @@ The tool is based on [[https://github.com/justbur/emacs-vdiff][vdiff]].
 | =M-3=     | =msk-local-remote=  | Change diff view to LOCAL-REMOTE                  |
 | =M-4=     | =msk-local-merged=  | Change diff view to LOCAL-MERGED                  |
 | =M-5=     | =msk-remote-merged= | Change diff view to REMOTE-MERGED                 |
+
+
+Warning (bytecomp): reference to free variable ‘server-name’
+Warning (bytecomp): reference to free variable ‘evil-normal-state-map’
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘server-done’ is not known to be defined.
+Warning (bytecomp): the function ‘server-running-p’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-global-set-key’ is not known to be defined.
+Warning (bytecomp): the function ‘counsel-find-file’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Error (bytecomp): Symbol’s function definition is void: ol-override-key
+Warning (bytecomp): reference to free variable ‘ol-black’
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-visual-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-set-face’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-send-cmd-to-visible-vterm-buffers’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-global-set-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-override-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): ‘beginning-of-buffer’ is for interactive use only; use ‘(goto-char (point-min))’ instead.
+Warning (bytecomp): ‘magit-status’ is for interactive use only; use ‘magit-status-setup-buffer’ instead.
+Warning (bytecomp): reference to free variable ‘file’
+Warning (bytecomp): the function ‘ol-main-branch’ is not known to be defined.
+Warning (bytecomp): the function ‘vdiff-buffers’ is not known to be defined.
+Warning (bytecomp): the function ‘msk-merge-base-with-main’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-set-face’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-global-set-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-override-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-set-face’ is not known to be defined.
+Warning (bytecomp): the function ‘c-toggle-comment-style’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-global-set-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-override-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): ‘previous-line’ is for interactive use only; use ‘forward-line’ with negative argument instead.
+Warning (bytecomp): the function ‘vterm-send-string’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): reference to free variable ‘ol-black’
+Warning (bytecomp): reference to free variable ‘ol-white’
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘vterm-send-string’ is not known to be defined.
+Warning (bytecomp): the function ‘vterm’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-set-face’ is not known to be defined.
+Error (bytecomp): Cannot open load file: No such file or directory, tiny-lsp-client
+Warning (bytecomp): reference to free variable ‘ol-diff-green’
+Warning (bytecomp): reference to free variable ‘ol-diff-dark-red’
+Warning (bytecomp): reference to free variable ‘ol-diff-dark-orange’
+Warning (bytecomp): reference to free variable ‘ol-diff-light-orange’
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-set-face’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-copy-face-fg-bg’ is not known to be defined.
+Warning (bytecomp): reference to free variable ‘desired-name’
+Warning (bytecomp): reference to free variable ‘ol-normal-leader-map’
+Warning (bytecomp): the function ‘ol-global-set-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-evil-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-get-buffer-name-from-path’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-buffer-name-matches’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-override-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-normal-leader-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-define-key’ is not known to be defined.
+Warning (bytecomp): the function ‘ol-copy-face-fg-bg’ is not known to be defined.

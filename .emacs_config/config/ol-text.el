@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (setq-default tab-width 4)
 (setq-default evil-shift-width 4)
 (setq-default c-basic-offset 4)

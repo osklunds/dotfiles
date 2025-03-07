@@ -1,6 +1,7 @@
 
 (require 'dired)
 (require 'dired-x)
+(require 'ol-util)
 
 (setc dired-kill-when-opening-new-dired-buffer t)
 (setc dired-auto-revert-buffer 'dired-directory-changed-p)

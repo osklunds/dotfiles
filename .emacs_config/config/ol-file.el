@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (defun ol-print-buffer-file-name ()
   (interactive)
   (message "%s" (buffer-file-name)))

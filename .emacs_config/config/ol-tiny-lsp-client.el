@@ -3,6 +3,7 @@
 
 (add-to-list 'load-path "/home/oskar/own_repos/tiny-lsp-client/")
 
+(require 'ol-util)
 (require 'tiny-lsp-client)
 
 (setc tlc-log-io t)

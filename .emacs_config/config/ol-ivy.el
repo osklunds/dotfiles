@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'ivy)
 
 (setc ivy-height 20)

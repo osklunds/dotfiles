@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'rust-mode)
 (ol-require-external "rust-analyzer")
 (ol-require-external "cargo")

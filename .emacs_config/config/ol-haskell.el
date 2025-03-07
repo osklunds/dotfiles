@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'haskell-mode)
 (require 'haskell-mode-autoloads)
 

@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (require 'magit)
 (ol-require-external "git")
 

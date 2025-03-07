@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'lsp-mode)
 
 ;; Reduce noise

@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (ol-define-key evil-normal-state-map "q" 'quit-window)
 
 ;;;; ---------------------------------------------------------------------------

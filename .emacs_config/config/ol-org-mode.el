@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'org)
 (require 'org-faces)
 

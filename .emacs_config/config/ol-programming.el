@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (defun ol-symbol-search (&optional arg)
   (interactive "P")
   (if (equal major-mode 'org-mode)

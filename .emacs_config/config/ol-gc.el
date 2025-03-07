@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (setc garbage-collection-messages nil)
 
 (setq gc-cons-threshold (* 8 100 1000 1000))

@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
 
 ;;;; ---------------------------------------------------------------------------

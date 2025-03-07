@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (defun ol-start-server ()
   (interactive)
   (unless (server-running-p)

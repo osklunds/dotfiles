@@ -1,4 +1,5 @@
 
+(require 'ol-util)
 (require 'vdiff)
 (require 'vdiff-magit)
 
