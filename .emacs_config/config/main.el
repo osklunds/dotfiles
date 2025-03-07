@@ -244,21 +244,36 @@
 ;;;; Save
 ;;;; ---------------------------------------------------------------------------
 
-(require 'super-save)
+;; Inspired by super-save https://github.com/bbatsov/super-save
+(defun ol-save-p ()
+  (and buffer-file-name
+       (buffer-modified-p (current-buffer))
+       (file-writable-p buffer-file-name)))
 
-;; Need to be set before enabling
-(setc super-save-hook-triggers '(ol-window-buffer-change-old-hook))
-(setc super-save-triggers nil)
+(defun ol-save-silently ()
+  (let ((inhibit-message t))
+    (save-buffer)))
 
-(super-save-mode t)
+;; To handle when changing selected window
+(defun ol-save-on-window-selection-change (&rest _)
+  ;; When vidff opens/closes, it's not enough with the last buffer,
+  ;; so also take the second last.
+  (dolist (buffer (cl-subseq (buffer-list) 0 2))
+    (with-current-buffer buffer
+      (when (ol-save-p)
+        (ol-save-silently)))))
 
-(setq save-silently t)
-(defun ol-save-buffer ()
-  (interactive)
-  (save-buffer)
-  (message (format "Saved buffer: %s" (buffer-file-name))))
+(add-hook 'window-selection-change-functions 'ol-save-on-window-selection-change)
 
-(ol-global-set-key "C-x C-s" 'ol-save-buffer)
+;; To handle when changing buffer without changing window, e.g. q or C-^
+(defun ol-save-on-window-buffer-change (&rest _)
+  (let ((buffer (window-old-buffer)))
+    (when (buffer-live-p buffer)
+      (with-current-buffer buffer
+        (when (ol-save-p)
+          (ol-save-silently))))))
+
+(add-hook 'window-buffer-change-functions 'ol-save-on-window-buffer-change)
 
 (save-place-mode t)
 
