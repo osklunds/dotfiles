@@ -1575,6 +1575,8 @@ rg \
 ;;;; Log
 ;;;; ---------------------------------------------------------------------------
 
+;; trick: magit-diff-toggle-file-filter
+
 (ol-set-face 'magit-log-date :foreground "#da8548")
 
 ;; TODO: Maybe these can be saved better with transient?
