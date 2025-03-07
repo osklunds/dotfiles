@@ -2055,8 +2055,6 @@ rg \
 
 (setc vdiff-magit-stage-is-2way t)
 
-(ol-define-normal-leader-key "bd" 'vdiff-buffers)
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Colors
 ;;;;----------------------------------------------------------------------------
@@ -2165,6 +2163,8 @@ rg \
 (ol-define-key vdiff-mode-map "M-n" 'vdiff-next-hunk)
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
+
+(ol-define-normal-leader-key "bd" 'vdiff-buffers)
 
 ;; Hunk refinement
 (ol-define-key vdiff-mode-map "C-c f" 'ol-vdiff-refine-all-hunks)
