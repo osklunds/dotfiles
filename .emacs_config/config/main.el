@@ -1716,10 +1716,12 @@ rg \
 ;; TODO evil define key would be better but didn't work
 (ol-define-key smerge-mode-map "C-c n" 'smerge-next)
 (ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
-(ol-define-key smerge-mode-map "C-c l" 'smerge-keep-upper)
-(ol-define-key smerge-mode-map "C-c r" 'smerge-keep-lower)
-(ol-define-key smerge-mode-map "C-c b" 'ol-smerge-keep-both)
-(ol-define-key smerge-mode-map "C-c a" 'smerge-keep-all)
+
+;; C-c r also used by vdiff, so avoid conflict
+(ol-define-normal-leader-key "cl" 'smerge-keep-upper)
+(ol-define-normal-leader-key "cr" 'smerge-keep-lower)
+(ol-define-normal-leader-key "cb" 'ol-smerge-keep-both)
+(ol-define-normal-leader-key "ca" 'smerge-keep-all)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Merge Survival Knife
@@ -1761,11 +1763,6 @@ rg \
 
 (ol-evil-define-key 'normal msk-mode-map "M-m" 'msk-merged-buffer)
 (ol-evil-define-key 'normal msk-mode-map "M-o" 'msk-original-buffer)
-
-(ol-evil-define-key 'normal msk-mode-map "C-c l" 'smerge-keep-upper)
-(ol-evil-define-key 'normal msk-mode-map "C-c r" 'smerge-keep-lower)
-(ol-evil-define-key 'normal msk-mode-map "C-c b" 'ol-smerge-keep-both)
-(ol-evil-define-key 'normal msk-mode-map "C-c a" 'smerge-keep-all)
 
 (ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
 
