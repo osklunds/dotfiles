@@ -2414,10 +2414,12 @@ rg \
     (unless (ol-buffer-name-matches (buffer-name) desired-name)
       (rename-buffer (generate-new-buffer-name desired-name)))))
 
+;; todo: do /h/o/.e/main.el instead
 (defun ol-get-buffer-name-from-path (path &optional prefix)
   (let* ((abbreviated-path (abbreviate-file-name path))
          (name (cond
                 ((string-equal abbreviated-path "~/") "~/")
+                ((string-equal abbreviated-path "~") "~/")
                 ((string-equal abbreviated-path "/") "/")
                 (t (let* ((path2 (directory-file-name abbreviated-path))
                           (current-dir (file-name-nondirectory path2))
