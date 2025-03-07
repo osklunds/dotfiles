@@ -1933,8 +1933,6 @@ rg \
 ;; Some normal state keybinds
 (ol-evil-define-key 'insert term-raw-map "C-j" 'ivy-switch-buffer)
 (ol-evil-define-key 'insert term-raw-map 'c-6 'evil-switch-to-windows-last-buffer)
-(ol-evil-define-key 'insert term-raw-map "C-w k" 'evil-window-top)
-(ol-evil-define-key 'insert term-raw-map "C-w j" 'evil-window-bottom)
 
 ;; Make the terminal experience more natural
 (ol-evil-define-key 'insert term-raw-map "C-y" 'term-paste)
