@@ -19,9 +19,10 @@
   (when (string-match regexp string)
     (match-string group string)))
 
-(defmacro setc (var val)
-  "Convenient version of customize-set-variable."
-  `(customize-set-variable ',var ,val))
+(eval-and-compile
+  (defmacro setc (var val)
+    "Convenient version of customize-set-variable."
+    `(customize-set-variable ',var ,val)))
 
 (defun ol-require-external (cmd)
   (cl-assert (executable-find cmd)))
