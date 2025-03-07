@@ -907,7 +907,10 @@
                                 swiper-background-match-face-2
                                 swiper-background-match-face-2))
 
-(ol-define-key ivy-minibuffer-map 'tab 'ivy-alt-done)
+(ol-define-key ivy-minibuffer-map 'tab 'ivy-alt-done) ;; Exit, and use current selection
+(ol-define-key ivy-minibuffer-map 'return 'ivy-immediate-done) ;; Exit, and use current input
+(ol-define-key ivy-minibuffer-map "M-i" 'ivy-insert-current) ;; Insert the current candidate as input
+
 (ol-define-key ivy-minibuffer-map "C-j" 'ivy-next-line)
 (ol-define-key ivy-minibuffer-map "C-k" 'ivy-previous-line)
 (ol-define-key ivy-minibuffer-map "C-n" 'minibuffer-keyboard-quit)
