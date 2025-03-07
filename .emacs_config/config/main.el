@@ -490,11 +490,11 @@
     (split-window-below)))
 
 (defun ol-split-window-sensibly (&optional window)
-    (interactive)
-    (let ((window (or window (selected-window))))
-        (and (= 1 (count-windows))
-                 (with-selected-window window
-                     (ol-split-based-on-style)))))
+  (interactive)
+  (let ((window (or window (selected-window))))
+    (and (= 1 (count-windows))
+         (with-selected-window window
+           (ol-split-based-on-style)))))
 
 (setc split-window-preferred-function #'ol-split-window-sensibly)
 
@@ -611,7 +611,7 @@
     (call-interactively 'evilnc-comment-operator)))
 
 (ol-evil-define-key 'normal prog-mode-map "gc" 'ol-evilnc-comment-operator)
-  
+
 (defun ol-evilnc-comment-operator-advice (start end type)
   ;; Always set type to 'line
   `(,start ,end 'line))
@@ -628,7 +628,7 @@
 (ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-visual-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-insert-state-map "M-n" 'evil-execute-in-normal-state)
- 
+
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
 (ol-define-key evil-motion-state-map "C-l" #'evil-window-right)
@@ -1152,18 +1152,18 @@ rg \
 
 ;; Copied from https://stackoverflow.com/a/15389612
 (defadvice expand-abbrev (after ol-expand-abbrev activate)
-   ;; if there was an expansion
-   (if ad-return-value
-       ;; start idle timer to ensure insertion of abbrev activator
-       ;; character (e.g. space) is finished
-       (run-with-idle-timer 0 nil
-                            (lambda ()
-                              ;; if there is the string "@@" in the
-                              ;; expansion then move cursor there and
-                              ;; delete the string
-                              (let ((cursor "@@"))
-                                (if (search-backward cursor last-abbrev-location t)
-                                    (delete-char (length cursor))))))))
+  ;; if there was an expansion
+  (if ad-return-value
+      ;; start idle timer to ensure insertion of abbrev activator
+      ;; character (e.g. space) is finished
+      (run-with-idle-timer 0 nil
+                           (lambda ()
+                             ;; if there is the string "@@" in the
+                             ;; expansion then move cursor there and
+                             ;; delete the string
+                             (let ((cursor "@@"))
+                               (if (search-backward cursor last-abbrev-location t)
+                                   (delete-char (length cursor))))))))
 
 (setc save-abbrevs 'silently)
 
@@ -1643,7 +1643,7 @@ rg \
 ;; TODO: Replace existing instead
 (transient-replace-suffix 'magit-log "=p" `(4 "=p" "First parent" "--first-parent"))
 (transient-replace-suffix 'magit-log "=m" `(4 "=m" "Omit merges" "--no-merges"))
-                      
+
 (transient-append-suffix 'magit-log "=p"
   `(4 "-m" "Hide commits in main/master" ,ol-not-in-main-branch-arg))
 
@@ -1683,8 +1683,8 @@ rg \
 ;; https://stumbles.id.au/auto-starting-emacs-smerge-mode-for-git.html
 (defun vc-git-find-file-hook ()
   (when (save-excursion
-      (goto-char (point-min))
-      (re-search-forward "^<<<<<<< " nil t))
+          (goto-char (point-min))
+          (re-search-forward "^<<<<<<< " nil t))
     (smerge-mode)))
 
 (defun ol-smerge-set-face (face-to-set face-val)
@@ -1907,11 +1907,11 @@ rg \
 
 (defun ol-disable-cursorline-for-terms ()
   (when (equal major-mode 'term-mode)
-      (setq global-hl-line-mode nil)))
+    (setq global-hl-line-mode nil)))
 
 (defun ol-enable-cursorline-for-terms ()
   (when (equal major-mode 'term-mode)
-      (setq global-hl-line-mode t)))
+    (setq global-hl-line-mode t)))
 
 (add-hook 'evil-insert-state-entry-hook 'ol-disable-cursorline-for-terms)
 (add-hook 'evil-insert-state-exit-hook 'ol-enable-cursorline-for-terms)
@@ -1975,7 +1975,7 @@ rg \
       (setq-local ol-vterm-manually-renamed t)
       (when (and cmd-on-create (not existing-buffer))
         (vterm-send-string (concat cmd-on-create "\n"))))
-      new-buffer))
+    new-buffer))
 
 (ol-define-normal-leader-key "tt" 'ol-term-named)
 
@@ -2001,7 +2001,7 @@ rg \
 ;; -----------------------------------------------------------------------------
 ;; emacs server
 ;; -----------------------------------------------------------------------------
-         
+
 (defun ol-start-server ()
   (interactive)
   (unless (server-running-p)
@@ -2335,9 +2335,9 @@ rg \
 
 (defun ol-project-name-segment ()
   (let* ((name (projectile-project-name)))
-     (if (string-equal name "-")
-         ""
-       name)))
+    (if (string-equal name "-")
+        ""
+      name)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Putting it all together
