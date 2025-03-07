@@ -2512,12 +2512,10 @@ rg \
   (font-lock-add-keywords
    nil
    (list
-    (list ".*PaxHeaders.*" (list 0 ''file-name-shadow))
+    (list ".*PaxHeader.*" (list 0 ''file-name-shadow))
     )))
 
 (add-hook 'tar-mode-hook 'ol-add-tar-font-lock-keywords)
-
-                         
 
 ;; -----------------------------------------------------------------------------
 ;; archive-mode
