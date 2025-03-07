@@ -1141,15 +1141,11 @@ rg \
 ;;;; Backend
 ;;;;----------------------------------------------------------------------------
 
-;; (setc company-backends '(company-capf))
 (setc company-backends '((company-abbrev
                           :separate
-                          company-capf)))
-;; (setc company-backends '((company-abbrev)))
-;;                           :separate
-;;                           company-capf
-;;                           :separate
-;;                           company-dabbrev-code)))
+                          company-capf
+                          :separate
+                          company-dabbrev-code)))
 (make-variable-buffer-local 'company-backends)
 
 (defun ol-no-company-capf ()
