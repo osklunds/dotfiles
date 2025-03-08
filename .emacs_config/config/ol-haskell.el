@@ -1,4 +1,8 @@
 
+(require 'ol-util)
+(require 'ol-vterm)
+(require 'ol-evil)
+
 (require 'haskell-mode)
 (require 'haskell-mode-autoloads)
 
@@ -34,3 +38,5 @@
     (ol-send-cmd-to-visible-vterm-buffers (concat ":l " module))))
 
 (ol-evil-define-key 'normal haskell-mode-map "C-c l" 'ol-haskell-load-current-module)
+
+(provide 'ol-haskell)

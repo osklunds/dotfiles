@@ -1,9 +1,12 @@
 
 ;; I'm experimenting with my own lsp client. Not ready to be made public yet :)
 
-(add-to-list 'load-path "/home/oskar/own_repos/tiny-lsp-client/")
+(require 'ol-util)
+(require 'ol-evil)
 
 (require 'tiny-lsp-client)
+
+(require 'lsp-mode)
 
 (setc tlc-log-io t)
 (setc tlc-log-stderr t)
@@ -47,3 +50,4 @@
 
 (ol-define-key evil-insert-state-map "M-p" 'completion-at-point)
 
+(provide 'ol-tiny-lsp-client)

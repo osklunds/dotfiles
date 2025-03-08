@@ -1,5 +1,10 @@
 
+(require 'ol-vterm)
+(require 'ol-evil)
+
 (require 'lsp-java)
+(require 'which-func)
+
 (ol-require-external "javac")
 
 (add-hook 'java-mode-hook #'lsp)
@@ -20,3 +25,5 @@
           (vterm-send-string cmd))))))
 
 (ol-evil-define-key 'normal java-mode-map "C-c r" 'ol-java-run-current-test)
+
+(provide 'ol-java)
