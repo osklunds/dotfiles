@@ -7,44 +7,45 @@ dotfiles I use
 
 *** Housekeeping
 
+- After the split of main.el, clean up the files
 
-*** Must have
 
-- Native compilation of packages and my files
+*** More important
+
 - Try corfu
 - Try vertico/consult/marginella
 - Try project.el
+- Try eglot
 - Download all packages and store as check-in
 - Pass ripgrep args to both find file name and find file content, understand how it works
 - Only keep the theme I use from doom-themes
+- Ask on SE/emacs why gc slower when more packages loaded
+- Lower memory usage. Garbage collection is slow for me. Even if my config
+  doesn't generate more garbage than more lightweight configs, because so much
+  memory is used, it takes time to find the garbage. My guess at least. (BIG)
+- Change to emacs built-in search and search-and-replace
+- fundamental-mode normal-state keybinds. Add some plain-state
+- for dwim find file, support git ls-files, git grep, rg options (for ignoring
+  ignore), select if cwd or root
 
-*** Nice to have
+*** Less important
 
-- Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. (BIG)
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
-- lsp diagnostics
-- Make magit use the highlighted file instead of prompting and using the highlighted file as default
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - rg options, e.g. ignore gitignore, only certain file types, fold on file, etc
-- cleaner magit transient (BIG)
-- Merge commit analyzer
-  - Check diff between merge base and both parents. Fix by dwim command in magit commit show mode
-  - Also check changes in files made by both parents
 - Make relative line numebrs correct in vdiff
-- Tweak lsp settings so that they don't send unused stuff. Could speed up GC
 - More colorful dired, like ll
-- for dwim find file, support git ls-files, git grep, rg options (for ignoring ignore), select if cwd or root
-- Use window display changed function for super save, etc
-- vdiff: the problem is that overlays are not being allowed to be partially inisivible. But only at top
+- vdiff: the problem is that overlays are not being allowed to be partially
+  inisivible. But only at top
 - vim mark, but name them, cycle through with ivy
 - when new buffer, ALWAYS switch to it for consistent behavior
-- fix auto-save for q (bury-buffer)
-- fundamental-mode normal-state keybinds. Add some plain-state
 - consider change ctrl to meta
 
-*** Not that important
+*** Not important at all
 
+- lsp diagnostics
+- cleaner magit transient (BIG)
 - alt-ret for continuing list also outside org-mode
 - cache modeline segments, like doom modeline
 
