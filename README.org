@@ -9,7 +9,6 @@ dotfiles I use
 
 - After the split of main.el, clean up the files
 
-
 *** More important
 
 - Try corfu
