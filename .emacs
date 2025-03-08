@@ -26,6 +26,8 @@
 
 (setq vc-follow-symlinks t)
 
+;; todo: after this was compiled for the first time, needed to restart emacs.
+;; Consider doing what auto-compile-mode by magit author does.
 (save-window-excursion
   (byte-recompile-directory "~/.emacs_config/config" 0)
   (byte-recompile-directory "~/.emacs_config/packages" 0)
