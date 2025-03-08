@@ -2,6 +2,7 @@
 (require 'ol-util)
 (require 'ol-vterm)
 (require 'ol-evil)
+(require 'ol-eglot)
 
 (require 'rust-mode)
 
@@ -22,6 +23,8 @@
 ;;------------------------------------------------------------------------------
 
 ;; (add-hook 'rust-mode-hook 'lsp)
+
+;; (add-hook 'rust-mode-hook 'eglot-ensure)
 
 ;; it seems rust-mode's imenu is better than lsp's. So maybe don't need that
 ;; functionality for tlc

@@ -14,7 +14,6 @@ dotfiles I use
 - Try corfu
 - Try vertico/consult/marginella
 - Try project.el
-- Try eglot
 - Download all packages and store as check-in
 - Pass ripgrep args to both find file name and find file content, understand how it works
 - Only keep the theme I use from doom-themes
