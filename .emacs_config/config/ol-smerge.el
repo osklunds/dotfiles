@@ -1,4 +1,8 @@
 
+(require 'ol-basic-user-interface)
+(require 'ol-magit)
+(require 'ol-evil)
+
 (require 'smerge-mode)
 
 ;; Copied/inspired from, to automatically start smerge

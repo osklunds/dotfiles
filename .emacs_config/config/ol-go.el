@@ -1,4 +1,6 @@
 
+(require 'ol-util)
+
 (require 'go-mode)
 
 (ol-require-external "go")

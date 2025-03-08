@@ -1,10 +1,13 @@
 
 (require 'ol-util)
+(require 'ol-dired)
+(require 'ol-evil)
+
 (require 'vterm)
 
 (defun ol-vterm-disable-cursorline ()
   (when (equal major-mode 'vterm-mode)
-      (setq global-hl-line-mode nil)))
+    (setq global-hl-line-mode nil)))
 
 (defun ol-vterm-enable-cursorline ()
   (when (equal major-mode 'vterm-mode)
@@ -19,12 +22,18 @@
 
 (defun ol-vterm ()
   (interactive)
-  (let ((desired-name (ol-vterm-get-desired-buffer-name-from-path default-directory))
-        (pred (lambda (buffer)
-                (ol-buffer-name-matches (buffer-name buffer) desired-name))))
+  (let* ((desired-name (ol-vterm-get-desired-buffer-name-from-path default-directory))
+         (pred (lambda (buffer)
+                 (ol-buffer-name-matches (buffer-name buffer) desired-name))))
     (if-let ((existing-buffer (seq-find pred (buffer-list))))
         (switch-to-buffer existing-buffer)
       (vterm))))
+
+(defun ol-send-cmd-to-visible-vterm-buffers (cmd)
+  (dolist (window (window-list))
+    (with-current-buffer (window-buffer window)
+      (when (eq major-mode 'vterm-mode)
+        (vterm-send-string (concat cmd "\n"))))))
 
 ;; -----------------------------------------------------------------------------
 ;; Copying

@@ -1,4 +1,6 @@
 
+(require 'ol-evil)
+
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table
   '(
     ("dbg" "(message \"oskar: %s\" @@)")

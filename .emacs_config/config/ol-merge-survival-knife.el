@@ -1,5 +1,7 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+
 (require 'merge-survival-knife)
 (require 'merge-commit-analyzer)
 

@@ -1,6 +1,7 @@
 
 (require 'ol-colors)
 (require 'ol-util)
+(require 'ol-evil)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 

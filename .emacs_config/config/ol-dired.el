@@ -1,7 +1,11 @@
 
+(require 'ol-util)
+(require 'ol-evil)
+
 (require 'dired)
 (require 'dired-x)
-(require 'ol-util)
+(require 'tar-mode)
+(require 'arc-mode)
 
 (setc dired-kill-when-opening-new-dired-buffer t)
 (setc dired-auto-revert-buffer 'dired-directory-changed-p)
@@ -31,7 +35,7 @@
 (setc dired-recursive-copies 'always)
 (setc dired-recursive-deletes 'always)
 
-(advice-add 'wdired-exit :around #'ol-disable-y-or-n-p)
+(advice-add 'wdired-exit :around 'ol-disable-y-or-n-p)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Buffer name

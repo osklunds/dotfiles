@@ -1,4 +1,7 @@
 
+(require 'ol-evil)
+(require 'ol-dired)
+
 (require 'tar-mode)
 
 (defun ol-tar-up-directory ()

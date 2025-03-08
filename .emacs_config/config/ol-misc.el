@@ -1,5 +1,6 @@
 
 (require 'ol-util)
+(require 'ol-evil)
 
 (setc enable-local-variables nil)
 

@@ -7,11 +7,6 @@
 (setc ediff-window-setup-function 'ediff-setup-windows-plain)
 (setc ediff-split-window-function 'split-window-horizontally)
 
-;; Copied from https://emacs.stackexchange.com/a/24602
-(defun ol-disable-y-or-n-p (orig-fun &rest args)
-  (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
-    (apply orig-fun args)))
-
 (advice-add 'ediff-quit :around #'ol-disable-y-or-n-p)
 
 ;; These actually made some more sense once I understood them. In ediff, there's

@@ -1,7 +1,11 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+(require 'ol-colors)
+
 (require 'org)
 (require 'org-faces)
+(require 'color)
 
 (setc org-ellipsis " ▾")
 

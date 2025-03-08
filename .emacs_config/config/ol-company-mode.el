@@ -1,5 +1,7 @@
 
 (require 'ol-util)
+(require 'ol-basic-user-interface)
+(require 'ol-evil)
 
 ;; -----------------------------------------------------------------------------
 ;; Abbreviations (for completions)

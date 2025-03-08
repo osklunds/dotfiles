@@ -1,5 +1,8 @@
 
 (require 'ol-util)
+(require 'ol-vterm)
+(require 'ol-evil)
+
 (require 'haskell-mode)
 (require 'haskell-mode-autoloads)
 

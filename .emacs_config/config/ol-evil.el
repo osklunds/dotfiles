@@ -6,11 +6,13 @@
 ;; -----------------------------------------------------------------------------
 
 ;; These must be set before evil is loaded
-(setq evil-want-integration t)
-(setq evil-want-keybinding nil)
-(setq evil-respect-visual-line-mode t)
+(defvar evil-want-integration t)
+(defvar evil-want-keybinding nil)
+(defvar evil-respect-visual-line-mode t)
 
 (require 'evil)
+(require 'evil-collection)
+
 (evil-mode t)
 
 ;; -----------------------------------------------------------------------------
@@ -73,7 +75,10 @@
   :keymap ol-override-mode-map)
 
 ;;;###autoload
-(define-globalized-minor-mode global-ol-override-mode ol-override-mode ol-override-mode)
+(define-globalized-minor-mode global-ol-override-mode
+  ol-override-mode
+  ol-override-mode
+  :group 'ol)
 
 (add-to-list 'emulation-mode-map-alists `((ol-override-mode . ,ol-override-mode-map)))
 
@@ -103,7 +108,6 @@
 (setq evil-insert-state-cursor 'box)
 (setc evil-want-Y-yank-to-eol t)
 
-(require 'evil-collection)
 (with-eval-after-load 'dired (evil-collection-dired-setup))
 (with-eval-after-load 'magit (evil-collection-magit-setup))
 (with-eval-after-load 'term (evil-collection-term-setup))

@@ -1,4 +1,6 @@
 
+(require 'trace)
+
 ;; Taken from https://emacs.stackexchange.com/a/24658
 (defun ol-unadvice (sym)
   "Remove all advices from symbol SYM."
@@ -22,5 +24,10 @@
 
 (defun ol-require-external (cmd)
   (cl-assert (executable-find cmd)))
+
+;; Copied from https://emacs.stackexchange.com/a/24602
+(defun ol-disable-y-or-n-p (orig-fun &rest args)
+  (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
+    (apply orig-fun args)))
 
 (provide 'ol-util)

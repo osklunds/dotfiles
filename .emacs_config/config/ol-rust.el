@@ -1,6 +1,10 @@
 
 (require 'ol-util)
+(require 'ol-vterm)
+(require 'ol-evil)
+
 (require 'rust-mode)
+
 (ol-require-external "rust-analyzer")
 (ol-require-external "cargo")
 (ol-require-external "rustfmt")
@@ -58,12 +62,6 @@
   (save-buffer)
   (ol-send-cmd-to-visible-vterm-buffers "cargo build --tests"))
 
-(defun ol-send-cmd-to-visible-vterm-buffers (cmd)
-  (dolist (window (window-list))
-    (with-current-buffer (window-buffer window)
-      (when (eq major-mode 'vterm-mode)
-        (vterm-send-string (concat cmd "\n"))))))
-
 (ol-evil-define-key 'normal rust-mode-map "C-c C-c" 'ol-rust-cargo-check)
 (ol-evil-define-key 'normal rust-mode-map "C-c C-b" 'ol-rust-cargo-build)
 
@@ -78,7 +76,7 @@
 (defun ol-rust-name-of-test ()
   (if-let ((name (ol-rust-get-function-on-current-line)))
       (save-excursion
-        (previous-line)
+        (forward-line -1)
         (beginning-of-line)
         (if (looking-at-p (regexp-quote "#[test]"))
             name

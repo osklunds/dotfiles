@@ -1,6 +1,8 @@
 
-(require 'arc-mode)
 (require 'ol-evil)
+(require 'ol-dired)
+
+(require 'arc-mode)
 
 (defun ol-archive-up-directory ()
   (interactive)

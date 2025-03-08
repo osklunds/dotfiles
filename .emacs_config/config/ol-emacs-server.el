@@ -1,5 +1,8 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+
+(require 'server)
 
 (defun ol-start-server ()
   (interactive)

@@ -1,7 +1,11 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+(require 'ol-colors)
 
 (require 'magit)
+(require 'vdiff)
+
 (ol-require-external "git")
 
 ;; To make sure leader works in magit buffers
@@ -63,7 +67,7 @@
   (let ((prefix "\n\n"))
     (unless (looking-at-p prefix)
       (insert "\n\n")
-      (beginning-of-buffer))))
+      (goto-char (point-min)))))
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
 
@@ -100,7 +104,7 @@
   (interactive "P")
   (setc magit-status-sections-hook
         (ol-magit-status-sections full (magit-merge-in-progress-p)))
-  (magit-status))
+  (magit-status-setup-buffer))
 
 (ol-define-normal-leader-key "gs" 'ol-magit-status)
 
@@ -183,7 +187,7 @@
 
 (defun ol-diff-all-files-main ()
   (interactive)
-  (magit-diff-range (msk-merge-base-with-main)))
+  (magit-diff-range (ol-merge-base-with-main)))
 
 (ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
 
@@ -199,7 +203,7 @@
 
 (defun ol-diff-current-file-main ()
   (interactive)
-  (ol-diff-current-file (msk-merge-base-with-main)))
+  (ol-diff-current-file (ol-merge-base-with-main)))
 
 (ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
 
@@ -263,7 +267,7 @@
   (let* ((ignore-rev (plist-get args :ignore-rev))
          (file-arg (plist-get args :file))
          (file (cond ((null file-arg) nil)
-                     (t (list file))))
+                     (t (list file-arg))))
          (magit-log-args (append ol-magit-log-default-arguments
                                  (ol-make-ignore-rev-args ignore-rev))))
     (magit-log-setup-buffer (list rev) magit-log-args file)))
@@ -334,5 +338,32 @@
 (keymap-set transient-base-map "C-n" 'transient-quit-one)
 (keymap-set transient-sticky-map "C-n" 'transient-quit-seq)
 
+;; -----------------------------------------------------------------------------
+;; Misc
+;; -----------------------------------------------------------------------------
+
+(defun ol-main-branch ()
+  (let ((main-branch "main"))
+    (if (ol-does-branch-exist main-branch)
+        main-branch
+      "master")))
+
+(defun ol-does-branch-exist (branch)
+  (let ((all-branches (shell-command-to-string "git branch --list"))
+        (regex (concat "[ \\n]" branch "$")))
+    (string-match-p regex all-branches)))
+
+;; Valid assumption in this repo
+(let ((default-directory (file-name-directory load-file-name)))
+  (cl-assert (ol-does-branch-exist "main"))
+  (cl-assert (not (ol-does-branch-exist "mai")))
+  (cl-assert (not (ol-does-branch-exist "ain")))
+  (cl-assert (not (ol-does-branch-exist "random"))))
+
+(defun ol-merge-base-with-main ()
+  (ol-merge-base (ol-main-branch) "HEAD"))
+
+(defun ol-merge-base (c1 c2)
+  (magit-commit-p (magit-git-string "merge-base" c1 c2)))
 
 (provide 'ol-magit)

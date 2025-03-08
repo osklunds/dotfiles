@@ -1,5 +1,12 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+
+(require 'imenu)
+(require 'cc-cmds)
+(require 'cc-mode)
+(require 'counsel)
+(require 'org)
 
 (defun ol-symbol-search (&optional arg)
   (interactive "P")

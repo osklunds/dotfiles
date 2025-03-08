@@ -1,5 +1,10 @@
 
+(require 'ol-vterm)
+(require 'ol-evil)
+
 (require 'lsp-java)
+(require 'which-func)
+
 (ol-require-external "javac")
 
 (add-hook 'java-mode-hook #'lsp)

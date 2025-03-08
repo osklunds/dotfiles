@@ -1,5 +1,9 @@
 
 (require 'ol-util)
+(require 'ol-basic-user-interface)
+(require 'ol-magit)
+(require 'ol-evil)
+
 (require 'vdiff)
 (require 'vdiff-magit)
 

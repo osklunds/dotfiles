@@ -1,6 +1,9 @@
 
 (require 'ol-util)
 (require 'ol-ivy)
+(require 'ol-evil)
+
+(require 'projectile)
 
 ;; -----------------------------------------------------------------------------
 ;; Find file name
@@ -36,6 +39,12 @@
               :keymap counsel-file-jump-map
               :caller 'ol-find-file-name)))
 
+(defconst all-ol-find-file-name-command-and-args
+  (list (list "rg" '("--files"))
+        (list "find" counsel-file-jump-args)))
+
+(ol-require-external "rg")
+
 (defun ol-find-file-name-command-and-args ()
   (let ((candidates all-ol-find-file-name-command-and-args)
         (result nil))
@@ -46,12 +55,6 @@
             (setq result candidate)
           (setq candidates (cdr candidates)))))
     result))
-
-(defconst all-ol-find-file-name-command-and-args
-  (list (list "rg" '("--files"))
-        (list "find" counsel-file-jump-args)))
-
-(ol-require-external "rg")
 
 ;; To handle rg returning error codes even if partial result
 ;; Inspired/copied from

@@ -477,3 +477,4 @@
       (error "The merged string must end with a newline"))
     (substring string 1 -1)))
   
+(provide 'merge-survival-knife)

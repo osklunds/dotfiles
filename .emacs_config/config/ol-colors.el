@@ -1,7 +1,7 @@
 
-;; To avoid problem with recursive load error
-(require 'jka-compr)
+(require 'jka-compr) ;; To avoid problem with recursive load error
 (require 'faces)
+
 (require 'doom-themes)
 
 ;; todo copy but only keep this one

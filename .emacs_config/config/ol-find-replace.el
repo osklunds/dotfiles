@@ -1,5 +1,7 @@
 
 (require 'ol-util)
+(require 'ol-basic-user-interface)
+(require 'ol-evil)
 
 (ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
 

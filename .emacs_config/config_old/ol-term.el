@@ -1,5 +1,7 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+(require 'ol-basic-user-interface)
 
 ;; This file is deprecated now that I use vterm.
 

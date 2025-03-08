@@ -1,5 +1,7 @@
 
 (require 'ol-util)
+(require 'ol-evil)
+
 (require 'ivy)
 
 (setc ivy-height 20)
