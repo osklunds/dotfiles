@@ -43,4 +43,7 @@
 
 (ol-evil-define-key 'insert org-mode-map 'return 'ol-org-return)
 
+;; In the future, org seems to get some setting to set to fill width
+(setc org-image-actual-width 600)
+
 (provide 'ol-org-mode)
