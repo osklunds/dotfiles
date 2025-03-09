@@ -5,6 +5,7 @@
 --no-messages
 --glob=!.git/
 --glob=!.emacs_config/packages
+--glob=!.emacs_config/packages_old
 --glob=!.emacs_config/packages_own/tiny-lsp-client
 --glob=!.vim/pack/plugins_as_submodules
 
