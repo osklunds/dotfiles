@@ -46,4 +46,9 @@
 ;; In the future, org seems to get some setting to set to fill width
 (setc org-image-actual-width 600)
 
+(define-abbrev-table 'org-mode-abbrev-table
+  '(
+    ("src" "#+BEGIN_SRC @@\n\n#+END_SRC")
+    ))
+
 (provide 'ol-org-mode)
