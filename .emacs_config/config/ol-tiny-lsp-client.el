@@ -29,10 +29,8 @@
   (setq lsp--show-message nil)
   (tlc-mode)
   (tlc-use-xref)
+  (tlc-use-capf)
 
-  ;; (tlc-use-sync-capf)
-  (tlc-use-async-capf)
-  ;; (tlc-use-async-cached-capf)
   )
 
 (defun ol-prefer-tlc-xref ()
