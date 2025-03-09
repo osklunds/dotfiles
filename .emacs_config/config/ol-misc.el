@@ -48,6 +48,8 @@
 
 (ol-define-normal-leader-key "sc" 'ol-toggle-spelling)
 
+(ol-define-normal-leader-key "sf" 'flyspell-auto-correct-word)
+
 (setc ispell-check-comments 'exclusive)
 
 (defun ol-shell-command (command)
