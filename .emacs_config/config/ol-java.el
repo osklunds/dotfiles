@@ -4,6 +4,7 @@
 
 ;; (require 'lsp-java)
 (require 'which-func)
+(require 'cc-mode)
 
 (ol-require-external "javac")
 
