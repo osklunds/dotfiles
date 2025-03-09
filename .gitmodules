@@ -1,9 +1,6 @@
 [submodule ".emacs_config/packages/-f"]
 	path = .emacs_config/packages/-f
 	url = https://github.com/bbatsov/super-save
-[submodule ".emacs_config/packages/super-save"]
-	path = .emacs_config/packages/super-save
-	url = https://github.com/bbatsov/super-save
 [submodule ".emacs_config/packages/evil"]
 	path = .emacs_config/packages/evil
 	url = https://github.com/emacs-evil/evil.git
@@ -16,9 +13,6 @@
 [submodule ".emacs_config/packages/emacs-balanced-windows"]
 	path = .emacs_config/packages/emacs-balanced-windows
 	url = https://github.com/wbolster/emacs-balanced-windows.git
-[submodule ".emacs_config/packages/rainbow-delimiters"]
-	path = .emacs_config/packages/rainbow-delimiters
-	url = https://github.com/Fanael/rainbow-delimiters.git
 [submodule ".emacs_config/packages/evil-nerd-commenter"]
 	path = .emacs_config/packages/evil-nerd-commenter
 	url = https://github.com/redguardtoo/evil-nerd-commenter.git
