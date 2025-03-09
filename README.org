@@ -21,6 +21,7 @@ dotfiles I use
 - Lower memory usage. Garbage collection is slow for me. Even if my config
   doesn't generate more garbage than more lightweight configs, because so much
   memory is used, it takes time to find the garbage. My guess at least. (BIG)
+  - One suggestion was to decrease shell term size.
 - Change to emacs built-in search and search-and-replace
 - fundamental-mode normal-state keybinds. Add some plain-state
 - for dwim find file, support git ls-files, git grep, rg options (for ignoring
