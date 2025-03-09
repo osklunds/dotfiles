@@ -2,7 +2,7 @@
 (require 'ol-util)
 (require 'ol-vterm)
 (require 'ol-evil)
-(require 'ol-eglot)
+;; (require 'ol-eglot)
 
 (require 'rust-mode)
 
@@ -29,13 +29,13 @@
 ;; it seems rust-mode's imenu is better than lsp's. So maybe don't need that
 ;; functionality for tlc
 
-(defun ol-lsp-rust-analyzer--make-init-options (original)
-  (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
-    (append original extra)))
+;; (defun ol-lsp-rust-analyzer--make-init-options (original)
+;;   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
+;;     (append original extra)))
 
-(advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
+;; (advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
 
-(setc lsp-rust-analyzer-completion-add-call-parenthesis nil)
+;; (setc lsp-rust-analyzer-completion-add-call-parenthesis nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Snippets

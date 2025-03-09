@@ -2,12 +2,12 @@
 (require 'ol-vterm)
 (require 'ol-evil)
 
-(require 'lsp-java)
+;; (require 'lsp-java)
 (require 'which-func)
 
 (ol-require-external "javac")
 
-(add-hook 'java-mode-hook #'lsp)
+;; (add-hook 'java-mode-hook #'lsp)
 
 (define-abbrev-table 'java-mode-abbrev-table
   '(
