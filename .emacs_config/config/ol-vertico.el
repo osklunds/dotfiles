@@ -45,5 +45,20 @@
     (find-file selected)))
 (ol-override-key "M-q" 'ol-find-file-name)
 
+(defun ol-find-file-content ()
+  (interactive)
+  (let* (
+         (selected (completing-read
+                    "Find file name: "
+                    (lambda (probe pred flag)
+                      (message "oskar: %s %s %s" probe pred flag)
+                      (split-string (shell-command-to-string "rg --files") "\n" t))
+                    nil
+                    t
+                    nil
+                    'ol-find-file-name
+                    )))
+    (find-file selected)))
+(ol-override-key "M-e" 'ol-find-file-content)
 
 (provide 'ol-vertico)
