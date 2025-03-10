@@ -5,6 +5,8 @@ dotfiles I use
 
 ** Emacs todos
 
+Make sure my backup repo script collects the tiny-lsp-client submodule
+
 *** Housekeeping
 
 - After the split of main.el, clean up the files
