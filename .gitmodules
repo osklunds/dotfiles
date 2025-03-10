@@ -136,3 +136,6 @@
 [submodule ".emacs_config/packages/vertico"]
 	path = .emacs_config/packages/vertico
 	url = https://github.com/minad/vertico.git
+[submodule ".emacs_config/packages/embark"]
+	path = .emacs_config/packages/embark
+	url = https://github.com/oantolin/embark.git
