@@ -2,6 +2,7 @@
 (require 'ol-util)
 
 (require 'vertico)
+(require 'embark)
 
 (vertico-mode)
 
@@ -17,6 +18,7 @@
 (ol-define-key minibuffer-local-map 'tab 'vertico-exit)
 (ol-define-key minibuffer-local-map 'return 'vertico-exit-input)
 (ol-define-key minibuffer-local-map "M-i" 'vertico-insert)
+(ol-define-key minibuffer-local-map "M-o" 'embark-collect)
 
 ;; -----------------------------------------------------------------------------
 ;; Behavior
