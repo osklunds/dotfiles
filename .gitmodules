@@ -133,3 +133,6 @@
 [submodule ".emacs_config/packages_own/tiny-lsp-client"]
 	path = .emacs_config/packages_own/tiny-lsp-client
 	url = https://github.com/osklunds/tiny-lsp-client.git
+[submodule ".emacs_config/packages/vertico"]
+	path = .emacs_config/packages/vertico
+	url = https://github.com/minad/vertico.git
