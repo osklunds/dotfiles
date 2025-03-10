@@ -27,4 +27,23 @@
 (setc vertico-count 20)
 (setc vertico-cycle t)
 
+;; -----------------------------------------------------------------------------
+;; Find file name
+;; -----------------------------------------------------------------------------
+
+(defun ol-find-file-name ()
+  (interactive)
+  (let* ((candidates (split-string (shell-command-to-string "rg --files") "\n" t))
+         (selected (completing-read
+                    "Find file name: "
+                    candidates
+                    nil
+                    t
+                    nil
+                    'ol-find-file-name
+                    )))
+    (find-file selected)))
+(ol-override-key "M-q" 'ol-find-file-name)
+
+
 (provide 'ol-vertico)
