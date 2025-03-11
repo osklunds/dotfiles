@@ -62,6 +62,9 @@
 ;; Supposedly can improve scroll performance
 (setq auto-window-vscroll nil)
 
+(setq kill-buffer-query-functions nil)
+(setc confirm-kill-processes nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
 ;;------------------------------------------------------------------------------
