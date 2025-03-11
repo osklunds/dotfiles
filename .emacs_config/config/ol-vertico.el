@@ -46,8 +46,14 @@
     (find-file selected)))
 (ol-override-key "M-q" 'ol-find-file-name)
 
+(defvar ol-find-file-content-last-probe nil)
+(defvar ol-find-file-content-last-result nil)
+
 (defun ol-find-file-content ()
   (interactive)
+  (setq ol-find-file-content-last-probe nil)
+  (setq ol-find-file-content-last-result nil)
+
   (let* (
          (selected (completing-read
                     "Find file name: "
@@ -58,9 +64,6 @@
                     'ol-find-file-name
                     )))
     (find-file selected)))
-
-(defvar ol-find-file-content-last-probe nil)
-(defvar ol-find-file-content-last-result nil)
 
 (defun ol-find-file-content-collection (probe pred action)
   (let* (
@@ -93,8 +96,6 @@
      ((eq action 'metadata) nil)
      ((eq action t) candidates-return))))
 
-(defun ol-find-file-content-collection (probe pred action)
+(ol-override-key "M-e" 'ol-find-file-content)
 
-  (ol-override-key "M-e" 'ol-find-file-content)
-
-  (provide 'ol-vertico)
+(provide 'ol-vertico)
