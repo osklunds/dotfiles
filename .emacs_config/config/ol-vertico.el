@@ -50,15 +50,27 @@
   (let* (
          (selected (completing-read
                     "Find file name: "
-                    (lambda (probe pred flag)
-                      (message "oskar: %s %s %s" probe pred flag)
-                      (split-string (shell-command-to-string "rg --files") "\n" t))
+                    'ol-find-file-content-collection
                     nil
                     t
                     nil
                     'ol-find-file-name
                     )))
     (find-file selected)))
+
+(defun ol-find-file-content-collection (probe pred action)
+  (let* ((candidates (process-lines-ignore-status "rg"
+                                                  "--no-heading"
+                                                  "--line-number"
+                                                  "--with-filename"
+                                                  probe)))
+    (cond
+     ((eq (car-safe action) 'boundaries) nil)
+     ((eq action 'metadata) nil)
+     ((eq action t) candidates))))
+
+(defun ol-find-file-content-collection (probe pred action)
+
 (ol-override-key "M-e" 'ol-find-file-content)
 
 (provide 'ol-vertico)
