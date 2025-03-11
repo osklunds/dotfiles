@@ -1,3 +1,4 @@
+;;;  -*- lexical-binding: t; -*-
 
 (require 'ol-util)
 
@@ -58,19 +59,42 @@
                     )))
     (find-file selected)))
 
+(defvar ol-find-file-content-last-probe nil)
+(defvar ol-find-file-content-last-result nil)
+
 (defun ol-find-file-content-collection (probe pred action)
-  (let* ((candidates (process-lines-ignore-status "rg"
-                                                  "--no-heading"
-                                                  "--line-number"
-                                                  "--with-filename"
-                                                  probe)))
+  (let* (
+         (inhibit-message t)
+         (candidates (while-no-input
+                       (redisplay)
+                       (list 'result (process-lines-ignore-status "rg"
+                                                                  "--no-heading"
+                                                                  "--line-number"
+                                                                  "--with-filename"
+                                                                  probe))))
+         (candidates-return
+          (pcase candidates
+            (`(result ,new-candidates)
+             (progn
+               (setq ol-find-file-content-last-probe probe)
+               (setq ol-find-file-content-last-result new-candidates)
+               new-candidates))
+            ('t
+             (cond
+              ((string-equal probe ol-find-file-content-last-probe)
+               ol-find-file-content-last-result)
+              (t nil)))
+            ('nil
+             (error "todo"))))
+         )
+    
     (cond
      ((eq (car-safe action) 'boundaries) nil)
      ((eq action 'metadata) nil)
-     ((eq action t) candidates))))
+     ((eq action t) candidates-return))))
 
 (defun ol-find-file-content-collection (probe pred action)
 
-(ol-override-key "M-e" 'ol-find-file-content)
+  (ol-override-key "M-e" 'ol-find-file-content)
 
-(provide 'ol-vertico)
+  (provide 'ol-vertico)
