@@ -261,12 +261,6 @@
 ;; Revision
 ;; -----------------------------------------------------------------------------
 
-(setc magit-revision-insert-related-refs-display-alist
-      '((follows . nil)
-        (precedes . nil)
-        (merged . nil)
-        (contained . nil)))
-
 (defun ol-magit-set-revision-header ()
   (magit-set-header-line-format (magit-rev-format "%B" magit-buffer-revision-hash)))
 
