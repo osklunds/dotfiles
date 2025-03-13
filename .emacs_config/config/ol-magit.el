@@ -15,6 +15,7 @@
 
 (setc magit-display-buffer-function 'ol-magit-display-buffer-traditional)
 
+;; Copied from magit with one change
 (defun ol-magit-display-buffer-traditional (buffer)
   "Display BUFFER the way this has traditionally been done."
   (display-buffer
