@@ -41,4 +41,11 @@
 
 (ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
 
+(defun ol-disable-patches-for-mca-mode (func &rest args)
+  (let ((ol-magit-disable-patches t))
+    (apply func args))
+  )
+
+(advice-add 'mca-start :around 'ol-disable-patches-for-mca-mode)
+
 (provide 'ol-merge-survival-knife)
