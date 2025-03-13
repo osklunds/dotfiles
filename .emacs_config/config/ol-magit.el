@@ -5,6 +5,7 @@
 
 (require 'magit)
 (require 'vdiff)
+(require 'vdiff-magit)
 
 (ol-require-external "git")
 
