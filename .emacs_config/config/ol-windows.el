@@ -59,8 +59,6 @@
       (switch-to-buffer (other-buffer))
       (other-window 1))))
 
-(ol-define-normal-leader-key "mt" 'ol-transpose-windows)
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Splitting
 ;;;; ---------------------------------------------------------------------------

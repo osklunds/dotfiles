@@ -97,5 +97,24 @@
   (advice-add cmd :before 'ol-window-buffer-change-old)
   (advice-add cmd :after 'ol-window-buffer-change-new))
 
+;; -----------------------------------------------------------------------------
+;; Fundamental mode toggling
+;; -----------------------------------------------------------------------------
+
+(defvar ol-original-mode nil)
+(make-local-variable 'ol-original-mode)
+
+(defun ol-toggle-fundamental-mode ()
+  (interactive)
+  (let* ((original-mode ol-original-mode)
+         (original-mode (if original-mode
+                            original-mode
+                          major-mode)))
+    (if (equal major-mode 'fundamental-mode)
+        (funcall original-mode)
+      (fundamental-mode))
+    (setq-local ol-original-mode original-mode)))
+
+(ol-define-normal-leader-key "mt" 'ol-toggle-fundamental-mode)
 
 (provide 'ol-misc)
