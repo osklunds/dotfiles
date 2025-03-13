@@ -331,6 +331,16 @@
 
 (add-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
 
+;; magit wash of the patches takes times, and if not relevant, disable it
+(defvar ol-magit-disable-patches nil)
+
+(defun ol-magit-disable-patches-advice (args)
+  (if ol-magit-disable-patches
+      (cl-remove "-p" args :test 'string-equal)
+    args))
+
+(advice-add 'magit-process-git-arguments :filter-return 'ol-magit-disable-patches-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Transient
 ;;------------------------------------------------------------------------------
