@@ -228,39 +228,18 @@
 
 (setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
 
-(ol-define-normal-leader-key "gl" 'ol-git-log-dwim)
+(ol-define-normal-leader-key "gl" 'ol-magit-log-dwim)
 
-(defun ol-git-log-dwim (&optional arg)
+(defun ol-magit-log-dwim (&optional arg)
   (interactive "P")
-  (let* ((input (if arg
-                    (read-from-minibuffer
-                     "git log args (i)nclude commits in main, (t)his file only: ")
-                  ""))
-         (branch (magit-get-current-branch))
-         (main (ol-main-branch))
-         (ignore-rev (when (and (not (string-match-p "i" input))
-                                (not (equal branch main)))
-                       main))
-         (file (when (string-match-p "t" input)
-                 (buffer-file-name))))
-    (ol-git-log branch :ignore-rev ignore-rev :file file)))
-
-(defun ol-git-log (rev &rest args)
-  (let* ((ignore-rev (plist-get args :ignore-rev))
-         (file-arg (plist-get args :file))
-         (file (cond ((null file-arg) nil)
-                     (t (list file-arg))))
-         (magit-log-args (append ol-magit-log-default-arguments
-                                 (ol-make-ignore-rev-args ignore-rev))))
-    (magit-log-setup-buffer (list rev) magit-log-args file)))
-
-(defun ol-make-ignore-rev-args (ignore-rev)
-  (when ignore-rev
-    (list "--first-parent" "--not" ignore-rev "--not")))
+  (if arg
+      (magit-log-buffer-file)
+    (magit-log-setup-buffer (list (or magit-buffer-refname
+                                      (magit-get-current-branch)
+                                      "HEAD")) nil nil)))
 
 (defconst ol-not-in-main-branch-arg "--not-in-main-branch")
 
-;; TODO: Replace existing instead
 (transient-replace-suffix 'magit-log "=p" `(4 "=p" "First parent" "--first-parent"))
 (transient-replace-suffix 'magit-log "=m" `(4 "=m" "Omit merges" "--no-merges"))
 
