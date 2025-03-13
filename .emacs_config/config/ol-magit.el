@@ -68,7 +68,7 @@
 (defun ol-git-commit-setup ()
   (let ((prefix "\n\n"))
     (unless (looking-at-p prefix)
-      (insert "\n\n")
+      (insert prefix)
       (goto-char (point-min)))))
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
