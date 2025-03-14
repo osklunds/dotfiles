@@ -21,8 +21,9 @@
       (file-name-directory
        (file-truename
         (or load-file-name buffer-file-name))))
+(setq ol-emacs-dir (file-name-concat ol-repo-root ".emacs_config"))
 
-(let ((default-directory (file-name-concat ol-repo-root ".emacs_config")))
+(let ((default-directory ol-emacs-dir))
   (normal-top-level-add-subdirs-to-load-path))
 
 ;; todo: after this was compiled for the first time, needed to restart emacs.
@@ -31,13 +32,13 @@
 (defun ol-compile-own ()
   (interactive)
   (save-window-excursion
-    (byte-recompile-directory "~/.emacs_config/config" 0)
-    (byte-recompile-directory "~/.emacs_config/packages_own" 0)))
+    (byte-recompile-directory (file-name-concat ol-emacs-dir "config") 0)
+    (byte-recompile-directory (file-name-concat ol-emacs-dir "packages_own") 0)))
 
 (defun ol-compile-packages ()
   (interactive)
   (save-window-excursion
-    (byte-recompile-directory "~/.emacs_config/packages" 0)))
+    (byte-recompile-directory (file-name-concat ol-emacs-dir "packages") 0)))
 
 (defun ol-compile-all ()
   (interactive)
