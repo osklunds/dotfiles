@@ -12,21 +12,18 @@
 ;; Loading config
 ;; ---------------------------------------------------------------------------
 
-(setq load-path (append load-path
-                        '("~/.emacs_config/config")
-                        '("~/.emacs_config/packages_own/")
-                        (file-expand-wildcards "~/.emacs_config/packages_own/*")
-                        (file-expand-wildcards "~/.emacs_config/packages/*")
-                        (file-expand-wildcards "~/.emacs_config/packages/*/src/*")
-                        (file-expand-wildcards "~/.emacs_config/packages/*/clients")
-                        (file-expand-wildcards "~/.emacs_config/packages/*/lisp"))
-      )
-
+(setq package-archives nil)
 (setq custom-file (concat user-emacs-directory "/custom.el"))
-
 (setq vc-follow-symlinks t)
-
 (setq load-prefer-newer t)
+
+(setq ol-repo-root
+      (file-name-directory
+       (file-truename
+        (or load-file-name buffer-file-name))))
+
+(let ((default-directory (file-name-concat ol-repo-root ".emacs_config")))
+  (normal-top-level-add-subdirs-to-load-path))
 
 ;; todo: after this was compiled for the first time, needed to restart emacs.
 ;; Consider doing what auto-compile-mode by magit author does.
