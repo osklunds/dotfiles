@@ -26,8 +26,13 @@
 (let ((default-directory ol-emacs-dir))
   (normal-top-level-add-subdirs-to-load-path))
 
-;; todo: after this was compiled for the first time, needed to restart emacs.
-;; Consider doing what auto-compile-mode by magit author does.
+;; Naive and simplified method
+(defun ol-require-advice (feature &optional filename _noerror)
+  (when-let ((filename (locate-file (format "%s.el" feature) load-path)))
+    (when (string-prefix-p ol-repo-root filename)
+      (byte-recompile-file filename nil 0))))
+
+(advice-add 'require :before 'ol-require-advice)
 
 (defun ol-compile-own ()
   (interactive)
@@ -44,10 +49,6 @@
   (interactive)
   (ol-compile-own)
   (ol-compile-packages))
-
-;; Compiling seems to load, and I don't want to load all packages, so
-;; only compile my own, which are the most frequently changed.
-(ol-compile-own)
 
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (require (intern (file-name-sans-extension file))))
