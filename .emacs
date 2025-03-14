@@ -49,7 +49,7 @@
 ;; only compile my own, which are the most frequently changed.
 (ol-compile-own)
 
-(dolist (file (directory-files "~/.emacs_config/config/" nil "\\.el$"))
+(dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (require (intern (file-name-sans-extension file))))
 
 ;; For some reason, isn't killed without this idle timer
