@@ -97,8 +97,6 @@
   (ol-set-face face :weight 'bold)
   (ol-set-face face :background ol-white))
 
-(defconst ol-completion-selection-color "#d7e4e8")
-
 (ol-set-face 'ivy-current-match :weight 'bold)
 (ol-set-face 'ivy-current-match :background ol-completion-selection-color)
 (ol-set-face 'company-tooltip :background ol-white)

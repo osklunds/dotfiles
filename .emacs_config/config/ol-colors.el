@@ -25,6 +25,7 @@ Maybe inherit would be cleaner to use."
 
 (defconst ol-white "#ffffff") ;; ff works better than white in terminal
 (defconst ol-black "#000000")
+(defconst ol-completion-selection-color "#d7e4e8")
 
 (ol-set-face 'default :foreground ol-black :background ol-white)
 (ol-set-face 'font-lock-comment-face :foreground "#5f8700")
