@@ -3,6 +3,8 @@
 (require 'ol-util)
 (require 'ol-evil)
 
+(require 'ivy)
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; To make sure e.g. ♝ are monospaced
@@ -71,8 +73,6 @@
 ;; -----------------------------------------------------------------------------
 ;; No mouse
 ;; -----------------------------------------------------------------------------
-
-(require 'ivy)
 
 (defun ol-no-op ()
   (interactive))
