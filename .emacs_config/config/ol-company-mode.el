@@ -4,7 +4,6 @@
 (require 'ol-evil)
 
 (require 'company)
-;; (require 'company-box)
 
 ;; -----------------------------------------------------------------------------
 ;; General
@@ -75,8 +74,6 @@
 (setc company-tooltip-align-annotations t)
 (setc company-format-margin-function 'company-text-icons-margin)
 
-;; (add-hook 'company-mode-hook 'company-box-mode)
-
 (add-hook 'evil-insert-state-exit-hook 'company-abort)
 
 (setc company-frontends '(
@@ -101,8 +98,6 @@
 (ol-set-face 'ivy-current-match :background ol-completion-selection-color)
 (ol-set-face 'company-tooltip :background ol-white)
 (ol-set-face 'company-tooltip-selection :background ol-completion-selection-color)
-;; (ol-set-face 'company-box-background :background ol-white)
-;; (ol-set-face 'company-box-selection :background ol-completion-selection-color)
 
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
 (ol-set-face 'company-tooltip-scrollbar-track :background nil :inherit 'tooltip)
