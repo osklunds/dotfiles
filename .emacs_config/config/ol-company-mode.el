@@ -3,8 +3,17 @@
 (require 'ol-colors)
 (require 'ol-evil)
 
+(require 'company)
+(require 'company-box)
+
 ;; -----------------------------------------------------------------------------
-;; Abbreviations (for completions)
+;; General
+;; -----------------------------------------------------------------------------
+
+(global-company-mode t)
+
+;; -----------------------------------------------------------------------------
+;; Snippet expansion
 ;; -----------------------------------------------------------------------------
 
 ;; Copied from https://stackoverflow.com/a/15389612
@@ -25,31 +34,30 @@
 (setc save-abbrevs 'silently)
 
 ;; -----------------------------------------------------------------------------
-;; Completion
+;; Backend
 ;; -----------------------------------------------------------------------------
 
-(require 'company)
-(require 'company-box)
-
-(global-company-mode t)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Backend
-;;;;----------------------------------------------------------------------------
-
-(setc company-backends '((company-abbrev
+(setc company-backends '((
+                          company-abbrev
                           :separate
                           company-capf
                           :separate
-                          company-dabbrev-code)))
+                          company-dabbrev-code
+                          )))
 (make-variable-buffer-local 'company-backends)
 
 (defun ol-no-company-capf ()
-  (setq-local company-backends '((company-abbrev
+  (setq-local company-backends '((
+                                  company-abbrev
                                   :separate
-                                  company-dabbrev-code))))
+                                  company-dabbrev-code
+                                  ))))
 
 (add-hook 'sh-mode-hook 'ol-no-company-capf)
+
+;; -----------------------------------------------------------------------------
+;; dabbrev
+;; -----------------------------------------------------------------------------
 
 (setc company-dabbrev-minimum-length 2)
 (setc company-dabbrev-other-buffers nil)
@@ -57,9 +65,9 @@
 (setc company-dabbrev-code-everywhere t)
 (setc company-dabbrev-code-modes t)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Frontend
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Frontend
+;; -----------------------------------------------------------------------------
 
 (setc company-minimum-prefix-length 1)
 (setc company-idle-delay 0.0)
@@ -75,9 +83,9 @@
                           company-preview-if-just-one-frontend
                           ))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Colors
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Colors
+;; -----------------------------------------------------------------------------
 
 ;; Making ivy and company look consistent
 (dolist (face '(ivy-minibuffer-match-face-1
@@ -98,9 +106,9 @@
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
 (ol-set-face 'company-tooltip-scrollbar-track :background nil :inherit 'tooltip)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Keybinds
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Keybinds
+;; -----------------------------------------------------------------------------
 
 (ol-define-key company-active-map 'return 'company-abort)
 (ol-define-key company-active-map "C-g" nil)
