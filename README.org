@@ -70,6 +70,8 @@ of packages as little as possible, especially advising on internal functions.
 - anzu/evil-anzu -> own
   - Keep them until upgrade problems, but consider rolling my own
 - projectile -> project
+- emacs-balanced-windows -> own
+- evil-visualstar -> own
 
 * "Merge Survival Knife"
 
