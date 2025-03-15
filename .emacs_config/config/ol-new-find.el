@@ -49,14 +49,16 @@
 
 (defun ol2-find-file-name (dir prompt-dir-part)
   (interactive)
-  (let* ((candidates (split-string (shell-command-to-string "rg --files") "\n" t))
+  (let* ((cmd (ol2-find-file-cmd))
+         (candidates (split-string (shell-command-to-string cmd) "\n" t))
+         (prompt (format "Find file name [%s '%s']" prompt-dir-part cmd))
          (selected (completing-read
-                    "Find file name: "
+                    prompt
                     candidates
                     nil
-                    t
+                    t ;; require match
                     nil
-                    'ol-find-file-name
+                    'ol2-find-file-name
                     )))
     (find-file selected)))
 
