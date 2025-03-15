@@ -21,4 +21,6 @@
 
 (setc yank-excluded-properties t)
 
+(setc text-mode-ispell-word-completion nil)
+
 (provide 'ol-text)
