@@ -5,15 +5,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-(setq-default show-trailing-whitespace nil)
-
-(defun ol-toggle-show-trailing-whitespace ()
-  (interactive)
-  (setq-local show-trailing-whitespace (not show-trailing-whitespace))
-  (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
-
-(ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
-
 ;; To make sure e.g. ♝ are monospaced
 (set-fontset-font t 'symbol
                   (font-spec :family "DejaVu Sans Mono"))
@@ -118,5 +109,18 @@
   (ol-define-key evil-insert-state-map key nil))
 
 (setc mouse-1-click-follows-link nil)
+
+;; -----------------------------------------------------------------------------
+;; Trailing whitespace
+;; -----------------------------------------------------------------------------
+
+(setq-default show-trailing-whitespace nil)
+
+(defun ol-toggle-show-trailing-whitespace ()
+  (interactive)
+  (setq-local show-trailing-whitespace (not show-trailing-whitespace))
+  (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
+
+(ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
 
 (provide 'ol-basic-user-interface)
