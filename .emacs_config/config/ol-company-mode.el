@@ -1,6 +1,6 @@
 
 (require 'ol-util)
-(require 'ol-basic-user-interface)
+(require 'ol-colors)
 (require 'ol-evil)
 
 ;; -----------------------------------------------------------------------------
