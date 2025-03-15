@@ -86,7 +86,7 @@
 	path = .emacs_config/packages_inactive/company-box
 	url = https://github.com/sebastiencs/company-box.git
 [submodule ".emacs_config/packages/frame-local"]
-	path = .emacs_config/packages/frame-local
+	path = .emacs_config/packages_inactive/frame-local
 	url = https://github.com/sebastiencs/frame-local.git
 [submodule ".emacs_config/packages/emacs-libvterm"]
 	path = .emacs_config/packages/emacs-libvterm
