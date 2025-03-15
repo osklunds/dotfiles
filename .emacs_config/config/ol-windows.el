@@ -8,9 +8,12 @@
 ;;;; Balanced windows
 ;;;; ---------------------------------------------------------------------------
 
-(require 'balanced-windows)
+;; Copied/inspired from https://github.com/wbolster/emacs-balanced-windows
+(dolist (fn '(delete-window quit-window split-window))
+  (advice-add fn :after #'ol-balance-windows-advice))
 
-(balanced-windows-mode)
+(defun ol-balance-windows-advice (&rest _)
+  (balance-windows))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Only two windows

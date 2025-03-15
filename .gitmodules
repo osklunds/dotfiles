@@ -10,9 +10,6 @@
 [submodule ".emacs_config/packages/annalist.el"]
 	path = .emacs_config/packages/annalist.el
 	url = https://github.com/noctuid/annalist.el.git
-[submodule ".emacs_config/packages/emacs-balanced-windows"]
-	path = .emacs_config/packages/emacs-balanced-windows
-	url = https://github.com/wbolster/emacs-balanced-windows.git
 [submodule ".emacs_config/packages/evil-nerd-commenter"]
 	path = .emacs_config/packages/evil-nerd-commenter
 	url = https://github.com/redguardtoo/evil-nerd-commenter.git
