@@ -68,7 +68,7 @@
 	path = .emacs_config/packages_inactive/lsp-mode
 	url = https://github.com/emacs-lsp/lsp-mode.git
 [submodule ".emacs_config/packages/f.el"]
-	path = .emacs_config/packages/f.el
+	path = .emacs_config/packages_inactive/f.el
 	url = https://github.com/rejeep/f.el.git
 [submodule ".emacs_config/packages/s.el"]
 	path = .emacs_config/packages_inactive/s.el
