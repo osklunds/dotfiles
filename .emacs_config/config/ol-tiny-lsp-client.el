@@ -13,7 +13,6 @@
 (add-hook 'tlc-mode-hook 'tlc-use-xref)
 (add-hook 'tlc-mode-hook 'tlc-use-capf)
 
-(add-hook 'c++-mode-hook 'tlc-mode)
 (add-hook 'rust-mode-hook 'tlc-mode)
 
 (ol-define-normal-leader-key "ll" 'tlc-open-log-file)
