@@ -65,22 +65,22 @@
 	path = .emacs_config/packages/haskell-mode
 	url = https://github.com/haskell/haskell-mode.git
 [submodule ".emacs_config/packages/lsp-mode"]
-	path = .emacs_config/packages/lsp-mode
+	path = .emacs_config/packages_inactive/lsp-mode
 	url = https://github.com/emacs-lsp/lsp-mode.git
 [submodule ".emacs_config/packages/f.el"]
 	path = .emacs_config/packages/f.el
 	url = https://github.com/rejeep/f.el.git
 [submodule ".emacs_config/packages/s.el"]
-	path = .emacs_config/packages/s.el
+	path = .emacs_config/packages_inactive/s.el
 	url = https://github.com/magnars/s.el.git
 [submodule ".emacs_config/packages/ht.el"]
-	path = .emacs_config/packages/ht.el
+	path = .emacs_config/packages_inactive/ht.el
 	url = https://github.com/Wilfred/ht.el.git
 [submodule ".emacs_config/packages/markdown-mode"]
 	path = .emacs_config/packages/markdown-mode
 	url = https://github.com/jrblevin/markdown-mode.git
 [submodule ".emacs_config/packages/spinner.el"]
-	path = .emacs_config/packages/spinner.el
+	path = .emacs_config/packages_inactive/spinner.el
 	url = https://github.com/Malabarba/spinner.el.git
 [submodule ".emacs_config/packages/company-box"]
 	path = .emacs_config/packages/company-box
@@ -92,7 +92,7 @@
 	path = .emacs_config/packages/emacs-libvterm
 	url = https://github.com/akermu/emacs-libvterm
 [submodule ".emacs_config/packages/lsp-haskell"]
-	path = .emacs_config/packages/lsp-haskell
+	path = .emacs_config/packages_inactive/lsp-haskell
 	url = https://github.com/emacs-lsp/lsp-haskell.git
 [submodule ".emacs_config/packages/anzu"]
 	path = .emacs_config/packages/anzu
@@ -107,16 +107,16 @@
 	path = .emacs_config/packages/go-mode.el
 	url = https://github.com/dominikh/go-mode.el.git
 [submodule ".emacs_config/packages/lsp-java"]
-	path = .emacs_config/packages/lsp-java
+	path = .emacs_config/packages_inactive/lsp-java
 	url = https://github.com/emacs-lsp/lsp-java.git
 [submodule ".emacs_config/packages/treemacs"]
-	path = .emacs_config/packages/treemacs
+	path = .emacs_config/packages_inactive/treemacs
 	url = https://github.com/Alexander-Miller/treemacs.git
 [submodule ".emacs_config/packages/lsp-treemacs"]
-	path = .emacs_config/packages/lsp-treemacs
+	path = .emacs_config/packages_inactive/lsp-treemacs
 	url = https://github.com/emacs-lsp/lsp-treemacs.git
 [submodule ".emacs_config/packages/pfuture"]
-	path = .emacs_config/packages/pfuture
+	path = .emacs_config/packages_inactive/pfuture
 	url = https://github.com/Alexander-Miller/pfuture.git
 [submodule ".emacs_config/packages/emacs-request"]
 	path = .emacs_config/packages/emacs-request
@@ -131,8 +131,8 @@
 	path = .emacs_config/packages_own/tiny-lsp-client
 	url = https://github.com/osklunds/tiny-lsp-client.git
 [submodule ".emacs_config/packages/vertico"]
-	path = .emacs_config/packages/vertico
+	path = .emacs_config/packages_inactive/vertico
 	url = https://github.com/minad/vertico.git
 [submodule ".emacs_config/packages/embark"]
-	path = .emacs_config/packages/embark
+	path = .emacs_config/packages_inactive/embark
 	url = https://github.com/oantolin/embark.git

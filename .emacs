@@ -23,8 +23,17 @@
         (or load-file-name buffer-file-name))))
 (setq ol-emacs-dir (file-name-concat ol-repo-root ".emacs_config"))
 
-(let ((default-directory ol-emacs-dir))
+(add-to-list 'load-path (file-name-concat ol-emacs-dir "config"))
+(add-to-list 'load-path (file-name-concat ol-emacs-dir "packages_own"))
+(let ((default-directory (file-name-concat ol-emacs-dir "packages/")))
   (normal-top-level-add-subdirs-to-load-path))
+(let ((default-directory (file-name-concat ol-emacs-dir "packages_own/")))
+  (normal-top-level-add-subdirs-to-load-path))
+
+(defun ol-add-all-to-load-path ()
+  (interactive)
+  (let ((default-directory ol-emacs-dir))
+    (normal-top-level-add-subdirs-to-load-path)))
 
 ;; Naive and simplified method
 (defun ol-require-advice (feature &optional filename _noerror)
@@ -55,7 +64,8 @@
 
 ;; For some reason, isn't killed without this idle timer
 (run-with-idle-timer 0 nil (lambda ()
-                             (kill-buffer "*Compile-Log*")
+                             (when (buffer-live-p "*Compile-Log*")
+                               (kill-buffer "*Compile-Log*"))
                              (delete-other-windows)))
 
 ;; ---------------------------------------------------------------------------
