@@ -91,8 +91,6 @@
       (ol2-find-file-content root "project")
     (ol2-find-file-content default-directory "cwd")))
 
-(defvar ol2-find-file-content-last-probe nil)
-(defvar ol2-find-file-content-last-candidates nil)
 (defvar ol2-find-file-content-current-cmd nil)
 
 (defun ol2-find-file-content (dir prompt-dir-part)
@@ -127,18 +125,9 @@
             (redisplay)
             `(finished . ,(ol2-find-file-content-collection-sync probe)))))
     (pcase maybe-candidates
-      (`(finished . ,candidates)
-       (progn
-         (setq ol2-find-file-content-last-probe probe)
-         (setq ol2-find-file-content-last-candidates candidates)
-         candidates))
-      ('t
-       (cond
-        ((string-equal probe ol2-find-file-content-last-probe)
-         ol2-find-file-content-last-candidates)
-        (t nil)))
-      ('nil
-       (error "todo"))))
+      (`(finished . ,candidates) candidates)
+      ('t nil)
+      ('nil (error "todo"))))
   )
 
 (defun ol2-find-file-content-collection-sync (probe)
