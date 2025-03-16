@@ -58,8 +58,18 @@
       (dolist (subdir (directory-files dir))
         (ol-discover-projects-in-dir (file-name-concat dir subdir) (- depth 1))))))
 
-
-
-
+(defun ol-switch-to-project ()
+  (interactive)
+  (let ((project-root (completing-read
+                       "Switch to project: "
+                       ol-project-roots
+                       nil ;; predicate
+                       t ';; require-match
+                       nil ;; initial input
+                       'ol-switch-to-project)))
+    (if (cl-member project-root ol-project-roots :test 'string-equal)
+        (let ((default-directory project-root))
+          (ol-dwim-find-file-name))
+      (user-error "Bad project selection"))))
 
 (provide 'ol-project)
