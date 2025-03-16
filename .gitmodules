@@ -133,3 +133,6 @@
 [submodule ".emacs_config/packages/embark"]
 	path = .emacs_config/packages_inactive/embark
 	url = https://github.com/oantolin/embark.git
+[submodule ".emacs_config/packages_inactive/consult"]
+	path = .emacs_config/packages_inactive/consult
+	url = https://github.com/minad/consult.git
