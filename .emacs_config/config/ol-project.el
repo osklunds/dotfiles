@@ -38,7 +38,7 @@
 
 (defvar ol-projects-search-path '(("~/own_repos" . 1)
                                   ("~/others_repos" . 1)
-                                  ("~/own_repos/dotfiles/.emacs_config/packages" . 1)
+                                  ("~/own_repos/dotfiles/.emacs_config" . 2)
                                   ("~/Dropbox/Dokument")))
 
 (defun ol-discover-projects ()
