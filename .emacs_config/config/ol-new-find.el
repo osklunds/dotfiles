@@ -114,31 +114,32 @@
                       )))
       (find-file selected))))
 
-(defun ol2-find-file-content-collection (probe pred action)
+(defun ol2-find-file-content-collection (probe _pred action)
+  (cond
+   ((eq (car-safe action) 'boundaries) nil)
+   ((eq action 'metadata) nil)
+   ((eq action t) (ol2-find-file-content-collection-1 probe))))
+
+(defun ol2-find-file-content-collection-1 (probe)
   (let* ((inhibit-message t)
          (maybe-candidates
           (while-no-input
             (redisplay)
-            `(finished . ,(ol2-find-file-content-collection-sync probe))))
-         (result
-          (pcase maybe-candidates
-            (`(finished . ,candidates)
-             (progn
-               (setq ol2-find-file-content-last-probe probe)
-               (setq ol2-find-file-content-last-candidates candidates)
-               candidates))
-            ('t
-             (cond
-              ((string-equal probe ol2-find-file-content-last-probe)
-               ol2-find-file-content-last-candidates)
-              (t nil)))
-            ('nil
-             (error "todo"))))
-         )
-    (cond
-     ((eq (car-safe action) 'boundaries) nil)
-     ((eq action 'metadata) nil)
-     ((eq action t) result))))
+            `(finished . ,(ol2-find-file-content-collection-sync probe)))))
+    (pcase maybe-candidates
+      (`(finished . ,candidates)
+       (progn
+         (setq ol2-find-file-content-last-probe probe)
+         (setq ol2-find-file-content-last-candidates candidates)
+         candidates))
+      ('t
+       (cond
+        ((string-equal probe ol2-find-file-content-last-probe)
+         ol2-find-file-content-last-candidates)
+        (t nil)))
+      ('nil
+       (error "todo"))))
+  )
 
 (defun ol2-find-file-content-collection-sync (probe)
   (let ((cmd (append ol2-find-file-content-current-cmd `(,probe))))
