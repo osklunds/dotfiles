@@ -17,11 +17,9 @@ export PATH="$DOTFILES_REPO/scripts:$PATH"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
-# TODO: Move alias to here
-source "$HOME/.aliases.sh"
+source "$DOTFILES_REPO/.aliases.sh"
 
-# TODO: Specify this in emacs instead
-source "$HOME/dotfiles/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bash.sh"
+source "$DOTFILES_REPO/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bash.sh"
 
 # Docker
 export BUILDKIT_PROGRESS=plain
