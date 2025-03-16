@@ -3,28 +3,26 @@
 ;; Project root and name of current buffer
 ;; -----------------------------------------------------------------------------
 
+(defvar ol-project-root-cache (make-hash-table :test 'equal))
+
+(defun ol-project-root ()
+  (or (gethash default-directory ol-project-root-cache)
+      (puthash default-directory (ol-project-root-compute) ol-project-root-cache)))
+
+(defun ol-project-root-compute ()
+  (run-hook-with-args-until-success 'ol-project-root-functions))
+
 (defvar ol-project-root-functions '(ol-project-git-root))
 
 (defun ol-project-git-root ()
   (when-let ((root (locate-dominating-file default-directory ".git")))
     (file-truename root)))
 
-(defvar-local ol-project-root 'unknown)
-
-(defun ol-project-root ()
-  (if (eq 'unknown ol-project-root)
-      (setq ol-project-root (ol-project-root-compute))
-    ol-project-root))
-
-(defun ol-project-root-compute ()
-  (run-hook-with-args-until-success 'ol-project-root-functions))
-
-(defvar-local ol-project-name 'unknown)
+(defvar ol-project-name-cache (make-hash-table :test 'equal))
 
 (defun ol-project-name ()
-  (if (eq 'unknown ol-project-name)
-      (setq ol-project-name (ol-project-name-compute))
-    ol-project-name))
+  (or (gethash default-directory ol-project-name-cache)
+      (puthash default-directory (ol-project-name-compute) ol-project-name-cache)))
 
 (defun ol-project-name-compute ()
   (when-let ((root (ol-project-root)))
@@ -52,7 +50,7 @@
 (defun ol-discover-projects-in-dir (dir depth)
   (when (file-directory-p dir)
     (when-let* ((default-directory dir)
-                (root (ol-project-root-compute)))
+                (root (ol-project-root)))
       (add-to-list 'ol-project-roots root))
     (when (> depth 0)
       (dolist (subdir (directory-files dir))
