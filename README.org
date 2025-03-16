@@ -63,13 +63,14 @@ maintained, so that no backwards compatibility issues appear
 To make upgrades of packages as easy as possible, I want to customize the config
 of packages as little as possible, especially advising on internal functions.
 
-- ivy/counsel/swiper -> /just/ vertico
+- ivy/counsel/swiper -> vertico/consult/embark
   - Can take a step-wise approach and create own ~completing-read~ functions that
     I have to do anyway.
+  - Doesn't reduce number of deps, but vertico/consult/embark were very smooth
 - company/company-box -> corfu or emacs 30 ~completion-preview-mode~
 - anzu/evil-anzu -> own
   - Keep them until upgrade problems, but consider rolling my own
-- projectile -> project
+- projectile -> own
 - evil-visualstar -> own
 
 * "Merge Survival Knife"
