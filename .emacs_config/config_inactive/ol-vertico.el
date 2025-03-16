@@ -4,6 +4,7 @@
 
 (require 'vertico)
 (require 'embark)
+(require 'consult)
 
 (vertico-mode)
 
