@@ -74,6 +74,8 @@
 (defconst ol2-find-file-content-cmds
   '(
     ("rg" "--no-heading" "--line-number" "--with-filename")
+    ("git" "--no-pager" "grep" "--line-number")
+    ("grep" "-H" "-r" "-n")
     ))
 
 (defun ol2-find-file-content-cmd ()
