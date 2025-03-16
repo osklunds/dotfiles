@@ -1,4 +1,6 @@
 
+(require 'ert)
+
 (defun ol-assert-equal (exp act &optional label)
   (when (not (equal exp act))
     (message "")
