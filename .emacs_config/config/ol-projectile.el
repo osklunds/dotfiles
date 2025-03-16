@@ -44,7 +44,7 @@
 
 (defun ol-switch-to-dotfiles ()
   (interactive)
-  (projectile-switch-project-by-name "~/dotfiles"))
+  (projectile-switch-project-by-name "~/own_repos/dotfiles"))
 
 (setc projectile-switch-project-action 'ol-dwim-find-file-name)
 
