@@ -3,7 +3,18 @@
 ;; Project root and name of current buffer
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-project-root-cache (make-hash-table :test 'equal))
+(defvar ol-project-root-cache nil)
+(defvar ol-project-name-cache nil)
+
+(defun ol-project-clear-cache ()
+  "If project info seems wrong for a buffer, try clearing the cache.
+Recalculating is probably not a big deal. But if frequent calls from
+modeline can be good to cache in a hashmap."
+  (interactive)
+  (setq ol-project-root-cache (make-hash-table :test 'equal))
+  (setq ol-project-name-cache (make-hash-table :test 'equal)))
+
+(ol-project-clear-cache)
 
 (defun ol-project-root ()
   (or (gethash default-directory ol-project-root-cache)
@@ -17,8 +28,6 @@
 (defun ol-project-git-root ()
   (when-let ((root (locate-dominating-file default-directory ".git")))
     (file-truename root)))
-
-(defvar ol-project-name-cache (make-hash-table :test 'equal))
 
 (defun ol-project-name ()
   (or (gethash default-directory ol-project-name-cache)
