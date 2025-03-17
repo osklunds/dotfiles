@@ -1,6 +1,7 @@
 
 (require 'jka-compr) ;; To avoid problem with recursive load error
 (require 'faces)
+(require 'hl-line)
 
 (require 'doom-themes)
 
