@@ -9,7 +9,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol2-dwim-use-project-root (&optional prefer-project-root)
-  (let ((root (projectile-project-root)))
+  (let ((root (ol-fallback-project-root)))
     (cond
      ((and root prefer-project-root) root)
      ;; todo: don't have vterm here, but files aren't found if using project root

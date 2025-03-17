@@ -2,7 +2,6 @@
 (require 'ol-util)
 (require 'ol-evil)
 
-(require 'projectile)
 (require 'counsel)
 
 (defun ol-print-buffer-file-name ()

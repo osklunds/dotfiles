@@ -1,6 +1,7 @@
 
 (require 'ol-util)
 (require 'ol-evil)
+(require 'ol-project)
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile
@@ -13,7 +14,8 @@
 (setc projectile-completion-system 'ivy)
 (setc ivy-more-chars-alist '((t . 1)))
 
-(call-interactively 'projectile-mode)
+(when ol-use-projectile
+  (call-interactively 'projectile-mode))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Project discovery
@@ -39,12 +41,12 @@
 ;;;; Project selection
 ;;;;----------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "pp" 'projectile-switch-project)
+(ol-define-normal-leader-key "pp" 'ol-fallback-switch-to-project-interactive)
 (ol-define-normal-leader-key "pd" 'ol-switch-to-dotfiles)
 
 (defun ol-switch-to-dotfiles ()
   (interactive)
-  (projectile-switch-project-by-name "~/own_repos/dotfiles"))
+  (ol-fallback-switch-to-project "~/own_repos/dotfiles"))
 
 (setc projectile-switch-project-action 'ol-dwim-find-file-name)
 

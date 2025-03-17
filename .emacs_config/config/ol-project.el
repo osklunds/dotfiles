@@ -1,4 +1,6 @@
 
+(require 'projectile)
+
 ;; -----------------------------------------------------------------------------
 ;; Project root and name of current buffer
 ;; -----------------------------------------------------------------------------
@@ -88,5 +90,42 @@ modeline can be good to cache in a hashmap."
         (let ((default-directory project-root))
           (ol-dwim-find-file-name))
       (user-error "Bad project selection"))))
+
+(defun ol-switch-to-project-by-root (root)
+  (if (cl-member (file-truename root) ol-project-roots :test 'string-equal)
+      (let ((default-directory root))
+        (ol-dwim-find-file-name))
+    (user-error "not a project")))
+
+(ol-discover-projects)
+
+;; -----------------------------------------------------------------------------
+;; Projectile fallback
+;; -----------------------------------------------------------------------------
+
+;; temporary while experimenting
+
+(defvar ol-use-projectile nil)
+
+(defun ol-fallback-project-root ()
+  (if ol-use-projectile
+      (projectile-project-root)
+    (ol-project-root)))
+
+(defun ol-fallback-project-name ()
+  (if ol-use-projectile
+      (projectile-project-name)
+    (ol-project-name)))
+
+(defun ol-fallback-switch-to-project (root)
+  (if ol-use-projectile
+      (projectile-switch-project-by-name root)
+    (ol-switch-to-project-by-root root)))
+
+(defun ol-fallback-switch-to-project-interactive ()
+  (interactive)
+  (if ol-use-projectile
+      (projectile-switch-project)
+    (ol-switch-to-project)))
 
 (provide 'ol-project)

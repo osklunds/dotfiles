@@ -2,6 +2,7 @@
 (require 'ol-util)
 (require 'ol-ivy)
 (require 'ol-evil)
+(require 'ol-project)
 
 (require 'projectile)
 
@@ -16,7 +17,7 @@
     (ol-find-file-name default-directory "cwd")))
 
 (defun ol-dwim-use-project-root (&optional prefer-project-root)
-  (let ((root (projectile-project-root)))
+  (let ((root (ol-fallback-project-root)))
     (cond
      ((and root prefer-project-root) root)
      ;; todo: don't have vterm here, but files aren't found if using project root

@@ -114,7 +114,7 @@
             calculated))))))
 
 (defun ol-project-name-segment ()
-  (let* ((name (projectile-project-name)))
+  (let* ((name (ol-fallback-project-name)))
     (if (string-equal name "-")
         ""
       name)))
