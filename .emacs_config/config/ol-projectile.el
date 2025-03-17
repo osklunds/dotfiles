@@ -46,7 +46,7 @@
 
 (defun ol-switch-to-dotfiles ()
   (interactive)
-  (ol-fallback-switch-to-project "~/own_repos/dotfiles"))
+  (ol-fallback-switch-to-project "~/own_repos/dotfiles/"))
 
 (setc projectile-switch-project-action 'ol-dwim-find-file-name)
 
