@@ -25,7 +25,13 @@ modeline can be good to cache in a hashmap."
 (defun ol-project-root-compute ()
   (run-hook-with-args-until-success 'ol-project-root-functions))
 
-(defvar ol-project-root-functions '(ol-project-git-root))
+(defvar ol-project-root-functions '(ol-project-marker-file-root
+                                    ol-project-git-root
+                                    ))
+
+(defun ol-project-marker-file-root ()
+  (when-let ((root (locate-dominating-file default-directory ".emacs-project")))
+    (file-truename root)))
 
 (defun ol-project-git-root ()
   (when-let ((root (locate-dominating-file default-directory ".git")))
