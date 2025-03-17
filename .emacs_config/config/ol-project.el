@@ -17,8 +17,10 @@ modeline can be good to cache in a hashmap."
 (ol-project-clear-cache)
 
 (defun ol-project-root ()
-  (or (gethash default-directory ol-project-root-cache)
-      (puthash default-directory (ol-project-root-compute) ol-project-root-cache)))
+  (let ((cached (gethash default-directory ol-project-root-cache 'not-found)))
+    (if (equal cached 'not-found)
+        (puthash default-directory (ol-project-root-compute) ol-project-root-cache)
+      cached)))
 
 (defun ol-project-root-compute ()
   (run-hook-with-args-until-success 'ol-project-root-functions))
@@ -30,8 +32,10 @@ modeline can be good to cache in a hashmap."
     (file-truename root)))
 
 (defun ol-project-name ()
-  (or (gethash default-directory ol-project-name-cache)
-      (puthash default-directory (ol-project-name-compute) ol-project-name-cache)))
+  (let ((cached (gethash default-directory ol-project-name-cache 'not-found)))
+    (if (equal cached 'not-found)
+        (puthash default-directory (ol-project-name-compute) ol-project-name-cache)
+      cached)))
 
 (defun ol-project-name-compute ()
   (when-let ((root (ol-project-root)))
