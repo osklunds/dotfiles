@@ -1,4 +1,5 @@
 
+(require 'project)
 (require 'projectile)
 
 ;; -----------------------------------------------------------------------------
@@ -98,6 +99,20 @@ modeline can be good to cache in a hashmap."
     (user-error "not a project")))
 
 (ol-discover-projects)
+
+;; -----------------------------------------------------------------------------
+;; project.el integration
+;; -----------------------------------------------------------------------------
+
+(cl-defmethod project-root ((project (head ol-project)))
+  (cdr project))
+
+(defun project-ol-project (dir)
+  (when-let* ((default-directory dir)
+              (root (ol-project-root)))
+    (cons 'ol-project root)))
+
+(add-hook 'project-find-functions 'project-ol-project)
 
 ;; -----------------------------------------------------------------------------
 ;; Projectile fallback
