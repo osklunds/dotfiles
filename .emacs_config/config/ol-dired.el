@@ -1,6 +1,7 @@
 
 (require 'ol-util)
 (require 'ol-evil)
+(require 'ol-ert)
 
 (require 'dired)
 (require 'dired-x)
@@ -69,33 +70,28 @@
                     (concat prefix ": "))))
     (concat prefix2 name)))
 
-(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc/iptables")
-                         "iptables  </etc>"))
-
-(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc")
-                         "etc  </>"))
-
-(cl-assert (string-equal (ol-get-buffer-name-from-path "/")
-                         "/"))
-
-(cl-assert (string-equal (ol-get-buffer-name-from-path "~/")
-                         "~/"))
-
-(cl-assert (string-equal (ol-get-buffer-name-from-path "/etc/iptables" "dired")
-                         "dired: iptables  </etc>"))
-
-(cl-assert (string-equal (ol-get-buffer-name-from-path "~/" "dired")
-                         "dired: ~/"))
+(ert-deftest ol-get-buffer-name-from-path-test ()
+  (ol-assert-equal "iptables  </etc>" (ol-get-buffer-name-from-path "/etc/iptables"))
+  (ol-assert-equal "etc  </>" (ol-get-buffer-name-from-path "/etc"))
+  (ol-assert-equal "/" (ol-get-buffer-name-from-path "/"))
+  (ol-assert-equal "~/" (ol-get-buffer-name-from-path "~/"))
+  (ol-assert-equal "dired: iptables  </etc>"
+                   (ol-get-buffer-name-from-path "/etc/iptables" "dired"))
+  (ol-assert-equal "dired: ~/"
+                   (ol-get-buffer-name-from-path "~/" "dired"))
+  )
 
 (defun ol-buffer-name-matches (name desired-name)
   (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
     (string-match-p regexp name)))
 
-(cl-assert (ol-buffer-name-matches "some-name" "some-name"))
-(cl-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
-(cl-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
-(cl-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
-(cl-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
+(ert-deftest ol-buffer-name-matches-test ()
+  (ol-assert (ol-buffer-name-matches "some-name" "some-name"))
+  (ol-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
+  (ol-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
+  (ol-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
+  (ol-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
+  )
 
 ;; -----------------------------------------------------------------------------
 ;; Default shell commands
