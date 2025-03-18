@@ -79,8 +79,7 @@
          (initial-parts (mapcar (lambda (part)
                                   (cond
                                    ((equal "" part) "")
-                                   ((string-prefix-p "." part) (substring part 0 2))
-                                   (t (substring part 0 1))))
+                                   (t (substring part 0 (min 3 (length part))))))
                                 other-parts))
          (new-parts (append initial-parts (list last-part)))
          (full (string-join new-parts "/"))
@@ -90,14 +89,14 @@
       full)))
 
 (ert-deftest ol-get-buffer-name-from-path-test ()
-  (ol-assert-equal "/e/i/config" (ol2-get-buffer-name-from-path "/etc/iptables/config/"))
-  (ol-assert-equal "/e/.i/config" (ol2-get-buffer-name-from-path "/etc/.iptables/config/"))
-  (ol-assert-equal "/e/iptables" (ol2-get-buffer-name-from-path "/etc/iptables/"))
+  (ol-assert-equal "/et/ipt/config" (ol2-get-buffer-name-from-path "/et/iptables/config/"))
+  (ol-assert-equal "/et/.ip/config" (ol2-get-buffer-name-from-path "/et/.iptables/config/"))
+  (ol-assert-equal "/etc/iptables" (ol2-get-buffer-name-from-path "/etc/iptables/"))
   (ol-assert-equal "/etc" (ol2-get-buffer-name-from-path "/etc/"))
   (ol-assert-equal "/" (ol2-get-buffer-name-from-path "/"))
   (ol-assert-equal "~/repos" (ol2-get-buffer-name-from-path "~/repos/"))
   (ol-assert-equal "~" (ol2-get-buffer-name-from-path "~/"))
-  (ol-assert-equal "dired: /e/i/config"
+  (ol-assert-equal "dired: /etc/ipt/config"
                    (ol2-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
 
   (ol-assert-equal "iptables  </etc>" (ol-get-buffer-name-from-path "/etc/iptables"))
