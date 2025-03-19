@@ -54,9 +54,8 @@ and terminal variations."
 (defvar ol-normal-leader-map (make-sparse-keymap))
 (defvar ol-visual-leader-map (make-sparse-keymap))
 
-(ol-define-key evil-motion-state-map "SPC"   ol-normal-leader-map)
-(ol-define-key evil-motion-state-map "C-SPC" ol-normal-leader-map)
-(ol-define-key evil-visual-state-map "SPC"   ol-visual-leader-map)
+(ol-define-key evil-motion-state-map "SPC" ol-normal-leader-map)
+(ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
 
 (defun ol-define-normal-leader-key (key fun)
   (ol-define-key ol-normal-leader-map key fun))
