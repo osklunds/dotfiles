@@ -30,6 +30,8 @@
     (_        `(,key))))
 
 (defun ol-define-key (map key fun)
+  "Wrapper around `define-key' that automatically calls `kbd' and handles GUI
+and terminal variations."
   (dolist (mapped-key (ol-map-key key))
     (define-key map (kbd mapped-key) fun)))
 
