@@ -92,8 +92,6 @@ and terminal variations."
 
 (add-hook 'minibuffer-setup-hook #'turn-off-ol-override-mode)
 
-(provide 'ol-override-mode)
-
 (ol-override-mode t)
 
 (defun ol-override-key (key fun)
