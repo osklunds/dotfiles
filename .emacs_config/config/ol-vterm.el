@@ -57,7 +57,7 @@
 (defvar-local ol-vterm-manually-renamed nil)
 
 (defun ol-vterm-get-cwd-from-prompt (prompt)
-  (concat (ol-regexp-group ":\\(/.*\\)$" prompt 1) "/"))
+  (file-name-as-directory (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
 
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
   (ol2-get-buffer-name-from-path path "vterm"))
