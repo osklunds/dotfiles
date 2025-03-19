@@ -111,6 +111,8 @@ and terminal variations."
 (setq evil-insert-state-cursor 'box)
 (setc evil-want-Y-yank-to-eol t)
 
+;; at least for magit, disabling this enables normal keybinds in buffers.
+;; can be something to play around with
 (with-eval-after-load 'dired (evil-collection-dired-setup))
 (with-eval-after-load 'magit (evil-collection-magit-setup))
 (with-eval-after-load 'term (evil-collection-term-setup))
