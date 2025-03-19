@@ -20,6 +20,7 @@
 ;; -----------------------------------------------------------------------------
 
 ;; To handle both GUI and terminal
+;; e.g. <tab> is for GUI and TAB is for terminal
 (defun ol-map-key (key)
   (pcase key
     ('return  '("<return>" "RET"))
