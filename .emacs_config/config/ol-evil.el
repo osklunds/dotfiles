@@ -126,10 +126,13 @@ and terminal variations."
 ;;;; Words (don't come easy, to me)
 ;;;;----------------------------------------------------------------------------
 
+;; Make - a word in emacs lisp mode
 (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
+;; Make _ a word in all modes
 (add-hook 'after-change-major-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
 
-(defun ol-evil-ex-start-word-search-args-advice (unbounded direction count &optional symbol)
+(defun ol-evil-ex-start-word-search-args-advice (_unbounded direction count &optional symbol)
+  "Don't add word boundaries when searching for a word."
   `(t ,direction ,count ,symbol))
 
 (advice-add 'evil-ex-start-word-search
