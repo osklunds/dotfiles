@@ -120,8 +120,6 @@ and terminal variations."
 (with-eval-after-load 'term (evil-collection-term-setup))
 (with-eval-after-load 'ivy (evil-collection-ivy-setup))
 
-(ol-define-key evil-normal-state-map "R" nil)
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Words (don't come easy, to me)
 ;;;;----------------------------------------------------------------------------
@@ -181,10 +179,14 @@ and terminal variations."
 ;;;; Keybinds
 ;;;;----------------------------------------------------------------------------
 
-;; Changing states
+(ol-define-key evil-normal-state-map "R" nil)
+
+;; Normal state
 (ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-visual-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-insert-state-map "M-n" 'evil-execute-in-normal-state)
+(ol-define-key evil-ex-completion-map "C-n" 'abort-recursive-edit)
+(ol-define-key evil-ex-search-keymap "C-n" 'abort-recursive-edit)
 
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
@@ -204,9 +206,6 @@ and terminal variations."
 ;; I think this mapping makes more sense, to align down/j/{ and up/k/}
 (ol-define-key evil-motion-state-map "}" 'evil-backward-paragraph)
 (ol-define-key evil-motion-state-map "{" 'evil-forward-paragraph)
-
-(ol-define-key evil-ex-completion-map "C-n" 'abort-recursive-edit)
-(ol-define-key evil-ex-search-keymap "C-n" 'abort-recursive-edit)
 
 ;; Movement
 (ol-define-key evil-motion-state-map ")" 'evil-end-of-line-or-visual-line)
