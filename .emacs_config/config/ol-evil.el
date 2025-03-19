@@ -12,6 +12,8 @@
 
 (require 'evil)
 (require 'evil-collection)
+(require 'evil-nerd-commenter)
+(require 'goto-chg)
 
 (evil-mode t)
 
@@ -117,10 +119,6 @@ and terminal variations."
 (with-eval-after-load 'magit (evil-collection-magit-setup))
 (with-eval-after-load 'term (evil-collection-term-setup))
 (with-eval-after-load 'ivy (evil-collection-ivy-setup))
-
-(require 'evil-nerd-commenter)
-
-(require 'goto-chg)
 
 (ol-define-key evil-normal-state-map "R" nil)
 
