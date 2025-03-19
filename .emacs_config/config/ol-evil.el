@@ -221,13 +221,7 @@ and terminal variations."
 ;;;; go to definition
 ;;;;----------------------------------------------------------------------------
 
-(defun ol-evil-definition-not-found (string _position)
-  ;; (message "No definition found for: %s " string))
-  )
-
-;; Original: (evil-goto-definition-imenu evil-goto-definition-semantic evil-goto-definition-xref evil-goto-definition-search)
-(setc evil-goto-definition-functions '(evil-goto-definition-xref
-                                       ol-evil-definition-not-found))
+(setc evil-goto-definition-functions '(evil-goto-definition-xref))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Subword
