@@ -167,8 +167,8 @@ and terminal variations."
 
 (ol-evil-define-key 'normal prog-mode-map "gc" 'ol-evilnc-comment-operator)
 
-(defun ol-evilnc-comment-operator-advice (start end type)
-  ;; Always set type to 'line
+(defun ol-evilnc-comment-operator-advice (start end _type)
+  "Always set type to 'line. I don't remember why though."
   `(,start ,end 'line))
 
 (advice-add 'evilnc-comment-operator
@@ -250,6 +250,5 @@ and terminal variations."
 
 (ol-define-key evil-motion-state-map "L" 'ol-subword-forward)
 (ol-define-key evil-motion-state-map "H" 'ol-subword-backward)
-
 
 (provide 'ol-evil)
