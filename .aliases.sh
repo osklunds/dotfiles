@@ -41,15 +41,9 @@ alias gm='git merge'
 alias gmt='git mergetool -t sk'
 alias gb='git branch'
 
-# Editing dotfiles
-alias ev='e ~/.vim/vimrc'
-alias eb='e ~/.bashrc'
-alias ea='e ~/.aliases.sh && ra'
+# dotfiles
 alias ra='source ~/.bashrc'
-
-# Editors
 alias ec='edit_with_emacs'
-alias em='emacs-gtk &'
 
 # Rust
 alias cb='cargo build'
