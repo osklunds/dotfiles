@@ -135,6 +135,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol-dired-set-shell-command-buffer-name (func &rest args)
+  "Adds the command run to the name of the output buffer."
   (let* ((old-fun (symbol-function #'shell-command)))
     (cl-letf (((symbol-function 'shell-command)
                (lambda (command)
