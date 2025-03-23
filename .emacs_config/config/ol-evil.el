@@ -96,6 +96,32 @@ behaves like `define-key' and `keymap-set'."
 
 (ol-override-mode t)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Plain state
+;;;; ---------------------------------------------------------------------------
+
+;; todo: consider blocking minor mode todo
+;; todo: visual
+;; todo: this is much more elegantly solved by a minor mode that
+;; sets the local keymap to nil like this state. That solves visual and insert
+;; automatically.
+
+(defvar-local ol-plain-previous-local-map nil)
+
+(evil-define-state plain
+  "Like normal state, but no mode-specific keybinds that might override the
+plain normal keybinds, e.g., in normal state in magit-status, l opens log, but
+in plain state, l goes to the right. While the special keybinds are useful most
+of the times, sometimes it's useful to have the plain text edit keybinds instead."
+  :enable (normal)
+  (cond
+   ((evil-plain-state-p)
+    (setq ol-plain-previous-local-map (current-local-map))
+    (use-local-map nil))
+   (t
+    (use-local-map ol-plain-previous-local-map)
+    (setq ol-plain-previous-local-map nil))))
+
 ;; -----------------------------------------------------------------------------
 ;; Configration
 ;; -----------------------------------------------------------------------------
@@ -178,12 +204,15 @@ behaves like `define-key' and `keymap-set'."
 
 (ol-define-key evil-normal-state-map "R" nil)
 
-;; Normal state
+;; States
 (ol-define-key evil-insert-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-visual-state-map "C-n" 'evil-normal-state)
 (ol-define-key evil-insert-state-map "M-n" 'evil-execute-in-normal-state)
 (ol-define-key evil-ex-completion-map "C-n" 'abort-recursive-edit)
 (ol-define-key evil-ex-search-keymap "C-n" 'abort-recursive-edit)
+
+(ol-define-key evil-normal-state-map "C-q" 'evil-plain-state)
+(ol-define-key evil-plain-state-map "C-n" 'evil-normal-state)
 
 ;; Window movement
 (ol-define-key evil-motion-state-map "C-h" #'evil-window-left)
