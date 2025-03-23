@@ -41,9 +41,8 @@
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
     (keymap-set map mapped-key fun)))
 
-;; TODO: Delete this
 (defun ol-global-set-key (key fun)
-  (global-set-key (kbd key) fun))
+  (keymap-global-set key fun))
 
 ;; TODO: Can avoid 'normal instead of normal by doing a wrapper macro
 ;; that calls this fun instead
