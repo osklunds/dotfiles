@@ -42,7 +42,8 @@
     (keymap-set map mapped-key fun)))
 
 (defun ol-global-set-key (key fun)
-  (keymap-global-set key fun))
+  (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
+    (keymap-global-set mapped-key fun)))
 
 (defun ol-evil-define-key (state map key fun)
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
