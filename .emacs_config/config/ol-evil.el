@@ -38,12 +38,10 @@
     (_        `(,key))))
 
 (defun ol-define-key (map key fun)
-  (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
-    (keymap-set map mapped-key fun)))
+  (ol-evil-define-key nil map key fun))
 
 (defun ol-global-set-key (key fun)
-  (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
-    (keymap-global-set mapped-key fun)))
+  (ol-evil-define-key nil (current-global-map) key fun))
 
 (defun ol-evil-define-key (state map key fun)
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
