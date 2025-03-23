@@ -18,7 +18,7 @@
 (evil-mode t)
 
 ;; -----------------------------------------------------------------------------
-;; Keymap helpers
+;; Keymap functions
 ;; -----------------------------------------------------------------------------
 
 ;; To handle both GUI and terminal
@@ -52,7 +52,7 @@ behaves like `define-key' and `keymap-set'."
     (evil-define-key state map (kbd mapped-key) fun)))
 
 ;; -----------------------------------------------------------------------------
-;; Leader keys
+;; Leader keymaps
 ;; -----------------------------------------------------------------------------
 
 (defvar ol-normal-leader-map (make-sparse-keymap))
@@ -62,7 +62,7 @@ behaves like `define-key' and `keymap-set'."
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
 
 ;; -----------------------------------------------------------------------------
-;; Override
+;; Override keymap
 ;; -----------------------------------------------------------------------------
 
 ;; Overriding inspired by: https://emacs.stackexchange.com/a/358
