@@ -29,7 +29,7 @@
 ;; used instead. But in practice it's needed because some modes define something
 ;; for both <tab> and TAB, and then changing for just TAB is not enough.  So
 ;; handle both variants centrally here.
-(defun ol-map-key (key)
+(defun ol-map-key-to-gui-and-terminal (key)
   (pcase key
     ('return  '("<return>" "RET"))
     ('tab     '("<tab>" "TAB"))
@@ -40,7 +40,7 @@
 (defun ol-define-key (map key fun)
   "Wrapper around `define-key' that automatically calls `kbd' and handles GUI
 and terminal variations."
-  (dolist (mapped-key (ol-map-key key))
+  (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
     (define-key map (kbd mapped-key) fun)))
 
 ;; TODO: Delete this
@@ -50,7 +50,7 @@ and terminal variations."
 ;; TODO: Can avoid 'normal instead of normal by doing a wrapper macro
 ;; that calls this fun instead
 (defun ol-evil-define-key (state map key fun)
-  (dolist (mapped-key (ol-map-key key))
+  (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
     (evil-define-key state map (kbd mapped-key) fun)))
 
 ;; -----------------------------------------------------------------------------
