@@ -236,7 +236,7 @@
       (magit-log-buffer-file)
     (magit-log-setup-buffer (list (or magit-buffer-refname
                                       (magit-get-current-branch)
-                                      "HEAD")) nil nil)))
+                                      "HEAD")) ol-magit-log-default-arguments nil)))
 
 (defconst ol-not-in-main-branch-arg "--not-in-main-branch")
 
