@@ -31,7 +31,7 @@
   (projectile-clear-known-projects)
   (projectile-discover-projects-in-search-path))
 
-(ol-define-normal-leader-key "ps" 'ol-projectile-discover)
+(ol-define-normal-leader-key "p s" 'ol-projectile-discover)
 
 (setc projectile-auto-discover nil)
 (setc projectile-auto-update-cache nil)
@@ -41,8 +41,8 @@
 ;;;; Project selection
 ;;;;----------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "pp" 'ol-fallback-switch-to-project-interactive)
-(ol-define-normal-leader-key "pd" 'ol-switch-to-dotfiles)
+(ol-define-normal-leader-key "p p" 'ol-fallback-switch-to-project-interactive)
+(ol-define-normal-leader-key "p d" 'ol-switch-to-dotfiles)
 
 (defun ol-switch-to-dotfiles ()
   (interactive)

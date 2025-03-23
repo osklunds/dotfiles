@@ -8,7 +8,7 @@
   (interactive)
   (message "%s" (buffer-file-name)))
 
-(ol-define-normal-leader-key "bn" 'ol-print-buffer-file-name)
+(ol-define-normal-leader-key "b n" 'ol-print-buffer-file-name)
 
 (defun ol-find-file-empty ()
   (interactive)

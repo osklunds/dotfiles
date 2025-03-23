@@ -55,7 +55,7 @@
             :filter-args
             (lambda (args) (apply 'ol-magit-blame-run-process-args-advice args)))
 
-(ol-define-normal-leader-key "gb" 'magit-blame-addition)
+(ol-define-normal-leader-key "g b" 'magit-blame-addition)
 
 ;; -----------------------------------------------------------------------------
 ;; Commit
@@ -108,7 +108,7 @@
         (ol-magit-status-sections full (magit-merge-in-progress-p)))
   (magit-status-setup-buffer))
 
-(ol-define-normal-leader-key "gs" 'ol-magit-status)
+(ol-define-normal-leader-key "g s" 'ol-magit-status)
 
 ;; -----------------------------------------------------------------------------
 ;; Diff
@@ -171,13 +171,13 @@
   (interactive)
   (magit-diff-range (ol-merge-base-with-main)))
 
-(ol-define-normal-leader-key "gdM" 'ol-diff-all-files-main)
+(ol-define-normal-leader-key "g d M" 'ol-diff-all-files-main)
 
 (defun ol-diff-all-files-head ()
   (interactive)
   (magit-diff-range "HEAD"))
 
-(ol-define-normal-leader-key "gdH" 'ol-diff-all-files-head)
+(ol-define-normal-leader-key "g d H" 'ol-diff-all-files-head)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Diffing the current file
@@ -187,13 +187,13 @@
   (interactive)
   (ol-diff-current-file (ol-merge-base-with-main)))
 
-(ol-define-normal-leader-key "gdm" 'ol-diff-current-file-main)
+(ol-define-normal-leader-key "g d m" 'ol-diff-current-file-main)
 
 (defun ol-diff-current-file-head ()
   (interactive)
   (ol-diff-current-file "HEAD"))
 
-(ol-define-normal-leader-key "gdh" 'ol-diff-current-file-head)
+(ol-define-normal-leader-key "g d h" 'ol-diff-current-file-head)
 
 (defun ol-diff-current-file (rev-left &optional rev-right)
   (let* ((buffer-left (ol-get-revision-buffer-current-file rev-left))
@@ -228,7 +228,7 @@
 
 (setc magit-log-margin '(t "%Y-%m-%d  %H:%M  " magit-log-margin-width nil 0))
 
-(ol-define-normal-leader-key "gl" 'ol-magit-log-dwim)
+(ol-define-normal-leader-key "g l" 'ol-magit-log-dwim)
 
 (defun ol-magit-log-dwim (&optional arg)
   (interactive "P")

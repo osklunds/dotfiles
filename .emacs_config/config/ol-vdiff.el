@@ -132,7 +132,7 @@
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
 
-(ol-define-normal-leader-key "bd" 'vdiff-buffers)
+(ol-define-normal-leader-key "b d" 'vdiff-buffers)
 
 ;; Hunk refinement
 (ol-define-key vdiff-mode-map "C-c f" 'ol-vdiff-refine-all-hunks)

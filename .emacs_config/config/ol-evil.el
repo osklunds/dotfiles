@@ -38,10 +38,8 @@
     (_        `(,key))))
 
 (defun ol-define-key (map key fun)
-  "Wrapper around `define-key' that automatically calls `kbd' and handles GUI
-and terminal variations."
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
-    (define-key map (kbd mapped-key) fun)))
+    (keymap-set map mapped-key fun)))
 
 ;; TODO: Delete this
 (defun ol-global-set-key (key fun)

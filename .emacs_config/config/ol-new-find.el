@@ -64,7 +64,7 @@
                     )))
     (find-file selected)))
 
-(ol-define-normal-leader-key "en" 'ol2-dwim-find-file-name)
+(ol-define-normal-leader-key "e n" 'ol2-dwim-find-file-name)
 
 ;; -----------------------------------------------------------------------------
 ;; File content
@@ -134,6 +134,6 @@
   (let ((cmd (append ol2-find-file-content-current-cmd `(,probe))))
     (apply 'process-lines-ignore-status cmd)))
 
-(ol-define-normal-leader-key "ec" 'ol2-dwim-find-file-content)
+(ol-define-normal-leader-key "e c" 'ol2-dwim-find-file-content)
 
 (provide 'ol-new-find)

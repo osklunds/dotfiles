@@ -121,6 +121,6 @@
   (setq-local show-trailing-whitespace (not show-trailing-whitespace))
   (message "Toggled show trailing. Now: %s" show-trailing-whitespace))
 
-(ol-define-normal-leader-key "mw" 'ol-toggle-show-trailing-whitespace)
+(ol-define-normal-leader-key "m w" 'ol-toggle-show-trailing-whitespace)
 
 (provide 'ol-basic-user-interface)

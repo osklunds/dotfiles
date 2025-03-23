@@ -109,13 +109,13 @@
     (counsel--async-command cmd))
   nil)
 
-(ol-define-normal-leader-key "mc" 'ol-find-cmd)
+(ol-define-normal-leader-key "m c" 'ol-find-cmd)
 
 ;; -----------------------------------------------------------------------------
 ;; Find file content
 ;; -----------------------------------------------------------------------------
 
-(ol-define-normal-leader-key "mo" 'swiper)
+(ol-define-normal-leader-key "m o" 'swiper)
 
 (setc counsel-rg-base-command "\
 rg \
