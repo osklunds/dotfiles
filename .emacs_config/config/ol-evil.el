@@ -17,6 +17,23 @@
 
 (evil-mode t)
 
+(evil-set-undo-system 'undo-redo)
+(setc evil-want-C-u-scroll t)
+(setc evil-search-module 'evil-search)
+(setc evil-disable-insert-state-bindings t)
+(setc evil-emacs-state-modes nil)
+(setc evil-motion-state-modes nil)
+(setc evil-insert-state-modes nil)
+(setq evil-insert-state-cursor 'box)
+(setc evil-want-Y-yank-to-eol t)
+
+;; at least for magit, disabling this enables normal keybinds in buffers.
+;; can be something to play around with
+(with-eval-after-load 'dired (evil-collection-dired-setup))
+(with-eval-after-load 'magit (evil-collection-magit-setup))
+(with-eval-after-load 'term (evil-collection-term-setup))
+(with-eval-after-load 'ivy (evil-collection-ivy-setup))
+
 ;; -----------------------------------------------------------------------------
 ;; Keymap functions
 ;; -----------------------------------------------------------------------------
@@ -91,27 +108,6 @@ behaves like `define-key' and `keymap-set'."
 (add-hook 'minibuffer-setup-hook #'turn-off-ol-override-mode)
 
 (ol-override-mode t)
-
-;; -----------------------------------------------------------------------------
-;; Main config
-;; -----------------------------------------------------------------------------
-
-(evil-set-undo-system 'undo-redo)
-(setc evil-want-C-u-scroll t)
-(setc evil-search-module 'evil-search)
-(setc evil-disable-insert-state-bindings t)
-(setc evil-emacs-state-modes nil)
-(setc evil-motion-state-modes nil)
-(setc evil-insert-state-modes nil)
-(setq evil-insert-state-cursor 'box)
-(setc evil-want-Y-yank-to-eol t)
-
-;; at least for magit, disabling this enables normal keybinds in buffers.
-;; can be something to play around with
-(with-eval-after-load 'dired (evil-collection-dired-setup))
-(with-eval-after-load 'magit (evil-collection-magit-setup))
-(with-eval-after-load 'term (evil-collection-term-setup))
-(with-eval-after-load 'ivy (evil-collection-ivy-setup))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Words (don't come easy, to me)
