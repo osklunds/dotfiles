@@ -65,7 +65,7 @@ modeline can be good to cache in a hashmap."
   (interactive)
   (setq ol-project-roots nil)
   (dolist (path ol-projects-search-path)
-    (let* ((dir (car path))
+    (let* ((dir (file-truename (car path)))
            (depth (or (cdr-safe path) 0)))
       (ol-discover-projects-in-dir dir depth))))
 
