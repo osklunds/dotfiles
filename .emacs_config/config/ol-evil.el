@@ -38,12 +38,18 @@
     (_        `(,key))))
 
 (defun ol-define-key (map key fun)
+  "Wrapper around `ol-evil-define-key' that binds for no special state. So
+behaves like `define-key' and `keymap-set'."
   (ol-evil-define-key nil map key fun))
 
 (defun ol-global-set-key (key fun)
+  "Wrapper around `ol-evil-define-key' that binds for no special state and uses
+`current-global-map' so behaves like `global-set-key' and `keymap-global-set'."
   (ol-evil-define-key nil (current-global-map) key fun))
 
 (defun ol-evil-define-key (state map key fun)
+  "Wrapper around `evil-define-key' that also handles GUI and terminal, see
+`ol-map-key'."
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
     (evil-define-key state map (kbd mapped-key) fun)))
 
