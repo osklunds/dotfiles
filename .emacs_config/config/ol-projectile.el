@@ -59,7 +59,7 @@
 ;;;; Commands within projects
 ;;;;----------------------------------------------------------------------------
 
-(ol-override-key "M-q" 'ol-dwim-find-file-name)
-(ol-override-key "M-e" 'ol-dwim-find-file-content)
+(ol-define-key ol-override-map "M-q" 'ol-dwim-find-file-name)
+(ol-define-key ol-override-map "M-e" 'ol-dwim-find-file-content)
 
 (provide 'ol-projectile)

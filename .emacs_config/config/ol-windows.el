@@ -74,13 +74,13 @@
     (set-window-point (selected-window) current-point)
     (set-window-start (selected-window) current-window-start)))
 
-(ol-override-key "M-d" 'ol-split-window)
+(ol-define-key ol-override-map "M-d" 'ol-split-window)
 
 (defun ol-force-split-window ()
   (interactive)
   (split-window-right)
   (evil-window-right 1))
 
-(ol-override-key "M-r" 'ol-force-split-window)
+(ol-define-key ol-override-map "M-r" 'ol-force-split-window)
 
 (provide 'ol-windows)

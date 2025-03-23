@@ -12,7 +12,7 @@
 ;; Keymaps
 ;; -----------------------------------------------------------------------------
 
-(ol-override-key "C-j" 'switch-to-buffer)
+(ol-define-key ol-override-map "C-j" 'switch-to-buffer)
 
 (ol-define-key minibuffer-local-map "C-j" 'next-line)
 (ol-define-key minibuffer-local-map "C-k" 'previous-line)
@@ -45,7 +45,7 @@
                     'ol-find-file-name
                     )))
     (find-file selected)))
-(ol-override-key "M-q" 'ol-find-file-name)
+(ol-define-key ol-override-map "M-q" 'ol-find-file-name)
 
 (defvar ol-find-file-content-last-probe nil)
 (defvar ol-find-file-content-last-result nil)
@@ -97,6 +97,6 @@
      ((eq action 'metadata) nil)
      ((eq action t) candidates-return))))
 
-(ol-override-key "M-e" 'ol-find-file-content)
+(ol-define-key ol-override-map "M-e" 'ol-find-file-content)
 
 (provide 'ol-vertico)

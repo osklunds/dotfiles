@@ -98,7 +98,7 @@
                "<mode-line> <mouse-1>"
                "<escape>"))
   (ol-global-set-key key 'ol-no-op)
-  (ol-override-key key 'ol-no-op)
+  (ol-define-key ol-override-map key 'ol-no-op)
   (ol-define-key button-map key nil)
   (ol-define-key ivy-minibuffer-map key nil)
   (ol-define-key ivy-occur-mode-map key nil)

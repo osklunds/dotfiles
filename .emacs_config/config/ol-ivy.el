@@ -20,7 +20,7 @@
               :matcher #'ivy--switch-buffer-matcher
               :caller 'ivy-switch-buffer)))
 
-(ol-override-key "C-j" 'ol-ivy-switch-buffer)
+(ol-define-key ol-override-map "C-j" 'ol-ivy-switch-buffer)
 (ol-global-set-key "C-x C-b" 'ol-ivy-switch-buffer)
 
 (require 'counsel)
@@ -29,7 +29,7 @@
   :initial-input ""
   :display-transformer-fn #'counsel-M-x-transformer)
 
-(ol-override-key "M-x" 'counsel-M-x)
+(ol-define-key ol-override-map "M-x" 'counsel-M-x)
 (ol-global-set-key "C-x C-f" 'counsel-find-file)
 
 (defun ol-swiper--cleanup-advice (func &rest args)

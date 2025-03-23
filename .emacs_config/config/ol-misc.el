@@ -9,9 +9,9 @@
 
 (add-hook 'window-setup-hook 'ol-window-setup-hook)
 
-(ol-override-key "M-:" 'eval-expression)
-(ol-override-key "M-u" 'universal-argument)
-(ol-override-key "M-h" 'help-command)
+(ol-define-key ol-override-map "M-:" 'eval-expression)
+(ol-define-key ol-override-map "M-u" 'universal-argument)
+(ol-define-key ol-override-map "M-h" 'help-command)
 
 (ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
 

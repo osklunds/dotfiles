@@ -65,14 +65,14 @@
 
 ;; Overriding inspired by: https://emacs.stackexchange.com/a/358
 
-(defvar ol-override-mode-map (make-sparse-keymap))
+(defvar ol-override-map (make-sparse-keymap))
 
 ;;;###autoload
 (define-minor-mode ol-override-mode
   "Minor mode for overriding keys"
   :init-value t
   :lighter " ol-override-mode"
-  :keymap ol-override-mode-map)
+  :keymap ol-override-map)
 
 ;;;###autoload
 (define-globalized-minor-mode global-ol-override-mode
@@ -80,7 +80,7 @@
   ol-override-mode
   :group 'ol)
 
-(add-to-list 'emulation-mode-map-alists `((ol-override-mode . ,ol-override-mode-map)))
+(add-to-list 'emulation-mode-map-alists `((ol-override-mode . ,ol-override-map)))
 
 ;; Turn off the minor mode in the minibuffer
 (defun turn-off-ol-override-mode ()
@@ -89,9 +89,6 @@
 (add-hook 'minibuffer-setup-hook #'turn-off-ol-override-mode)
 
 (ol-override-mode t)
-
-(defun ol-override-key (key fun)
-  (ol-define-key ol-override-mode-map key fun))
 
 ;; -----------------------------------------------------------------------------
 ;; Main config
