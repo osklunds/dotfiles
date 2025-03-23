@@ -15,10 +15,10 @@
 
 (add-hook 'rust-mode-hook 'tlc-mode)
 
-(ol-define-normal-leader-key "l l" 'tlc-open-log-file)
-(ol-define-normal-leader-key "l i" 'tlc-info)
-(ol-define-normal-leader-key "l r" 'tlc-restart-server)
-(ol-define-normal-leader-key "l s" 'tlc-stop-server)
+(ol-define-key ol-normal-leader-map "l l" 'tlc-open-log-file)
+(ol-define-key ol-normal-leader-map "l i" 'tlc-info)
+(ol-define-key ol-normal-leader-map "l r" 'tlc-restart-server)
+(ol-define-key ol-normal-leader-map "l s" 'tlc-stop-server)
 
 (provide 'ol-tiny-lsp-client)
 

@@ -17,7 +17,7 @@
 
 (ol-define-key evil-motion-state-map "o" 'push-button)
 
-(ol-define-normal-leader-key "m m" 'toggle-frame-maximized)
+(ol-define-key ol-normal-leader-map "m m" 'toggle-frame-maximized)
 
 (defvar ol-before-plain-view nil)
 
@@ -38,7 +38,7 @@
       (text-mode)
       (display-line-numbers-mode -1))))
 
-(ol-define-normal-leader-key "m p" 'ol-plain-view)
+(ol-define-key ol-normal-leader-map "m p" 'ol-plain-view)
 
 (defun ol-toggle-spelling ()
   (interactive)
@@ -46,9 +46,9 @@
     (flyspell-buffer))
   (call-interactively 'flyspell-mode))
 
-(ol-define-normal-leader-key "s c" 'ol-toggle-spelling)
+(ol-define-key ol-normal-leader-map "s c" 'ol-toggle-spelling)
 
-(ol-define-normal-leader-key "s f" 'flyspell-auto-correct-word)
+(ol-define-key ol-normal-leader-map "s f" 'flyspell-auto-correct-word)
 
 (setc ispell-check-comments 'exclusive)
 
@@ -115,6 +115,6 @@
       (fundamental-mode))
     (setq-local ol-original-mode original-mode)))
 
-(ol-define-normal-leader-key "m t" 'ol-toggle-fundamental-mode)
+(ol-define-key ol-normal-leader-map "m t" 'ol-toggle-fundamental-mode)
 
 (provide 'ol-misc)

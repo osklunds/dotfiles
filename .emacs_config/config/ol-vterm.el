@@ -78,7 +78,7 @@
   (setq-local ol-vterm-manually-renamed t)
   (call-interactively 'rename-buffer))
 
-(ol-define-normal-leader-key "b r" 'ol-rename-buffer)
+(ol-define-key ol-normal-leader-map "b r" 'ol-rename-buffer)
 
 (defun ol-vterm-named ()
   (interactive)

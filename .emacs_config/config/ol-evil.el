@@ -59,12 +59,6 @@
 (ol-define-key evil-motion-state-map "SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
 
-(defun ol-define-normal-leader-key (key fun)
-  (ol-define-key ol-normal-leader-map key fun))
-
-(defun ol-define-visual-leader-key (key fun)
-  (ol-define-key ol-visual-leader-map key fun))
-
 ;; -----------------------------------------------------------------------------
 ;; Override
 ;; -----------------------------------------------------------------------------

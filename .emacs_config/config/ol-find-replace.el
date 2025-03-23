@@ -20,25 +20,25 @@
   (interactive)
   (ol-replace-visual-selection ol-full-range))
 
-(ol-define-visual-leader-key "R" 'ol-full-replace-visual-selection)
+(ol-define-key ol-visual-leader-map "R" 'ol-full-replace-visual-selection)
 
 (defun ol-from-here-replace-visual-selection ()
   (interactive)
   (ol-replace-visual-selection ol-from-here-range))
 
-(ol-define-visual-leader-key "r" 'ol-from-here-replace-visual-selection)
+(ol-define-key ol-visual-leader-map "r" 'ol-from-here-replace-visual-selection)
 
 (defun ol-full-replace-symbol ()
   (interactive)
   (ol-replace-symbol ol-full-range))
 
-(ol-define-normal-leader-key "R" 'ol-full-replace-symbol)
+(ol-define-key ol-normal-leader-map "R" 'ol-full-replace-symbol)
 
 (defun ol-from-here-replace-symbol ()
   (interactive)
   (ol-replace-symbol ol-from-here-range))
 
-(ol-define-normal-leader-key "r" 'ol-from-here-replace-symbol)
+(ol-define-key ol-normal-leader-map "r" 'ol-from-here-replace-symbol)
 
 (defun ol-replace-symbol (range)
   (let ((text (thing-at-point 'symbol 'no-properties)))

@@ -31,7 +31,7 @@
 
 (setc lsp-enable-on-type-formatting nil)
 
-(ol-define-normal-leader-key "m r" 'lsp-rename)
+(ol-define-key ol-normal-leader-map "m r" 'lsp-rename)
 
 (add-hook 'lsp-after-apply-edits-hook
           (lambda (operation)

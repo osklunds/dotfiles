@@ -23,7 +23,7 @@
           (mca-mode -1)
         (user-error "How did I get here?")))))
 
-(ol-define-normal-leader-key "g m" 'msk-mode-dwim)
+(ol-define-key ol-normal-leader-map "g m" 'msk-mode-dwim)
 (ol-evil-define-key 'normal msk-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
 (ol-evil-define-key 'normal mca-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
 

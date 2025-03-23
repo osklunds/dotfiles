@@ -23,7 +23,7 @@
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 (ol-define-key dired-mode-map "SPC" nil)
 
-(ol-define-normal-leader-key "d h" (lambda () (interactive) (dired "~")))
+(ol-define-key ol-normal-leader-map "d h" (lambda () (interactive) (dired "~")))
 
 (ol-evil-define-key 'normal dired-mode-map "S" 'dired-do-relsymlink)
 

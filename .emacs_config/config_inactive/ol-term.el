@@ -93,7 +93,7 @@
         (vterm-send-string (concat cmd-on-create "\n"))))
     new-buffer))
 
-(ol-define-normal-leader-key "t t" 'ol-term-named)
+(ol-define-key ol-normal-leader-map "t t" 'ol-term-named)
 
 (setq kill-buffer-query-functions nil)
 (setc confirm-kill-processes nil)

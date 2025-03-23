@@ -19,8 +19,8 @@
   (call-interactively 'eval-buffer)
   (message "eval-buffer"))
 
-(ol-define-visual-leader-key "e r" 'ol-eval-region)
-(ol-define-normal-leader-key "e b" 'ol-eval-buffer)
+(ol-define-key ol-visual-leader-map "e r" 'ol-eval-region)
+(ol-define-key ol-normal-leader-map "e b" 'ol-eval-buffer)
 
 (defun ol-indent-buffer ()
   (interactive)

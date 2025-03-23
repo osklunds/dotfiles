@@ -44,9 +44,9 @@
 (ol-define-key smerge-mode-map "C-c p" 'smerge-prev)
 
 ;; C-c r also used by vdiff, so avoid conflict
-(ol-define-normal-leader-key "c l" 'smerge-keep-upper)
-(ol-define-normal-leader-key "c r" 'smerge-keep-lower)
-(ol-define-normal-leader-key "c b" 'ol-smerge-keep-both)
-(ol-define-normal-leader-key "c a" 'smerge-keep-all)
+(ol-define-key ol-normal-leader-map "c l" 'smerge-keep-upper)
+(ol-define-key ol-normal-leader-map "c r" 'smerge-keep-lower)
+(ol-define-key ol-normal-leader-map "c b" 'ol-smerge-keep-both)
+(ol-define-key ol-normal-leader-map "c a" 'smerge-keep-all)
 
 (provide 'ol-smerge)
