@@ -109,9 +109,9 @@ behaves like `define-key' and `keymap-set'."
 
 (ol-override-mode t)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Words (don't come easy, to me)
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Words (don't come easy, to me)
+;; -----------------------------------------------------------------------------
 
 ;; Make - a word in emacs lisp mode
 (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
@@ -126,9 +126,9 @@ behaves like `define-key' and `keymap-set'."
             :filter-args
             (lambda (args) (apply 'ol-evil-ex-start-word-search-args-advice args)))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Relative line jumps into jump list
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Relative line jumps into jump list
+;; -----------------------------------------------------------------------------
 
 (defun ol-evil-line-motion-add-to-jump-list-advice (&optional count)
   (when count
@@ -137,9 +137,9 @@ behaves like `define-key' and `keymap-set'."
 (advice-add 'evil-next-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
 (advice-add 'evil-previous-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Operator tweaks
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Operator tweaks
+;; -----------------------------------------------------------------------------
 
 (defun ol-evil-operator-save-point-advice (func &rest args)
   (save-excursion
@@ -164,9 +164,9 @@ behaves like `define-key' and `keymap-set'."
             :filter-args
             (lambda (args) (apply 'ol-evilnc-comment-operator-advice args)))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Keybinds
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Keybinds
+;; -----------------------------------------------------------------------------
 
 (ol-define-key evil-normal-state-map "R" nil)
 
@@ -206,15 +206,15 @@ behaves like `define-key' and `keymap-set'."
 
 (ol-define-key evil-insert-state-map 'tab 'ol-insert-tab)
 
-;;;; ---------------------------------------------------------------------------
-;;;; go to definition
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; go to definition
+;; -----------------------------------------------------------------------------
 
 (setc evil-goto-definition-functions '(evil-goto-definition-xref))
 
-;;;; ---------------------------------------------------------------------------
-;;;; Subword
-;;;;----------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Subword
+;; -----------------------------------------------------------------------------
 
 ;; TODO: Handle elisp having special symbols
 ;; TODO: Handle camel case
