@@ -25,6 +25,10 @@
 
 ;; To handle both GUI and terminal
 ;; e.g. <tab> is for GUI and TAB is for terminal
+;; In theory, this should not be needed since e.g. if <tab> is unbound, TAB is
+;; used instead. But in practice it's needed because some modes define something
+;; for both <tab> and TAB, and then changing for just TAB is not enough.  So
+;; handle both variants centrally here.
 (defun ol-map-key (key)
   (pcase key
     ('return  '("<return>" "RET"))
