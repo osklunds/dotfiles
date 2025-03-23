@@ -2,8 +2,12 @@
 (require 'ol-util)
 
 ;; -----------------------------------------------------------------------------
-;; Loading evil
+;; Framework
 ;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Loading evil
+;;;; ---------------------------------------------------------------------------
 
 ;; These must be set before evil is loaded
 (defvar evil-want-integration t)
@@ -17,26 +21,9 @@
 
 (evil-mode t)
 
-(evil-set-undo-system 'undo-redo)
-(setc evil-want-C-u-scroll t)
-(setc evil-search-module 'evil-search)
-(setc evil-disable-insert-state-bindings t)
-(setc evil-emacs-state-modes nil)
-(setc evil-motion-state-modes nil)
-(setc evil-insert-state-modes nil)
-(setq evil-insert-state-cursor 'box)
-(setc evil-want-Y-yank-to-eol t)
-
-;; at least for magit, disabling this enables normal keybinds in buffers.
-;; can be something to play around with
-(with-eval-after-load 'dired (evil-collection-dired-setup))
-(with-eval-after-load 'magit (evil-collection-magit-setup))
-(with-eval-after-load 'term (evil-collection-term-setup))
-(with-eval-after-load 'ivy (evil-collection-ivy-setup))
-
-;; -----------------------------------------------------------------------------
-;; Keymap functions
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Keymap functions
+;;;; ---------------------------------------------------------------------------
 
 ;; To handle both GUI and terminal
 ;; e.g. <tab> is for GUI and TAB is for terminal
@@ -68,9 +55,9 @@ behaves like `define-key' and `keymap-set'."
   (dolist (mapped-key (ol-map-key-to-gui-and-terminal key))
     (evil-define-key state map (kbd mapped-key) fun)))
 
-;; -----------------------------------------------------------------------------
-;; Leader keymaps
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Leader keymaps
+;;;; ---------------------------------------------------------------------------
 
 (defvar ol-normal-leader-map (make-sparse-keymap))
 (defvar ol-visual-leader-map (make-sparse-keymap))
@@ -78,9 +65,9 @@ behaves like `define-key' and `keymap-set'."
 (ol-define-key evil-motion-state-map "SPC" ol-normal-leader-map)
 (ol-define-key evil-visual-state-map "SPC" ol-visual-leader-map)
 
-;; -----------------------------------------------------------------------------
-;; Override keymap
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Override keymap
+;;;; ---------------------------------------------------------------------------
 
 ;; Overriding inspired by: https://emacs.stackexchange.com/a/358
 
@@ -110,8 +97,29 @@ behaves like `define-key' and `keymap-set'."
 (ol-override-mode t)
 
 ;; -----------------------------------------------------------------------------
-;; Words (don't come easy, to me)
+;; Configration
 ;; -----------------------------------------------------------------------------
+
+(evil-set-undo-system 'undo-redo)
+(setc evil-want-C-u-scroll t)
+(setc evil-search-module 'evil-search)
+(setc evil-disable-insert-state-bindings t)
+(setc evil-emacs-state-modes nil)
+(setc evil-motion-state-modes nil)
+(setc evil-insert-state-modes nil)
+(setq evil-insert-state-cursor 'box)
+(setc evil-want-Y-yank-to-eol t)
+
+;; at least for magit, disabling this enables normal keybinds in buffers.
+;; can be something to play around with
+(with-eval-after-load 'dired (evil-collection-dired-setup))
+(with-eval-after-load 'magit (evil-collection-magit-setup))
+(with-eval-after-load 'term (evil-collection-term-setup))
+(with-eval-after-load 'ivy (evil-collection-ivy-setup))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Words (don't come easy, to me)
+;;;; ---------------------------------------------------------------------------
 
 ;; Make - a word in emacs lisp mode
 (add-hook 'emacs-lisp-mode-hook (lambda () (modify-syntax-entry ?- "w")))
@@ -126,9 +134,9 @@ behaves like `define-key' and `keymap-set'."
             :filter-args
             (lambda (args) (apply 'ol-evil-ex-start-word-search-args-advice args)))
 
-;; -----------------------------------------------------------------------------
-;; Relative line jumps into jump list
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Relative line jumps into jump list
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-evil-line-motion-add-to-jump-list-advice (&optional count)
   (when count
@@ -137,9 +145,9 @@ behaves like `define-key' and `keymap-set'."
 (advice-add 'evil-next-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
 (advice-add 'evil-previous-visual-line :before 'ol-evil-line-motion-add-to-jump-list-advice)
 
-;; -----------------------------------------------------------------------------
-;; Operator tweaks
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Operator tweaks
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-evil-operator-save-point-advice (func &rest args)
   (save-excursion
@@ -164,9 +172,9 @@ behaves like `define-key' and `keymap-set'."
             :filter-args
             (lambda (args) (apply 'ol-evilnc-comment-operator-advice args)))
 
-;; -----------------------------------------------------------------------------
-;; Keybinds
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Keybinds
+;;;; ---------------------------------------------------------------------------
 
 (ol-define-key evil-normal-state-map "R" nil)
 
@@ -206,15 +214,15 @@ behaves like `define-key' and `keymap-set'."
 
 (ol-define-key evil-insert-state-map 'tab 'ol-insert-tab)
 
-;; -----------------------------------------------------------------------------
-;; go to definition
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; go to definition
+;;;; ---------------------------------------------------------------------------
 
 (setc evil-goto-definition-functions '(evil-goto-definition-xref))
 
-;; -----------------------------------------------------------------------------
-;; Subword
-;; -----------------------------------------------------------------------------
+;;;; ---------------------------------------------------------------------------
+;;;; Subword
+;;;; ---------------------------------------------------------------------------
 
 ;; TODO: Handle elisp having special symbols
 ;; TODO: Handle camel case
