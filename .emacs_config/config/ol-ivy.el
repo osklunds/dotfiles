@@ -61,8 +61,8 @@
 (ol-define-key ivy-switch-buffer-map "C-k" 'ivy-previous-line)
 (ol-define-key ivy-switch-buffer-map "C-d" 'ivy-switch-buffer-kill)
 
-(ol-evil-define-key 'motion ivy-occur-grep-mode-map "o" 'ivy-occur-press)
-(ol-evil-define-key 'motion ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
+(ol-evil-define-key 'normal ivy-occur-grep-mode-map "o" 'ivy-occur-press)
+(ol-evil-define-key 'normal ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
 (ol-evil-define-key 'normal ivy-occur-mode-map "o" 'ivy-occur-press)
 (ol-evil-define-key 'normal ivy-occur-mode-map "O" 'ivy-occur-press-and-switch)
 
