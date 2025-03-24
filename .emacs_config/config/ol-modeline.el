@@ -95,37 +95,30 @@
 ;;;; ---------------------------------------------------------------------------
 
 (defun ol-mode-line-right-part ()
-  (quote ((:eval (ol-branch-name-segment))
+  (quote ((:eval ol-branch-name-segment)
           "  " ((:eval (ol-project-name-segment)))
           )))
 
+(defvar-local ol-branch-name-segment nil)
 (defun ol-branch-name-segment ()
-  (if-let ((branch (ol-get-current-branch)))
-      branch
-    ""))
+  (setq ol-branch-name-segment (if-let ((branch (ol-get-current-branch)))
+                                   branch
+                                 "")))
 
-(defvar ol-branch-cache nil)
+(add-hook 'after-revert-hook 'ol-branch-name-segment)
+(add-hook 'find-file-hook 'ol-branch-name-segment)
 
-;; todo: update mode-line async and cache result
-;; todo: only update on revert. Changing branch causes revert
 (defun ol-get-current-branch ()
   (if-let ((branch (magit-get-current-branch)))
       branch
     (when-let ((commit-id (magit-git-string "rev-parse" "HEAD")))
-      (if-let ((cached (cdr (assoc commit-id ol-branch-cache))))
-          cached
-        (let ((regex "HEAD detached at \\(.+\\)")
-              (status (magit-git-string "status")))
-          (string-match regex status)
-          (when-let ((calculated (match-string 1 status)))
-            (add-to-list 'ol-branch-cache `(,commit-id . ,calculated))
-            calculated))))))
+        (substring commit-id 0 7))))
 
+;; No need to cache since (ol-project-name) already is fast and cached
 (defun ol-project-name-segment ()
-  (let* ((name (ol-fallback-project-name)))
-    (if (string-equal name "-")
-        ""
-      name)))
+  (if-let ((name (ol-fallback-project-name)))
+      name
+    ""))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Putting it all together
