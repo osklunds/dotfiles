@@ -65,7 +65,7 @@
 
 (defun ol-evil-segment ()
   (let ((evil-face (cond
-                    (ol-plain-state-mode   'ol-evil-plain-state-mode-mode-line-face)
+                    (ol-plain-state-mode     'ol-evil-plain-state-mode-mode-line-face)
                     ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
                     ((evil-insert-state-p)   'ol-evil-insert-state-mode-line-face)
                     ((evil-visual-state-p)   'ol-evil-visual-state-mode-line-face)

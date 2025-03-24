@@ -3,6 +3,7 @@
 (require 'ol-evil)
 
 (require 'ivy)
+(require 'counsel)
 
 (setc ivy-height 20)
 (setc ivy-wrap t)
@@ -23,7 +24,16 @@
 (ol-define-key ol-override-map "C-j" 'ol-ivy-switch-buffer)
 (ol-global-set-key "C-x C-b" 'ol-ivy-switch-buffer)
 
-(require 'counsel)
+;; Inspired by ivy
+(defun ol-ivy-switch-buffer-transformer (str)
+  (let* ((buffer (get-buffer str))
+         (mode (buffer-local-value 'major-mode buffer)))
+    (cond
+     ((eq mode 'dired-mode) (ivy-append-face str 'font-lock-function-name-face))
+     ((eq mode 'vterm-mode) (ivy-append-face str 'font-lock-type-face))
+     (t str))))
+
+(advice-add 'ivy-switch-buffer-transformer :override 'ol-ivy-switch-buffer-transformer)
 
 (ivy-configure 'counsel-M-x
   :initial-input ""
