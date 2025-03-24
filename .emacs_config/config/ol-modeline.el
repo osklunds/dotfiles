@@ -1,6 +1,7 @@
 
 (require 'ol-find-replace)
 (require 'ol-evil)
+(require 'ol-ivy)
 
 (require 'projectile)
 (require 'magit)
@@ -14,6 +15,7 @@
 (defface ol-evil-visual-state-mode-line-face '() "")
 (defface ol-evil-emacs-state-mode-line-face '() "")
 (defface ol-evil-operator-state-mode-line-face '() "")
+(defface ol-evil-plain-state-mode-mode-line-face '() "")
 (defface ol-buffer-name-mode-line-face '() "")
 
 (ol-set-face 'mode-line :overline 'unspecified :underline 'unspecified)
@@ -34,12 +36,15 @@
 (ol-copy-face-fg-bg 'ol-evil-insert-state-mode-line-face 'font-lock-keyword-face)
 (ol-copy-face-fg-bg 'ol-evil-visual-state-mode-line-face 'warning)
 (ol-copy-face-fg-bg 'ol-evil-emacs-state-mode-line-face 'font-lock-builtin-face)
+(ol-copy-face-fg-bg 'ol-evil-plain-state-mode-mode-line-face 'company-tooltip-common)
 
 (dolist (face '(ol-evil-normal-state-mode-line-face
                 ol-evil-insert-state-mode-line-face
                 ol-evil-visual-state-mode-line-face
                 ol-evil-emacs-state-mode-line-face
-                ol-evil-operator-state-mode-line-face))
+                ol-evil-operator-state-mode-line-face
+                ol-evil-plain-state-mode-mode-line-face
+                ))
   (ol-set-face face :weight 'bold))
 
 ;;;; ---------------------------------------------------------------------------
@@ -59,12 +64,14 @@
     (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
 
 (defun ol-evil-segment ()
-  (let ((evil-face (cond ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
-                         ((evil-insert-state-p)   'ol-evil-insert-state-mode-line-face)
-                         ((evil-visual-state-p)   'ol-evil-visual-state-mode-line-face)
-                         ((evil-emacs-state-p)    'ol-evil-emacs-state-mode-line-face)
-                         ((evil-operator-state-p) 'ol-evil-operator-state-mode-line-face)
-                         (t                       'ol-evil-normal-state-mode-line-face))))
+  (let ((evil-face (cond
+                    (ol-plain-state-mode   'ol-evil-plain-state-mode-mode-line-face)
+                    ((evil-normal-state-p)   'ol-evil-normal-state-mode-line-face)
+                    ((evil-insert-state-p)   'ol-evil-insert-state-mode-line-face)
+                    ((evil-visual-state-p)   'ol-evil-visual-state-mode-line-face)
+                    ((evil-emacs-state-p)    'ol-evil-emacs-state-mode-line-face)
+                    ((evil-operator-state-p) 'ol-evil-operator-state-mode-line-face)
+                    (t                       'ol-evil-normal-state-mode-line-face))))
     (propertize
      (concat
       (truncate-string-to-width (string-pad (upcase (symbol-name evil-state)) 9 32) 6))
