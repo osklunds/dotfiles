@@ -33,8 +33,8 @@
 ;; ---------------------------------------------------------------------------
 ;; Save
 ;; ---------------------------------------------------------------------------
-
 ;; Inspired by super-save https://github.com/bbatsov/super-save
+
 (defun ol-save-p ()
   (and buffer-file-name
        (buffer-modified-p (current-buffer))
@@ -47,8 +47,8 @@
 ;; To handle when changing selected window
 (defun ol-save-on-window-selection-change (&rest _)
   ;; When vidff opens/closes, it's not enough with the last buffer,
-  ;; so also take the second last.
-  (dolist (buffer (cl-subseq (buffer-list) 0 2))
+  ;; so also take the second last and some extra for margin
+  (dolist (buffer (cl-subseq (buffer-list) 0 4))
     (with-current-buffer buffer
       (when (ol-save-p)
         (ol-save-silently)))))
