@@ -100,6 +100,7 @@
 (defvar ol-branch-cache nil)
 
 ;; todo: update mode-line async and cache result
+;; todo: only update on revert. Changing branch causes revert
 (defun ol-get-current-branch ()
   (if-let ((branch (magit-get-current-branch)))
       branch
