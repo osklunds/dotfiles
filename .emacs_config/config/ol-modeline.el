@@ -107,6 +107,8 @@
 
 (add-hook 'after-revert-hook 'ol-branch-name-segment)
 (add-hook 'find-file-hook 'ol-branch-name-segment)
+;; To handle e.g. magit-status when the buffer has no file
+(add-hook 'after-change-major-mode-hook 'ol-branch-name-segment)
 
 (defun ol-get-current-branch ()
   (if-let ((branch (magit-get-current-branch)))
