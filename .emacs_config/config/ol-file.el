@@ -65,6 +65,8 @@
 
 (add-hook 'window-buffer-change-functions 'ol-save-on-window-buffer-change)
 
+(add-hook 'focus-out-hook 'ol-save-silently)
+
 (save-place-mode t)
 
 ;; ---------------------------------------------------------------------------
