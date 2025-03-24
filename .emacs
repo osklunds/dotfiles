@@ -8,9 +8,9 @@
 (setq eval-expression-print-level 10000)
 (setq eval-expression-print-length 10000)
 
-;; ---------------------------------------------------------------------------
-;; Loading config
-;; ---------------------------------------------------------------------------
+;; -----------------------------------------------------------------------------
+;; Load path
+;; -----------------------------------------------------------------------------
 
 (setq package-archives nil)
 (setq custom-file (concat user-emacs-directory "/custom.el"))
@@ -34,6 +34,10 @@
   (interactive)
   (let ((default-directory ol-emacs-dir))
     (normal-top-level-add-subdirs-to-load-path)))
+
+;; -----------------------------------------------------------------------------
+;; Loading packages and config
+;; -----------------------------------------------------------------------------
 
 ;; Naive and simplified method
 (defun ol-require-advice (feature &optional filename _noerror)
