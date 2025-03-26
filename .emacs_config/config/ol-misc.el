@@ -2,17 +2,27 @@
 (require 'ol-util)
 (require 'ol-evil)
 
+;; Supposedly can improve scroll performance
+(setq auto-window-vscroll nil)
+
+(setq kill-buffer-query-functions nil)
+(setc confirm-kill-processes nil)
+
 (setc enable-local-variables nil)
 
 (ol-define-key ol-override-map "M-:" 'eval-expression)
 (ol-define-key ol-override-map "M-u" 'universal-argument)
 (ol-define-key ol-override-map "M-h" 'help-command)
 
-(ol-evil-define-key 'normal global-map "gr" 'revert-buffer-quick)
+(ol-evil-define-key 'normal global-map "g r" 'revert-buffer-quick)
 
 (ol-define-key evil-motion-state-map "o" 'push-button)
 
 (ol-define-key ol-normal-leader-map "m m" 'toggle-frame-maximized)
+
+;; -----------------------------------------------------------------------------
+;; Plain view
+;; -----------------------------------------------------------------------------
 
 (defvar ol-before-plain-view nil)
 
@@ -35,6 +45,10 @@
 
 (ol-define-key ol-normal-leader-map "m p" 'ol-plain-view)
 
+;; -----------------------------------------------------------------------------
+;; Spelling
+;; -----------------------------------------------------------------------------
+
 (defun ol-toggle-spelling ()
   (interactive)
   (unless flyspell-mode
@@ -47,6 +61,10 @@
 
 (setc ispell-check-comments 'exclusive)
 
+;; -----------------------------------------------------------------------------
+;; Shell command
+;; -----------------------------------------------------------------------------
+
 ;; unfinished experiment
 (defun ol-shell-command (command)
   (interactive)
@@ -54,11 +72,5 @@
     (shell-command command bfn)))
 
 (ol-global-set-key "M-!" 'shell-command)
-
-;; Supposedly can improve scroll performance
-(setq auto-window-vscroll nil)
-
-(setq kill-buffer-query-functions nil)
-(setc confirm-kill-processes nil)
 
 (provide 'ol-misc)
