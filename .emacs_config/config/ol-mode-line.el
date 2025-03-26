@@ -149,4 +149,4 @@
 (with-current-buffer (get-buffer "*Messages*")
   (setq mode-line-format (default-value 'mode-line-format)))
 
-(provide 'ol-modeline)
+(provide 'ol-mode-line)
