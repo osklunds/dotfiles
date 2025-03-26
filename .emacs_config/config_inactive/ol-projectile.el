@@ -37,29 +37,4 @@
 (setc projectile-auto-update-cache nil)
 (setc projectile-indexing-method 'alien)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Project selection
-;;;;----------------------------------------------------------------------------
-
-(ol-define-key ol-normal-leader-map "p p" 'ol-fallback-switch-to-project-interactive)
-(ol-define-key ol-normal-leader-map "p d" 'ol-switch-to-dotfiles)
-
-(defun ol-switch-to-dotfiles ()
-  (interactive)
-  (ol-fallback-switch-to-project "~/own_repos/dotfiles/"))
-
-(setc projectile-switch-project-action 'ol-dwim-find-file-name)
-
-(defun ol-projectile-commander (&rest args)
-  (projectile-dired))
-
-(advice-add 'projectile-commander :override 'ol-projectile-commander)
-
-;;;; ---------------------------------------------------------------------------
-;;;; Commands within projects
-;;;;----------------------------------------------------------------------------
-
-(ol-define-key ol-override-map "M-q" 'ol-dwim-find-file-name)
-(ol-define-key ol-override-map "M-e" 'ol-dwim-find-file-content)
-
 (provide 'ol-projectile)

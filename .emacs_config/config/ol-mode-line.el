@@ -3,7 +3,6 @@
 (require 'ol-evil)
 (require 'ol-ivy)
 
-(require 'projectile)
 (require 'magit)
 
 ;; -----------------------------------------------------------------------------
@@ -120,7 +119,7 @@
 
 ;; No need to cache since (ol-project-name) already is fast and cached
 (defun ol-project-name-segment ()
-  (if-let ((name (ol-fallback-project-name)))
+  (if-let ((name (ol-project-name)))
       name
     ""))
 

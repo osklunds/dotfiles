@@ -26,10 +26,10 @@
 	path = .emacs_config/packages/themes
 	url = https://github.com/doomemacs/themes.git
 [submodule ".emacs_config/packages/projectile"]
-	path = .emacs_config/packages/projectile
+	path = .emacs_config/packages_inactive/projectile
 	url = https://github.com/bbatsov/projectile.git
 [submodule ".emacs_config/packages/counsel-projectile"]
-	path = .emacs_config/packages/counsel-projectile
+	path = .emacs_config/packages_inactive/counsel-projectile
 	url = https://github.com/ericdanan/counsel-projectile.git
 [submodule ".emacs_config/packages/ripgrep.el"]
 	path = .emacs_config/packages/ripgrep.el

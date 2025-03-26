@@ -1,6 +1,5 @@
 
 (require 'project)
-(require 'projectile)
 
 ;; -----------------------------------------------------------------------------
 ;; Project root and name of current buffer
@@ -115,32 +114,18 @@ modeline can be good to cache in a hashmap."
 (add-hook 'project-find-functions 'project-ol-project)
 
 ;; -----------------------------------------------------------------------------
-;; Projectile fallback
+;; Keybinds
 ;; -----------------------------------------------------------------------------
 
-;; temporary while experimenting
+(ol-define-key ol-normal-leader-map "p p" 'ol-switch-to-project)
+(ol-define-key ol-normal-leader-map "p d" 'ol-switch-to-dotfiles)
+(ol-define-key ol-normal-leader-map "p s" 'ol-discover-projects)
 
-(defvar ol-use-projectile nil)
-
-(defun ol-fallback-project-root ()
-  (if ol-use-projectile
-      (projectile-project-root)
-    (ol-project-root)))
-
-(defun ol-fallback-project-name ()
-  (if ol-use-projectile
-      (projectile-project-name)
-    (ol-project-name)))
-
-(defun ol-fallback-switch-to-project (root)
-  (if ol-use-projectile
-      (projectile-switch-project-by-name root)
-    (ol-switch-to-project-by-root root)))
-
-(defun ol-fallback-switch-to-project-interactive ()
+(defun ol-switch-to-dotfiles ()
   (interactive)
-  (if ol-use-projectile
-      (projectile-switch-project)
-    (ol-switch-to-project)))
+  (ol-switch-to-project-by-root "~/own_repos/dotfiles/"))
+
+(ol-define-key ol-override-map "M-q" 'ol-dwim-find-file-name)
+(ol-define-key ol-override-map "M-e" 'ol-dwim-find-file-content)
 
 (provide 'ol-project)
