@@ -30,4 +30,22 @@
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
     (apply orig-fun args)))
 
+;; -----------------------------------------------------------------------------
+;; Window/buffer changes
+;;------------------------------------------------------------------------------
+
+(defvar ol-window-or-buffer-change-hook nil)
+
+(defun ol-window-or-buffer-change (&rest _r)
+  (run-hooks 'ol-window-or-buffer-change-hook))
+
+;; When window is changed
+(add-hook 'window-selection-change-functions 'ol-window-or-buffer-change)
+
+;; When window remains, but shows another buffer
+(add-hook 'window-buffer-change-functions 'ol-window-or-buffer-change)
+
+;; Mainly for save
+(add-function :after after-focus-change-function 'ol-window-or-buffer-change)
+
 (provide 'ol-util)

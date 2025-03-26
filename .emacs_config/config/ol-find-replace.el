@@ -73,7 +73,7 @@
 (defun ol-anzu-reset-cache (&rest _)
   (setq anzu--cached-positions nil))
 
-(add-hook 'ol-window-buffer-change-new-hook 'ol-anzu-reset-cache)
+(add-hook 'ol-window-or-buffer-change-hook 'ol-anzu-reset-cache)
 
 ;; Fixing case sensitive
 (defun ol-anzu--case-fold-search--advice (&rest r)
@@ -98,7 +98,7 @@
     (with-current-buffer (window-buffer window)
       (ol-update-evil-search))))
 
-(add-hook 'ol-window-buffer-change-new-hook 'ol-update-evil-search)
+(add-hook 'ol-window-or-buffer-change-hook 'ol-update-evil-search)
 
 (defun ol-evil-start-search-advice (&rest _args)
   (setq ol-evil-is-searching t)

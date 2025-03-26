@@ -44,28 +44,17 @@
   (let ((inhibit-message t))
     (save-buffer)))
 
-;; To handle when changing selected window
-(defun ol-save-on-window-selection-change (&rest _)
+(defun ol-save-on-window-or-buffer-change ()
   ;; When vidff opens/closes, it's not enough with the last buffer,
   ;; so also take the second last and some extra for margin
-  (dolist (buffer (cl-subseq (buffer-list) 0 4))
-    (with-current-buffer buffer
-      (when (ol-save-p)
-        (ol-save-silently)))))
-
-(add-hook 'window-selection-change-functions 'ol-save-on-window-selection-change)
-
-;; To handle when changing buffer without changing window, e.g. q or C-^
-(defun ol-save-on-window-buffer-change (&rest _)
-  (let ((buffer (window-old-buffer)))
+  ;; window-old-buffer is for the case of buffer change without window change
+  (dolist (buffer (cons (window-old-buffer) (cl-subseq (buffer-list) 0 4)))
     (when (buffer-live-p buffer)
       (with-current-buffer buffer
         (when (ol-save-p)
           (ol-save-silently))))))
 
-(add-hook 'window-buffer-change-functions 'ol-save-on-window-buffer-change)
-
-(add-hook 'focus-out-hook 'ol-save-silently)
+(add-hook 'ol-window-or-buffer-change-hook 'ol-save-on-window-or-buffer-change)
 
 (save-place-mode t)
 
