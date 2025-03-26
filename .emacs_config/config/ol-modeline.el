@@ -10,16 +10,18 @@
 ;; Faces
 ;; -----------------------------------------------------------------------------
 
-(defface ol-evil-normal-state-mode-line-face '() "")
-(defface ol-evil-insert-state-mode-line-face '() "")
-(defface ol-evil-visual-state-mode-line-face '() "")
-(defface ol-evil-emacs-state-mode-line-face '() "")
-(defface ol-evil-operator-state-mode-line-face '() "")
-(defface ol-evil-plain-state-mode-mode-line-face '() "")
-(defface ol-buffer-name-mode-line-face '() "")
+(defface ol-evil-normal-state-mode-line-face nil "")
+(defface ol-evil-insert-state-mode-line-face nil "")
+(defface ol-evil-visual-state-mode-line-face nil "")
+(defface ol-evil-emacs-state-mode-line-face nil "")
+(defface ol-evil-operator-state-mode-line-face nil "")
+(defface ol-evil-plain-state-mode-mode-line-face nil "")
+(defface ol-buffer-name-mode-line-face nil "")
 
+;; I don't remember why I did this
 (ol-set-face 'mode-line :overline 'unspecified :underline 'unspecified)
 
+;; I don't remember why I did this
 (if (display-graphic-p)
     (ol-set-face 'mode-line :background "#d7e4e8")
   (ol-set-face 'mode-line :background "#cccccc"))
@@ -131,7 +133,6 @@
 (defun ol-render-mode-line (left right)
   (let* ((left-formatted (format-mode-line left))
          (right-formatted (format-mode-line right))
-
          (total-width (- (window-total-width) 5))
          (available-width (- total-width (length left-formatted) 1))
          (align-format-string (format "%%s %%%ds " available-width))
