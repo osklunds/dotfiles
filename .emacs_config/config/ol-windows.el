@@ -2,6 +2,11 @@
 (require 'ol-util)
 (require 'ol-evil)
 
+(defun ol-window-setup-hook ()
+  (toggle-frame-maximized))
+
+(add-hook 'window-setup-hook 'ol-window-setup-hook)
+
 (ol-define-key evil-normal-state-map "q" 'quit-window)
 
 ;;;; ---------------------------------------------------------------------------
@@ -82,5 +87,6 @@
   (evil-window-right 1))
 
 (ol-define-key ol-override-map "M-r" 'ol-force-split-window)
+
 
 (provide 'ol-windows)
