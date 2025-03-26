@@ -1,4 +1,3 @@
-;; -*- lexical-binding: t -*-
 
 (require 'jka-compr) ;; To avoid problem with recursive load error
 (require 'faces)

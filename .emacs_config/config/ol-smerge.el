@@ -1,4 +1,3 @@
-;; -*- lexical-binding: t -*-
 
 (require 'ol-basic-user-interface)
 (require 'ol-magit)

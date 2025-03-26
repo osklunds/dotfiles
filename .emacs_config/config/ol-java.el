@@ -1,4 +1,3 @@
-;; -*- lexical-binding: t -*-
 
 (require 'ol-vterm)
 (require 'ol-evil)

@@ -1,4 +1,3 @@
-;; -*- lexical-binding: t -*-
 
 (require 'ol-find-replace)
 (require 'ol-evil)
