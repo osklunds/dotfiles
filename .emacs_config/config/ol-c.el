@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 
 (require 'cc-cmds)
 (require 'cc-mode)

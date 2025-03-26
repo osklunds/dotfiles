@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 
 (require 'ol-colors)
 (require 'ol-util)

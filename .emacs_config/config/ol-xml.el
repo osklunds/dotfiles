@@ -1,4 +1,4 @@
-
+;; -*- lexical-binding: t -*-
 (require 'ol-util)
 
 (setc rng-nxml-auto-validate-flag nil)
