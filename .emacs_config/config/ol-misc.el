@@ -47,6 +47,7 @@
 
 (setc ispell-check-comments 'exclusive)
 
+;; unfinished experiment
 (defun ol-shell-command (command)
   (interactive)
   (let ((bfn (generate-new-buffer-name (concat "*Shell Command Output: '" command "'*"))))
