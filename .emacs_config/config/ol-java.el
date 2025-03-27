@@ -1,3 +1,4 @@
+;; -*- lexical-binding: nil -*-
 
 (require 'ol-vterm)
 (require 'ol-evil)

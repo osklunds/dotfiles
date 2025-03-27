@@ -1,3 +1,4 @@
+;; -*- lexical-binding: nil -*-
 
 (require 'ol-util)
 (require 'ol-dired)

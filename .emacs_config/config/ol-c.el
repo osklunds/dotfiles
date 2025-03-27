@@ -1,3 +1,4 @@
+;; -*- lexical-binding: nil -*-
 
 (require 'cc-cmds)
 (require 'cc-mode)
