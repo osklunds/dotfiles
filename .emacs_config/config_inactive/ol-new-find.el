@@ -1,5 +1,3 @@
-;; -*- lexical-binding: nil -*-
-
 ;;;  -*- lexical-binding: t; -*-
 
 (require 'ol-ert)
@@ -49,7 +47,7 @@
       (ol2-find-file-name root "project")
     (ol2-find-file-name default-directory "cwd")))
 
-(defun ol2-find-file-name (dir prompt-dir-part)
+(defun ol2-find-file-name (_dir prompt-dir-part)
   (interactive)
   (let* ((cmd (ol2-find-file-cmd))
          (candidates (apply 'process-lines-ignore-status cmd))
@@ -93,7 +91,7 @@
 
 (defvar ol2-find-file-content-current-cmd nil)
 
-(defun ol2-find-file-content (dir prompt-dir-part)
+(defun ol2-find-file-content (_dir prompt-dir-part)
   (interactive)
   (setq ol2-find-file-content-last-probe nil)
   (setq ol2-find-file-content-last-candidates nil)

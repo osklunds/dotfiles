@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: nil -*-
 
+(require 'ol-evil)
+
 (require 'project)
 
 ;; -----------------------------------------------------------------------------
@@ -87,15 +89,15 @@ modeline can be good to cache in a hashmap."
                        t ';; require-match
                        nil ;; initial input
                        'ol-switch-to-project)))
-    (if (cl-member project-root ol-project-roots :test 'string-equal)
-        (let ((default-directory project-root))
-          (ol-dwim-find-file-name))
-      (user-error "Bad project selection"))))
+    (ol-switch-to-project-by-root project-root)))
+
+;; Set in ol-find-files.el to avoid circular dependency
+(defvar ol-switch-to-project-action nil)
 
 (defun ol-switch-to-project-by-root (root)
   (if (cl-member (file-truename root) ol-project-roots :test 'string-equal)
       (let ((default-directory root))
-        (ol-dwim-find-file-name))
+        (funcall ol-switch-to-project-action))
     (user-error "not a project")))
 
 (ol-discover-projects)
@@ -125,8 +127,5 @@ modeline can be good to cache in a hashmap."
 (defun ol-switch-to-dotfiles ()
   (interactive)
   (ol-switch-to-project-by-root "~/own_repos/dotfiles/"))
-
-(ol-define-key ol-override-map "M-q" 'ol-dwim-find-file-name)
-(ol-define-key ol-override-map "M-e" 'ol-dwim-find-file-content)
 
 (provide 'ol-project)

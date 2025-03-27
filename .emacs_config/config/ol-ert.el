@@ -1,5 +1,7 @@
 ;; -*- lexical-binding: nil -*-
 
+(require 'ol-evil)
+
 (require 'ert)
 
 (defun ol-assert-equal (exp act &optional label)

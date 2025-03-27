@@ -9,6 +9,9 @@
 ;; Find file name
 ;; -----------------------------------------------------------------------------
 
+(ol-define-key ol-override-map "M-q" 'ol-dwim-find-file-name)
+(setq ol-switch-to-project-action 'ol-dwim-find-file-name)
+
 (defun ol-dwim-find-file-name (&optional prefer-project-root)
   (interactive "P")
   (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
@@ -113,6 +116,8 @@
 ;; -----------------------------------------------------------------------------
 ;; Find file content
 ;; -----------------------------------------------------------------------------
+
+(ol-define-key ol-override-map "M-e" 'ol-dwim-find-file-content)
 
 (ol-define-key ol-normal-leader-map "m o" 'swiper)
 

@@ -11,9 +11,10 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;; These must be set before evil is loaded
-(defvar evil-want-integration t)
-(defvar evil-want-keybinding nil)
-(defvar evil-respect-visual-line-mode t)
+(eval-and-compile
+  (defvar evil-want-integration t)
+  (defvar evil-want-keybinding nil)
+  (defvar evil-respect-visual-line-mode t))
 
 (require 'evil)
 (require 'evil-collection)
@@ -189,7 +190,7 @@ the plain text edit keybinds instead."
 (ol-evil-define-key 'normal prog-mode-map "gc" 'ol-evilnc-comment-operator)
 
 (defun ol-evilnc-comment-operator-advice (start end _type)
-  "Always set type to 'line. I don't remember why though."
+  "Always set type to \\='line. I don't remember why though."
   `(,start ,end 'line))
 
 (advice-add 'evilnc-comment-operator

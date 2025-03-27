@@ -3,6 +3,7 @@
 (require 'ol-find-replace)
 (require 'ol-evil)
 (require 'ol-ivy)
+(require 'ol-project)
 
 (require 'magit)
 
