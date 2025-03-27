@@ -10,6 +10,7 @@ Make sure my backup repo script collects the tiny-lsp-client submodule
 *** Housekeeping
 
 - Switch to lexical binding
+- Use #' instead of' for fucntion
 
 *** More important
 
