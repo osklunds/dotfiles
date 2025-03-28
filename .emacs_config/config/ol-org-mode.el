@@ -116,4 +116,32 @@
 (set-face-attribute 'org-checkbox nil
                     :inherit 'fixed-pitch)
 
+;; -----------------------------------------------------------------------------
+;; Emphasis
+;; -----------------------------------------------------------------------------
+
+(defun ol-org-bold ()
+  (interactive)
+  (org-emphasize ?*))
+
+(ol-evil-define-key 'visual org-mode-map "C-b" 'ol-org-bold)
+
+(defun ol-org-italics ()
+  (interactive)
+  (org-emphasize ?/))
+
+(ol-evil-define-key 'visual org-mode-map "C-i" 'ol-org-italics)
+
+(defun ol-org-verbatim ()
+  (interactive)
+  (org-emphasize ?=))
+
+(ol-evil-define-key 'visual org-mode-map "C-v" 'ol-org-verbatim)
+
+(defun ol-org-code ()
+  (interactive)
+  (org-emphasize ?~))
+
+(ol-evil-define-key 'visual org-mode-map "C-c" 'ol-org-code)
+
 (provide 'ol-org-mode)
