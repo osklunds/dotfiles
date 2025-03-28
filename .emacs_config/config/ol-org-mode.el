@@ -7,6 +7,7 @@
 (require 'org)
 (require 'org-faces)
 (require 'color)
+(require 'org-indent)
 
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
@@ -22,9 +23,6 @@
 
 ;; Toggle headers
 (ol-evil-define-key 'normal org-mode-map 'tab 'org-cycle)
-
-;; In the future, org seems to get some setting to set to fill width
-(setc org-image-actual-width 600)
 
 (define-abbrev-table 'org-mode-abbrev-table
   '(
@@ -56,18 +54,31 @@
 ;; -----------------------------------------------------------------------------
 ;; Many things inspired by https://sophiebos.io/posts/prettifying-emacs-org-mode/
 
+;; In the future, org seems to get some setting to set to fill width
+(setc org-image-actual-width 600)
+(setc org-startup-with-inline-images t)
+(setc org-hide-emphasis-markers t)
 (setc org-ellipsis " ▾")
 
 (ol-set-face 'org-block :background
              (color-darken-name
-              (face-attribute 'default :background) 3))
+              (face-attribute 'default :background) 5))
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 
-(set-face-attribute 'fixed-pitch nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'line-number nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'line-number-current-line nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'variable-pitch nil :family "Open Sans" :height 1.1 :weight 'normal)
+;; Same font as 'default
+(defconst ol-fixed-pitch-font "Source Code Pro")
+
+(set-face-attribute 'fixed-pitch nil :family ol-fixed-pitch-font :height 90)
+(set-face-attribute 'line-number nil :family ol-fixed-pitch-font :height 90)
+(set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font :height 90)
+
+(defconst ol-variable-pitch-font "Open Sans")
+
+(set-face-attribute 'variable-pitch nil
+                    :family ol-variable-pitch-font
+                    :height 1.1
+                    :weight 'normal)
 
 (dolist (face '((org-level-1 . 1.4)
                 (org-level-2 . 1.3)
@@ -78,23 +89,31 @@
                 (org-level-7 . 1.1)
                 (org-level-8 . 1.1)))
   (set-face-attribute (car face) nil
-                      :font "Source Sans Pro"
+                      :font ol-variable-pitch-font
                       :foreground ol-black
                       :weight 'bold
                       :height (cdr face)))
 
-(require 'org-indent)
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 
-(set-face-attribute 'org-block nil            :foreground nil :inherit 'fixed-pitch :height 1.0)
-(set-face-attribute 'org-code nil             :inherit '(shadow fixed-pitch) :height 1.0)
-(set-face-attribute 'org-indent nil           :inherit '(org-hide fixed-pitch) :height 1.0)
-(set-face-attribute 'org-verbatim nil         :inherit '(shadow fixed-pitch) :height 1.0)
-(set-face-attribute 'org-special-keyword nil  :inherit '(font-lock-comment-face
-                                                         fixed-pitch))
-(set-face-attribute 'org-meta-line nil        :inherit '(font-lock-comment-face fixed-pitch))
-(set-face-attribute 'org-checkbox nil         :inherit 'fixed-pitch)
-
-(setc org-hide-emphasis-markers t)
+(set-face-attribute 'org-block nil
+                    :foreground nil
+                    :inherit 'fixed-pitch
+                    :height 1.0)
+(set-face-attribute 'org-code nil
+                    :inherit '(shadow fixed-pitch)
+                    :height 1.0)
+(set-face-attribute 'org-indent nil
+                    :inherit '(org-hide fixed-pitch)
+                    :height 1.0)
+(set-face-attribute 'org-verbatim nil
+                    :inherit '(shadow fixed-pitch)
+                    :height 1.0)
+(set-face-attribute 'org-special-keyword nil
+                    :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-meta-line nil
+                    :inherit '(font-lock-comment-face fixed-pitch))
+(set-face-attribute 'org-checkbox nil
+                    :inherit 'fixed-pitch)
 
 (provide 'ol-org-mode)
