@@ -144,4 +144,23 @@
 
 (ol-evil-define-key 'visual org-mode-map "C-c" 'ol-org-code)
 
+;; todo: in normal, do the above for symbol at point
+
+;; Copied/modified from https://emacs.stackexchange.com/a/59136
+(defun ol-org-toggle-emphasis ()
+  (interactive)
+  (save-match-data
+    (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
+             (not (region-active-p)))
+        (let ((beg (match-beginning 3))
+              (end (match-end 4)))
+          (when (and (>= (point) (1- beg))
+                     (<= (point) (1+ end)))
+            (save-excursion
+              (goto-char end)
+              (delete-char 1)
+              (goto-char beg)
+              (delete-char 1))))
+      (call-interactively #'org-emphasize))))
+
 (provide 'ol-org-mode)
