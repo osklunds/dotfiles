@@ -20,7 +20,7 @@ dotfiles I use
 - wgrep
 - add vim mark to bookmarks
 - pixel-precision scroll over images in org-mode
-- completion in org-mode
+- org-mode bullets as pretty as markdown
 
 *** Less important
 
