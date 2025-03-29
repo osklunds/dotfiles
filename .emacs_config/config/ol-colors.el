@@ -37,4 +37,7 @@ Maybe inherit would be cleaner to use."
   (ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
   (ol-set-face 'hl-line :background "#eeeeee"))
 
+;; To prevent alignment issue in e.g. markdown-mode with variable-pitch
+(set-face-attribute 'show-paren-match nil :weight 'bold)
+
 (provide 'ol-colors)
