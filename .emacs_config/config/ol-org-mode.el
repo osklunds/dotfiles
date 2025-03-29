@@ -9,6 +9,8 @@
 (require 'color)
 (require 'org-indent)
 
+;; todo: understand how to open links
+
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
 (setc org-src-preserve-indentation t)
