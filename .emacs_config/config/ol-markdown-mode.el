@@ -60,4 +60,12 @@
 (ol-evil-define-key 'normal markdown-mode-map "( c" #'markdown-insert-code)
 (ol-evil-define-key 'normal markdown-mode-map "( s" #'markdown-insert-strike-through)
 
+;; -----------------------------------------------------------------------------
+;; Images
+;; -----------------------------------------------------------------------------
+
+(add-hook 'markdown-mode-hook #'markdown-toggle-inline-images)
+
+(setc markdown-max-image-size '(600 . 600))
+
 (provide 'ol-markdown-mode)
