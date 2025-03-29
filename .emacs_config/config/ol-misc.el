@@ -3,8 +3,10 @@
 (require 'ol-util)
 (require 'ol-evil)
 
-;; Supposedly can improve scroll performance
-(setq auto-window-vscroll nil)
+;; Setting to nil can supposedly can improve scroll performance
+;; But setting to t means delete overlays in vdiff can be split both at
+;; top and bottom!
+(setq auto-window-vscroll t)
 
 (setq kill-buffer-query-functions nil)
 (setc confirm-kill-processes nil)
