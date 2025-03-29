@@ -36,6 +36,9 @@
 (set-face-attribute 'markdown-code-face nil
                     :background nil
                     :inherit '(org-code))
+(set-face-attribute 'markdown-strike-through-face nil
+                    :inherit '(variable-pitch)
+                    :background nil)
 (set-face-attribute 'markdown-pre-face nil
                     :foreground nil
                     :inherit '(org-verbatim))
@@ -47,5 +50,14 @@
     (apply func args)))
 
 (advice-add 'markdown-fontify-headings :around #'ol-dont-hide-markup-for-headings)
+
+;; -----------------------------------------------------------------------------
+;; Emphasis
+;; -----------------------------------------------------------------------------
+
+(ol-evil-define-key 'normal markdown-mode-map "( b" #'markdown-insert-bold)
+(ol-evil-define-key 'normal markdown-mode-map "( i" #'markdown-insert-italic)
+(ol-evil-define-key 'normal markdown-mode-map "( c" #'markdown-insert-code)
+(ol-evil-define-key 'normal markdown-mode-map "( s" #'markdown-insert-strike-through)
 
 (provide 'ol-markdown-mode)
