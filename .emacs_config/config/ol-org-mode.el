@@ -57,7 +57,6 @@
 ;; In the future, org seems to get some setting to set to fill width
 (setc org-image-actual-width 600)
 (setc org-startup-with-inline-images t)
-(setc org-hide-emphasis-markers t)
 (setc org-ellipsis " ▾")
 
 (ol-set-face 'org-block :background
@@ -120,29 +119,7 @@
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
 
-(defun ol-org-bold ()
-  (interactive)
-  (org-emphasize ?*))
-
-(ol-evil-define-key 'visual org-mode-map "C-b" 'ol-org-bold)
-
-(defun ol-org-italics ()
-  (interactive)
-  (org-emphasize ?/))
-
-(ol-evil-define-key 'visual org-mode-map "C-i" 'ol-org-italics)
-
-(defun ol-org-verbatim ()
-  (interactive)
-  (org-emphasize ?=))
-
-(ol-evil-define-key 'visual org-mode-map "C-v" 'ol-org-verbatim)
-
-(defun ol-org-code ()
-  (interactive)
-  (org-emphasize ?~))
-
-(ol-evil-define-key 'visual org-mode-map "C-c" 'ol-org-code)
+(setc org-hide-emphasis-markers t)
 
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
@@ -182,5 +159,18 @@
                     (lambda () (interactive) (ol-org-toggle-emphasis ?~)))
 (ol-evil-define-key 'normal org-mode-map "( s"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?+)))
+
+;; TODO: how to do emphasis in a good way is not trivial.
+(ol-evil-define-key 'visual org-mode-map "( b"
+                    (lambda () (interactive) (org-emphasize ?*)))
+(ol-evil-define-key 'visual org-mode-map "( i"
+                    (lambda () (interactive) (org-emphasize ?/)))
+(ol-evil-define-key 'visual org-mode-map "( v"
+                    (lambda () (interactive) (org-emphasize ?=)))
+(ol-evil-define-key 'visual org-mode-map "( c"
+                    (lambda () (interactive) (org-emphasize ?~)))
+(ol-evil-define-key 'visual org-mode-map "( s"
+                    (lambda () (interactive) (org-emphasize ?+)))
+
 
 (provide 'ol-org-mode)
