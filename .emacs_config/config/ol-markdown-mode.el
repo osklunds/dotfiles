@@ -64,7 +64,8 @@
 ;; Images
 ;; -----------------------------------------------------------------------------
 
-(add-hook 'markdown-mode-hook #'markdown-toggle-inline-images)
+(when (display-graphic-p)
+  (add-hook 'markdown-mode-hook #'markdown-toggle-inline-images))
 
 (setc markdown-max-image-size '(600 . 600))
 
