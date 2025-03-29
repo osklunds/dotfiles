@@ -115,6 +115,9 @@
                     :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-checkbox nil
                     :inherit 'fixed-pitch)
+(set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+;; To fix whitespace in table
+(set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
 
 ;; -----------------------------------------------------------------------------
 ;; Emphasis
