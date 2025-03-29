@@ -5,8 +5,6 @@ dotfiles I use
 
 ** Emacs todos
 
-Make sure my backup repo script collects the tiny-lsp-client submodule
-
 *** Housekeeping
 
 - Switch to lexical binding
@@ -14,24 +12,23 @@ Make sure my backup repo script collects the tiny-lsp-client submodule
 
 *** More important
 
-- Try corfu
-- Try vertico/consult/marginella
-- Try project.el
+- Upgrade preparation, see below
 - Download all packages and store as check-in
-- Pass ripgrep args to both find file name and find file content, understand how it works
-- Only keep the theme I use from doom-themes
-- Ask on SE/emacs why gc slower when more packages loaded
+- for dwim find file, support git ls-files, git grep, rg options (for ignoring
+  ignore), select if cwd or root
+- for dwim find file, if arg, ask for path
+- wgrep
+- add vim mark to bookmarks
+
+*** Less important
+
+- evil in minibuffer
+- Change to emacs built-in search and search-and-replace
 - Lower memory usage. Garbage collection is slow for me. Even if my config
   doesn't generate more garbage than more lightweight configs, because so much
   memory is used, it takes time to find the garbage. My guess at least. (BIG)
   - One suggestion was to decrease shell term size.
-- Change to emacs built-in search and search-and-replace
-- fundamental-mode normal-state keybinds. Add some plain-state
-- for dwim find file, support git ls-files, git grep, rg options (for ignoring
-  ignore), select if cwd or root
-
-*** Less important
-
+- Make markdown look as good as org-mode
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
 - make counsel-rg fall back to grep if rg isn't found, i.e. on remote
@@ -64,14 +61,14 @@ maintained, so that no backwards compatibility issues appear
 To make upgrades of packages as easy as possible, I want to customize the config
 of packages as little as possible, especially advising on internal functions.
 
-- ivy/counsel/swiper -> vertico/consult/embark
+- ~ivy/counsel/swiper~ -> ~vertico/consult/embark~
   - Can take a step-wise approach and create own ~completing-read~ functions that
     I have to do anyway.
   - Doesn't reduce number of deps, but vertico/consult/embark were very smooth
-- company/company-box -> corfu or emacs 30 ~completion-preview-mode~
-- anzu/evil-anzu -> own
+- ~company~ -> ~corfu~
+- ~anzu/evil-anzu~ -> own
   - Keep them until upgrade problems, but consider rolling my own
-- evil-visualstar -> own
+- ~evil-visualstar~ -> own
 
 * "Merge Survival Knife"
 
