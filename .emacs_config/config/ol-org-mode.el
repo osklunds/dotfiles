@@ -79,14 +79,14 @@
                     :height 1.1
                     :weight 'normal)
 
-(dolist (face '((org-level-1 . 1.4)
-                (org-level-2 . 1.3)
-                (org-level-3 . 1.2)
-                (org-level-4 . 1.1)
-                (org-level-5 . 1.1)
-                (org-level-6 . 1.1)
-                (org-level-7 . 1.1)
-                (org-level-8 . 1.1)))
+(dolist (face '((org-level-1 . 1.5)
+                (org-level-2 . 1.4)
+                (org-level-3 . 1.3)
+                (org-level-4 . 1.2)
+                (org-level-5 . 1.2)
+                (org-level-6 . 1.2)
+                (org-level-7 . 1.2)
+                (org-level-8 . 1.2)))
   (set-face-attribute (car face) nil
                       :font ol-variable-pitch-font
                       :foreground ol-black
