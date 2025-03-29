@@ -144,18 +144,10 @@
 
 (ol-evil-define-key 'visual org-mode-map "C-c" 'ol-org-code)
 
-;; todo: in normal, do the above for symbol at point
-
-(defun ol-org-toggle-bold ()
-  (interactive)
-  (ol-org-toggle-emphasis ?*))
-
-(ol-define-key ol-normal-leader-map "o b" 'ol-org-toggle-bold)
-
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
-  (interactive)
   (save-match-data
+    ;; If inside some emphasis, delete it
     (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
              (not (region-active-p)))
         (let ((beg (match-beginning 3))
@@ -167,6 +159,7 @@
               (delete-char 1)
               (goto-char beg)
               (delete-char 1))))
+      ;; If not inside emphasis, emphasize until space char
       (save-excursion
         (re-search-backward " ")
         (forward-char)
@@ -179,6 +172,15 @@
         (deactivate-mark)
         ))))
 
-(ol-evil-define-key 'normal org-mode-map "( b" 'ol-org-toggle-bold)
+(ol-evil-define-key 'normal org-mode-map "( b"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?*)))
+(ol-evil-define-key 'normal org-mode-map "( i"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?/)))
+(ol-evil-define-key 'normal org-mode-map "( v"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?=)))
+(ol-evil-define-key 'normal org-mode-map "( c"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?~)))
+(ol-evil-define-key 'normal org-mode-map "( s"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?+)))
 
 (provide 'ol-org-mode)
