@@ -125,6 +125,7 @@
 
 (setc org-hide-emphasis-markers t)
 
+;; todo: doesn't work when EOL
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
   (save-match-data

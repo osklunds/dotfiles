@@ -19,6 +19,8 @@ dotfiles I use
 - for dwim find file, if arg, ask for path
 - wgrep
 - add vim mark to bookmarks
+- pixel-precision scroll over images in org-mode
+- completion in org-mode
 
 *** Less important
 
