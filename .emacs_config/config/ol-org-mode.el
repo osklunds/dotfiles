@@ -146,8 +146,14 @@
 
 ;; todo: in normal, do the above for symbol at point
 
+(defun ol-org-toggle-bold ()
+  (interactive)
+  (ol-org-toggle-emphasis ?*))
+
+(ol-define-key ol-normal-leader-map "o b" 'ol-org-toggle-bold)
+
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
-(defun ol-org-toggle-emphasis ()
+(defun ol-org-toggle-emphasis (char)
   (interactive)
   (save-match-data
     (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
@@ -161,6 +167,18 @@
               (delete-char 1)
               (goto-char beg)
               (delete-char 1))))
-      (call-interactively #'org-emphasize))))
+      (save-excursion
+        (re-search-backward " ")
+        (forward-char)
+        (let ((inhibit-message t))
+          (set-mark-command nil))
+        (re-search-forward " " nil nil 1)
+        (backward-char)
+        (setq deactivate-mark nil)
+        (org-emphasize char)
+        (deactivate-mark)
+        ))))
+
+(ol-evil-define-key 'normal org-mode-map "( b" 'ol-org-toggle-bold)
 
 (provide 'ol-org-mode)
