@@ -107,7 +107,7 @@
 (ol-set-face 'company-tooltip-selection :background ol-completion-selection-color)
 
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
-(ol-set-face 'company-tooltip-scrollbar-track :background nil :inherit 'tooltip)
+(ol-set-face 'company-tooltip-scrollbar-track :background 'unspecified :inherit 'tooltip)
 
 ;; -----------------------------------------------------------------------------
 ;; Keybinds

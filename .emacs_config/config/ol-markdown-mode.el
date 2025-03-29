@@ -30,20 +30,20 @@
                       :height (cdr face)))
 
 (set-face-attribute 'markdown-bold-face nil
-                    :foreground nil)
+                    :foreground 'unspecified)
 (set-face-attribute 'markdown-italic-face nil
-                    :foreground nil)
+                    :foreground 'unspecified)
 (set-face-attribute 'markdown-code-face nil
-                    :background nil
+                    :background 'unspecified
                     :inherit '(org-code))
 (set-face-attribute 'markdown-strike-through-face nil
                     :inherit '(variable-pitch)
-                    :background nil)
+                    :background 'unspecified)
 (set-face-attribute 'markdown-pre-face nil
-                    :foreground nil
+                    :foreground 'unspecified
                     :inherit '(org-verbatim))
 (set-face-attribute 'markdown-list-face nil
-                    :foreground nil)
+                    :foreground 'unspecified)
 
 (defun ol-dont-hide-markup-for-headings (func &rest args)
   (let ((markdown-hide-markup nil))

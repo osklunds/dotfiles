@@ -99,7 +99,7 @@
 (set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
 
 (set-face-attribute 'org-block nil
-                    :foreground nil
+                    :foreground 'unspecified
                     :inherit 'fixed-pitch
                     :height 1.0)
 (set-face-attribute 'org-code nil
