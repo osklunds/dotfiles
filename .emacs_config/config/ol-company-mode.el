@@ -13,6 +13,10 @@
 
 (global-company-mode t)
 
+;; Workaround due to what seems to be a company bug. Happened at last uplift.
+;; When I get time I should report this bug.
+(advice-add 'company-post-command :around #'ol-inhibit-message-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Snippet expansion
 ;; -----------------------------------------------------------------------------

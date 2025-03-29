@@ -31,6 +31,10 @@
   (cl-letf (((symbol-function 'y-or-n-p) (lambda (prompt) t)))
     (apply orig-fun args)))
 
+(defun ol-inhibit-message-advice (func &rest args)
+  (let ((inhibit-message t))
+    (apply func args)))
+
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
 ;;------------------------------------------------------------------------------
