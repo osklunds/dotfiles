@@ -65,6 +65,7 @@
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)
 
+;; todo: check in fonts
 ;; Same font as 'default
 (defconst ol-fixed-pitch-font "Source Code Pro")
 
