@@ -71,6 +71,8 @@
               (face-attribute 'default :background) 5))
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)
+;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
 
 ;; todo: check in fonts
 ;; Same font as 'default
