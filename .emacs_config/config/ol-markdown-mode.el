@@ -42,4 +42,10 @@
 (set-face-attribute 'markdown-list-face nil
                     :foreground nil)
 
+(defun ol-dont-hide-markup-for-headings (func &rest args)
+  (let ((markdown-hide-markup nil))
+    (apply func args)))
+
+(advice-add 'markdown-fontify-headings :around #'ol-dont-hide-markup-for-headings)
+
 (provide 'ol-markdown-mode)
