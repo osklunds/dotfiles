@@ -136,3 +136,6 @@
 [submodule ".emacs_config/packages_inactive/consult"]
 	path = .emacs_config/packages_inactive/consult
 	url = https://github.com/minad/consult.git
+[submodule ".emacs_config/packages/org-sliced-images"]
+	path = .emacs_config/packages/org-sliced-images
+	url = https://github.com/jcfk/org-sliced-images.git

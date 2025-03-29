@@ -7,7 +7,8 @@
 (require 'org)
 (require 'org-faces)
 (require 'color)
-(require 'org-indent)
+;; (require 'org-indent) if included, line-spacing causes issues for sliced images
+(require 'org-sliced-images)
 
 ;; todo: understand how to open links
 
@@ -61,6 +62,10 @@
 (setc org-startup-with-inline-images t)
 (setc org-ellipsis " ▾")
 
+;; So that an image is more than just one line, makes scrolling much better
+;; as images can be partially hidden
+(org-sliced-images-mode)
+
 (ol-set-face 'org-block :background
              (color-darken-name
               (face-attribute 'default :background) 5))
@@ -96,17 +101,12 @@
                       :weight 'bold
                       :height (cdr face)))
 
-(set-face-attribute 'org-indent nil :inherit '(org-hide fixed-pitch))
-
 (set-face-attribute 'org-block nil
                     :foreground 'unspecified
                     :inherit 'fixed-pitch
                     :height 1.0)
 (set-face-attribute 'org-code nil
                     :inherit '(shadow fixed-pitch)
-                    :height 1.0)
-(set-face-attribute 'org-indent nil
-                    :inherit '(org-hide fixed-pitch)
                     :height 1.0)
 (set-face-attribute 'org-verbatim nil
                     :inherit '(shadow fixed-pitch)
@@ -122,7 +122,6 @@
                     :inherit 'fixed-pitch)
 ;; To fix whitespace in table
 (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
-
 ;; -----------------------------------------------------------------------------
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
