@@ -76,4 +76,11 @@
 
 (ol-global-set-key "M-!" 'shell-command)
 
+;; -----------------------------------------------------------------------------
+;; Help mode
+;; -----------------------------------------------------------------------------
+
+;; todo: doesn't work
+(ol-evil-define-key 'normal help-mode-map "o" #'push-button)
+
 (provide 'ol-misc)
