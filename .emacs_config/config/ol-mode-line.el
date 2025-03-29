@@ -97,6 +97,8 @@
 ;; Right part
 ;; -----------------------------------------------------------------------------
 
+;; todo: redo using mode-line-format-right-align
+
 (defun ol-mode-line-right-part ()
   (quote ((:eval ol-branch-name-segment)
           "  " ((:eval (ol-project-name-segment)))
