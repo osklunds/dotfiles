@@ -127,6 +127,8 @@
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
 
+;; todo: can find inspiration from markdown-mode how to do this well
+
 (setc org-hide-emphasis-markers t)
 
 ;; todo: doesn't work when EOL
