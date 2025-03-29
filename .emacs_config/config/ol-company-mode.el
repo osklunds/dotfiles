@@ -103,7 +103,8 @@
 
 (ol-set-face 'ivy-current-match :weight 'bold)
 (ol-set-face 'ivy-current-match :background ol-completion-selection-color)
-(ol-set-face 'company-tooltip :background ol-white)
+;; inhert from fixed-pitch to make the popup better when variable-pitch-mode is used
+(ol-set-face 'company-tooltip :background ol-white :inherit '(fixed-pitch))
 (ol-set-face 'company-tooltip-selection :background ol-completion-selection-color)
 
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
