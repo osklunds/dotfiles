@@ -74,15 +74,21 @@
 ;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
 
+(defun ol-font-available-p (font)
+  (when (cl-member font (font-family-list) :test 'string-equal)
+    font))
+
 ;; todo: check in fonts
 ;; Same font as 'default
-(defconst ol-fixed-pitch-font "Source Code Pro")
+(defconst ol-fixed-pitch-font (or (ol-font-available-p "Source Code Pro")
+                                  "DejaVu Sans Mono"))
 
 (set-face-attribute 'fixed-pitch nil :family ol-fixed-pitch-font :height 90)
 (set-face-attribute 'line-number nil :family ol-fixed-pitch-font :height 90)
 (set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font :height 90)
 
-(defconst ol-variable-pitch-font "Open Sans")
+(defconst ol-variable-pitch-font (or (ol-font-available-p "Open Sans")
+                                     "DejaVu Sans"))
 
 (set-face-attribute 'variable-pitch nil
                     :family ol-variable-pitch-font
