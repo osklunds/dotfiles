@@ -58,6 +58,8 @@
 
 (ol-define-key ol-normal-leader-map "g b" 'magit-blame-addition)
 
+(remove-hook 'magit-blame-goto-chunk-hook #'magit-blame-maybe-update-revision-buffer)
+
 ;; -----------------------------------------------------------------------------
 ;; Commit
 ;; -----------------------------------------------------------------------------
