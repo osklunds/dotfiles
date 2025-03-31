@@ -80,6 +80,8 @@
 ;; Cleaning up buffers
 ;; -----------------------------------------------------------------------------
 
+(defvar ol-vdiff-kill-buffers nil)
+
 (defun ol-vdiff-new-args (buffer-a
                           buffer-b
                           &optional
@@ -88,6 +90,10 @@
                           restore-windows-on-quit
                           kill-buffers-on-quit)
   (let* ((new-on-quit (lambda (buf-a buf-b)
+                        (when ol-vdiff-kill-buffers
+                          (kill-buffer buf-a)
+                          (kill-buffer buf-b))
+                        (setq ol-vdiff-kill-buffers nil)
                         (vdiff-magit--kill-temp-buffers buf-a buf-b)
                         (visual-line-mode 1)))
          (new-restore-windows-on-quit t)
@@ -149,5 +155,42 @@
 (transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
 (transient-suffix-put 'magit-dispatch "E" :description "vdiff")
 (transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
+
+;; -----------------------------------------------------------------------------
+;; Diff of selection 
+;; -----------------------------------------------------------------------------
+
+(defvar ol-selection1 nil)
+(defvar ol-selection2 nil)
+
+(defun ol-vdiff-select1 ()
+  (interactive)
+  (setq ol-selection1 (buffer-substring-no-properties (region-beginning)
+                                                      (region-end)))
+  (message "Selection1 saved")
+  (evil-normal-state))
+
+(defun ol-vdiff-select2 ()
+  (interactive)
+  (unless ol-selection1
+    (user-error "Selection1 not made yet"))
+  (setq ol-selection2 (buffer-substring-no-properties (region-beginning)
+                                                      (region-end)))
+  (evil-normal-state)
+  (setq ol-vdiff-kill-buffers t)
+  (vdiff-temp-files)
+  ;; Assumes only two buffers
+  (other-window 1)
+  (insert ol-selection1)
+  (other-window 1)
+  (insert ol-selection2)
+  (setq ol-selection1 nil)
+  (setq ol-selection2 nil))
+
+(ol-define-key ol-visual-leader-map "b s 1" #'ol-vdiff-select1)
+(ol-define-key ol-visual-leader-map "b s 2" #'ol-vdiff-select2)
+  
+        
+
 
 (provide 'ol-vdiff)
