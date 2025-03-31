@@ -162,15 +162,15 @@
     )
   )
 
-
-
-
 (ol-string-to-regex "hej defun")
 
 
 (defun ol-try-completion (string table pred point)
-  ;; (message "try")
-  nil)
+  (let ((all (ol-all-completions string table pred point)))
+    (cond
+     ((null all) nil)
+     ((eq (length all) 1) string)
+     (t string))))
 
 (add-to-list 'completion-styles-alist
              '(ol ol-try-completion ol-all-completions "ol"))
