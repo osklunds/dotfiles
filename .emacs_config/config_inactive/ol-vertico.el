@@ -121,6 +121,8 @@
     (apply #'concat (cdr (mapcan (lambda (part) (list ".*" part)) parts)))))
 
 (ert-deftest ol-string-to-regex ()
+  (ol-assert-equal "" (ol-string-to-regex ""))
+  (ol-assert-equal "defun" (ol-string-to-regex "defun"))
   (ol-assert-equal "defun.*my-fun" (ol-string-to-regex "defun my-fun"))
 
   )
