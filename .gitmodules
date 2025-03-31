@@ -139,3 +139,6 @@
 [submodule ".emacs_config/packages/org-sliced-images"]
 	path = .emacs_config/packages/org-sliced-images
 	url = https://github.com/jcfk/org-sliced-images.git
+[submodule ".emacs_config/packages_inactive/orderless"]
+	path = .emacs_config/packages_inactive/orderless
+	url = https://github.com/oantolin/orderless.git
