@@ -1,12 +1,17 @@
 ;;;  -*- lexical-binding: t; -*-
 
 (require 'ol-util)
+(require 'ol-ert)
 
 (require 'vertico)
 (require 'embark)
 (require 'consult)
+(require 'orderless)
+
+(require 'ivy)
 
 (vertico-mode)
+(ivy-mode -1)
 
 ;; -----------------------------------------------------------------------------
 ;; Keymaps
@@ -21,6 +26,7 @@
 (ol-define-key minibuffer-local-map 'return 'vertico-exit-input)
 (ol-define-key minibuffer-local-map "M-i" 'vertico-insert)
 (ol-define-key minibuffer-local-map "M-o" 'embark-collect)
+
 
 ;; -----------------------------------------------------------------------------
 ;; Behavior
@@ -98,5 +104,38 @@
      ((eq action t) candidates-return))))
 
 (ol-define-key ol-override-map "M-e" 'ol-find-file-content)
+
+;; -----------------------------------------------------------------------------
+;; Completion style
+;; -----------------------------------------------------------------------------
+
+(setq completion-styles '(ol orderless basic)
+      completion-category-overrides '((file (styles basic partial-completion))))
+
+(defun ol-all-completions (string table pred point)
+  ;; (message "all %s" table)
+  nil)
+
+(defun ol-string-to-regex (string)
+  (let* ((parts (split-string string " ")))
+    (apply #'concat (cdr (mapcan (lambda (part) (list ".*" part)) parts)))))
+
+(ert-deftest ol-string-to-regex ()
+  (ol-assert-equal "defun.*my-fun" (ol-string-to-regex "defun my-fun"))
+
+  )
+
+
+
+
+(ol-string-to-regex "hej defun")
+
+
+(defun ol-try-completion (string table pred point)
+  ;; (message "try")
+  nil)
+
+(add-to-list 'completion-styles-alist
+             '(ol ol-try-completion ol-all-completions "ol"))
 
 (provide 'ol-vertico)
