@@ -187,8 +187,8 @@
   (setq ol-selection1 nil)
   (setq ol-selection2 nil))
 
-(ol-define-key ol-visual-leader-map "b s 1" #'ol-vdiff-select1)
-(ol-define-key ol-visual-leader-map "b s 2" #'ol-vdiff-select2)
+(ol-define-key ol-visual-leader-map "d s 1" #'ol-vdiff-select1)
+(ol-define-key ol-visual-leader-map "d s 2" #'ol-vdiff-select2)
   
         
 
