@@ -8,10 +8,7 @@
 (require 'consult)
 (require 'orderless)
 
-(require 'ivy)
-
 (vertico-mode)
-(ivy-mode -1)
 
 ;; -----------------------------------------------------------------------------
 ;; Keymaps
