@@ -42,6 +42,7 @@
 
 (setc consult-async-min-input 0)
 (setc consult-find-args "find . -not ( -path *.git/* -prune )")
+(setc consult-async-split-style 'none)
 
 (ol-define-key ol-override-map "M-q" #'consult-find)
 (ol-define-key ol-override-map "M-e" #'consult-ripgrep)
