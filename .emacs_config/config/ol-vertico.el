@@ -42,28 +42,29 @@
 
 (setc consult-async-min-input 0)
 (setc consult-find-args "find . -not ( -path *.git/* -prune )")
+(setc consult-fd-args "fd --full-path --color=never --hidden --exclude *.git/*")
 (setc consult-async-split-style 'none)
 
-(ol-define-key ol-override-map "M-q" #'consult-find)
+(ol-define-key ol-override-map "M-q" #'consult-fd)
 (ol-define-key ol-override-map "M-e" #'consult-ripgrep)
 
 ;; -----------------------------------------------------------------------------
 ;; Find file name
 ;; -----------------------------------------------------------------------------
 
-;; (defun ol-find-file-name ()
-;;   (interactive)
-;;   (let* ((candidates (split-string (shell-command-to-string "rg --files") "\n" t))
-;;          (selected (completing-read
-;;                     "Find file name: "
-;;                     candidates
-;;                     nil
-;;                     t
-;;                     nil
-;;                     'ol-find-file-name
-;;                     )))
-;;     (find-file selected)))
-;; (ol-define-key ol-override-map "M-q" 'ol-find-file-name)
+(defun ol-find-file-name ()
+  (interactive)
+  (let* ((candidates (split-string (shell-command-to-string "rg --files") "\n" t))
+         (selected (completing-read
+                    "Find file name: "
+                    candidates
+                    nil
+                    t
+                    nil
+                    'ol-find-file-name
+                    )))
+    (find-file selected)))
+(ol-define-key ol-override-map "M-q" 'ol-find-file-name)
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
