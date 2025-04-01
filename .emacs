@@ -64,6 +64,8 @@
   (ol-compile-own)
   (ol-compile-packages))
 
+(ol-add-all-to-load-path)
+
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (require (intern (file-name-sans-extension file))))
 
