@@ -8,6 +8,7 @@
 (require 'embark)
 (require 'consult)
 (require 'orderless)
+(require 'grep)
 
 (vertico-mode)
 
@@ -104,16 +105,6 @@
 ;;;; Find file content
 ;;;; ---------------------------------------------------------------------------
 
-(defconst ol-find-file-content-methods
-  `(("rg" consult-ripgrep ,(lambda () (executable-find "rg" 'remote)))
-    ("git" consult-git-grep
-     ,(lambda () (and (executable-find "git" 'remote)
-                      (locate-dominating-file default-directory ".git"))))
-    ("grep" consult-grep (lambda () t))))
-
-(defun ol-find-file-content-method ()
-  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-content-methods))
-
 (defun ol-dwim-find-file-content (&optional prefer-project-root)
   (interactive "P")
   (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
@@ -121,8 +112,15 @@
     (ol-find-file-content default-directory "cwd"))
   )
 
+(ol-define-key ol-override-map "M-e" #'ol-dwim-find-file-content)
+
 (defun ol-find-file-content (dir prompt-dir-part)
-  (cl-destructuring-bind (name consult-func _pred) (ol-find-file-content-method)
+  (if (file-remote-p dir)
+      (ol-sync-find-file-content dir prompt-dir-part)
+    (ol-async-find-file-content dir prompt-dir-part)))
+
+(defun ol-async-find-file-content (dir prompt-dir-part)
+  (cl-destructuring-bind (name consult-func _pred) (ol-async-find-file-content-method)
     (let* ((default-directory dir)
            (prompt (format "Find file content [%s %s]: " prompt-dir-part name)))
       (cl-letf (((symbol-function 'consult--directory-prompt)
@@ -130,7 +128,45 @@
                    (list prompt '(".") default-directory))))
         (funcall consult-func)))))
 
-(ol-define-key ol-override-map "M-e" #'ol-dwim-find-file-content)
+(defun ol-async-find-file-content-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
+
+(defconst ol-async-find-file-content-methods
+  `(("rg" consult-ripgrep ,(lambda () (executable-find "rg" 'remote)))
+    ("git" consult-git-grep
+     ,(lambda () (and (executable-find "git" 'remote)
+                      (locate-dominating-file default-directory ".git"))))
+    ("grep" consult-grep (lambda () t))))
+
+(defun ol-sync-find-file-content (dir prompt-dir-part)
+  (cl-destructuring-bind (name cmd _pred) (ol-sync-find-file-content-method)
+    (let* ((default-directory dir)
+           (prompt (format "Find file content [sync %s %s]: " prompt-dir-part name))
+           (pattern (read-from-minibuffer
+                     prompt
+                     nil ;; initial-contents
+                     nil ;; keymap
+                     nil ;; read
+                     'ol-sync-find-file-content ;; history
+                     ))
+           (buffer-name (format "*ol-sync-find-file-content: %s*" pattern))
+           (buffer (get-buffer-create buffer-name)))
+      (shell-command (format "%s %s" cmd pattern) buffer)
+      (with-current-buffer buffer
+        (setq default-directory dir)
+        (grep-mode))
+      (switch-to-buffer-other-window buffer))))
+
+(defconst ol-sync-find-file-content-methods
+  `(("rg" "rg --no-heading --line-number --with-filename"
+     ,(lambda () (executable-find "rg" 'remote)))
+    ("git" "git --no-pager grep" ,(lambda ()
+                                    (and (executable-find "git" 'remote)
+                                         (locate-dominating-file default-directory ".git"))))
+    ("grep" "grep -I -r" (lambda () t))))
+
+(defun ol-sync-find-file-content-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
