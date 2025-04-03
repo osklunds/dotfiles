@@ -72,20 +72,19 @@
     (ol-find-file-name default-directory "cwd"))
   )
 
-(defconst ol-find-file-methods
+(defconst ol-find-file-name-methods
   `(("rg" "rg --files" ,(lambda () (executable-find "rg" 'remote)))
     ("git" "git ls-files" ,(lambda ()
                              (and (executable-find "git" 'remote)
                                   (locate-dominating-file default-directory ".git"))))
     ("find" "find . -not ( -path *.git/* -prune )" (lambda () t))))
 
-(defun ol-find-file-method ()
-  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-methods))
+(defun ol-find-file-name-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
 
 ;; todo: handle dir and initial like consult
 (defun ol-find-file-name (dir prompt-dir-part)
-  (interactive)
-  (cl-destructuring-bind (name cmd _pred) (ol-find-file-method)
+  (cl-destructuring-bind (name cmd _pred) (ol-find-file-name-method)
     (let* ((default-directory dir)
            (candidates (split-string (shell-command-to-string cmd) "\n" t))
            (prompt (format "Find file name [%s %s]: " prompt-dir-part name))
@@ -95,7 +94,7 @@
                       nil ;; predicate
                       t ;; require-match
                       nil ;; initial-input
-                      'ol-find-file-name
+                      'ol-find-file-name-name
                       )))
       (find-file selected))))
 
@@ -105,7 +104,33 @@
 ;;;; Find file content
 ;;;; ---------------------------------------------------------------------------
 
-(ol-define-key ol-override-map "M-e" #'consult-ripgrep)
+(defconst ol-find-file-content-methods
+  `(("rg" consult-ripgrep ,(lambda () (executable-find "rg" 'remote)))
+    ("git" consult-git-grep
+     ,(lambda () (and (executable-find "git" 'remote)
+                      (locate-dominating-file default-directory ".git"))))
+    ("grep" consult-grep (lambda () t))))
+
+(defun ol-find-file-content-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-content-methods))
+
+(defun ol-dwim-find-file-content (&optional prefer-project-root)
+  (interactive "P")
+  (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
+      (ol-find-file-content root "project")
+    (ol-find-file-content default-directory "cwd"))
+  )
+
+(defun ol-find-file-content (dir prompt-dir-part)
+  (cl-destructuring-bind (name consult-func _pred) (ol-find-file-content-method)
+    (let* ((default-directory dir)
+           (prompt (format "Find file content [%s %s]: " prompt-dir-part name)))
+      (cl-letf (((symbol-function 'consult--directory-prompt)
+                 (lambda (&rest _args)
+                   (list prompt '(".") default-directory))))
+        (funcall consult-func)))))
+
+(ol-define-key ol-override-map "M-e" #'ol-dwim-find-file-content)
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
