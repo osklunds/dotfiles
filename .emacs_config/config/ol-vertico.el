@@ -116,6 +116,7 @@
 
 (defun ol-find-file-content (dir prompt-dir-part)
   (if (file-remote-p dir)
+      ;; Don't use async for remote since it opens so many tramp connections
       (ol-sync-find-file-content dir prompt-dir-part)
     (ol-async-find-file-content dir prompt-dir-part)))
 
