@@ -45,6 +45,13 @@
 (setc consult-async-min-input 0)
 (setc consult-async-split-style 'none)
 
+;; Many things here are actually not consult, however, the are in the same area
+;; as consult in the sense that they provide minibuffer read functions for
+;; useful things. consult is not even a requirement for many functions here.
+;; consult is mainly used for its async functionality and because e.g.
+;; consult-ripgrep provides some extra features compared to running plain
+;; rg async in the minibuffer.
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Helpers
 ;;;; ---------------------------------------------------------------------------
