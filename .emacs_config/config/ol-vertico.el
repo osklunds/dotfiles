@@ -64,6 +64,17 @@
      ((cl-member major-mode '(dired-mode vterm-mode)) nil)
      (t root))))
 
+(defun ol-can-use-rg ()
+  (executable-find "rg" 'remote))
+
+(defun ol-can-use-git ()
+  (and (executable-find "git" 'remote)
+       (locate-dominating-file default-directory ".git")))
+
+(defun ol-can-use-gnu-cmd ()
+  ;; Hopefully a not-so-bold assumption
+  t)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find file name
 ;;;; ---------------------------------------------------------------------------
@@ -81,11 +92,9 @@
   )
 
 (defconst ol-find-file-name-methods
-  `(("rg" "rg --files" ,(lambda () (executable-find "rg" 'remote)))
-    ("git" "git ls-files" ,(lambda ()
-                             (and (executable-find "git" 'remote)
-                                  (locate-dominating-file default-directory ".git"))))
-    ("find" "find . -not ( -path *.git/* -prune )" (lambda () t))))
+  `(("rg" "rg --files" ,#'ol-can-use-rg)
+    ("git" "git ls-files" ,#'ol-can-use-git)
+    ("find" "find . -not ( -path *.git/* -prune )" ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-find-file-name-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
@@ -140,11 +149,9 @@
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
 
 (defconst ol-async-find-file-content-methods
-  `(("rg" consult-ripgrep ,(lambda () (executable-find "rg" 'remote)))
-    ("git" consult-git-grep
-     ,(lambda () (and (executable-find "git" 'remote)
-                      (locate-dominating-file default-directory ".git"))))
-    ("grep" consult-grep (lambda () t))))
+  `(("rg" consult-ripgrep ,#'ol-can-use-rg)
+    ("git" consult-git-grep ,#'ol-can-use-git)
+    ("grep" consult-grep ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-sync-find-file-content-method)
@@ -166,12 +173,9 @@
       (switch-to-buffer-other-window buffer))))
 
 (defconst ol-sync-find-file-content-methods
-  `(("rg" "rg --no-heading --line-number --with-filename"
-     ,(lambda () (executable-find "rg" 'remote)))
-    ("git" "git --no-pager grep" ,(lambda ()
-                                    (and (executable-find "git" 'remote)
-                                         (locate-dominating-file default-directory ".git"))))
-    ("grep" "grep -I -r" (lambda () t))))
+  `(("rg" "rg --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
+    ("git" "git --no-pager grep" ,#'ol-can-use-git)
+    ("grep" "grep -I -r" ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
