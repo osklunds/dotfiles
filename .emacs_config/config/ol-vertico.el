@@ -90,14 +90,7 @@
       (ol-find-file-name root "project")
     (ol-find-file-name default-directory "cwd"))
   )
-
-(defconst ol-find-file-name-methods
-  `(("rg" "rg --files" ,#'ol-can-use-rg)
-    ("git" "git ls-files" ,#'ol-can-use-git)
-    ("find" "find . -not ( -path *.git/* -prune )" ,#'ol-can-use-gnu-cmd)))
-
-(defun ol-find-file-name-method ()
-  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
+(ol-define-key ol-override-map "M-q" #'ol-dwim-find-file-name)
 
 ;; todo: handle dir and initial like consult
 (defun ol-find-file-name (dir prompt-dir-part)
@@ -115,7 +108,14 @@
                       )))
       (find-file selected))))
 
-(ol-define-key ol-override-map "M-q" #'ol-dwim-find-file-name)
+(defun ol-find-file-name-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
+
+(defconst ol-find-file-name-methods
+  `(("rg" "rg --files" ,#'ol-can-use-rg)
+    ("git" "git ls-files" ,#'ol-can-use-git)
+    ("find" "find . -not ( -path *.git/* -prune )" ,#'ol-can-use-gnu-cmd)))
+
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Find file content
@@ -127,7 +127,6 @@
       (ol-find-file-content root "project")
     (ol-find-file-content default-directory "cwd"))
   )
-
 (ol-define-key ol-override-map "M-e" #'ol-dwim-find-file-content)
 
 (defun ol-find-file-content (dir prompt-dir-part)
