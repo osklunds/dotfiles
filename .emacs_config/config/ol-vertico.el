@@ -91,6 +91,7 @@
     (ol-find-file-name default-directory "cwd"))
   )
 (ol-define-key ol-override-map "M-q" #'ol-dwim-find-file-name)
+(setq ol-switch-to-project-action #'ol-dwim-find-file-name)
 
 ;; todo: handle dir and initial like consult
 (defun ol-find-file-name (dir prompt-dir-part)
@@ -178,6 +179,25 @@
 
 (defun ol-sync-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Shell command
+;;;; ---------------------------------------------------------------------------
+
+;; Not ideal to call consult internal functions, but hopefully the API is stable
+;; enough, considering the public consult functions need similar
+;; functionality. If something breaks I can compare the code at this commit and
+;; how consult functions using consult--dynamic-collection change, and hopefully
+;; figure something out. Need to stay optimistic.  In the worst case, I can live
+;; with sync shell command.
+
+(defun ol-candidates (input)
+  (let ((inhibit-message t))
+    (split-string (shell-command-to-string (format "sleep 1; %s" input)) "\n" t)))
+
+(consult--read
+ (consult--dynamic-collection 'ol-candidates)
+ :prompt "hej: ")
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
