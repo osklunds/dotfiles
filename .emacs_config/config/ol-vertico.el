@@ -189,7 +189,7 @@
 ;; functionality. If something breaks I can compare the code at this commit and
 ;; how consult functions using consult--dynamic-collection change, and hopefully
 ;; figure something out. Need to stay optimistic.  In the worst case, I can live
-;; with sync shell command.
+;; with sync shell command. As a longer-term todo, figure out how it works.
 
 (defun ol-candidates (input)
   (let ((inhibit-message t))
