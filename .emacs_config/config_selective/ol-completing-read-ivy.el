@@ -39,6 +39,15 @@
 (advice-add 'ivy-switch-buffer-transformer :override 'ol-ivy-switch-buffer-transformer)
 
 ;; -----------------------------------------------------------------------------
+;; Counsel
+;; -----------------------------------------------------------------------------
+
+;; to avoid initial ^
+(ivy-configure 'counsel-M-x
+  :initial-input ""
+  :display-transformer-fn #'counsel-M-x-transformer)
+
+;; -----------------------------------------------------------------------------
 ;; Keybindings
 ;; -----------------------------------------------------------------------------
 
