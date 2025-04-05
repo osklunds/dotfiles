@@ -79,14 +79,7 @@
             :caller 'ol-async-completing-read))
 
 (defun ol-completing-read-shell-command-collection (input)
-  (let* ((split (counsel--split-command-args input))
-         (after (car split))
-         (before (cdr split))
-         (cmd (if (string-equal after "")
-                  (concat "(unset TERM; " before " )")
-                (let* ((regex (counsel--grep-regex after))
-                       (quoted (shell-quote-argument regex)))
-                  (concat "(unset TERM; " before " | rg " quoted " )")))))
+  (let* ((cmd (concat "(unset TERM; " input " )")))
     (counsel--async-command cmd))
   nil)
 
