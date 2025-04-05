@@ -98,5 +98,4 @@
 (ol-define-key ol-override-map "C-j" #'switch-to-buffer)
 (ol-define-key ol-normal-leader-map "m s" #'consult-imenu)
 
-
 (provide 'ol-completing-read-vertico)

@@ -1,6 +1,6 @@
 ;;;  -*- lexical-binding: t; -*-
 
-(require 'ol-completing-read-framework)
+(require 'ol-completing-read-vertico)
 (require 'ol-project)
 
 (require 'grep)
@@ -171,4 +171,4 @@
       (user-error "No such file"))
     (find-file selection))))
 
-(provide 'ol-completing-read-generic)
+(provide 'ol-completing-read)
