@@ -54,6 +54,35 @@ dotfiles I use
 
 - Box around the cursorline, like VSCode
 
+* completing-read 
+
+I have split my =completing-read= config into =ol-completing-read.el= and several =ol-completing-read-*.el=, the latter having one per framework, so =ol-completing-read-vertico.el= and =ol-completing-read-ivy.el=. The idea is that =ol-completing-read= contains things generic no matter which framework I use, for example
+
+- ~ol-dwim-find-file-name~ for finding a file name using e.g. =rg --files= in either project root or cwd, preferring =ripgrep= if available, otherwise using some fallbacks.
+- ~ol-dwim-find-file-content~ for finding file content using =ripgrep= if available, otherwise using some fallbacks.
+
+Then the =ol-completing-read-*.el= files contain configuration for making that particular framework work the way I want it, for example
+
+- Keybindings inside the minibuffer
+- Faces
+- Completion styles
+
+=ol-completing-read.el= requires one of the =ol-completing-read-*.el= files. 
+
+Why this complexity? I've used =ivy= for a long time, but wanted to try =vertico= and friends, and it provides some features I didn't get to work with =ivy=, for example
+
+- =embark='s quick pop out
+- previews
+- headings of =ripgrep= preserved
+
+It also provided the benefit of forcing my to refactor out generic =completing-read= stuff from framework-specific.
+
+Eventually I might consider writing my own framework for these reasons
+
+- Understand how it works
+- Simplicity - I have simple but peculiar needs 
+- Ultimate control - because I already tweak the frameworks quite a lot)
+
 * Upgrade preparation
 
 To make upgrades of emacs as easy as possible, I want to rely on as few packages
@@ -63,11 +92,6 @@ maintained, so that no backwards compatibility issues appear
 To make upgrades of packages as easy as possible, I want to customize the config
 of packages as little as possible, especially advising on internal functions.
 
-- ~ivy/counsel/swiper~ -> ~vertico/consult/embark~
-  - Can take a step-wise approach and create own ~completing-read~ functions that
-    I have to do anyway.
-  - Doesn't reduce number of deps, but vertico/consult/embark were very smooth
-- ~company~ -> ~corfu~
 - ~anzu/evil-anzu~ -> own
   - Keep them until upgrade problems, but consider rolling my own
 - ~evil-visualstar~ -> own

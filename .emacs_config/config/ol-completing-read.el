@@ -171,4 +171,4 @@
       (user-error "No such file"))
     (find-file selection))))
 
-(provide 'ol-completing-read-application)
+(provide 'ol-completing-read-generic)

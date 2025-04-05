@@ -1,15 +1,5 @@
 ;;;  -*- lexical-binding: t; -*-
 
-;; I split my completing-read config into two files: framework and application.
-;; The framework file has a dependency on e.g. vertico and consult, and is the
-;; file that configures the external framework I use, sets up keybindgs for
-;; functions I use directly. I might rename/split the framework file with one
-;; for ivy/counsel as well, and maybe one for my own. The idea is that if I need
-;; a new framework, the corresponding file needs to do the same keybindgs,
-;; implement the same functions, etc as this one. Then the idea is that the
-;; application file is framework agnostic by only using standard completing-read
-;; functions.
-
 (require 'ol-util)
 (require 'ol-ert)
 
@@ -49,8 +39,6 @@
 
 (setc consult-find-args "find . -not ( -path *.git/* -prune )")
 (setc consult-fd-args "fd --full-path --color=never --hidden --exclude *.git/*")
-
-
 
 ;; Not ideal to call consult internal functions, but hopefully the API is stable
 ;; enough, considering the public consult functions need similar
@@ -111,4 +99,4 @@
 (ol-define-key ol-normal-leader-map "m s" #'consult-imenu)
 
 
-(provide 'ol-completing-read-framework)
+(provide 'ol-completing-read-vertico)
