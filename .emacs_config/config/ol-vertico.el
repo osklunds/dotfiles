@@ -206,4 +206,10 @@
 (setq completion-styles '(orderless basic)
       completion-category-overrides '((file (styles basic partial-completion))))
 
+(defun ol-orderfull (component)
+  (string-join (split-string component) ".*"))
+
+(setc orderless-component-separator #'list)
+(setc orderless-matching-styles '(ol-orderfull))
+
 (provide 'ol-vertico)
