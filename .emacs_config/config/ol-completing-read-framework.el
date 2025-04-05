@@ -96,8 +96,6 @@
 ;; Keybindings
 ;; -----------------------------------------------------------------------------
 
-(ol-define-key ol-override-map "C-j" 'switch-to-buffer)
-
 (ol-define-key minibuffer-local-map "C-j" #'next-line)
 (ol-define-key minibuffer-local-map "C-k" #'previous-line)
 (ol-define-key minibuffer-local-map "C-n" #'minibuffer-keyboard-quit)
@@ -107,6 +105,7 @@
 (ol-define-key minibuffer-local-map "M-o" #'embark-collect)
 (ol-define-key minibuffer-local-map "M-e" #'embark-export)
 
+(ol-define-key ol-override-map "C-j" #'switch-to-buffer)
 (ol-define-key ol-normal-leader-map "m s" #'consult-imenu)
 
 
