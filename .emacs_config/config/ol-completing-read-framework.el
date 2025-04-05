@@ -1,5 +1,12 @@
 ;;;  -*- lexical-binding: t; -*-
 
+;; I split my completing-read config into two files: framework and application.
+;; The framework file has a dependency on e.g. vertico and consult, and is the
+;; file that configures the external framework I use. I might rename/split
+;; the framework file with one for ivy/counsel as well, and maybe one for
+;; my own. Then the idea is that the application file is framework agnostic
+;; by only using standard completing-read functions.
+
 (require 'ol-util)
 (require 'ol-ert)
 (require 'ol-project)
@@ -7,6 +14,7 @@
 (require 'vertico)
 (require 'embark)
 (require 'consult)
+(require 'consult-imenu)
 (require 'orderless)
 (require 'grep)
 
@@ -212,4 +220,4 @@
 (setc orderless-component-separator #'list)
 (setc orderless-matching-styles '(ol-orderfull))
 
-(provide 'ol-vertico)
+(provide 'ol-completing-read-framework)
