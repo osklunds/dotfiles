@@ -195,9 +195,9 @@
   (let ((inhibit-message t))
     (split-string (shell-command-to-string (format "sleep 1; %s" input)) "\n" t)))
 
-(consult--read
- (consult--dynamic-collection 'ol-candidates)
- :prompt "hej: ")
+;; (consult--read
+;;  (consult--dynamic-collection 'ol-candidates)
+;;  :prompt "hej: ")
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
