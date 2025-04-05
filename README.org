@@ -70,19 +70,13 @@ Then the =ol-completing-read-*.el= files contain configuration for making that p
 
 =ol-completing-read.el= requires one of the =ol-completing-read-*.el= files. 
 
-Why this complexity? I've used =ivy= for a long time, but wanted to try =vertico= and friends, and it provides some features I didn't get to work with =ivy=, for example
-
-- =embark='s quick pop out
-- previews
-- headings of =ripgrep= preserved
-
-It also provided the benefit of forcing my to refactor out generic =completing-read= stuff from framework-specific.
-
-Eventually I might consider writing my own framework for these reasons
+Why this complexity? I've used =ivy= for a long time, but wanted to try =vertico= and friends. Eventually I might consider writing my own framework for the reasons below:
 
 - Understand how it works
 - Simplicity - I have simple but peculiar needs 
 - Ultimate control - because I already tweak the frameworks quite a lot)
+
+My vertico config is not as polished as for ivy. It was hard to get it work the way ivy worked. I might not spend time on it if I'm going to roll my own anyway.
 
 * Upgrade preparation
 
