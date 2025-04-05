@@ -131,6 +131,14 @@
 ;; Shell command
 ;; -----------------------------------------------------------------------------
 
+;; for file name: --no-ignore is relevant
+;; for file content: --ignore and globs and filetypes are relevant
+
+;; Useful examples (todo: make them templates you can complete-read)
+;; rg --files --no-ignore -- file name filtered
+;; rg --no-ignore -g '*.el'
+;; find . -name '*.el'
+
 (defun ol-dwim-shell-command (&optional prefer-project-root)
   (interactive "P")
   (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
