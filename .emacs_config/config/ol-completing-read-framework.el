@@ -74,6 +74,8 @@
 (defun ol-consult--join-regexps (regexps _type)
   (string-join regexps ".*"))
 
+(advice-add 'consult--join-regexps :override #'ol-consult--join-regexps)
+
 (set-face-attribute 'match nil
                     :foreground 'unspecified
                     :background 'unspecified
