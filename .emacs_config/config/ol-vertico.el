@@ -29,7 +29,7 @@
 (ol-define-key minibuffer-local-map 'return 'vertico-exit-input)
 (ol-define-key minibuffer-local-map "M-i" 'vertico-insert)
 (ol-define-key minibuffer-local-map "M-o" 'embark-collect)
-
+(ol-define-key minibuffer-local-map "M-e" 'embark-export)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Behavior
