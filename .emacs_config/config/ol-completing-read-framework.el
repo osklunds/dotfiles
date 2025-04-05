@@ -28,6 +28,18 @@
 (setc vertico-count 20)
 (setc vertico-cycle t)
 
+;; For some reason, the orderless faces don't apply to switch-to-buffer until
+;; more than one group is entered. However, for e.g. ol-dwim-find-file it looks
+;; correct also with only one group. This fix also has the nice side effect
+;; that everything between the first and last group is highlighed, which is what
+;; I want.
+(set-face-attribute 'completions-common-part nil
+                    :foreground 'unspecified
+                    :inherit 'orderless-match-face-0)
+(set-face-attribute 'completions-first-difference nil
+                    :foreground 'unspecified
+                    :inherit 'orderless-match-face-0)
+
 ;; -----------------------------------------------------------------------------
 ;; Consult
 ;; -----------------------------------------------------------------------------
