@@ -64,6 +64,7 @@ I have split my =completing-read= config into =ol-completing-read.el= and severa
 Then the =ol-completing-read-*.el= files contain configuration for making that particular framework work the way I want it, for example
 
 - Keybindings inside the minibuffer
+- Keybindings for functions e.g. =imenu= functionality
 - Faces
 - Completion styles
 
