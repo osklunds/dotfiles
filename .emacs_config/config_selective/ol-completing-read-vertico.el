@@ -40,23 +40,6 @@
 (setc consult-find-args "find . -not ( -path *.git/* -prune )")
 (setc consult-fd-args "fd --full-path --color=never --hidden --exclude *.git/*")
 
-;; Not ideal to call consult internal functions, but hopefully the API is stable
-;; enough, considering the public consult functions need similar
-;; functionality. If something breaks I can compare the code at this commit and
-;; how consult functions using consult--dynamic-collection change, and hopefully
-;; figure something out. Need to stay optimistic.  In the worst case, I can live
-;; with sync shell command. As a longer-term todo, figure out how it works.
-(cl-defun ol-async-completing-read (&key collection
-                                      prompt
-                                      history
-                                      require-match)
-  (consult--read
-   (consult--dynamic-collection collection)
-   :prompt prompt
-   :history 'ol-shell-command
-   :require-match t
-   ))
-
 ;; 1 -> (consult--join-regexps ("defun" "emacs") pcre)
 ;; 1 <- consult--join-regexps: "^(?=.*defun)(?=.*emacs)"
 (defun ol-consult--join-regexps (regexps _type)
@@ -97,5 +80,45 @@
 
 (ol-define-key ol-override-map "C-j" #'switch-to-buffer)
 (ol-define-key ol-normal-leader-map "m s" #'consult-imenu)
+
+;; -----------------------------------------------------------------------------
+;; Interface needed by ol-completing-read
+;; -----------------------------------------------------------------------------
+
+;; Not ideal to call consult internal functions, but hopefully the API is stable
+;; enough, considering the public consult functions need similar
+;; functionality. If something breaks I can compare the code at this commit and
+;; how consult functions using consult--dynamic-collection change, and hopefully
+;; figure something out. Need to stay optimistic.  In the worst case, I can live
+;; with sync shell command. As a longer-term todo, figure out how it works.
+(cl-defun ol-completing-read-shell-command (&key prompt
+                                                 history
+                                                 require-match)
+  (consult--read
+   (consult--dynamic-collection #'ol-shell-command-candidates)
+   :prompt prompt
+   :history history
+   :require-match t
+   ))
+
+(defun ol-shell-command-candidates (input)
+  (let ((inhibit-message t))
+    (split-string (shell-command-to-string (format "sleep 1; %s" input)) "\n" t)))
+
+(defun ol-ripgrep (prompt)
+  (ol-consult-with-prompt #'consult-ripgrep prompt))
+
+(defun ol-git-grep (prompt)
+  (ol-consult-with-prompt #'consult-git-grep prompt))
+
+(defun ol-grep (prompt)
+  (ol-consult-with-prompt #'consult-grep prompt))
+
+(defun ol-consult-with-prompt (consult-func prompt)
+  (cl-letf (((symbol-function 'consult--directory-prompt)
+             (lambda (&rest _args)
+               (list prompt '(".") default-directory))))
+    (funcall consult-func))
+  )
 
 (provide 'ol-completing-read-vertico)

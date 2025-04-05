@@ -1,6 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
-(require 'ol-completing-read-vertico)
+(require 'ol-completing-read-ivy)
+;; (require 'ol-completing-read-vertico)
 (require 'ol-project)
 
 (require 'grep)
@@ -69,8 +70,6 @@
 ;; Find file content
 ;; -----------------------------------------------------------------------------
 
-;; Note: async-find-file-content is tightly copuled to consult
-
 (defun ol-dwim-find-file-content (&optional prefer-project-root)
   (interactive "P")
   (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
@@ -86,21 +85,20 @@
     (ol-async-find-file-content dir prompt-dir-part)))
 
 (defun ol-async-find-file-content (dir prompt-dir-part)
-  (cl-destructuring-bind (name consult-func _pred) (ol-async-find-file-content-method)
+  (cl-destructuring-bind (name func _pred) (ol-async-find-file-content-method)
     (let* ((default-directory dir)
            (prompt (format "Find file content [%s %s]: " prompt-dir-part name)))
-      (cl-letf (((symbol-function 'consult--directory-prompt)
-                 (lambda (&rest _args)
-                   (list prompt '(".") default-directory))))
-        (funcall consult-func)))))
+      (funcall func prompt))))
 
 (defun ol-async-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
 
+;; Note that functions, not commands, because the framework might have some
+;; extra goodies comapred to a plain command.
 (defconst ol-async-find-file-content-methods
-  `(("rg" consult-ripgrep ,#'ol-can-use-rg)
-    ("git" consult-git-grep ,#'ol-can-use-git)
-    ("grep" consult-grep ,#'ol-can-use-gnu-cmd)))
+  `(("rg" ol-ripgrep ,#'ol-can-use-rg)
+    ("git" ol-git-grep ,#'ol-can-use-git)
+    ("grep" ol-grep ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-sync-find-file-content-method)
@@ -144,17 +142,12 @@
 (defun ol-shell-command (dir prompt-dir-part)
   (let* ((default-directory dir)
          (prompt (format "Shell command [%s]: " prompt-dir-part))
-         (selection (ol-async-completing-read
-                     :collection #'ol-shell-command-candidates
+         (selection (ol-completing-read-shell-command
                      :prompt prompt
                      :history 'ol-shell-command
                      :require-match t
                      )))
     (ol-shell-command-open-selection selection)))
-
-(defun ol-shell-command-candidates (input)
-  (let ((inhibit-message t))
-    (split-string (shell-command-to-string (format "sleep 1; %s" input)) "\n" t)))
 
 (defun ol-shell-command-open-selection (selection)
   (cond

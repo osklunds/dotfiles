@@ -14,6 +14,7 @@
 
 (setc ivy-height 20)
 (setc ivy-wrap t)
+(setc ivy-more-chars-alist '((t . 1)))
 
 (defun ol-ivy-switch-buffer ()
   "Copy of ivy-switch-buffer, but allow visible buffers in preselect"
@@ -63,4 +64,40 @@
 (ol-evil-define-key 'normal ivy-occur-mode-map "o" 'ivy-occur-press)
 (ol-evil-define-key 'normal ivy-occur-mode-map "O" 'ivy-occur-press-and-switch)
 
-(provide 'ol-ivy)
+;; -----------------------------------------------------------------------------
+;; Interface needed by ol-completing-read
+;; -----------------------------------------------------------------------------
+
+(cl-defun ol-completing-read-shell-command (&key prompt
+                                                 history
+                                                 require-match)
+  (ivy-read prompt
+            'ol-completing-read-shell-command-collection
+            :dynamic-collection t
+            :require-match require-match
+            :history history
+            :caller 'ol-async-completing-read))
+
+(defun ol-completing-read-shell-command-collection (input)
+  (let* ((split (counsel--split-command-args input))
+         (after (car split))
+         (before (cdr split))
+         (cmd (if (string-equal after "")
+                  (concat "(unset TERM; " before " )")
+                (let* ((regex (counsel--grep-regex after))
+                       (quoted (shell-quote-argument regex)))
+                  (concat "(unset TERM; " before " | rg " quoted " )")))))
+    (counsel--async-command cmd))
+  nil)
+
+(defun ol-ripgrep (prompt)
+  (counsel-rg "" default-directory "" prompt))
+
+(defun ol-git-grep (_prompt)
+  ;; prompt not working yet
+  (counsel-git-grep))
+
+(defun ol-grep (_prompt)
+  (user-error "Not working yet"))
+
+(provide 'ol-completing-read-ivy)
