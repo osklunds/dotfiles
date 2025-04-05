@@ -199,13 +199,48 @@
 ;; figure something out. Need to stay optimistic.  In the worst case, I can live
 ;; with sync shell command. As a longer-term todo, figure out how it works.
 
-(defun ol-candidates (input)
+(defun ol-dwim-shell-command (&optional prefer-project-root)
+  (interactive "P")
+  (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
+      (ol-shell-command root "project")
+    (ol-shell-command default-directory "cwd"))
+  )
+(ol-define-key ol-normal-leader-map "m c" #'ol-dwim-shell-command)
+
+(defun ol-shell-command (dir prompt-dir-part)
+  (let* ((default-directory dir)
+         (prompt (format "Shell command [%s]: " prompt-dir-part))
+         (selection (consult--read
+                     (consult--dynamic-collection 'ol-shell-command-candidates)
+                     :prompt prompt
+                     :history 'ol-shell-command
+                     :require-match t
+                     )))
+    (ol-shell-command-open-selection selection)))
+
+(defun ol-shell-command-candidates (input)
   (let ((inhibit-message t))
     (split-string (shell-command-to-string (format "sleep 1; %s" input)) "\n" t)))
 
-;; (consult--read
-;;  (consult--dynamic-collection 'ol-candidates)
-;;  :prompt "hej: ")
+(defun ol-shell-command-open-selection (selection)
+  (cond
+   ;; example: .emacs_config/config/ol-file.el:44:(defun ol-save-silently ()
+   ((string-match "\\(.*\\):\\([0-9]+\\):" selection)
+    (message "oskar: %s" selection)
+    (let* ((file (match-string 1 selection))
+           (line (match-string 2 selection)))
+      (message "oskar: %s" file)
+      (message "oskar: %s" line)
+      (unless (file-exists-p file)
+        (user-error "No such file"))
+      (find-file file)
+      (goto-line (string-to-number line))))
+   (t
+    (unless (file-exists-p selection)
+      (user-error "No such file"))
+    (find-file selection))))
+
+
 
 ;; -----------------------------------------------------------------------------
 ;; Orderless
