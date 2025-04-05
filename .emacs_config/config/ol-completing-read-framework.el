@@ -74,6 +74,11 @@
 (defun ol-consult--join-regexps (regexps _type)
   (string-join regexps ".*"))
 
+(set-face-attribute 'match nil
+                    :foreground 'unspecified
+                    :background 'unspecified
+                    :inherit 'orderless-match-face-0)
+
 ;; -----------------------------------------------------------------------------
 ;; Orderless
 ;; -----------------------------------------------------------------------------
