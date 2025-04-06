@@ -41,12 +41,24 @@
 ;; TODO: Do something similar for evil-open, i.e. o
 (defun ol-org-return ()
   (interactive)
-  (if (ol-org-in-item-p)
-      (org-insert-item)
-    (org-return)))
+  (cond
+   ((ol-org-in-empty-item-p)
+    (message "oskar: %s" "empty")
+    (beginning-of-line)
+    (kill-line)
+    (newline))
+   ((ol-org-in-item-p)
+    (message "oskar: %s" "item")
+    (org-insert-item))
+   (t
+    (message "oskar: %s" "other")
+    (org-return))))
 
 (defun ol-org-in-item-p ()
   (string-match-p "^ *-" (thing-at-point 'line t)))
+
+(defun ol-org-in-empty-item-p ()
+  (string-match-p "^ *- *$" (thing-at-point 'line t)))
 
 (ol-evil-define-key 'insert org-mode-map 'return 'ol-org-return)
 
