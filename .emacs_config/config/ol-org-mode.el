@@ -140,7 +140,6 @@
 
 (setc org-hide-emphasis-markers t)
 
-;; todo: doesn't work when EOL
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
   (save-match-data
@@ -162,11 +161,11 @@
               (ol-org-toggle-emphasis char))))
       ;; If not inside emphasis, emphasize until space char
       (save-excursion
-        (re-search-backward " ")
+        (re-search-backward " \\|\n")
         (forward-char)
         (let ((inhibit-message t))
           (set-mark-command nil))
-        (re-search-forward " " nil nil 1)
+        (re-search-forward " \\|\n" nil nil 1)
         (backward-char)
         (setq deactivate-mark nil)
         (org-emphasize char)
