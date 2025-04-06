@@ -79,11 +79,11 @@
     font))
 
 ;; todo: check in fonts
-;; Same font as 'default
 (defconst ol-fixed-pitch-font (or (ol-font-available-p "Source Code Pro")
                                   "DejaVu Sans Mono"))
 
-(set-face-attribute 'fixed-pitch nil :family ol-fixed-pitch-font :height 90)
+(set-face-attribute 'default nil :family "Source Code Pro" :height 90)
+(set-face-attribute 'fixed-pitch nil :family "Source Code Pro" :height 90)
 (set-face-attribute 'line-number nil :family ol-fixed-pitch-font :height 90)
 (set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font :height 90)
 
