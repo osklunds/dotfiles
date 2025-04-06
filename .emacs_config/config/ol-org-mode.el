@@ -140,6 +140,8 @@
 
 (setc org-hide-emphasis-markers t)
 
+(defconst ol-emphasis-border-regex " \\|,\\|\n\\|\\.")
+
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
   ;; If at space, don't allow toggling. But then move one forward, because if
@@ -170,11 +172,11 @@
                     (goto-char (1- point-pos))
                   (ol-org-toggle-emphasis char))))
           ;; If not inside emphasis, emphasize until space char
-          (re-search-backward " \\|\n")
+          (re-search-backward ol-emphasis-border-regex)
           (forward-char)
           (let ((inhibit-message t))
             (set-mark-command nil))
-          (re-search-forward " \\|\n" nil nil 1)
+          (re-search-forward ol-emphasis-border-regex nil nil 1)
           (backward-char)
           (setq deactivate-mark nil)
           (org-emphasize char)
