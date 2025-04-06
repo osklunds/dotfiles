@@ -114,13 +114,13 @@
 (set-face-attribute 'org-block nil
                     :foreground 'unspecified
                     :inherit 'fixed-pitch
-                    :height 1.0)
+                    :height 1.1)
 (set-face-attribute 'org-code nil
                     :inherit '(shadow fixed-pitch)
-                    :height 1.0)
+                    :height 1.1)
 (set-face-attribute 'org-verbatim nil
                     :inherit '(shadow fixed-pitch)
-                    :height 1.0)
+                    :height 1.1)
 (set-face-attribute 'org-special-keyword nil
                     :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil
