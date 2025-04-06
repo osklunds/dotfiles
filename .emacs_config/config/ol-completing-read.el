@@ -59,13 +59,13 @@
                       )))
       (find-file selected))))
 
-(defun ol-find-file-name-method ()
-  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
-
 (defconst ol-find-file-name-methods
   `(("rg" "rg --files" ,#'ol-can-use-rg)
     ("git" "git ls-files" ,#'ol-can-use-git)
     ("find" "find . -not ( -path *.git/* -prune )" ,#'ol-can-use-gnu-cmd)))
+
+(defun ol-find-file-name-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
 
 ;; -----------------------------------------------------------------------------
 ;; Find file content
@@ -91,15 +91,15 @@
            (prompt (format "Find file content [%s %s]: " prompt-dir-part name)))
       (funcall func prompt))))
 
-(defun ol-async-find-file-content-method ()
-  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
-
 ;; Note that functions, not commands, because the framework might have some
 ;; extra goodies comapred to a plain command.
 (defconst ol-async-find-file-content-methods
   `(("rg" ol-ripgrep ,#'ol-can-use-rg)
     ("git" ol-git-grep ,#'ol-can-use-git)
     ("grep" ol-grep ,#'ol-can-use-gnu-cmd)))
+
+(defun ol-async-find-file-content-method ()
+  (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
 
 (defun ol-sync-find-file-content (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-sync-find-file-content-method)
@@ -168,7 +168,8 @@
       (unless (file-exists-p file)
         (user-error "No such file"))
       (find-file file)
-      (goto-line (string-to-number line))))
+      (goto-char (point-min))
+      (forward-line (string-to-number line))))
    (t
     (unless (file-exists-p selection)
       (user-error "No such file"))

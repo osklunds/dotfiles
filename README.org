@@ -56,11 +56,6 @@ dotfiles I use
 
 * completing-read
 
-Before LGTM (let's get this merged):
-
-- shell command and e.g. =--noignore= examples with completing-read
-- fix compile errors
-
 I have split my =completing-read= config into =ol-completing-read.el= and several =ol-completing-read-*.el=, the latter having one per framework, so =ol-completing-read-vertico.el= and =ol-completing-read-ivy.el=. The idea is that =ol-completing-read= contains things generic no matter which framework I use, for example
 
 - ~ol-dwim-find-file-name~ for finding a file name using e.g. =rg --files= in either project root or cwd, preferring =ripgrep= if available, otherwise using some fallbacks.
