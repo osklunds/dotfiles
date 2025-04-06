@@ -144,18 +144,22 @@
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
   (save-match-data
-    ;; If inside some emphasis, delete it
+    ;; If inside some emphasis, delete it, and then toggle again if different char
     (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
              (not (region-active-p)))
         (let ((beg (match-beginning 3))
-              (end (match-end 4)))
+              (end (match-end 4))
+              (same-char nil))
           (when (and (>= (point) (1- beg))
                      (<= (point) (1+ end)))
             (save-excursion
               (goto-char end)
+              (setq same-char (eq char (char-after)))
               (delete-char 1)
               (goto-char beg)
-              (delete-char 1))))
+              (delete-char 1))
+            (unless same-char
+              (ol-org-toggle-emphasis char))))
       ;; If not inside emphasis, emphasize until space char
       (save-excursion
         (re-search-backward " ")
