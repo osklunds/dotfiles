@@ -25,6 +25,7 @@
 (setq ol-emacs-dir (file-name-concat ol-repo-root ".emacs_config"))
 
 (add-to-list 'load-path (file-name-concat ol-emacs-dir "config"))
+(add-to-list 'load-path (file-name-concat ol-emacs-dir "config_selective"))
 (add-to-list 'load-path (file-name-concat ol-emacs-dir "packages_own"))
 (let ((default-directory (file-name-concat ol-emacs-dir "packages/")))
   (normal-top-level-add-subdirs-to-load-path))
@@ -63,6 +64,8 @@
   (interactive)
   (ol-compile-own)
   (ol-compile-packages))
+
+(ol-add-all-to-load-path)
 
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (require (intern (file-name-sans-extension file))))

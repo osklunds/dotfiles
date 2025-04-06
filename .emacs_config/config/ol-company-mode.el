@@ -5,7 +5,6 @@
 (require 'ol-evil)
 
 (require 'company)
-(require 'ivy)
 
 ;; -----------------------------------------------------------------------------
 ;; General
@@ -96,20 +95,12 @@
 ;; Colors
 ;; -----------------------------------------------------------------------------
 
-;; Making ivy and company look consistent
-(dolist (face '(ivy-minibuffer-match-face-1
-                ivy-minibuffer-match-face-2
-                ivy-minibuffer-match-face-3
-                ivy-minibuffer-match-face-4))
-  (ol-copy-face-fg-bg face 'company-tooltip-common)
-  (ol-set-face face :weight 'bold)
-  (ol-set-face face :background ol-white))
+(set-face-attribute 'company-tooltip-selection nil
+                    :inherit 'ol-selection-face
+                    :background 'unspecified)
 
-(ol-set-face 'ivy-current-match :weight 'bold)
-(ol-set-face 'ivy-current-match :background ol-completion-selection-color)
 ;; inhert from fixed-pitch to make the popup better when variable-pitch-mode is used
 (ol-set-face 'company-tooltip :background ol-white :inherit '(fixed-pitch))
-(ol-set-face 'company-tooltip-selection :background ol-completion-selection-color)
 
 (ol-set-face 'company-tooltip-scrollbar-thumb :background "#4087f2")
 (ol-set-face 'company-tooltip-scrollbar-track :background 'unspecified :inherit 'tooltip)

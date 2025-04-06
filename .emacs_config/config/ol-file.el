@@ -3,21 +3,11 @@
 (require 'ol-util)
 (require 'ol-evil)
 
-(require 'counsel)
-
 (defun ol-print-buffer-file-name ()
   (interactive)
   (message "%s" (buffer-file-name)))
 
 (ol-define-key ol-normal-leader-map "b n" 'ol-print-buffer-file-name)
-
-(defun ol-find-file-empty ()
-  (interactive)
-  ;; Need to override major-mode because if dired, counsel ignores initial dir
-  (let ((major-mode 'fundamental-mode))
-    (counsel-find-file nil "/")))
-
-(ol-global-set-key "C-x f" 'ol-find-file-empty)
 
 (setc large-file-warning-threshold (* 100 1000 1000))
 
