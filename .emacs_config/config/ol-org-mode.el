@@ -169,27 +169,27 @@
         (deactivate-mark)
         ))))
 
-(ol-evil-define-key 'normal org-mode-map "( b"
+(ol-evil-define-key 'normal org-mode-map "M-b"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?*)))
-(ol-evil-define-key 'normal org-mode-map "( i"
+(ol-evil-define-key 'normal org-mode-map "M-i"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?/)))
-(ol-evil-define-key 'normal org-mode-map "( v"
+(ol-evil-define-key 'normal org-mode-map "M-v"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?=)))
-(ol-evil-define-key 'normal org-mode-map "( c"
+(ol-evil-define-key 'normal org-mode-map "M-c"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?~)))
-(ol-evil-define-key 'normal org-mode-map "( s"
+(ol-evil-define-key 'normal org-mode-map "M-s"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?+)))
 
 ;; TODO: how to do emphasis in a good way is not trivial.
-(ol-evil-define-key 'visual org-mode-map "( b"
+(ol-evil-define-key 'visual org-mode-map "M-b"
                     (lambda () (interactive) (org-emphasize ?*)))
-(ol-evil-define-key 'visual org-mode-map "( i"
+(ol-evil-define-key 'visual org-mode-map "M-i"
                     (lambda () (interactive) (org-emphasize ?/)))
-(ol-evil-define-key 'visual org-mode-map "( v"
+(ol-evil-define-key 'visual org-mode-map "M-v"
                     (lambda () (interactive) (org-emphasize ?=)))
-(ol-evil-define-key 'visual org-mode-map "( c"
+(ol-evil-define-key 'visual org-mode-map "M-c"
                     (lambda () (interactive) (org-emphasize ?~)))
-(ol-evil-define-key 'visual org-mode-map "( s"
+(ol-evil-define-key 'visual org-mode-map "M-s"
                     (lambda () (interactive) (org-emphasize ?+)))
 
 
