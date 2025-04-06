@@ -142,40 +142,46 @@
 
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
 (defun ol-org-toggle-emphasis (char)
-  ;; save-excursion doesn't work, similar issue here:
-  ;; https://www.reddit.com/r/emacs/comments/s89ak1/help_understanding_saveexcursion/
-  ;; But point needs to be adjusted with 1 anyway.
-  (let ((point-pos (point)))
-    (save-match-data
-      ;; If inside some emphasis, delete it, and then toggle again if different char
-      (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
-               (not (region-active-p)))
-          (let ((beg (match-beginning 3))
-                (end (match-end 4))
-                (same-char nil))
-            (when (and (>= (point) (1- beg))
-                       (<= (point) (1+ end)))
-              (save-excursion
-                (goto-char end)
-                (setq same-char (eq char (char-after)))
-                (delete-char 1)
-                (goto-char beg)
-                (delete-char 1))
-              (if same-char
-                  ;; Only compensate if not toggling again
-                  (goto-char (1- point-pos))
-                (ol-org-toggle-emphasis char))))
-        ;; If not inside emphasis, emphasize until space char
-        (re-search-backward " \\|\n")
-        (forward-char)
-        (let ((inhibit-message t))
-          (set-mark-command nil))
-        (re-search-forward " \\|\n" nil nil 1)
-        (backward-char)
-        (setq deactivate-mark nil)
-        (org-emphasize char)
-        (deactivate-mark)
-        (goto-char (1+ point-pos))))))
+  ;; If at space, don't allow toggling. But then move one forward, because if
+  ;; at first char of word after another emphasized word, org-in-regexp returns t
+  (unless (looking-at-p " ")
+    (forward-char)
+    ;; save-excursion doesn't work, similar issue here:
+    ;; https://www.reddit.com/r/emacs/comments/s89ak1/help_understanding_saveexcursion/
+    ;; But point needs to be adjusted with 1 anyway.
+    (let ((point-pos (point)))
+      (save-match-data
+        ;; If inside some emphasis, delete it, and then toggle again if different char
+        (if (and (or (org-in-regexp org-emph-re 2) (org-in-regexp org-verbatim-re 2))
+                 (not (region-active-p)))
+            (let ((beg (match-beginning 3))
+                  (end (match-end 4))
+                  (same-char nil))
+              (when (and (>= (point) (1- beg))
+                         (<= (point) (1+ end)))
+                (save-excursion
+                  (goto-char end)
+                  (setq same-char (eq char (char-after)))
+                  (delete-char 1)
+                  (goto-char beg)
+                  (delete-char 1))
+                (if same-char
+                    ;; Only compensate if not toggling again
+                    (goto-char (1- point-pos))
+                  (ol-org-toggle-emphasis char))))
+          ;; If not inside emphasis, emphasize until space char
+          (re-search-backward " \\|\n")
+          (forward-char)
+          (let ((inhibit-message t))
+            (set-mark-command nil))
+          (re-search-forward " \\|\n" nil nil 1)
+          (backward-char)
+          (setq deactivate-mark nil)
+          (org-emphasize char)
+          (deactivate-mark)
+          (goto-char (1+ point-pos)))))
+    ;; Compensate for the initial forward-char
+    (backward-char)))
 
 (ol-evil-define-key 'normal org-mode-map "M-b"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?*)))
