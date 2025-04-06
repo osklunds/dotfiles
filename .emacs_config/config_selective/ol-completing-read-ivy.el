@@ -49,6 +49,20 @@
   :initial-input ""
   :display-transformer-fn #'counsel-M-x-transformer)
 
+;; To handle rg returning error codes even if partial result
+;; Inspired/copied from
+;; https://github.com/doomemacs/doomemacs/issues/3038#issuecomment-832077836
+
+(defun ol-counsel--call-advice (func &rest args)
+  (let* ((old-fun (symbol-function #'process-file)))
+    (cl-letf (((symbol-function 'process-file)
+               (lambda (&rest process-file-args)
+                 (apply old-fun process-file-args)
+                 0)))
+      (apply func args))))
+
+(advice-add 'counsel--call :around 'ol-counsel--call-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
 ;; -----------------------------------------------------------------------------
