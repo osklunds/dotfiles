@@ -6,6 +6,7 @@
 
 (require 'ivy)
 (require 'counsel)
+(require 'imenu)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy
@@ -74,6 +75,26 @@
 (ol-evil-define-key 'normal ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
 (ol-evil-define-key 'normal ivy-occur-mode-map "o" 'ivy-occur-press)
 (ol-evil-define-key 'normal ivy-occur-mode-map "O" 'ivy-occur-press-and-switch)
+
+;; -----------------------------------------------------------------------------
+;; imenu
+;; -----------------------------------------------------------------------------
+;; Counsel sepcific adjustments
+
+(defun ol-symbol-search (&optional arg)
+  (interactive "P")
+  (when arg
+    (setq imenu--index-alist nil))
+  (counsel-imenu))
+
+(ol-define-key ol-normal-leader-map "m s" 'ol-symbol-search)
+
+(setc imenu-max-item-length 200)
+
+(defun ol-counsel-imenu-advice (&rest _args)
+  (evil-set-jump))
+
+(advice-add 'counsel-imenu-action :before 'ol-counsel-imenu-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Colors
