@@ -4,8 +4,6 @@
 (require 'ol-util)
 (require 'ol-evil)
 
-(require 'ivy)
-
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; To make sure e.g. ♝ are monospaced
@@ -70,46 +68,6 @@
 (setc display-line-numbers-type 'visual)
 (setc display-line-numbers-grow-only t)
 (setc display-line-numbers-width-start 10000)
-
-;; -----------------------------------------------------------------------------
-;; No mouse
-;; -----------------------------------------------------------------------------
-
-(defun ol-no-op ()
-  (interactive))
-
-(dolist (key '("<mouse-1>"
-               "<mouse-2>"
-               "<mouse-3>"
-               "<down-mouse-1>"
-               "<down-mouse-2>"
-               "<down-mouse-3>"
-               "<double-mouse-1>"
-               "<double-mouse-2>"
-               "<double-mouse-3>"
-               "<triple-mouse-1>"
-               "<triple-mouse-2>"
-               "<triple-mouse-3>"
-               "<drag-mouse-1>"
-               "<drag-mouse-2>"
-               "<drag-mouse-3>"
-               "<vertical-line> <down-mouse-1>"
-               "<vertical-line> <mouse-1>"
-               "<mode-line> <down-mouse-1>"
-               "<mode-line> <mouse-1>"
-               "<escape>"))
-  (ol-global-set-key key 'ol-no-op)
-  (ol-define-key ol-override-map key 'ol-no-op)
-  (ol-define-key button-map key nil)
-  (ol-define-key ivy-minibuffer-map key nil)
-  (ol-define-key ivy-occur-mode-map key nil)
-  (ol-define-key ivy-occur-grep-mode-map key nil)
-  (ol-define-key evil-normal-state-map key nil)
-  (ol-define-key evil-motion-state-map key nil)
-  (ol-define-key evil-visual-state-map key nil)
-  (ol-define-key evil-insert-state-map key nil))
-
-(setc mouse-1-click-follows-link nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Trailing whitespace

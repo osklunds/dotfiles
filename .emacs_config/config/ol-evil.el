@@ -99,6 +99,42 @@ behaves like `define-key' and `keymap-set'."
 (ol-override-mode t)
 
 ;;;; ---------------------------------------------------------------------------
+;;;; No mouse map
+;;;; ---------------------------------------------------------------------------
+
+(defvar ol-no-mouse-map (make-sparse-keymap))
+
+(add-to-list 'emulation-mode-map-alists `((t . ,ol-no-mouse-map)))
+
+(defun ol-no-op ()
+  (interactive))
+
+(dolist (key '("<mouse-1>"
+               "<mouse-2>"
+               "<mouse-3>"
+               "<down-mouse-1>"
+               "<down-mouse-2>"
+               "<down-mouse-3>"
+               "<double-mouse-1>"
+               "<double-mouse-2>"
+               "<double-mouse-3>"
+               "<triple-mouse-1>"
+               "<triple-mouse-2>"
+               "<triple-mouse-3>"
+               "<drag-mouse-1>"
+               "<drag-mouse-2>"
+               "<drag-mouse-3>"
+               "<vertical-line> <down-mouse-1>"
+               "<vertical-line> <mouse-1>"
+               "<mode-line> <down-mouse-1>"
+               "<mode-line> <mouse-1>"
+               "<escape>"))
+  (ol-define-key ol-no-mouse-map key 'ol-no-op))
+
+;; Above is not enough
+(setc mouse-1-click-follows-link nil)
+
+;;;; ---------------------------------------------------------------------------
 ;;;; Plain state
 ;;;; ---------------------------------------------------------------------------
 
