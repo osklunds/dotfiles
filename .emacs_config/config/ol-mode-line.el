@@ -53,14 +53,6 @@
 ;; Left part
 ;; -----------------------------------------------------------------------------
 
-(defun ol-mode-line-left-part ()
-  (quote ((:eval (ol-search-hits-segment))
-          (:eval (ol-evil-segment))
-          "  " (:eval (ol-buffer-name-segment))
-          " " (:eval (ol-file-state-segment))
-          " " "%l:%c"
-          "" (:eval (ol-relative-position-segment)))))
-
 (defun ol-search-hits-segment ()
   (when (and (mode-line-window-selected-p) anzu--state evil-ex-search-start-point)
     (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
@@ -85,23 +77,18 @@
 (defun ol-file-state-segment ()
   (if (and (not (cl-member major-mode '(wdired-mode)))
            (or buffer-read-only (not buffer-file-name)))
-      "%%%%"
+      "%%"
     (if (buffer-modified-p) "*" "-")))
 
 (defun ol-relative-position-segment ()
-  (format "%4d%%%%%%%%" (/ (point) 0.01 (point-max))))
-;; TODO the amount of % escaping above means there are too many layers
+  ;; % for the % itself
+  ;; %% for preserving % after format below
+  ;; %%%% for preserving %% inside mode-line-format itself
+  (format "%4d%%%%" (/ (point) 0.01 (point-max))))
 
 ;; -----------------------------------------------------------------------------
 ;; Right part
 ;; -----------------------------------------------------------------------------
-
-;; todo: redo using mode-line-format-right-align
-
-(defun ol-mode-line-right-part ()
-  (quote ((:eval ol-branch-name-segment)
-          "  " ((:eval (ol-project-name-segment)))
-          )))
 
 (defvar-local ol-branch-name-segment nil)
 (defun ol-branch-name-segment ()
@@ -118,34 +105,32 @@
   (if-let ((branch (magit-get-current-branch)))
       branch
     (when-let ((commit-id (magit-git-string "rev-parse" "HEAD")))
-        (substring commit-id 0 7))))
+      (substring commit-id 0 7))))
 
 ;; No need to cache since (ol-project-name) already is fast and cached
 (defun ol-project-name-segment ()
-  (if-let ((name (ol-project-name)))
-      name
-    ""))
+  (ol-project-name))
 
 ;; -----------------------------------------------------------------------------
 ;; Putting it all together
 ;; -----------------------------------------------------------------------------
 
-;; Modeline stuff copied (and then modified) from
-;; https://www.reddit.com/r/emacs/comments/1333621/wrote_a_custom_modeline_with_some_help_from/
-(defun ol-render-mode-line (left right)
-  (let* ((left-formatted (format-mode-line left))
-         (right-formatted (format-mode-line right))
-         (total-width (- (window-total-width) 5))
-         (available-width (- total-width (length left-formatted) 1))
-         (align-format-string (format "%%s %%%ds " available-width))
-         (formatted (format align-format-string left-formatted right-formatted))
-         (truncated (truncate-string-to-width formatted total-width)))
-    (concat "   " truncated "  ")))
-
 (setq-default mode-line-format
-              (quote ((:eval (ol-render-mode-line
-                              (ol-mode-line-left-part)
-                              (ol-mode-line-right-part))))))
+              (quote (
+                      "   "
+                      (:eval (ol-search-hits-segment))
+                      (:eval (ol-evil-segment))
+                      "  " (:eval (ol-buffer-name-segment))
+                      " " (:eval (ol-file-state-segment))
+                      " " "%l:%c"
+                      "" (:eval (ol-relative-position-segment))
+                      mode-line-format-right-align
+                      (:eval (ol-branch-name-segment))
+                      "  " (:eval (ol-project-name-segment))
+                      "  "
+                      )))
+
+(setc mode-line-right-align-edge 'right-margin)
 
 ;; Workaround to make sure also the messages buffer has the correct value
 (with-current-buffer (get-buffer "*Messages*")
