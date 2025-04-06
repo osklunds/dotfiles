@@ -55,10 +55,10 @@
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
 
-(ol-evil-define-key 'normal markdown-mode-map "( b" #'markdown-insert-bold)
-(ol-evil-define-key 'normal markdown-mode-map "( i" #'markdown-insert-italic)
-(ol-evil-define-key 'normal markdown-mode-map "( c" #'markdown-insert-code)
-(ol-evil-define-key 'normal markdown-mode-map "( s" #'markdown-insert-strike-through)
+(ol-evil-define-key 'normal markdown-mode-map "M-b" #'markdown-insert-bold)
+(ol-evil-define-key 'normal markdown-mode-map "M-i" #'markdown-insert-italic)
+(ol-evil-define-key 'normal markdown-mode-map "M-c" #'markdown-insert-code)
+(ol-evil-define-key 'normal markdown-mode-map "M-s" #'markdown-insert-strike-through)
 
 ;; -----------------------------------------------------------------------------
 ;; Images
