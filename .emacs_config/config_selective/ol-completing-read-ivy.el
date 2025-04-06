@@ -2,6 +2,7 @@
 
 (require 'ol-util)
 (require 'ol-evil)
+(require 'ol-colors)
 
 (require 'ivy)
 (require 'counsel)
@@ -73,6 +74,24 @@
 (ol-evil-define-key 'normal ivy-occur-grep-mode-map "O" 'ivy-occur-press-and-switch)
 (ol-evil-define-key 'normal ivy-occur-mode-map "o" 'ivy-occur-press)
 (ol-evil-define-key 'normal ivy-occur-mode-map "O" 'ivy-occur-press-and-switch)
+
+;; -----------------------------------------------------------------------------
+;; Colors
+;; -----------------------------------------------------------------------------
+
+(dolist (face '(ivy-minibuffer-match-face-1
+                ivy-minibuffer-match-face-2
+                ivy-minibuffer-match-face-3
+                ivy-minibuffer-match-face-4))
+  (set-face-attribute face nil
+                      :foreground 'unspecified
+                      :background 'unspecified
+                      :weight 'unspecified
+                      :inherit 'ol-match-face))
+
+(set-face-attribute 'ivy-current-match nil
+                    :inherit 'ol-selection-face
+                    :background 'unspecified)
 
 ;; -----------------------------------------------------------------------------
 ;; Interface needed by ol-completing-read
