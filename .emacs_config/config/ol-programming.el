@@ -13,11 +13,9 @@
 
 (defun ol-symbol-search (&optional arg)
   (interactive "P")
-  (if (equal major-mode 'org-mode)
-      (org-goto)
-    (when arg
-      (setq imenu--index-alist nil))
-    (counsel-imenu)))
+  (when arg
+    (setq imenu--index-alist nil))
+  (counsel-imenu))
 
 (ol-define-key ol-normal-leader-map "m s" 'ol-symbol-search)
 

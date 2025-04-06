@@ -24,6 +24,8 @@
 (ol-evil-define-key 'visual org-mode-map "g q" 'org-fill-paragraph)
 (ol-evil-define-key 'normal org-mode-map "g q q" 'org-fill-paragraph)
 
+(ol-evil-define-key 'normal org-mode-map "SPC m s" 'org-goto)
+
 ;; Toggle headers
 (ol-evil-define-key 'normal org-mode-map 'tab 'org-cycle)
 
