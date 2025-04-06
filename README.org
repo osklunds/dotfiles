@@ -60,8 +60,6 @@ Before LGTM (let's get this merged):
 
 - shell command and e.g. =--noignore= examples with completing-read
 - fix compile errors
-- move faces to only =ol-colors.el=
-- don't require =ivy= or =counsel= from anywhere else
 - investigte why =counsel-rg-base-command= isn't needed anymore
 
 I have split my =completing-read= config into =ol-completing-read.el= and several =ol-completing-read-*.el=, the latter having one per framework, so =ol-completing-read-vertico.el= and =ol-completing-read-ivy.el=. The idea is that =ol-completing-read= contains things generic no matter which framework I use, for example
