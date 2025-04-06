@@ -161,9 +161,10 @@
                 (delete-char 1)
                 (goto-char beg)
                 (delete-char 1))
-              (unless same-char
-                (ol-org-toggle-emphasis char)))
-            (goto-char (1- point-pos)))
+              (if same-char
+                  ;; Only compensate if not toggling again
+                  (goto-char (1- point-pos))
+                (ol-org-toggle-emphasis char))))
         ;; If not inside emphasis, emphasize until space char
         (re-search-backward " \\|\n")
         (forward-char)
