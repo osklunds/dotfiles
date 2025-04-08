@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'ol-org-mode)
+(require 'ol-colors)
 
 (require 'markdown-mode)
 

@@ -37,8 +37,6 @@ Maybe inherit would be cleaner to use."
 ;; Setting some faces
 ;; -----------------------------------------------------------------------------
 
-(ol-set-face 'default :height 90)
-
 (ol-set-face 'default :foreground ol-black :background ol-white)
 (ol-set-face 'font-lock-comment-face :foreground "#5f8700")
 (ol-set-face 'font-lock-string-face :foreground "#d78700")
@@ -61,5 +59,30 @@ Maybe inherit would be cleaner to use."
 (defface ol-selection-face
   '((default :weight bold :background "#d7e4e8"))
   "Face for current selection in e.g. ivy and company.")
+
+;; -----------------------------------------------------------------------------
+;; Fonts
+;; -----------------------------------------------------------------------------
+
+(defun ol-font-available-p (font)
+  (when (cl-member font (font-family-list) :test 'string-equal)
+    font))
+
+;; todo: check in fonts
+(defconst ol-fixed-pitch-font (or (ol-font-available-p "Source Code Pro")
+                                  "DejaVu Sans Mono"))
+
+(set-face-attribute 'default nil :family "Source Code Pro" :height 90)
+(set-face-attribute 'fixed-pitch nil :family "Source Code Pro" :height 90)
+(set-face-attribute 'line-number nil :family ol-fixed-pitch-font :height 90)
+(set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font :height 90)
+
+(defconst ol-variable-pitch-font (or (ol-font-available-p "Open Sans")
+                                     "DejaVu Sans"))
+
+(set-face-attribute 'variable-pitch nil
+                    :family ol-variable-pitch-font
+                    :height 1.1
+                    :weight 'normal)
 
 (provide 'ol-colors)

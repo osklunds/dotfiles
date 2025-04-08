@@ -7,32 +7,34 @@
 (require 'org)
 (require 'org-faces)
 (require 'color)
-;; (require 'org-indent) if included, line-spacing causes issues for sliced images
 (require 'org-sliced-images)
 
-;; todo: understand how to open links
+;; -----------------------------------------------------------------------------
+;; Misc
+;; -----------------------------------------------------------------------------
 
 (add-to-list 'auto-mode-alist '("\\.org.txt\\'" . org-mode))
 
-(setc org-src-preserve-indentation t)
-(setc org-edit-src-content-indentation 0)
-
-;; Make imenu-like feature more convenient to use
-(setc org-goto-interface 'outline-path-completion)
-(setc org-outline-path-complete-in-steps nil)
-
 (ol-evil-define-key 'visual org-mode-map "g q" 'org-fill-paragraph)
 (ol-evil-define-key 'normal org-mode-map "g q q" 'org-fill-paragraph)
-
-(ol-evil-define-key 'normal org-mode-map "SPC m s" 'org-goto)
-
-;; Toggle headers
-(ol-evil-define-key 'normal org-mode-map 'tab 'org-cycle)
 
 (define-abbrev-table 'org-mode-abbrev-table
   '(
     ("src" "#+BEGIN_SRC @@\n\n#+END_SRC")
     ))
+
+;; -----------------------------------------------------------------------------
+;; Headers
+;; -----------------------------------------------------------------------------
+
+;; Make imenu-like feature more convenient to use
+(setc org-goto-interface 'outline-path-completion)
+(setc org-outline-path-complete-in-steps nil)
+
+(ol-evil-define-key 'normal org-mode-map "SPC m s" 'org-goto)
+
+;; Toggle headers
+(ol-evil-define-key 'normal org-mode-map 'tab 'org-cycle)
 
 ;; -----------------------------------------------------------------------------
 ;; Lists
@@ -74,47 +76,11 @@
 (setc org-list-indent-offset 4)
 
 ;; -----------------------------------------------------------------------------
-;; Looks
+;; Fonts
 ;; -----------------------------------------------------------------------------
 ;; Many things inspired by https://sophiebos.io/posts/prettifying-emacs-org-mode/
 
-;; In the future, org seems to get some setting to set to fill width
-(setc org-image-actual-width 600)
-(setc org-startup-with-inline-images t)
-(setc org-ellipsis " ▾")
-
-;; So that an image is more than just one line, makes scrolling much better
-;; as images can be partially hidden
-(org-sliced-images-mode)
-
-(ol-set-face 'org-block :background
-             (color-darken-name
-              (face-attribute 'default :background) 5))
-
 (add-hook 'org-mode-hook 'variable-pitch-mode)
-;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
-(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
-
-(defun ol-font-available-p (font)
-  (when (cl-member font (font-family-list) :test 'string-equal)
-    font))
-
-;; todo: check in fonts
-(defconst ol-fixed-pitch-font (or (ol-font-available-p "Source Code Pro")
-                                  "DejaVu Sans Mono"))
-
-(set-face-attribute 'default nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'fixed-pitch nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'line-number nil :family ol-fixed-pitch-font :height 90)
-(set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font :height 90)
-
-(defconst ol-variable-pitch-font (or (ol-font-available-p "Open Sans")
-                                     "DejaVu Sans"))
-
-(set-face-attribute 'variable-pitch nil
-                    :family ol-variable-pitch-font
-                    :height 1.1
-                    :weight 'normal)
 
 (dolist (face '((org-level-1 . 1.5)
                 (org-level-2 . 1.4)
@@ -151,6 +117,33 @@
                     :inherit 'fixed-pitch)
 ;; To fix whitespace in table
 (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
+
+;; -----------------------------------------------------------------------------
+;; Images
+;; -----------------------------------------------------------------------------
+
+;; In the future, org seems to get some setting to set to fill width
+(setc org-image-actual-width 600)
+(setc org-startup-with-inline-images t)
+
+;; So that an image is more than just one line, makes scrolling much better
+;; as images can be partially hidden
+(org-sliced-images-mode)
+
+;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
+(add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
+
+;; -----------------------------------------------------------------------------
+;; Blocks
+;; -----------------------------------------------------------------------------
+
+(ol-set-face 'org-block :background
+             (color-darken-name
+              (face-attribute 'default :background) 5))
+
+(setc org-src-preserve-indentation t)
+(setc org-edit-src-content-indentation 0)
+
 ;; -----------------------------------------------------------------------------
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
