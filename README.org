@@ -12,7 +12,7 @@ dotfiles I use
 
 *** More important
 
-- Upgrade preparation, see below
+- Upgrade preparation, see [[Upgrade preparation]]
 - Download all packages and store as check-in
 - for dwim find file, support git ls-files, git grep, rg options (for ignoring
   ignore), select if cwd or root

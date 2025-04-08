@@ -232,5 +232,14 @@
 (ol-evil-define-key 'visual org-mode-map "M-l"
                     (lambda () (interactive) (org-emphasize ?_)))
 
+;; -----------------------------------------------------------------------------
+;; Links
+;; -----------------------------------------------------------------------------
+
+(defun ol-org-open-at-point-set-jump (&rest _args)
+  (evil-set-jump))
+
+(advice-add 'org-open-at-point :before #'ol-org-open-at-point-set-jump)
+
 
 (provide 'ol-org-mode)
