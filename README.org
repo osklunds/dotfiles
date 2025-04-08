@@ -19,8 +19,6 @@ dotfiles I use
 - for dwim find file, if arg, ask for path
 - wgrep
 - add vim mark to bookmarks
-- pixel-precision scroll over images in org-mode
-- org-mode bullets as pretty as markdown
 
 *** Less important
 
@@ -30,18 +28,22 @@ dotfiles I use
   doesn't generate more garbage than more lightweight configs, because so much
   memory is used, it takes time to find the garbage. My guess at least. (BIG)
       - One suggestion was to decrease shell term size.
-- Make markdown look as good as org-mode
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
-- make counsel-rg fall back to grep if rg isn't found, i.e. on remote
 - rg options, e.g. ignore gitignore, only certain file types, fold on file, etc
 - Make relative line numebrs correct in vdiff
 - More colorful dired, like ll
-- vdiff: the problem is that overlays are not being allowed to be partially
-  inisivible. But only at top
 - vim mark, but name them, cycle through with ivy
 - when new buffer, ALWAYS switch to it for consistent behavior
 - consider change ctrl to meta
+- make vdiff auto sync at start work
+- make vdiff sync as scroll always be able to scroll
+
+*** org-mode
+
+- Make markdown look as good as org-mode
+- completion sometimes "jumpy" due to variable pitch (maybe corfu or some childframe, posframe, can solve it?)
+- understand links
 
 *** Not important at all
 
@@ -53,6 +55,9 @@ dotfiles I use
 *** Wanted, but hard to do
 
 - Box around the cursorline, like VSCode
+- org-mode
+      - Slightly bigger bullets
+      - Line numbers
 
 * completing-read
 
