@@ -150,6 +150,8 @@
 ;; -----------------------------------------------------------------------------
 
 ;; todo: can find inspiration from markdown-mode how to do this well
+;; todo: can consider making emph evil operators so don't have to
+;; be in visual state
 
 (setc org-hide-emphasis-markers t)
 
