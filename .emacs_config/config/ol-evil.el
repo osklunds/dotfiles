@@ -177,6 +177,11 @@ the plain text edit keybinds instead."
 (with-eval-after-load 'magit (evil-collection-magit-setup))
 (with-eval-after-load 'term (evil-collection-term-setup))
 
+(set-face-attribute 'evil-ex-search nil
+                    ;; Not bold to avoid annoying "flicker" when
+                    ;; variable-pitch is used.
+                    :weight 'normal)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Words (don't come easy, to me)
 ;;;; ---------------------------------------------------------------------------
