@@ -215,6 +215,8 @@
                     (lambda () (interactive) (ol-org-toggle-emphasis ?~)))
 (ol-evil-define-key 'normal org-mode-map "M-s"
                     (lambda () (interactive) (ol-org-toggle-emphasis ?+)))
+(ol-evil-define-key 'normal org-mode-map "M-l"
+                    (lambda () (interactive) (ol-org-toggle-emphasis ?_)))
 
 ;; TODO: how to do emphasis in a good way is not trivial.
 (ol-evil-define-key 'visual org-mode-map "M-b"
@@ -227,6 +229,8 @@
                     (lambda () (interactive) (org-emphasize ?~)))
 (ol-evil-define-key 'visual org-mode-map "M-s"
                     (lambda () (interactive) (org-emphasize ?+)))
+(ol-evil-define-key 'visual org-mode-map "M-l"
+                    (lambda () (interactive) (org-emphasize ?_)))
 
 
 (provide 'ol-org-mode)
