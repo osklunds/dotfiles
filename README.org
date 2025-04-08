@@ -8,22 +8,22 @@ dotfiles I use
 *** Housekeeping
 
 - Switch to lexical binding
-- Use #' instead of' for fucntion
+- Use ~#'~ instead of ~'~ for fucntion
 
 *** More important
 
 - Upgrade preparation, see [[Upgrade preparation]]
 - Download all packages and store as check-in
-- for dwim find file, support git ls-files, git grep, rg options (for ignoring ignore), select if cwd or root
+- for dwim find file, support =git ls-files=, =git grep=, =rg= options (for ignoring ignore), select if =cwd= or =project root=
 - for dwim find file, if arg, ask for path
-- wgrep
+- =wgrep=
 - add vim mark to bookmarks
 
 *** Less important
 
-- evil in minibuffer
+- =evil= in minibuffer
 - Change to emacs built-in search and search-and-replace
-- Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. (BIG)
+- Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. *BIG*
       - One suggestion was to decrease shell term size.
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
@@ -114,33 +114,33 @@ BASE       |       MERGED
 
 #+end_src
 
-LOCAL is the version in the target branch, "your changes".
-REMOTE is the version in the branch you're merging in, "others' changes".
-BASE is the merge base between LOCAL and REMOTE.
-MERGED is the merged result.
+=LOCAL= is the version in the target branch, "your changes".
+=REMOTE= is the version in the branch you're merging in, "others' changes".
+=BASE= is the merge base between =LOCAL= and =REMOTE=.
+=MERGED= is the merged result.
 
 I use the different diffs the following way:
 
-- BASE <-> LOCAL for understanding what changes I have made since the merge base.
-- BASE <-> REMOTE for understanding what changes other people have made since the merge base.
-- LOCAL <-> REMOTE if LOCAL and REMOTE have made very similar changes, I use this to understand the difference between them. Useful if you have manually copy-pasted code from the branch to merge from, but also made a few changes on your own.
-- REMOTE <-> MERGED for understanding what changes I will "apply" to the branch I'm merging from, if I were to merge my changes to it. For example, if I create a branch based on the main branch, I do a few changes, and main does a few changes, then this diff shows what I would apply to main if I merge to main.
-- LOCAL <-> MERGED for understanding what changes remote will "apply" to my branch after I merge.
+- =BASE <-> LOCAL= for understanding what changes I have made since the merge base.
+- =BASE <-> REMOTE= for understanding what changes other people have made since the merge base.
+- =LOCAL <-> REMOTE= if =LOCAL= and =REMOTE= have made very similar changes, I use this to understand the difference between them. Useful if you have manually copy-pasted code from the branch to merge from, but also made a few changes on your own.
+- =REMOTE <-> MERGED= for understanding what changes I will "apply" to the branch I'm merging from, if I were to merge my changes to it. For example, if I create a branch based on the main branch, I do a few changes, and main does a few changes, then this diff shows what I would apply to main if I merge to main.
+- =LOCAL <-> MERGED= for understanding what changes remote will "apply" to my branch after I merge.
 
-BASE <-> LOCAL shows your intention. So that diff should look very similar to REMOTE <-> MERGED if you have correctly preserved your intentions after the merge.
+=BASE <-> LOCAL= shows your intention. So that diff should look very similar to =REMOTE <-> MERGED= if you have correctly preserved your intentions after the merge.
 
-Similiarly, BASE <-> REMOTE shows others' intentions, so it should look the same as LOCAL <-> MERGED.
+Similiarly, =BASE <-> REMOTE= shows others' intentions, so it should look the same as =LOCAL <-> MERGED=.
 
 In other words, I use 
 
-- BASE <-> LOCAL
-- BASE <-> REMOTE
-- LOCAL <-> REMOTE
+- =BASE <-> LOCAL=
+- =BASE <-> REMOTE=
+- =LOCAL <-> REMOTE=
 
 for understanding the conflict, and
 
-- REMOTE <-> MERGED
-- LOCAL <-> MERGED
+- =REMOTE <-> MERGED=
+- =LOCAL <-> MERGED=
 
 for reviewing my resolution of the conflict.
 
