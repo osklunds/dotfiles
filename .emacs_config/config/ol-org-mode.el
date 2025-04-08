@@ -97,16 +97,17 @@
                       :weight 'bold
                       :height (cdr face)))
 
+;; Need to keep height 1.0 to not mess up table alignment
 (set-face-attribute 'org-block nil
                     :foreground 'unspecified
                     :inherit 'fixed-pitch
-                    :height 1.1)
+                    :height 1.0)
 (set-face-attribute 'org-code nil
                     :inherit '(shadow fixed-pitch)
-                    :height 1.1)
+                    :height 1.0)
 (set-face-attribute 'org-verbatim nil
                     :inherit '(shadow fixed-pitch)
-                    :height 1.1)
+                    :height 1.0)
 (set-face-attribute 'org-special-keyword nil
                     :inherit '(font-lock-comment-face fixed-pitch))
 (set-face-attribute 'org-meta-line nil
@@ -115,6 +116,7 @@
                     :inherit 'fixed-pitch)
 (set-face-attribute 'org-table nil
                     :foreground ol-black
+                    :height 1.0
                     :inherit 'fixed-pitch)
 ;; To fix whitespace in table
 (set-face-attribute 'org-formula nil :inherit 'fixed-pitch)
