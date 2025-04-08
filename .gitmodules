@@ -142,3 +142,6 @@
 [submodule ".emacs_config/packages_inactive/orderless"]
 	path = .emacs_config/packages_inactive/orderless
 	url = https://github.com/oantolin/orderless.git
+[submodule ".emacs_config/packages/olivetti"]
+	path = .emacs_config/packages/olivetti
+	url = https://github.com/rnkn/olivetti.git

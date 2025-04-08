@@ -127,10 +127,12 @@
                       mode-line-format-right-align
                       (:eval (ol-branch-name-segment))
                       "  " (:eval (ol-project-name-segment))
-                      "  "
+                      "    "
                       )))
 
-(setc mode-line-right-align-edge 'right-margin)
+;; Use 'window so that olivetti-mode doesn't cause the elements to appear too
+;; far to the left
+(setc mode-line-right-align-edge 'window)
 
 ;; Workaround to make sure also the messages buffer has the correct value
 (with-current-buffer (get-buffer "*Messages*")

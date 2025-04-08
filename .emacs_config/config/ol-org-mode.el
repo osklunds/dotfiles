@@ -8,6 +8,7 @@
 (require 'org-faces)
 (require 'color)
 (require 'org-sliced-images)
+(require 'olivetti)
 
 ;; -----------------------------------------------------------------------------
 ;; Misc
@@ -241,5 +242,12 @@
 
 (advice-add 'org-open-at-point :before #'ol-org-open-at-point-set-jump)
 
+;; -----------------------------------------------------------------------------
+;; Olivetti
+;; -----------------------------------------------------------------------------
+
+(add-hook 'org-mode-hook #'olivetti-mode)
+
+(setc olivetti-style nil)
 
 (provide 'ol-org-mode)
