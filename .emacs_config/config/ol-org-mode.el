@@ -152,6 +152,14 @@
 
 (setc org-hide-emphasis-markers t)
 
+(defun ol-org-toggle-hide-emphasis-markers ()
+  (interactive)
+  (setc org-hide-emphasis-markers (not org-hide-emphasis-markers))
+  (ol-save-silently)
+  (revert-buffer-quick))
+
+(ol-define-key ol-normal-leader-map "o e" 'ol-org-toggle-hide-emphasis-markers)
+
 (defconst ol-emphasis-border-regex " \\|,\\|\n\\|\\.")
 
 ;; Copied/modified from https://emacs.stackexchange.com/a/59136
