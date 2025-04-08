@@ -29,7 +29,7 @@ dotfiles I use
 - Lower memory usage. Garbage collection is slow for me. Even if my config
   doesn't generate more garbage than more lightweight configs, because so much
   memory is used, it takes time to find the garbage. My guess at least. (BIG)
-  - One suggestion was to decrease shell term size.
+      - One suggestion was to decrease shell term size.
 - Make markdown look as good as org-mode
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace

@@ -66,6 +66,13 @@
 (ol-evil-define-key 'insert org-mode-map 'tab 'org-metaright)
 (ol-evil-define-key 'insert org-mode-map 'backtab 'org-metaleft)
 
+(font-lock-add-keywords
+ 'org-mode
+ '(("^[[:space:]]*\\(-\\) "
+    (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+(setc org-list-indent-offset 4)
+
 ;; -----------------------------------------------------------------------------
 ;; Looks
 ;; -----------------------------------------------------------------------------
