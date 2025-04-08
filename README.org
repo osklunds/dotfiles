@@ -14,8 +14,7 @@ dotfiles I use
 
 - Upgrade preparation, see [[Upgrade preparation]]
 - Download all packages and store as check-in
-- for dwim find file, support git ls-files, git grep, rg options (for ignoring
-  ignore), select if cwd or root
+- for dwim find file, support git ls-files, git grep, rg options (for ignoring ignore), select if cwd or root
 - for dwim find file, if arg, ask for path
 - wgrep
 - add vim mark to bookmarks
@@ -24,9 +23,7 @@ dotfiles I use
 
 - evil in minibuffer
 - Change to emacs built-in search and search-and-replace
-- Lower memory usage. Garbage collection is slow for me. Even if my config
-  doesn't generate more garbage than more lightweight configs, because so much
-  memory is used, it takes time to find the garbage. My guess at least. (BIG)
+- Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. (BIG)
       - One suggestion was to decrease shell term size.
 - More than one help window, and don't make them disappear so quickly
 - Undo each step in search-and-replace, i.e. migrate to emacs' query-replace
@@ -85,15 +82,12 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 
 * Upgrade preparation
 
-To make upgrades of emacs as easy as possible, I want to rely on as few packages
-as possible, and those I rely on should preferably have a large community and be
-maintained, so that no backwards compatibility issues appear
+To make upgrades of emacs as easy as possible, I want to rely on as few packages as possible, and those I rely on should preferably have a large community and be maintained, so that no backwards compatibility issues appear
 
-To make upgrades of packages as easy as possible, I want to customize the config
-of packages as little as possible, especially advising on internal functions.
+To make upgrades of packages as easy as possible, I want to customize the config of packages as little as possible, especially advising on internal functions.
 
 - ~anzu/evil-anzu~ -> own
-  - Keep them until upgrade problems, but consider rolling my own
+      - Keep them until upgrade problems, but consider rolling my own
 - ~evil-visualstar~ -> own
 
 * "Merge Survival Knife"
@@ -154,8 +148,8 @@ for reviewing my resolution of the conflict.
 
 The tool is based on [[https://github.com/justbur/emacs-vdiff][vdiff]].
 
-| My key    | Command             | Description                                       |
-|-----------+---------------------+---------------------------------------------------|
+| My key  | Command           | Description                                       |
+|---------+-------------------+---------------------------------------------------|
 | =SPC g m= | =msk-mode-enable=   | Start solving the merge conflict the cursor is in |
 | =C-c q=   | =msk-mode-disable=  | Save your resolution of the merge conflict        |
 | =M-1=     | =msk-base-local=    | Change diff view to BASE-LOCAL                    |
