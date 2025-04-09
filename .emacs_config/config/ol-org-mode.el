@@ -133,7 +133,7 @@
 ;; -----------------------------------------------------------------------------
 
 ;; In the future, org seems to get some setting to set to fill width
-(setc org-image-actual-width 600)
+(setc org-image-actual-width 550)
 (setc org-startup-with-inline-images t)
 
 ;; So that an image is more than just one line, makes scrolling much better
