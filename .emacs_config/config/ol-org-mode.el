@@ -6,7 +6,7 @@
 
 (require 'org)
 (require 'org-faces)
-(require 'org-indent-mode)
+(require 'org-indent)
 (require 'color)
 (require 'org-sliced-images)
 (require 'olivetti)
