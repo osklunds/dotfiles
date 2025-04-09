@@ -83,6 +83,9 @@
 ;; between each line
 (setc org-indent-indentation-per-level 0)
 
+;; Show all * in headings
+(setc org-indent-mode-turns-on-hiding-stars nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Fonts
 ;; -----------------------------------------------------------------------------
