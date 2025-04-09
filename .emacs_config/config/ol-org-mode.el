@@ -6,6 +6,7 @@
 
 (require 'org)
 (require 'org-faces)
+(require 'org-indent-mode)
 (require 'color)
 (require 'org-sliced-images)
 (require 'olivetti)
@@ -75,6 +76,12 @@
     (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
 (setc org-list-indent-offset 4)
+
+(add-hook 'org-mode-hook #'org-indent-mode)
+
+;; Needed so that sliced images aren't messed up with tiny white lines
+;; between each line
+(setc org-indent-indentation-per-level 0)
 
 ;; -----------------------------------------------------------------------------
 ;; Fonts
