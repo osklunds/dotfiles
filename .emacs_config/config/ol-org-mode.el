@@ -135,8 +135,6 @@
 ;; Images
 ;; -----------------------------------------------------------------------------
 
-;; In the future, org seems to get some setting to set to fill width
-(setc org-image-actual-width 550)
 (setc org-startup-with-inline-images t)
 
 ;; So that an image is more than just one line, makes scrolling much better
@@ -145,6 +143,19 @@
 
 ;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
+
+;; Set to nil so that the :width attribute is used in
+;; #'org-display-inline-image--width
+(setc org-image-actual-width nil)
+
+;; Always clamp at 'fill-column as max width, but try to use :width if exists
+(defun ol-org-display-inline-image--width-advice (old-fun &rest args)
+  (let* ((width (apply old-fun args))
+         (max-width (* fill-column (frame-char-width (selected-frame)))))
+    (min max-width (or width max-width))))
+
+(advice-add 'org-display-inline-image--width :around
+            #'ol-org-display-inline-image--width-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Blocks
