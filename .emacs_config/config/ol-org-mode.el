@@ -10,6 +10,7 @@
 (require 'color)
 (require 'org-sliced-images)
 (require 'olivetti)
+(ol-require-external "wget")
 
 ;; -----------------------------------------------------------------------------
 ;; Misc
