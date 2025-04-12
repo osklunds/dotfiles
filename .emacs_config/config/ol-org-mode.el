@@ -163,6 +163,27 @@
 ;;;; Insertion
 ;;;; ---------------------------------------------------------------------------
 
+(defun ol-org-insert-image-from-url (&optional url)
+  (interactive)
+  (let* ((url (or url (read-string
+                       "URL of image to insert: "
+                       nil ;; initial-input
+                       'ol-org-insert-image-from-url))) ;; history
+         (ext (file-name-extension url))
+         (out-file (make-temp-file "ol-org-insert-image-from-url-"))
+         (result (call-process "wget"
+                               nil
+                               nil
+                               nil
+                               url "-O" out-file)))
+    (if (eq result 0)
+        (progn
+          (when ext
+            (rename-file out-file (concat out-file "." ext))
+            (setq out-file (concat out-file "." ext))
+            (ol-org-insert-image out-file)))
+      (user-error "Failed to download image"))))
+
 (defun ol-org-insert-image (in-file)
   (unless (eq major-mode 'org-mode)
     (user-error "Only works in org-mode"))
