@@ -194,14 +194,14 @@
     (if (cl-member "image/png" targets :test #'string-equal)
         (let* ((out-file (make-temp-file "ol-org-insert-image-from-clipboard-" nil ".png"))
                (result (call-process "xclip"
-                             nil
-                             `(:file ,out-file)
-                             nil
-                             "-selection"
-                             "clipboard"
-                             "-t"
-                             "image/png"
-                             "-o")))
+                                     nil
+                                     `(:file ,out-file)
+                                     nil
+                                     "-selection"
+                                     "clipboard"
+                                     "-t"
+                                     "image/png"
+                                     "-o")))
           (if (eq result 0)
               (ol-org-insert-image out-file)
             (user-error "Failed to get clipboard image")))
@@ -220,13 +220,15 @@
           (file-name-concat
            "."
            (concat (file-name-nondirectory buffer-file-name) ".images")
-           (concat date (if ext (concat "." ext) ""))))
+           date))
          (prompt (format "Save image as (default: %s): " default-out-file))
-         (out-file (read-string
-                    prompt
-                    nil ;; initial-input
-                    'ol-org-insert-image ;; history
-                    default-out-file)))
+         (user-out-file (read-string
+                         prompt
+                         nil ;; initial-input
+                         'ol-org-insert-image ;; history
+                         default-out-file))
+         ;; Assuming the user doesn't enter an extension
+         (out-file (concat user-out-file (if ext (concat "." ext) ""))))
     (when (directory-name-p out-file)
       (user-error "out-file is a dir-name"))
     (ol-create-dirs-if-needed (file-name-directory out-file))
