@@ -157,6 +157,8 @@
 (advice-add 'org-display-inline-image--width :around
             #'ol-org-display-inline-image--width-advice)
 
+;; About width: can use ATTR_ORG: :width 50% etc to have relative fill-column
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Insertion
 ;;;; ---------------------------------------------------------------------------
