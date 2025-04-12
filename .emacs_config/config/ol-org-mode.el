@@ -218,35 +218,44 @@
 (ol-define-key ol-normal-leader-map "o i c" #'ol-org-insert-image-from-clipboard)
 (ol-evil-define-key 'insert org-mode-map "M-i c" #'ol-org-insert-image-from-clipboard)
 
-(defun ol-org-insert-image (in-file)
-  (unless (eq major-mode 'org-mode)
-    (user-error "Only works in org-mode"))
-  (unless buffer-file-name
-    (user-error "buffer-file-name nil"))
-  (unless (file-exists-p in-file)
-    (user-error "in-file doesn't exist"))
-  (let* ((ext (file-name-extension in-file))
-         (default-file-name (format-time-string "%Y-%m-%d_%H:%M:%S"))
-         (out-dir
-          (file-name-concat
-           "."
-           (concat (file-name-nondirectory buffer-file-name) ".images")))
-         (prompt (format "Saving image to '%s'. File name (default: %s): "
-                         out-dir default-file-name))
-         (user-file-name (read-string
-                          prompt
-                          nil ;; initial-input
-                          'ol-org-insert-image ;; history
-                          default-file-name))
-         ;; Assuming the user doesn't enter an extension
-         (file-name (concat user-file-name (if ext (concat "." ext) "")))
-         (out-file (file-name-concat out-dir file-name)))
-    (when (directory-name-p out-file)
-      (user-error "Entered file name is a directory name"))
-    (ol-create-dirs-if-needed (file-name-directory out-file))
-    (copy-file in-file out-file)
-    (insert (format "[[%s]]" out-file))
-    (org-display-inline-images)))
+(defun ol-org-insert-image (&optional in-file)
+  (interactive)
+  (let* ((in-file (or in-file (read-file-name
+                               "Image to insert: "
+                               nil ;; dir
+                               nil ;; default-file-name
+                               t)))) ;; must-match
+    (unless (eq major-mode 'org-mode)
+      (user-error "Only works in org-mode"))
+    (unless buffer-file-name
+      (user-error "buffer-file-name nil"))
+    (unless (file-exists-p in-file)
+      (user-error "in-file doesn't exist"))
+    (let* ((ext (file-name-extension in-file))
+           (default-file-name (format-time-string "%Y-%m-%d_%H:%M:%S"))
+           (out-dir
+            (file-name-concat
+             "."
+             (concat (file-name-nondirectory buffer-file-name) ".images")))
+           (prompt (format "Saving image to '%s'. File name (default: %s): "
+                           out-dir default-file-name))
+           (user-file-name (read-string
+                            prompt
+                            nil ;; initial-input
+                            'ol-org-insert-image ;; history
+                            default-file-name))
+           ;; Assuming the user doesn't enter an extension
+           (file-name (concat user-file-name (if ext (concat "." ext) "")))
+           (out-file (file-name-concat out-dir file-name)))
+      (when (directory-name-p out-file)
+        (user-error "Entered file name is a directory name"))
+      (ol-create-dirs-if-needed (file-name-directory out-file))
+      (copy-file in-file out-file)
+      (insert (format "[[%s]]" out-file))
+      (org-display-inline-images))))
+
+(ol-define-key ol-normal-leader-map "o i f" #'ol-org-insert-image)
+(ol-evil-define-key 'insert org-mode-map "M-i f" #'ol-org-insert-image)
 
 (defun ol-create-dirs-if-needed (dir)
   (unless (directory-name-p dir)
