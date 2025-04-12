@@ -186,6 +186,9 @@
             (ol-org-insert-image out-file)))
       (user-error "Failed to download image"))))
 
+(ol-define-key ol-normal-leader-map "o u" #'ol-org-insert-image-from-url)
+(ol-evil-define-key 'insert org-mode-map "M-i u" #'ol-org-insert-image-from-url)
+
 (defun ol-org-insert-image-from-clipboard ()
   (interactive)
   ;; Risk for deadlock if last copy was from emacs, since then xclip will wait
@@ -206,6 +209,9 @@
               (ol-org-insert-image out-file)
             (user-error "Failed to get clipboard image")))
       (user-error "The clipboard doesn't seem to be an image"))))
+
+(ol-define-key ol-normal-leader-map "o c" #'ol-org-insert-image-from-clipboard)
+(ol-evil-define-key 'insert org-mode-map "M-i c" #'ol-org-insert-image-from-clipboard)
 
 (defun ol-org-insert-image (in-file)
   (unless (eq major-mode 'org-mode)
