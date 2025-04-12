@@ -168,20 +168,28 @@
                        "URL of image to insert: "
                        nil ;; initial-input
                        'ol-org-insert-image-from-url))) ;; history
-         (ext (file-name-extension url))
          (out-file (make-temp-file "ol-org-insert-image-from-url-"))
          (result (call-process "wget"
                                nil
                                nil
                                nil
-                               url "-O" out-file)))
+                               url
+                               "-O"
+                               out-file)))
     (if (eq result 0)
-        (progn
-          (when ext
-            (rename-file out-file (concat out-file "." ext))
-            (setq out-file (concat out-file "." ext))
-            (ol-org-insert-image out-file)))
+        (let* ((ext (ol-infer-image-type out-file)))
+          (rename-file out-file (concat out-file "." ext))
+          (setq out-file (concat out-file "." ext))
+          (ol-org-insert-image out-file))
       (user-error "Failed to download image"))))
+
+(defun ol-infer-image-type (file)
+  (let* ((info (shell-command-to-string
+                (format "identify %s" file))))
+    (ol-regexp-group
+     (format "%s \\([a-zA-Z]+\\) [0-9]" file)
+     info
+     1)))
 
 (ol-define-key ol-normal-leader-map "o i u" #'ol-org-insert-image-from-url)
 (ol-evil-define-key 'insert org-mode-map "M-i u" #'ol-org-insert-image-from-url)
