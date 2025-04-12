@@ -215,22 +215,23 @@
   (unless (file-exists-p in-file)
     (user-error "in-file doesn't exist"))
   (let* ((ext (file-name-extension in-file))
-         (date (format-time-string "%Y-%m-%d_%H:%M:%S"))
-         (default-out-file
+         (default-file-name (format-time-string "%Y-%m-%d_%H:%M:%S"))
+         (out-dir
           (file-name-concat
            "."
-           (concat (file-name-nondirectory buffer-file-name) ".images")
-           date))
-         (prompt (format "Save image as (default: %s): " default-out-file))
-         (user-out-file (read-string
-                         prompt
-                         nil ;; initial-input
-                         'ol-org-insert-image ;; history
-                         default-out-file))
+           (concat (file-name-nondirectory buffer-file-name) ".images")))
+         (prompt (format "Saving image to '%s'. File name (default: %s): "
+                         out-dir default-file-name))
+         (user-file-name (read-string
+                          prompt
+                          nil ;; initial-input
+                          'ol-org-insert-image ;; history
+                          default-file-name))
          ;; Assuming the user doesn't enter an extension
-         (out-file (concat user-out-file (if ext (concat "." ext) ""))))
+         (file-name (concat user-file-name (if ext (concat "." ext) "")))
+         (out-file (file-name-concat out-dir file-name)))
     (when (directory-name-p out-file)
-      (user-error "out-file is a dir-name"))
+      (user-error "Entered file name is a directory name"))
     (ol-create-dirs-if-needed (file-name-directory out-file))
     (copy-file in-file out-file)
     (insert (format "[[%s]]" out-file))
