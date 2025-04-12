@@ -174,7 +174,7 @@
          (date (format-time-string "%Y-%m-%d_%H:%M:%S"))
          (default-out-file
           (file-name-concat
-           ""
+           "."
            (concat (file-name-nondirectory buffer-file-name) ".images")
            (concat date (if ext (concat "." ext) ""))))
          (prompt (format "Save image as (default: %s): " default-out-file))
@@ -186,7 +186,9 @@
     (when (directory-name-p out-file)
       (user-error "out-file is a dir-name"))
     (ol-create-dirs-if-needed (file-name-directory out-file))
-    (copy-file in-file out-file)))
+    (copy-file in-file out-file)
+    (insert (format "[[%s]]" out-file))
+    (org-display-inline-images)))
 
 (defun ol-create-dirs-if-needed (dir)
   (unless (directory-name-p dir)
