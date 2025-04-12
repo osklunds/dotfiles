@@ -186,6 +186,27 @@
             (ol-org-insert-image out-file)))
       (user-error "Failed to download image"))))
 
+(defun ol-org-insert-image-from-clipboard ()
+  (interactive)
+  ;; Risk for deadlock if last copy was from emacs, since then xclip will wait
+  ;; for emacs but emacs waits for xclip. Need to find a solution to that.
+  (let* ((targets (process-lines "xclip" "-selection" "clipboard" "-t" "TARGETS" "-o")))
+    (if (cl-member "image/png" targets :test #'string-equal)
+        (let* ((out-file (make-temp-file "ol-org-insert-image-from-clipboard-" nil ".png"))
+               (result (call-process "xclip"
+                             nil
+                             `(:file ,out-file)
+                             nil
+                             "-selection"
+                             "clipboard"
+                             "-t"
+                             "image/png"
+                             "-o")))
+          (if (eq result 0)
+              (ol-org-insert-image out-file)
+            (user-error "Failed to get clipboard image")))
+      (user-error "The clipboard doesn't seem to be an image"))))
+
 (defun ol-org-insert-image (in-file)
   (unless (eq major-mode 'org-mode)
     (user-error "Only works in org-mode"))
