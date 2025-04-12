@@ -48,15 +48,12 @@
   (interactive)
   (cond
    ((ol-org-in-empty-item-p)
-    (message "oskar: %s" "empty")
     (beginning-of-line)
     (kill-line)
     (newline))
    ((ol-org-in-item-p)
-    (message "oskar: %s" "item")
     (org-insert-item))
    (t
-    (message "oskar: %s" "other")
     (org-return))))
 
 (defun ol-org-in-item-p ()
