@@ -157,6 +157,46 @@
 (advice-add 'org-display-inline-image--width :around
             #'ol-org-display-inline-image--width-advice)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Insertion
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-org-insert-image (in-file)
+  (unless (eq major-mode 'org-mode)
+    (user-error "Only works in org-mode"))
+  (unless buffer-file-name
+    (user-error "buffer-file-name nil"))
+  (unless (file-exists-p in-file)
+    (user-error "in-file doesn't exist"))
+  (let* ((ext (file-name-extension in-file))
+         (date (format-time-string "%Y-%m-%d_%H:%M:%S"))
+         (default-out-file
+          (file-name-concat
+           ""
+           (concat (file-name-nondirectory buffer-file-name) ".images")
+           (concat date (if ext (concat "." ext) ""))))
+         (prompt (format "Save image as (default: %s): " default-out-file))
+         (out-file (read-string
+                    prompt
+                    nil ;; initial-input
+                    'ol-org-insert-image ;; history
+                    default-out-file)))
+    (when (directory-name-p out-file)
+      (user-error "out-file is a dir-name"))
+    (ol-create-dirs-if-needed (file-name-directory out-file))
+    (copy-file in-file out-file)))
+
+(defun ol-create-dirs-if-needed (dir)
+  (unless (directory-name-p dir)
+    (error "Not a directory name"))
+  (ol-create-dirs-if-needed-1 (file-truename dir)))
+
+(defun ol-create-dirs-if-needed-1 (dir)
+  (unless (file-exists-p dir)
+    (let* ((parent (file-name-directory (directory-file-name dir))))
+      (ol-create-dirs-if-needed-1 parent)
+      (make-directory dir))))
+
 ;; -----------------------------------------------------------------------------
 ;; Blocks
 ;; -----------------------------------------------------------------------------
