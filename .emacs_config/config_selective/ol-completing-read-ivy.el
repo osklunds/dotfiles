@@ -7,6 +7,7 @@
 (require 'ivy)
 (require 'counsel)
 (require 'imenu)
+(require 'swiper)
 
 ;; -----------------------------------------------------------------------------
 ;; Ivy
@@ -62,6 +63,38 @@
       (apply func args))))
 
 (advice-add 'counsel--call :around 'ol-counsel--call-advice)
+
+;; -----------------------------------------------------------------------------
+;; Swiper
+;; -----------------------------------------------------------------------------
+
+(ol-define-key ol-normal-leader-map "m o" #'swiper)
+
+(defun ol-swiper--cleanup-advice (func &rest args)
+  ;; So that swiper highlights are always cleaned up
+  (let ((lazy-highlight-cleanup t))
+    (apply func args)))
+
+(advice-add 'swiper--cleanup :around 'ol-swiper--cleanup-advice)
+
+(setc swiper-faces '(swiper-match-face-1
+                     swiper-match-face-2
+                     swiper-match-face-2
+                     swiper-match-face-2))
+
+(setq swiper-background-faces '(swiper-background-match-face-1
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2
+                                swiper-background-match-face-2))
+
+(defun ol-swiper--line-advice (func &rest args)
+  (cl-letf (((symbol-function 'buffer-substring) 'buffer-substring-no-properties))
+    (apply func args)))
+
+(advice-add 'swiper--line :around 'ol-swiper--line-advice)
+
+(setq swiper-use-visual-line nil)
+(setq swiper-use-visual-line-p (lambda (a) nil))
 
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
