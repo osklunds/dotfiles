@@ -17,8 +17,9 @@
 (setc dired-clean-confirm-killing-deleted-buffers nil)
 (setc dired-auto-revert-buffer 'dired-directory-changed-p)
 
-(ol-evil-define-key 'normal dired-mode-map "o" 'dired-find-file)
-(ol-evil-define-key 'normal dired-mode-map "i" 'dired-up-directory)
+(ol-evil-define-key 'normal dired-mode-map "o" #'dired-find-file)
+(ol-evil-define-key 'normal dired-mode-map "i" #'dired-up-directory)
+(ol-evil-define-key 'normal dired-mode-map "*" #'evil-ex-search-word-forward)
 
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
