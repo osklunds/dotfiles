@@ -92,9 +92,7 @@
 
 (defvar-local ol-branch-name-segment nil)
 (defun ol-branch-name-segment ()
-  (setq ol-branch-name-segment (if-let ((branch (ol-get-current-branch)))
-                                   branch
-                                 "")))
+  (setq ol-branch-name-segment (ol-get-current-branch)))
 
 (add-hook 'after-revert-hook 'ol-branch-name-segment)
 (add-hook 'find-file-hook 'ol-branch-name-segment)
