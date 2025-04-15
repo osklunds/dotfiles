@@ -47,7 +47,7 @@
 (defun ol-find-file-name (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-find-file-name-method)
     (let* ((default-directory dir)
-           (candidates (split-string (shell-command-to-string cmd) "\n" t))
+           (candidates (apply #'process-lines-ignore-status cmd))
            (prompt (format "Find file name [%s %s]: " prompt-dir-part name))
            (selected (completing-read
                       prompt
@@ -60,9 +60,9 @@
       (find-file selected))))
 
 (defconst ol-find-file-name-methods
-  `(("rg" "rg --files" ,#'ol-can-use-rg)
-    ("git" "git ls-files" ,#'ol-can-use-git)
-    ("find" "find . -not ( -path *.git/* -prune )" ,#'ol-can-use-gnu-cmd)))
+  `(("rg" ("rg" "--files") ,#'ol-can-use-rg)
+    ("git" ("git" "ls-files") ,#'ol-can-use-git)
+    ("find" ("find" "." "-not" "(" "-path" "*.git/*" "-prune" ")") ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-find-file-name-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-find-file-name-methods))
