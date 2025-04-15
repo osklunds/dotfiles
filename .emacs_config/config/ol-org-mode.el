@@ -3,6 +3,7 @@
 (require 'ol-util)
 (require 'ol-evil)
 (require 'ol-colors)
+(require 'ol-file)
 
 (require 'org)
 (require 'org-faces)
