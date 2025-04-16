@@ -47,7 +47,9 @@
 (defun ol-find-file-name (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-find-file-name-method)
     (let* ((default-directory dir)
-           (candidates (apply #'process-lines-ignore-status cmd))
+           ;; Don't use shell-command because some shells slow to start
+           ;; due to bashrc, and also cleaner to skip the middle-man.
+           (candidates (apply #'ol-process-lines-ignore-status cmd))
            (prompt (format "Find file name [%s %s]: " prompt-dir-part name))
            (selected (completing-read
                       prompt
@@ -58,6 +60,13 @@
                       'ol-find-file-name-name
                       )))
       (find-file selected))))
+
+(defun ol-process-lines-ignore-status (cmd &rest args)
+  "Variant of `process-lines-ignore-status' that works over tramp."
+  (with-temp-buffer
+    (apply #'process-file cmd nil (current-buffer) nil args)
+    (split-string (buffer-substring-no-properties (point-min) (point-max))
+                  "\n" t)))
 
 (defconst ol-find-file-name-methods
   `(("rg" ("rg" "--files") ,#'ol-can-use-rg)
