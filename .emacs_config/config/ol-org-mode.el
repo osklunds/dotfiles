@@ -159,6 +159,13 @@
 ;; About width: can use ATTR_ORG: :width 50% etc to have relative fill-column
 ;; But not with emacs -Q
 
+;; To avoid issues with newlines etc
+(defun ol-org-remove-inline-images ()
+  (when (eq major-mode 'org-mode)
+    (org-sliced-images-remove-inline-images)))
+
+(add-hook 'before-revert-hook #'ol-org-remove-inline-images)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Insertion
 ;;;; ---------------------------------------------------------------------------
