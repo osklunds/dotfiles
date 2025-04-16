@@ -392,6 +392,14 @@
 
 (add-hook 'org-mode-hook #'olivetti-mode)
 
-(setc olivetti-style nil)
+(defun ol-org-fill-column (&rest _)
+  (setq-local fill-column 120))
+
+;; To make sure the correct fill-column is available when needed. org-mode-hook
+;; wasn't enough.
+(advice-add 'ol-org-display-inline-image--width-advice :before
+            #'ol-org-fill-column)
+
+(add-hook 'org-mode-hook #'ol-org-fill-column)
 
 (provide 'ol-org-mode)
