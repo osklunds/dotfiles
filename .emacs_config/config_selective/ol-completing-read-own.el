@@ -44,15 +44,4 @@
 
 (setc completion-styles '(ol))
 
-;; even here space inserts -
-(defun ol-switch-to-buffer ()
-  (interactive)
-  (let* ((buffers (buffer-list))
-         (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
-                                                  (buffer-name)))
-                               buffers)))
-  (switch-to-buffer (completing-read
-                     "Switch to buffer: "
-                     buffer-names))))
-
 (provide 'ol-completing-read-own)
