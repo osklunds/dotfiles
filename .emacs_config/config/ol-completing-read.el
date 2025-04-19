@@ -62,6 +62,13 @@
       (find-file selected))))
 
 (defun ol-process-lines-ignore-status (cmd &rest args)
+  (if (file-remote-p default-directory)
+      (apply #'ol-remote-process-lines-ignore-status cmd args)
+    ;; If not remote, use process-lines-ignore-status because it seems
+    ;; to be slightly faster
+    (apply #'process-lines-ignore-status cmd args)))
+
+(defun ol-remote-process-lines-ignore-status (cmd &rest args)
   "Variant of `process-lines-ignore-status' that works over tramp."
   (with-temp-buffer
     (apply #'process-file cmd nil (current-buffer) nil args)
