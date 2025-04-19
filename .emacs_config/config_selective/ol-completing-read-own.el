@@ -62,6 +62,10 @@
                     :foreground 'unspecified
                     :inherit 'ol-match-face)
 
+(set-face-attribute 'icomplete-selected-match nil
+                    :background 'unspecified
+                    :inherit 'ol-selection-face)
+
 ;; -----------------------------------------------------------------------------
 ;; Completing read wrappers
 ;; -----------------------------------------------------------------------------
