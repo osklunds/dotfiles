@@ -67,10 +67,10 @@
     (beginning-of-line)
     (let ((start-or-end
            (concat "\\(" msk-local-start-re "\\)\\|\\(" msk-remote-end-re "\\)")))
-    (if (looking-at-p start-or-end)
-        t
-      (re-search-backward start-or-end nil 'no-error)
-      (looking-at-p msk-local-start-re)))))
+      (if (looking-at-p start-or-end)
+          t
+        (re-search-backward start-or-end nil 'no-error)
+        (looking-at-p msk-local-start-re)))))
 
 (provide 'merge-survival-knife)
 
@@ -295,7 +295,7 @@
 (defun msk-create-file-buffer (name rev)
   (let* ((original-buffer-list (buffer-list))
          (raw-buffer (magit-find-file-noselect rev msk-file))
-         (buffer (make-indirect-buffer raw-buffer name 'clone)))
+         (buffer (make-indirect-buffer raw-buffer name 'clone 'inhibit-buffer-hooks)))
     (msk-put-buffer name buffer)
     (add-to-list 'msk-buffers-to-kill buffer)
     (unless (cl-member raw-buffer original-buffer-list)
@@ -321,8 +321,10 @@
 (defun msk-create-diff (left right right-read-only)
   (let* ((left-name (msk-diff-name left right left))
          (right-name (msk-diff-name left right right))
-         (left-buffer (make-indirect-buffer (msk-get-buffer left) left-name 'clone))
-         (right-buffer (make-indirect-buffer (msk-get-buffer right) right-name 'clone)))
+         (left-buffer (make-indirect-buffer (msk-get-buffer left) left-name 'clone
+                                            'inhibit-buffer-hooks))
+         (right-buffer (make-indirect-buffer (msk-get-buffer right) right-name 'clone
+                                             'inhibit-buffer-hooks)))
     (msk-set-buffer-properties left-buffer t)
     (msk-set-buffer-properties right-buffer right-read-only)
 
@@ -476,5 +478,5 @@
     (unless (string-suffix-p "\n" string)
       (error "The merged string must end with a newline"))
     (substring string 1 -1)))
-  
+
 (provide 'merge-survival-knife)
