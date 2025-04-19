@@ -1,10 +1,12 @@
 
 (require 'ol-evil)
 (require 'ol-completion-style)
+
 (require 'orderless)
 (require 'embark)
 
 (require 'icomplete)
+(require 'delsel) ;; for minibuffer-keyboard-quit
 
 (icomplete-vertical-mode t)
 (setq icomplete-scroll t)
