@@ -78,13 +78,14 @@
              '(ol ol-try-completion ol-all-completions "ol"))
 
 (defun ol-highlight-completion (regex ignore-case candidate)
-  (string-match regex candidate)
-  (let* ((m (match-data))
-         (start (car m))
-         (end (cadr m)))
-    (add-face-text-property start end 'ol-match-face nil candidate))
-  candidate
-  )
+  (let* ((case-fold-search ignore-case))
+    (string-match regex candidate)
+    (let* ((m (match-data))
+           (start (car m))
+           (end (cadr m)))
+      (add-face-text-property start end 'ol-match-face nil candidate))
+    candidate
+    ))
 
 (setq completion-lazy-hilit t)
 
