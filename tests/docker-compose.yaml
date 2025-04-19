@@ -1,0 +1,8 @@
+
+services:
+  dotfiles-tramp-test:
+    # todo: I would prefer tumbleweed, but the docker image for tumbleweed
+    # doesn't have the find command installed by default
+    image: debian:bookworm-slim
+    command: sleep 365d
+    init: true
