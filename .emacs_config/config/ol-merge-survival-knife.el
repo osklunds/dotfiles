@@ -25,22 +25,25 @@
         (user-error "How did I get here?")))))
 
 (ol-define-key ol-normal-leader-map "g m" 'msk-mode-dwim)
-(ol-evil-define-key 'normal msk-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
-(ol-evil-define-key 'normal mca-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
 
-(ol-evil-define-key 'normal msk-mode-map "M-1" 'msk-base-local)
-(ol-evil-define-key 'normal msk-mode-map "M-2" 'msk-base-remote)
-(ol-evil-define-key 'normal msk-mode-map "M-3" 'msk-local-remote)
-(ol-evil-define-key 'normal msk-mode-map "M-4" 'msk-local-merged)
-(ol-evil-define-key 'normal msk-mode-map "M-5" 'msk-remote-merged)
+;; Don't use ol-evil-define-key, caused problems after changing to use 'clone
+;; when make-indirect-buffer
+(ol-define-key msk-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
+(ol-define-key mca-mode-map "C-c q" 'ol-msk-mode-disable-dwim)
 
-(ol-evil-define-key 'normal msk-mode-map "M-8" 'msk-local-changes-compare)
-(ol-evil-define-key 'normal msk-mode-map "M-9" 'msk-remote-changes-compare)
+(ol-define-key msk-mode-map "M-1" 'msk-base-local)
+(ol-define-key msk-mode-map "M-2" 'msk-base-remote)
+(ol-define-key msk-mode-map "M-3" 'msk-local-remote)
+(ol-define-key msk-mode-map "M-4" 'msk-local-merged)
+(ol-define-key msk-mode-map "M-5" 'msk-remote-merged)
 
-(ol-evil-define-key 'normal msk-mode-map "M-m" 'msk-merged-buffer)
-(ol-evil-define-key 'normal msk-mode-map "M-o" 'msk-original-buffer)
+(ol-define-key msk-mode-map "M-8" 'msk-local-changes-compare)
+(ol-define-key msk-mode-map "M-9" 'msk-remote-changes-compare)
 
-(ol-evil-define-key 'motion msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
+(ol-define-key msk-mode-map "M-m" 'msk-merged-buffer)
+(ol-define-key msk-mode-map "M-o" 'msk-original-buffer)
+
+(ol-define-key msk-mode-map "C-x C-s" 'msk-cant-save-reminder)
 
 (defun ol-disable-patches-for-mca-mode (func &rest args)
   (let ((ol-magit-disable-patches t))
