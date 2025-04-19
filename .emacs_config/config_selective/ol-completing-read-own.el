@@ -70,13 +70,27 @@
 ;; Completing read wrappers
 ;; -----------------------------------------------------------------------------
 
+;; Copied/modified from https://emacs.stackexchange.com/a/8177
+(defun ol-presorted-completion-table (completions)
+  (lambda (string pred action)
+    (if (eq action 'metadata)
+        `(metadata (display-sort-function . ,#'identity))
+      (complete-with-action action completions string pred))))
+
 (defun ol-switch-to-buffer ()
-  "Similar to `switch-to-buffer slightly different behavior that makes me like
-it more."
+  "Similar to `switch-to-buffer' but avoids face problems and skips
+current buffer."
   (interactive)
-  (switch-to-buffer (completing-read
-                     "Switch to buffer: "
-                     (internal-complete-buffer-except))))
+  (let* ((buffers (cl-remove-if (lambda (buffer)
+                                  (eq buffer (current-buffer)))
+                                (buffer-list)))
+         (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
+                                                  (buffer-name)))
+                               buffers))
+         (table (ol-presorted-completion-table buffer-names)))
+    (switch-to-buffer (completing-read
+                       "Switch to buffer: "
+                       table))))
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
