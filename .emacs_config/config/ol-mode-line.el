@@ -5,6 +5,7 @@
 (require 'ol-project)
 
 (require 'magit)
+(require 'company)
 
 ;; -----------------------------------------------------------------------------
 ;; Faces
@@ -114,19 +115,19 @@
 ;; -----------------------------------------------------------------------------
 
 (setq-default mode-line-format
-              (quote (
-                      "   "
-                      (:eval (ol-search-hits-segment))
-                      (:eval (ol-evil-segment))
-                      "  " (:eval (ol-buffer-name-segment))
-                      " " (:eval (ol-file-state-segment))
-                      " " "%l:%c"
-                      "" (:eval (ol-relative-position-segment))
-                      mode-line-format-right-align
-                      (:eval (ol-branch-name-segment))
-                      "  " (:eval (ol-project-name-segment))
-                      "    "
-                      )))
+              (list 
+               "   "
+               '(:eval (ol-search-hits-segment))
+               '(:eval (ol-evil-segment))
+               "  " '(:eval (ol-buffer-name-segment))
+               " " '(:eval (ol-file-state-segment))
+               " " "%l:%c"
+               "" '(:eval (ol-relative-position-segment))
+               'mode-line-format-right-align
+               'ol-branch-name-segment
+               "  " '(:eval (ol-project-name-segment))
+               "    "
+               ))
 
 ;; Use 'window so that olivetti-mode doesn't cause the elements to appear too
 ;; far to the left
