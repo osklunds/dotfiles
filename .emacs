@@ -68,6 +68,7 @@
 (ol-add-all-to-load-path)
 
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
+  (message "Loading '%s'" (file-name-sans-extension file))
   (require (intern (file-name-sans-extension file))))
 
 ;; For some reason, isn't killed without this idle timer
