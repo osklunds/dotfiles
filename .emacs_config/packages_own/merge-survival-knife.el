@@ -321,8 +321,8 @@
 (defun msk-create-diff (left right right-read-only)
   (let* ((left-name (msk-diff-name left right left))
          (right-name (msk-diff-name left right right))
-         (left-buffer (make-indirect-buffer (msk-get-buffer left) left-name))
-         (right-buffer (make-indirect-buffer (msk-get-buffer right) right-name)))
+         (left-buffer (make-indirect-buffer (msk-get-buffer left) left-name 'clone))
+         (right-buffer (make-indirect-buffer (msk-get-buffer right) right-name 'clone)))
     (msk-set-buffer-properties left-buffer t)
     (msk-set-buffer-properties right-buffer right-read-only)
 
