@@ -3,8 +3,12 @@
 
 (defun ol-all-completions (string table pred _point)
   (let* ((regex (ol-string-to-regex string))
-         (completion-regexp-list (list regex)))
+         (completion-regexp-list (list regex))
+         (completion-ignore-case (ol-ignore-case-p string)))
     (all-completions "" table pred)))
+
+(defun ol-ignore-case-p (string)
+  (string= string (downcase string)))
 
 (defun ol-string-to-regex (string)
   (let* ((parts (split-string string " ")))
@@ -21,6 +25,7 @@
                       "read-from-buffer"
                       "read-from-minibuffer"
                       "read"
+                      "READ"
                       )))
 
     (ol-assert-equal '(
@@ -28,6 +33,7 @@
                        "read-from-buffer"
                        "read-from-minibuffer"
                        "read"
+                       "READ"
                        )
                      (ol-all-completions "read" candidates nil nil))
 
@@ -39,6 +45,7 @@
 
     (ol-assert-equal '(
                        "read"
+                       "READ"
                        )
                      (ol-all-completions "ead$" candidates nil nil))
 
@@ -48,6 +55,11 @@
                      (ol-all-completions "read -[min]+" candidates nil nil))
 
     (ol-assert-equal nil (ol-all-completions "dummy" candidates nil nil))
+
+    (ol-assert-equal '(
+                       "READ"
+                       )
+                     (ol-all-completions "D" candidates nil nil))
     )
   )
 
