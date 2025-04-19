@@ -1,10 +1,13 @@
 
 (require 'ol-ert)
+(require 'ol-colors)
 
 (defun ol-all-completions (string table pred _point)
   (let* ((regex (ol-string-to-regex string))
          (completion-regexp-list (list regex))
          (completion-ignore-case (ol-ignore-case-p string)))
+    (setq completion-lazy-hilit-fn
+          (apply-partially #'ol-highlight-completion regex completion-ignore-case))
     (all-completions "" table pred)))
 
 (defun ol-ignore-case-p (string)
@@ -72,5 +75,16 @@
 
 (add-to-list 'completion-styles-alist
              '(ol ol-try-completion ol-all-completions "ol"))
+
+(defun ol-highlight-completion (regex ignore-case candidate)
+  (string-match regex candidate)
+  (let* ((m (match-data))
+         (start (car m))
+         (end (cadr m)))
+    (add-face-text-property start end 'ol-match-face nil candidate))
+  candidate
+  )
+
+(setq completion-lazy-hilit t)
 
 (provide 'ol-completion-style)
