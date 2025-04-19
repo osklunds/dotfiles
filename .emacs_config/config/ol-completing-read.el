@@ -139,7 +139,7 @@
 (defconst ol-sync-find-file-content-methods
   `(("rg" "rg --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
     ("git" "git --no-pager grep" ,#'ol-can-use-git)
-    ("grep" "grep -I -r" ,#'ol-can-use-gnu-cmd)))
+    ("grep" "grep -n -I -r" ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
