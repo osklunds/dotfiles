@@ -74,7 +74,9 @@
 (defun ol-presorted-completion-table (completions)
   (lambda (string pred action)
     (if (eq action 'metadata)
-        `(metadata (display-sort-function . ,#'identity))
+        `(metadata
+          (cycle-sort-function . ,#'identity)
+          (display-sort-function . ,#'identity))
       (complete-with-action action completions string pred))))
 
 (defun ol-switch-to-buffer ()
@@ -82,8 +84,11 @@
 current buffer."
   (interactive)
   (let* ((buffers (cl-remove-if (lambda (buffer)
-                                  (eq buffer (current-buffer)))
-                                (buffer-list)))
+                                  (or
+                                   (eq buffer (current-buffer))
+                                   (minibufferp buffer) 
+                                   ))
+                                  (buffer-list)))
          (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
                                                   (buffer-name)))
                                buffers))
