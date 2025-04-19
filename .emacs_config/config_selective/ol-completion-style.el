@@ -51,9 +51,6 @@
     )
   )
 
-(ol-string-to-regex "hej defun")
-
-
 (defun ol-try-completion (string table pred point)
   (let ((all (ol-all-completions string table pred point)))
     (cond

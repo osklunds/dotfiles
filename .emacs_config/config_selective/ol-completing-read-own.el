@@ -2,11 +2,14 @@
 (require 'ol-evil)
 (require 'ol-completion-style)
 
-(require 'orderless)
 (require 'embark)
 
 (require 'icomplete)
 (require 'delsel) ;; for minibuffer-keyboard-quit
+
+;; -----------------------------------------------------------------------------
+;; icomplete-vertical
+;; -----------------------------------------------------------------------------
 
 (icomplete-vertical-mode t)
 (setq icomplete-scroll t)
@@ -20,13 +23,6 @@
                     :background "#dddddd"
                     )
 
-(setc completion-styles '(orderless basic))
-(defun ol-orderfull (component)
-  (string-join (split-string component) ".*"))
-
-(setc orderless-component-separator #'list)
-(setc orderless-matching-styles '(ol-orderfull))
-
 (ol-define-key ol-override-map "C-j" #'switch-to-buffer)
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "C-n" #'minibuffer-keyboard-quit)
@@ -37,7 +33,16 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map 'return
                #'icomplete-force-complete)
 
+;; Otherwise minibuffer-complete-word is called
+(ol-define-key minibuffer-local-completion-map "SPC" nil)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'embark-collect)
+
+;; -----------------------------------------------------------------------------
+;; Completion style
+;; -----------------------------------------------------------------------------
+
+(setc completion-styles '(ol))
 
 ;; even here space inserts -
 (defun ol-switch-to-buffer ()
