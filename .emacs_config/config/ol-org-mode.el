@@ -150,7 +150,8 @@
 ;; Always clamp at 'fill-column as max width, but try to use :width if exists
 (defun ol-org-display-inline-image--width-advice (old-fun &rest args)
   (let* ((width (apply old-fun args))
-         (max-width (* fill-column (frame-char-width (selected-frame)))))
+         (max-width (* (min fill-column (- (window-total-width) 10))
+                       (frame-char-width (selected-frame)))))
     (min max-width (or width max-width))))
 
 (advice-add 'org-display-inline-image--width :around
