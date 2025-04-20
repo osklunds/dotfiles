@@ -135,10 +135,11 @@ current buffer."
   (setq ol-async-candidates nil)
   (let* ((cmd (split-string input " " t)))
     (setq ol-async-process
-          (make-process
-           :name "ol-async-process"
-           :command `("ping" "-c" "1000" "google.com")
-           :filter #'ol-async-filter))))
+          (ignore-errors
+            (make-process
+             :name "ol-async-process"
+             :command cmd
+             :filter #'ol-async-filter)))))
 
 (defun ol-ripgrep (prompt)
   (interactive)
