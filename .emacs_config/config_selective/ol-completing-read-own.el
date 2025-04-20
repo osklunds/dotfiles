@@ -122,6 +122,7 @@ current buffer."
 
 (defvar ol-async-candidates nil)
 
+;; todo: use sentinel too to detect when no matches
 (defun ol-async-filter (proc output)
   (when (eq proc ol-async-process)
     ;; todo: don't assume that full line
