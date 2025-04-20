@@ -169,18 +169,32 @@ current buffer."
     (completing-read prompt '(""))))
 
 (defun ol-ripgrep (prompt)
-  (let* ((input-to-cmd (lambda (input) (list "rg" (ol-string-to-regex input)))))
-    (ol-async-completing-read prompt input-to-cmd)))
+  (ol-grep-helper prompt '("rg" "--color=never" "--smart-case"
+                           "--no-heading" "--with-filename"
+                           "--line-number")))
 
 (defun ol-git-grep (prompt)
-  (let* ((input-to-cmd (lambda (input) (list "git" "--no-pager" "grep" "-n" "-E"
-                                             (ol-string-to-regex input)))))
-    (ol-async-completing-read prompt input-to-cmd)))
+  (ol-grep-helper prompt '("git" "--no-pager" "grep" "-n" "-E")))
 
 (defun ol-grep (prompt)
-  (let* ((input-to-cmd (lambda (input) (list "grep" "-E" "-n" "-I" "-r"
-                                             (ol-string-to-regex input)))))
-    (ol-async-completing-read prompt input-to-cmd)))
+  (ol-grep-helper prompt '("grep" "-E" "-n" "-I" "-r")))
+
+(defun ol-grep-helper (prompt args)
+  (let* ((input-to-cmd (lambda (input) (append args (list (ol-string-to-regex input)))))
+         (selection (ol-async-completing-read prompt input-to-cmd)))
+    (ol-open-grep-selection selection)))
+
+(defun ol-open-grep-selection (selection)
+  ;; example: .emacs_config/config/ol-file.el:44:(defun ol-save-silently ()
+  (if (string-match "\\(.*\\):\\([0-9]+\\):" selection)
+      (let* ((file (match-string 1 selection))
+             (line (match-string 2 selection)))
+        (unless (file-exists-p file)
+          (user-error "No such file"))
+        (find-file file)
+        (goto-char (point-min))
+        (forward-line (1- (string-to-number line))))
+    (user-error "Couldn't find match")))
 
 (cl-defun ol-completing-read-shell-command (&key prompt history require-match)
   (let* ((input-to-cmd (lambda (input) (list "bash" "-c" input))))
