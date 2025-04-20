@@ -182,4 +182,8 @@ current buffer."
                                              (ol-string-to-regex input)))))
     (ol-async-completing-read prompt input-to-cmd)))
 
+(cl-defun ol-completing-read-shell-command (&key prompt history require-match)
+  (let* ((input-to-cmd (lambda (input) (list "bash" "-c" input))))
+    (ol-async-completing-read prompt input-to-cmd)))
+
 (provide 'ol-completing-read-own)
