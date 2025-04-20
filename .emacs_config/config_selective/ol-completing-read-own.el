@@ -103,15 +103,12 @@ current buffer."
 ;; Async
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-async-candidates nil)
-
 (defun ol-update-async-candidates (input)
-  (let* ((cmd (split-string input " " t)))
-    (setq ol-async-candidates
-          (ignore-errors
-            (apply #'process-lines-ignore-status cmd)))
+  (let* ((cmd (split-string input " " t))
+         (candidates (ignore-errors
+                       (apply #'process-lines-ignore-status cmd))))
     (setq completion-all-sorted-completions nil)
-    (setq completion-all-sorted-completions (append ol-async-candidates 0))
+    (setq completion-all-sorted-completions (append candidates 0))
     (icomplete-exhibit)
     ))
 
