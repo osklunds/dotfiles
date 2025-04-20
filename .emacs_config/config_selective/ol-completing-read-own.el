@@ -131,8 +131,7 @@ current buffer."
   (icomplete-exhibit))
 
 (defun ol-async-minibuffer-input-changed (input)
-  (ol-stop-async-process)
-  (setq ol-async-candidates nil)
+  (ol-cleanup-async)
   (let* ((cmd (split-string input " " t)))
     (setq ol-async-process
           (ignore-errors
