@@ -112,7 +112,7 @@ current buffer."
     (icomplete-exhibit)
     ))
 
-(defun ol-ripgrep ()
+(defun ol-ripgrep (prompt)
   (interactive)
   (minibuffer-with-setup-hook
       (lambda ()
@@ -121,7 +121,7 @@ current buffer."
                        nil 'local)))
           (add-hook 'after-change-functions hook nil 'local)
           ))
-    (completing-read "hej: "
+    (completing-read prompt
                      '(""))))
 
 
