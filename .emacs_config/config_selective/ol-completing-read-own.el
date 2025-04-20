@@ -113,8 +113,10 @@ current buffer."
 
 (defun ol-cleanup-async ()
   (ol-stop-async-process)
+  (setq ol-async-timer nil)
   (setq ol-async-candidates nil)
-  (setq completion-all-sorted-completions nil))
+  ;; Don't set to nil to avoid "No match" which causes flicker
+  (setq completion-all-sorted-completions '("" . 0)))
 
 (add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
 
@@ -122,16 +124,31 @@ current buffer."
 
 (defun ol-async-filter (proc output)
   (when (eq proc ol-async-process)
+    ;; todo: don't assume that full line
     (let* ((lines (split-string output "\n" t)))
       (setq ol-async-candidates (append ol-async-candidates lines))
-      (ol-async-exhibit))))
+      (ol-async-delayed-exhibit))))
+
+(defvar ol-async-timer nil)
+
+;; Group exhibit due to process output to reduce flicker
+(defun ol-async-delayed-exhibit ()
+  (unless ol-async-timer
+    (setq ol-async-timer
+          (run-with-timer 0.01 nil #'ol-async-exhibit))))
 
 (defun ol-async-exhibit ()
+  (setq ol-async-timer nil)
   (setq completion-all-sorted-completions (append ol-async-candidates 0))
   (icomplete-exhibit))
 
 (defun ol-async-minibuffer-input-changed (input)
-  (ol-cleanup-async)
+  (ol-stop-async-process)
+  ;; Don't set completion-all-sorted-completions to empty since then there's
+  ;; flicker in the display (easier to see if (sit-for 1) in
+  ;; ol-async-exhibit). icomplete shows the candidates in
+  ;; completion-all-sorted-completions before any input has arrived
+  (setq ol-async-candidates nil)
   (let* ((cmd (split-string input " " t)))
     (setq ol-async-process
           (ignore-errors
