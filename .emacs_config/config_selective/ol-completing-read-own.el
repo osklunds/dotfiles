@@ -158,6 +158,15 @@ current buffer."
              :command cmd
              :filter #'ol-async-filter)))))
 
+(defun ol-async-completing-read (prompt input-to-cmd)
+  (ol-cleanup-async)
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (let* ((hook (lambda (&rest _)
+                       (ol-async-minibuffer-input-changed input-to-cmd))))
+          (add-hook 'after-change-functions hook nil 'local)))
+    (completing-read prompt '(""))))
+
 (defun ol-ripgrep (prompt)
   (let* ((input-to-cmd (lambda (input) (list "rg" (ol-string-to-regex input)))))
     (ol-async-completing-read prompt input-to-cmd)))
@@ -171,14 +180,5 @@ current buffer."
   (let* ((input-to-cmd (lambda (input) (list "grep" "-E" "-n" "-I" "-r"
                                              (ol-string-to-regex input)))))
     (ol-async-completing-read prompt input-to-cmd)))
-
-(defun ol-async-completing-read (prompt input-to-cmd)
-  (ol-cleanup-async)
-  (minibuffer-with-setup-hook
-      (lambda ()
-        (let* ((hook (lambda (&rest _)
-                       (ol-async-minibuffer-input-changed input-to-cmd))))
-          (add-hook 'after-change-functions hook nil 'local)))
-    (completing-read prompt '(""))))
 
 (provide 'ol-completing-read-own)
