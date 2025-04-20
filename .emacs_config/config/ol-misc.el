@@ -69,7 +69,7 @@
 ;; -----------------------------------------------------------------------------
 
 ;; unfinished experiment
-(defun ol-shell-command (command)
+(defun ol-shell-command-todo (command)
   (interactive)
   (let ((bfn (generate-new-buffer-name (concat "*Shell Command Output: '" command "'*"))))
     (shell-command command bfn)))

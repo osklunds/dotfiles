@@ -169,8 +169,7 @@
          (prompt (format "Shell command [%s]: " prompt-dir-part))
          (selection (ol-completing-read-shell-command
                      :prompt prompt
-                     ;; if 'ol-shell-command complains about wrong number of args
-                     :history 'ol-shell-command-history 
+                     :history 'ol-shell-command
                      :require-match t
                      )))
     (ol-shell-command-open-selection selection)))
