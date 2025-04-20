@@ -162,6 +162,16 @@ current buffer."
   (let* ((input-to-cmd (lambda (input) (list "rg" (ol-string-to-regex input)))))
     (ol-async-completing-read prompt input-to-cmd)))
 
+(defun ol-git-grep (prompt)
+  (let* ((input-to-cmd (lambda (input) (list "git" "--no-pager" "grep" "-n" "-E"
+                                             (ol-string-to-regex input)))))
+    (ol-async-completing-read prompt input-to-cmd)))
+
+(defun ol-grep (prompt)
+  (let* ((input-to-cmd (lambda (input) (list "grep" "-E" "-n" "-I" "-r"
+                                             (ol-string-to-regex input)))))
+    (ol-async-completing-read prompt input-to-cmd)))
+
 (defun ol-async-completing-read (prompt input-to-cmd)
   (ol-cleanup-async)
   (minibuffer-with-setup-hook
