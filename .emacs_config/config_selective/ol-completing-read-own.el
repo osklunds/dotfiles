@@ -142,14 +142,15 @@ current buffer."
   (setq completion-all-sorted-completions (append ol-async-candidates 0))
   (icomplete-exhibit))
 
-(defun ol-async-minibuffer-input-changed (input)
+(defun ol-async-minibuffer-input-changed (input-to-cmd)
   (ol-stop-async-process)
   ;; Don't set completion-all-sorted-completions to empty since then there's
   ;; flicker in the display (easier to see if (sit-for 1) in
   ;; ol-async-exhibit). icomplete shows the candidates in
   ;; completion-all-sorted-completions before any input has arrived
   (setq ol-async-candidates nil)
-  (let* ((cmd (split-string input " " t)))
+  (let* ((input (minibuffer-contents-no-properties))
+         (cmd (funcall input-to-cmd input)))
     (setq ol-async-process
           (ignore-errors
             (make-process
@@ -158,16 +159,16 @@ current buffer."
              :filter #'ol-async-filter)))))
 
 (defun ol-ripgrep (prompt)
-  (interactive)
+  (let* ((input-to-cmd (lambda (input) (list "rg" (ol-string-to-regex input)))))
+    (ol-async-completing-read prompt input-to-cmd)))
+
+(defun ol-async-completing-read (prompt input-to-cmd)
   (ol-cleanup-async)
   (minibuffer-with-setup-hook
       (lambda ()
         (let* ((hook (lambda (&rest _)
-                       (ol-async-minibuffer-input-changed
-                        (minibuffer-contents-no-properties))
-                       nil 'local)))
+                       (ol-async-minibuffer-input-changed input-to-cmd))))
           (add-hook 'after-change-functions hook nil 'local)))
-    (completing-read prompt
-                     '(""))))
+    (completing-read prompt '(""))))
 
 (provide 'ol-completing-read-own)
