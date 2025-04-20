@@ -125,7 +125,7 @@ current buffer."
           (add-hook 'after-change-functions hook nil 'local)
           ))
     (completing-read "hej: "
-                     '("grep" "ripgrep"))))
+                     '(""))))
 
 
 (provide 'ol-completing-read-own)
