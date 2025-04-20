@@ -88,7 +88,7 @@ current buffer."
                                    (eq buffer (current-buffer))
                                    (minibufferp buffer) 
                                    ))
-                                  (buffer-list)))
+                                (buffer-list)))
          (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
                                                   (buffer-name)))
                                buffers))
@@ -98,6 +98,34 @@ current buffer."
                        table))))
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
+
+;; -----------------------------------------------------------------------------
+;; Async
+;; -----------------------------------------------------------------------------
+
+(defvar ol-async-candidates nil)
+
+(defun ol-update-async-candidates (input)
+  (let* ((cmd (split-string input " " t)))
+    (setq ol-async-candidates
+          (ignore-errors
+            (apply #'process-lines-ignore-status cmd)))
+    (setq completion-all-sorted-completions nil)
+    (setq completion-all-sorted-completions (append ol-async-candidates 0))
+    (icomplete-exhibit)
+    ))
+
+(defun ol-ripgrep ()
+  (interactive)
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (let* ((hook (lambda (&rest _)
+                       (ol-update-async-candidates (minibuffer-contents-no-properties))
+                       nil 'local)))
+          (add-hook 'after-change-functions hook nil 'local)
+          ))
+    (completing-read "hej: "
+                     '("grep" "ripgrep"))))
 
 
 (provide 'ol-completing-read-own)
