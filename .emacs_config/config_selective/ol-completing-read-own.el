@@ -103,26 +103,54 @@ current buffer."
 ;; Async
 ;; -----------------------------------------------------------------------------
 
-(defun ol-update-async-candidates (input)
-  (let* ((cmd (split-string input " " t))
-         (candidates (ignore-errors
-                       (apply #'process-lines-ignore-status cmd))))
-    (setq completion-all-sorted-completions nil)
-    (setq completion-all-sorted-completions (append candidates 0))
-    (icomplete-exhibit)
-    ))
+(defvar ol-async-process nil)
+
+(defun ol-stop-async-process ()
+  (interactive)
+  (when (and ol-async-process (eq (process-status ol-async-process) 'run))
+    (kill-process ol-async-process))
+  (setq ol-async-process nil))
+
+(defun ol-cleanup-async ()
+  (ol-stop-async-process)
+  (setq ol-async-candidates nil)
+  (setq completion-all-sorted-completions nil))
+
+(add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
+
+(defvar ol-async-candidates nil)
+
+(defun ol-async-filter (proc output)
+  (when (eq proc ol-async-process)
+    (let* ((lines (split-string output "\n" t)))
+      (setq ol-async-candidates (append ol-async-candidates lines))
+      (ol-async-exhibit))))
+
+(defun ol-async-exhibit ()
+  (setq completion-all-sorted-completions (append ol-async-candidates 0))
+  (icomplete-exhibit))
+
+(defun ol-async-minibuffer-input-changed (input)
+  (ol-stop-async-process)
+  (setq ol-async-candidates nil)
+  (let* ((cmd (split-string input " " t)))
+    (setq ol-async-process
+          (make-process
+           :name "ol-async-process"
+           :command `("ping" "-c" "1000" "google.com")
+           :filter #'ol-async-filter))))
 
 (defun ol-ripgrep (prompt)
   (interactive)
+  (ol-cleanup-async)
   (minibuffer-with-setup-hook
       (lambda ()
         (let* ((hook (lambda (&rest _)
-                       (ol-update-async-candidates (minibuffer-contents-no-properties))
+                       (ol-async-minibuffer-input-changed
+                        (minibuffer-contents-no-properties))
                        nil 'local)))
-          (add-hook 'after-change-functions hook nil 'local)
-          ))
+          (add-hook 'after-change-functions hook nil 'local)))
     (completing-read prompt
                      '(""))))
-
 
 (provide 'ol-completing-read-own)
