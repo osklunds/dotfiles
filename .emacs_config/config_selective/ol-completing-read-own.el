@@ -68,7 +68,7 @@
             #'ol-icomplete--render-vertical-highlight-to-end)
 
 ;; -----------------------------------------------------------------------------
-;; Matcher
+;; Style
 ;; -----------------------------------------------------------------------------
 
 (defun ol-all-completions (string table pred _point)
@@ -142,6 +142,7 @@
      ((eq (length all) 1) string)
      (t string))))
 
+;; This style is not just about matching, but also about highlights
 (add-to-list 'completion-styles-alist
              '(ol ol-try-completion ol-all-completions "ol"))
 
