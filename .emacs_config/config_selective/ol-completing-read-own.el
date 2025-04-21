@@ -25,18 +25,19 @@
                     :background "#dddddd"
                     )
 
-(ol-define-key icomplete-vertical-mode-minibuffer-map "C-n" #'minibuffer-keyboard-quit)
-(ol-define-key icomplete-vertical-mode-minibuffer-map "C-j" #'icomplete-forward-completions)
-(ol-define-key icomplete-vertical-mode-minibuffer-map "C-k" #'icomplete-backward-completions)
-(ol-define-key icomplete-vertical-mode-minibuffer-map 'tab
-               #'icomplete-force-complete-and-exit)
-(ol-define-key icomplete-vertical-mode-minibuffer-map 'return
-               #'icomplete-force-complete)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-n" #'minibuffer-keyboard-quit)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-j" #'icomplete-forward-completions)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-k" #'icomplete-backward-completions)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               'tab #'icomplete-force-complete-and-exit)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               'return #'icomplete-force-complete)
 
 ;; Otherwise minibuffer-complete-word is called
 (ol-define-key minibuffer-local-completion-map "SPC" nil)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'embark-collect)
 
 (set-face-attribute 'icomplete-selected-match nil
                     :background 'unspecified
