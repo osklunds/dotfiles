@@ -212,8 +212,10 @@ current buffer."
 ;; seemed to have such support
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
+(ol-define-key icomplete-vertical-mode-minibuffer-map "M-e" #'embark-collect)
 
 (defvar ol-collect-command nil)
+(make-variable-buffer-local 'ol-collect-command)
 
 (defun ol-collect-record-this-command ()
   (setq ol-collect-command this-command))
@@ -225,16 +227,32 @@ current buffer."
   (let* ((candidates (completion-all-sorted-completions))
          (name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
+         (command ol-collect-command)
          (buffer (generate-new-buffer name)))
     (with-current-buffer buffer
+      (fundamental-mode)
+      (setq ol-collect-command command)
       (dolist (candidate (ol-nmake-proper-list candidates))
         (when (stringp candidate)
           (insert candidate)
           (insert "\n")))
-      (fundamental-mode)
       (goto-char (point-min)))
     (run-at-time nil nil #'switch-to-buffer-other-window buffer)
     (minibuffer-keyboard-quit)))
+
+(defun ol-select ()
+  (interactive)
+  (let* ((candidate (string-trim-right (thing-at-point 'line t)))
+         (command ol-collect-command))
+    (minibuffer-with-setup-hook
+        (lambda ()
+          (delete-minibuffer-contents)
+          (insert candidate)
+          (add-hook 'post-command-hook #'exit-minibuffer nil t))
+      (setq this-command command)
+      (command-execute command))))
+
+(ol-define-key ol-normal-leader-map "m r" #'ol-select)
 
 ;; Copied/modified from https://stackoverflow.com/a/28585107
 (defun ol-nmake-proper-list (x)
