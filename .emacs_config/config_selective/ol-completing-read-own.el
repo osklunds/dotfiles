@@ -200,4 +200,37 @@ current buffer."
   (let* ((input-to-cmd (lambda (input) (list "bash" "-c" input))))
     (ol-async-completing-read prompt input-to-cmd)))
 
+;; -----------------------------------------------------------------------------
+;; Collection
+;; -----------------------------------------------------------------------------
+
+;; some ideas:
+;; - vterm when running ls seems to show color codes. So maybe can do
+;; similar for ripgrep?
+;; - maybe ripgrep headings can work as well as in consult since grep-mode
+;; seemed to have such support
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
+
+(defun ol-collect ()
+  (interactive)
+  (let* ((candidates (completion-all-sorted-completions))
+         (name (format "*Collect: %s - %s*" "todo" (minibuffer-contents-no-properties)))
+         (buffer (generate-new-buffer name)))
+    (with-current-buffer buffer
+      (dolist (candidate (ol-nmake-proper-list candidates))
+        (when (stringp candidate)
+          (insert candidate)
+          (insert "\n")))
+      (fundamental-mode)
+      (goto-char (point-min)))
+    (run-at-time nil nil #'switch-to-buffer-other-window buffer)
+    (minibuffer-keyboard-quit)))
+
+;; Copied/modified from https://stackoverflow.com/a/28585107
+(defun ol-nmake-proper-list (x)
+  (let ((y (last x)))
+    (setcdr y nil)
+    x))
+
 (provide 'ol-completing-read-own)
