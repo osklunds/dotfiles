@@ -9,7 +9,7 @@
 (require 'delsel) ;; for minibuffer-keyboard-quit
 
 ;; -----------------------------------------------------------------------------
-;; icomplete-vertical
+;; UI
 ;; -----------------------------------------------------------------------------
 
 (icomplete-vertical-mode t)
@@ -37,21 +37,6 @@
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'embark-collect)
 
-(set-face-attribute 'completions-common-part nil
-                    :foreground 'unspecified)
-
-;; -----------------------------------------------------------------------------
-;; Completion style
-;; -----------------------------------------------------------------------------
-
-(setc completion-styles '(ol))
-
-;; -----------------------------------------------------------------------------
-;; Faces
-;; -----------------------------------------------------------------------------
-
-;; Needed for switch-to-buffer. Still not perfect
-
 (set-face-attribute 'completions-highlight nil
                     :inherit 'ol-match-face)
 
@@ -67,8 +52,16 @@
                     :inherit 'ol-selection-face)
 
 ;; -----------------------------------------------------------------------------
-;; Completing read wrappers
+;; Matcher
 ;; -----------------------------------------------------------------------------
+
+(setc completion-styles '(ol))
+
+;; -----------------------------------------------------------------------------
+;; Sync applications
+;; -----------------------------------------------------------------------------
+;; todo: move sync applications to ol-completing.el once verified
+;; for the other frameworks
 
 ;; Copied/modified from https://emacs.stackexchange.com/a/8177
 (defun ol-presorted-completion-table (completions)
@@ -100,7 +93,7 @@ current buffer."
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
 ;; -----------------------------------------------------------------------------
-;; Async
+;; Async applications
 ;; -----------------------------------------------------------------------------
 
 (defvar ol-async-process nil)
