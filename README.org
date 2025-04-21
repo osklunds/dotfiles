@@ -87,7 +87,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
       - Use original matcher when =company-mode=
 - Sync applications
       - =switch-to-buffer=
-            - colors for =dired=, =vterm= and remote buffers
             - delete selected candidate
       - =find-file=
             - =TAB= should not exit minibuffer, like in =ivy=

@@ -150,19 +150,20 @@
   (let* ((md (completion-metadata
               ""
               minibuffer-completion-table
-              minibuffer-completion-predicate))
-         (skip-normal-highlight
-          (completion-metadata-get md 'ol-skip-normal-highlight)))
-    (if skip-normal-highlight
-        candidate
-      (let* ((case-fold-search ignore-case))
-        (string-match regex candidate)
-        (let* ((m (match-data))
-               (start (car m))
-               (end (cadr m)))
-          (add-face-text-property start end 'ol-match-face nil candidate))
-        candidate
-        ))))
+              minibuffer-completion-predicate)))
+    (unless (completion-metadata-get md 'ol-skip-normal-highlight)
+      (ol-normal-highlight-fn regex ignore-case candidate))
+    (when-let ((fn (completion-metadata-get md 'ol-extra-highlight-function)))
+      (funcall fn candidate))
+    candidate))
+
+(defun ol-normal-highlight-fn (regex ignore-case candidate)
+  (let* ((case-fold-search ignore-case))
+    (string-match regex candidate)
+    (let* ((m (match-data))
+           (start (car m))
+           (end (cadr m)))
+      (add-face-text-property start end 'ol-match-face nil candidate))))
 
 (setq completion-lazy-hilit t)
 
@@ -191,12 +192,45 @@ current buffer."
          (table (lambda (string pred action)
                   (if (eq action 'metadata)
                       `(metadata
+                        (ol-extra-highlight-function . ,#'ol-switch-to-buffer-highlight-fn)
                         (cycle-sort-function . ,#'identity)
                         (display-sort-function . ,#'identity))
                     (complete-with-action action buffer-names string pred)))))
     (switch-to-buffer (completing-read
                        "Switch to buffer: "
                        table))))
+
+(defun ol-switch-to-buffer-highlight-fn (candidate)
+  (let* ((buffer (get-buffer candidate))
+         (mode (buffer-local-value 'major-mode buffer)))
+    (cond
+     ;; todo: consider what to do if remote and dired
+     ;; (find-file "/docker:tests-dotfiles-tramp-test-1:/")
+     ((file-remote-p (buffer-local-value 'default-directory buffer))
+      (ol-add-face-text-property candidate 'ol-remote-buffer-name-face))
+
+     ((eq mode 'dired-mode)
+      (ol-add-face-text-property candidate 'ol-dired-buffer-name-face))
+
+     ((eq mode 'vterm-mode)
+      (ol-add-face-text-property candidate 'ol-vterm-buffer-name-face))
+
+     (t nil))))
+
+(defun ol-add-face-text-property (str face)
+  (add-face-text-property 0 (length str) face nil str))
+
+(defface ol-dired-buffer-name-face
+  '((default :weight bold :inherit 'font-lock-function-name-face))
+  "Face for dired buffer name in `ol-switch-to-buffer'.")
+
+(defface ol-vterm-buffer-name-face
+  '((default :weight bold :inherit 'font-lock-type-face))
+  "Face for vterm buffer name in `ol-switch-to-buffer'.")
+
+(defface ol-remote-buffer-name-face
+  '((default :foreground "#110099"))
+  "Face for remote buffer name in `ol-switch-to-buffer'.")
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
