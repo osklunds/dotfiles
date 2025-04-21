@@ -21,12 +21,22 @@
 (setc resize-mini-windows 'grow-only)
 (setc icomplete-prospects-height 20)
 
+(defun ol-icomplete-forward ()
+  (interactive)
+  (unless (icomplete-forward-completions)
+    (icomplete-vertical-goto-first)))
+
+(defun ol-icomplete-backward ()
+  (interactive)
+  (unless (icomplete-backward-completions)
+    (icomplete-vertical-goto-last)))
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-n" #'minibuffer-keyboard-quit)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-j" #'icomplete-forward-completions)
+               "C-j" #'ol-icomplete-forward)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-k" #'icomplete-backward-completions)
+               "C-k" #'ol-icomplete-backward)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'tab #'icomplete-force-complete-and-exit)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
