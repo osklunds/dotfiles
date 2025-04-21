@@ -21,10 +21,6 @@
 (setc resize-mini-windows 'grow-only)
 (setc icomplete-prospects-height 20)
 
-(set-face-attribute 'icomplete-selected-match nil
-                    :background "#dddddd"
-                    )
-
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-n" #'minibuffer-keyboard-quit)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
