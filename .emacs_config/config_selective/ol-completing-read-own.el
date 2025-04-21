@@ -37,16 +37,6 @@
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'embark-collect)
 
-(set-face-attribute 'completions-highlight nil
-                    :inherit 'ol-match-face)
-
-(set-face-attribute 'completions-first-difference nil
-                    :inherit 'ol-match-face)
-
-(set-face-attribute 'completions-common-part nil
-                    :foreground 'unspecified
-                    :inherit 'ol-match-face)
-
 (set-face-attribute 'icomplete-selected-match nil
                     :background 'unspecified
                     :inherit 'ol-selection-face)
