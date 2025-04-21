@@ -203,6 +203,7 @@ current buffer."
 ;; -----------------------------------------------------------------------------
 ;; Collection
 ;; -----------------------------------------------------------------------------
+;; Inspired by https://github.com/oantolin/embark
 
 ;; some ideas:
 ;; - vterm when running ls seems to show color codes. So maybe can do
@@ -212,10 +213,18 @@ current buffer."
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
 
+(defvar ol-collect-command nil)
+
+(defun ol-collect-record-this-command ()
+  (setq ol-collect-command this-command))
+
+(add-hook 'minibuffer-setup-hook #'ol-collect-record-this-command)
+
 (defun ol-collect ()
   (interactive)
   (let* ((candidates (completion-all-sorted-completions))
-         (name (format "*Collect: %s - %s*" "todo" (minibuffer-contents-no-properties)))
+         (name (format "*Collect: %s - %s*" ol-collect-command
+                       (minibuffer-contents-no-properties)))
          (buffer (generate-new-buffer name)))
     (with-current-buffer buffer
       (dolist (candidate (ol-nmake-proper-list candidates))
