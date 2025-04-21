@@ -86,6 +86,7 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
       - cycle when reaching top or bottom
 - Matcher
       - Don't hardcode if =ol-async-process=
+      - Use original matcher when =company-mode=
 - Sync applications
       - =switch-to-buffer=
             - colors for =dired=, =vterm= and remote buffers
