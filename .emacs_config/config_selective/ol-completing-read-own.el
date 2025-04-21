@@ -49,6 +49,24 @@
                     :background 'unspecified
                     :inherit 'ol-selection-face)
 
+;; Not ideal to depend on internal 'icomplete-selected text property.
+;; But at least, this functionality of highlight to end isn't too critical
+(defun ol-icomplete--render-vertical-highlight-to-end (return)
+  (let* ((lines (split-string return "\n"))
+         (selected nil))
+    (dolist (line lines)
+      (when (get-text-property 0 'icomplete-selected line)
+        (setq selected line)))
+    (string-match (format "%s.*\n" (regexp-quote selected)) return)
+    (let* ((m (match-data))
+           (start (car m))
+           (end (cadr m)))
+      (add-face-text-property start end 'icomplete-selected-match nil return))
+    return))
+
+(advice-add 'icomplete--render-vertical :filter-return
+            #'ol-icomplete--render-vertical-highlight-to-end)
+
 ;; -----------------------------------------------------------------------------
 ;; Matcher
 ;; -----------------------------------------------------------------------------

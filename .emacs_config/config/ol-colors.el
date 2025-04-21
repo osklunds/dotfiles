@@ -57,7 +57,7 @@ Maybe inherit would be cleaner to use."
   "Face for matches in e.g. ivy and company.")
 
 (defface ol-selection-face
-  '((default :weight bold :background "#d7e4e8"))
+  '((default :extend t :weight bold :background "#d7e4e8"))
   "Face for current selection in e.g. ivy and company.")
 
 ;; -----------------------------------------------------------------------------
