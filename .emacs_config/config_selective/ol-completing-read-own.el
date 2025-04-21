@@ -147,16 +147,22 @@
              '(ol ol-try-completion ol-all-completions "ol"))
 
 (defun ol-highlight-completion (regex ignore-case candidate)
-  (if ol-async-process
-      candidate
-    (let* ((case-fold-search ignore-case))
-      (string-match regex candidate)
-      (let* ((m (match-data))
-             (start (car m))
-             (end (cadr m)))
-        (add-face-text-property start end 'ol-match-face nil candidate))
-      candidate
-      )))
+  (let* ((md (completion-metadata
+              ""
+              minibuffer-completion-table
+              minibuffer-completion-predicate))
+         (skip-normal-highlight
+          (completion-metadata-get md 'ol-skip-normal-highlight)))
+    (if skip-normal-highlight
+        candidate
+      (let* ((case-fold-search ignore-case))
+        (string-match regex candidate)
+        (let* ((m (match-data))
+               (start (car m))
+               (end (cadr m)))
+          (add-face-text-property start end 'ol-match-face nil candidate))
+        candidate
+        ))))
 
 (setq completion-lazy-hilit t)
 
@@ -167,15 +173,6 @@
 ;; -----------------------------------------------------------------------------
 ;; todo: move sync applications to ol-completing.el once verified
 ;; for the other frameworks
-
-;; Copied/modified from https://emacs.stackexchange.com/a/8177
-(defun ol-presorted-completion-table (completions)
-  (lambda (string pred action)
-    (if (eq action 'metadata)
-        `(metadata
-          (cycle-sort-function . ,#'identity)
-          (display-sort-function . ,#'identity))
-      (complete-with-action action completions string pred))))
 
 (defun ol-switch-to-buffer ()
   "Similar to `switch-to-buffer' but avoids face problems and skips
@@ -190,7 +187,13 @@ current buffer."
          (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
                                                   (buffer-name)))
                                buffers))
-         (table (ol-presorted-completion-table buffer-names)))
+         ;; Copied/modified from https://emacs.stackexchange.com/a/8177
+         (table (lambda (string pred action)
+                  (if (eq action 'metadata)
+                      `(metadata
+                        (cycle-sort-function . ,#'identity)
+                        (display-sort-function . ,#'identity))
+                    (complete-with-action action buffer-names string pred)))))
     (switch-to-buffer (completing-read
                        "Switch to buffer: "
                        table))))
@@ -264,7 +267,12 @@ current buffer."
         (let* ((hook (lambda (&rest _)
                        (ol-async-minibuffer-input-changed input-to-cmd))))
           (add-hook 'after-change-functions hook nil 'local)))
-    (completing-read prompt '(""))))
+    (let* ((table (lambda (string pred action)
+                    (if (eq action 'metadata)
+                        `(metadata
+                          (ol-skip-normal-highlight . t))
+                      (complete-with-action action '("") string pred)))))
+      (completing-read prompt table))))
 
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt '("rg" "--color=never" "--smart-case"

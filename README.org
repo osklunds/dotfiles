@@ -84,7 +84,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 
 - UI
 - Style
-      - Don't hardcode if =ol-async-process=
       - Use original matcher when =company-mode=
 - Sync applications
       - =switch-to-buffer=
