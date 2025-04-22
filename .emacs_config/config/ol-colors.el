@@ -74,8 +74,8 @@ Maybe inherit would be cleaner to use."
 
 ;; inheriting from default doesn't work, so need to specify manully for both
 ;; default and fixed-pitch
-(set-face-attribute 'fixed-pitch nil :family "Source Code Pro" :height 90)
-(set-face-attribute 'default nil :family "Source Code Pro" :height 90)
+(set-face-attribute 'fixed-pitch nil :family ol-fixed-pitch-font :height 90)
+(set-face-attribute 'default nil :family ol-fixed-pitch-font :height 90)
 (set-face-attribute 'line-number nil :family ol-fixed-pitch-font)
 (set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font)
 
