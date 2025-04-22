@@ -83,4 +83,14 @@
 ;; todo: doesn't work
 (ol-evil-define-key 'normal help-mode-map "o" #'push-button)
 
+;; -----------------------------------------------------------------------------
+;; imenu
+;; -----------------------------------------------------------------------------
+
+(setc imenu-flatten 'prefix)
+(setc imenu-level-separator "\t")
+(setc imenu-auto-rescan t)
+
+(ol-define-key ol-normal-leader-map "m s" #'imenu)
+
 (provide 'ol-misc)
