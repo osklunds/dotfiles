@@ -57,11 +57,13 @@
     (dolist (line lines)
       (when (get-text-property 0 'icomplete-selected line)
         (setq selected line)))
-    (string-match (format "%s.*\n" (regexp-quote selected)) return)
-    (let* ((m (match-data))
-           (start (car m))
-           (end (cadr m)))
-      (add-face-text-property start end 'icomplete-selected-match nil return))
+    ;; For e.g. async, there might not be anything selected
+    (when selected
+      (string-match (format "%s.*\n" (regexp-quote selected)) return)
+      (let* ((m (match-data))
+             (start (car m))
+             (end (cadr m)))
+        (add-face-text-property start end 'icomplete-selected-match nil return)))
     return))
 
 (advice-add 'icomplete--render-vertical :filter-return
