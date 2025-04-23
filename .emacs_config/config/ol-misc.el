@@ -90,6 +90,7 @@
 (setc imenu-flatten 'prefix)
 (setc imenu-level-separator "\t")
 (setc imenu-auto-rescan t)
+(setc imenu-max-item-length 200)
 
 (ol-define-key ol-normal-leader-map "m s" #'imenu)
 

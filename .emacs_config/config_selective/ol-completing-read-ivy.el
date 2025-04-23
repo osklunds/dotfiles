@@ -134,7 +134,7 @@
     (setq imenu--index-alist nil))
   (counsel-imenu))
 
-(ol-define-key ol-normal-leader-map "m s" 'ol-symbol-search)
+;; (ol-define-key ol-normal-leader-map "m s" 'ol-symbol-search)
 
 (setc imenu-max-item-length 200)
 
