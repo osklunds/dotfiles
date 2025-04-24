@@ -247,6 +247,7 @@ current buffer."
 ;; -----------------------------------------------------------------------------
 
 (defvar ol-async-process nil)
+(defvar ol-async-candidates nil)
 
 (defun ol-stop-async-process ()
   (interactive)
@@ -263,7 +264,6 @@ current buffer."
 
 (add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
 
-(defvar ol-async-candidates nil)
 
 ;; todo: use sentinel too to detect when no matches
 (defun ol-async-filter (proc output)
@@ -271,6 +271,14 @@ current buffer."
     ;; todo: don't assume that full line
     (let* ((lines (split-string output "\n" t)))
       (setq ol-async-candidates (append ol-async-candidates lines))
+      (ol-async-delayed-exhibit))))
+
+(defun ol-async-sentinel (proc output)
+  (when (eq proc ol-async-process)
+    (unless ol-async-candidates
+      ;; If not candidates found, and grep process done, make sure to clear
+      ;; the previous candidates
+      (setq completion-all-sorted-completions '("" . 0))
       (ol-async-delayed-exhibit))))
 
 (defvar ol-async-timer nil)
@@ -300,6 +308,7 @@ current buffer."
             (make-process
              :name "ol-async-process"
              :command cmd
+             :sentinel #'ol-async-sentinel
              :filter #'ol-async-filter)))))
 
 (defun ol-async-completing-read (prompt input-to-cmd)
