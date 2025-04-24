@@ -264,7 +264,6 @@ current buffer."
 
 (add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
 
-
 ;; todo: use sentinel too to detect when no matches
 (defun ol-async-filter (proc output)
   (when (eq proc ol-async-process)
