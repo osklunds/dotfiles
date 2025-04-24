@@ -103,8 +103,12 @@
 (defun ol-get-current-branch ()
   (if-let ((branch (magit-get-current-branch)))
       branch
-    (when-let ((commit-id (magit-git-string "rev-parse" "HEAD")))
-      (substring commit-id 0 7))))
+    (if-let* ((detached-at-status (magit-git-string "status"))
+              (detached-at (ol-regexp-group "HEAD detached at \\(.+\\)"
+                                            detached-at-status 1)))
+        detached-at
+      (when-let ((commit-id (magit-git-string "rev-parse" "HEAD")))
+        (substring commit-id 0 7)))))
 
 ;; No need to cache since (ol-project-name) already is fast and cached
 (defun ol-project-name-segment ()
