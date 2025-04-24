@@ -136,8 +136,6 @@
 
 ;; (ol-define-key ol-normal-leader-map "m s" 'ol-symbol-search)
 
-(setc imenu-max-item-length 200)
-
 (defun ol-counsel-imenu-advice (&rest _args)
   (evil-set-jump))
 
