@@ -13,7 +13,6 @@
 
 (setc enable-local-variables nil)
 
-(ol-define-key ol-override-map "M-:" 'eval-expression)
 (ol-define-key ol-override-map "M-u" 'universal-argument)
 (ol-define-key ol-override-map "M-h" 'help-command)
 
@@ -92,5 +91,17 @@
 (setc imenu-max-item-length 200)
 
 (ol-define-key ol-normal-leader-map "m s" #'imenu)
+
+;; -----------------------------------------------------------------------------
+;; åäö
+;; -----------------------------------------------------------------------------
+;; This is what I wished I had everywhere in my computer
+
+(ol-define-key evil-insert-state-map "M-["  (lambda () (interactive) (insert "å")))
+(ol-define-key evil-insert-state-map "M-'"  (lambda () (interactive) (insert "ä")))
+(ol-define-key evil-insert-state-map "M-;"  (lambda () (interactive) (insert "ö")))
+(ol-define-key evil-insert-state-map "M-{"  (lambda () (interactive) (insert "Å")))
+(ol-define-key evil-insert-state-map "M-\"" (lambda () (interactive) (insert "Ä")))
+(ol-define-key evil-insert-state-map "M-:"  (lambda () (interactive) (insert "Ö")))
 
 (provide 'ol-misc)
