@@ -42,6 +42,9 @@ dotfiles I use
 - completion sometimes "jumpy" due to variable pitch (maybe corfu or some childframe, posframe, can solve it?)
 - Company flickers over inline images. Solved by =corfu= or =company-posframe=.
 - understand links
+- center inline images
+- Yank without emphasis markers
+- Wrong image width first time a buffer is shown if =:width= is specified
 
 *** Not important at all
 
