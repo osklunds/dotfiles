@@ -49,13 +49,10 @@
 (add-hook 'ol-window-or-buffer-change-hook 'ol-save-on-window-or-buffer-change)
 
 (defun ol-on-save-timer ()
-  (mapc (lambda (buffer)
-          (with-current-buffer buffer
-            (when (ol-save-p)
-              (ol-save-silently))))
-        (buffer-list)))
+  (when (ol-save-p)
+    (ol-save-silently)))
 
-(run-with-idle-timer 5 5 #'ol-on-save-timer)
+(run-with-timer 5 5 #'ol-on-save-timer)
 
 (save-place-mode t)
 
