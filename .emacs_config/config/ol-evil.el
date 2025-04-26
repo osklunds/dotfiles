@@ -242,7 +242,9 @@ the plain text edit keybinds instead."
 (ol-define-key evil-visual-state-map "0" 'evil-first-non-blank-of-visual-line)
 (ol-define-key evil-operator-state-map "0" 'evil-first-non-blank-of-visual-line)
 
-(ol-define-key evil-insert-state-map 'tab 'ol-insert-tab)
+;; Unclear why this is needed. If not, corfu tabs when not at first
+;; candidate instead of inserting it
+(global-set-key (kbd "TAB") #'ol-insert-tab)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; go to definition
