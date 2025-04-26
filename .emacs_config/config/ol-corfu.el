@@ -27,6 +27,14 @@
 
 (add-hook 'corfu-mode-hook #'ol-set-corfu-completion-style)
 
+(set-face-attribute 'completions-common-part nil
+                    :foreground 'unspecified
+                    :inherit 'ol-match-face)
+
+(set-face-attribute 'completions-first-difference nil
+                    :weight 'normal
+                    :foreground 'unspecified)
+
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
 ;; -----------------------------------------------------------------------------
