@@ -52,6 +52,10 @@ Maybe inherit would be cleaner to use."
 ;; Own faces
 ;; -----------------------------------------------------------------------------
 
+(defface ol-candidate-face
+  `((default :weight normal :foreground ,ol-black :background ,ol-white))
+  "Face for candidates in e.g. ivy and company.")
+
 (defface ol-match-face
   '((default :weight bold :foreground "#4078f2" :background unspecified))
   "Face for matches in e.g. ivy and company.")

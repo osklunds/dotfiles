@@ -2,6 +2,7 @@
 
 (require 'ol-evil)
 (require 'ol-completion-in-region)
+(require 'ol-colors)
 
 (require 'corfu)
 (require 'cape)
@@ -37,6 +38,20 @@
 (add-hook 'completion-in-region-mode-hook #'ol-on-completion-in-region-mode)
 
 (add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+
+;; -----------------------------------------------------------------------------
+;; Faces
+;; -----------------------------------------------------------------------------
+
+(set-face-attribute 'corfu-default nil
+                    :background 'unspecified
+                    :foreground 'unspecified
+                    :weight 'unspecified
+                    :inherit 'ol-candidate-face)
+(set-face-attribute 'corfu-current nil
+                    :inherit 'ol-selection-face
+                    :foreground 'unspecified
+                    :background 'unspecified)
 
 ;; -----------------------------------------------------------------------------
 ;; Capfs
