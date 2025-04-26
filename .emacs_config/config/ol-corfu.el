@@ -26,6 +26,7 @@
 ;; -----------------------------------------------------------------------------
 
 (ol-define-key corfu-map 'return #'corfu-quit)
+(ol-define-key corfu-map "C-n" #'corfu-quit)
 (ol-define-key corfu-map 'tab #'corfu-complete)
 (ol-define-key corfu-map "C-j" #'corfu-next)
 (ol-define-key corfu-map "C-k" #'corfu-previous)
