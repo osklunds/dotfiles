@@ -142,3 +142,9 @@
 [submodule ".emacs_config/packages/olivetti"]
 	path = .emacs_config/packages/olivetti
 	url = https://github.com/rnkn/olivetti.git
+[submodule ".emacs_config/packages/corfu"]
+	path = .emacs_config/packages/corfu
+	url = https://github.com/minad/corfu.git
+[submodule ".emacs_config/packages/cape"]
+	path = .emacs_config/packages/cape
+	url = https://github.com/minad/cape.git
