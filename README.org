@@ -45,6 +45,12 @@ dotfiles I use
 - center inline images
 - Yank without emphasis markers
 - Wrong image width first time a buffer is shown if =:width= is specified
+- try export
+
+*** corfu
+
+- tab doesn't work in =org-mode=
+- when C-n and scrolled down, completion isn't removed
 
 *** Not important at all
 
