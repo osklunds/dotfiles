@@ -14,7 +14,7 @@
 (global-corfu-mode)
 
 (setc corfu-auto t)
-(setc corfu-auto-prefix 0)
+(setc corfu-auto-prefix 1)
 (setc corfu-auto-delay 0)
 (setc corfu-cycle t)
 (setc corfu-sort-override-function nil)
