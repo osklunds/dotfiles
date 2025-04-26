@@ -50,7 +50,6 @@ dotfiles I use
 *** corfu
 
 - tab doesn't work in =org-mode=
-- when C-n and scrolled down, completion isn't removed
 
 *** Not important at all
 

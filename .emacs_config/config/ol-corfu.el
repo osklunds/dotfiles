@@ -21,6 +21,11 @@
 (setc corfu-sort-override-function nil)
 (setc corfu-on-exact-match nil)
 
+;; I want this behavior. However, the preview is not deleted unless exactly
+;; corfu-quit is called. Calling corfu-quit from my own fun etc doesn't work
+;; and results in the preview not being deleted.
+(setc corfu-preview-current nil)
+
 ;; todo: consider ol-completion-style but ^ and some other separator
 (defun ol-set-corfu-completion-style ()
   (setq-local completion-styles '(basic)))
@@ -52,7 +57,10 @@
 
 (add-hook 'completion-in-region-mode-hook #'ol-on-completion-in-region-mode)
 
-(add-hook 'evil-insert-state-exit-hook #'corfu-quit)
+(add-hook 'evil-insert-state-exit-hook #'ol-quit-corfu-on-normal-state)
+
+(defun ol-quit-corfu-on-normal-state (&rest _)
+  (corfu-quit))
 
 ;; -----------------------------------------------------------------------------
 ;; Faces
