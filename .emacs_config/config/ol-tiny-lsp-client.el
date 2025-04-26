@@ -14,6 +14,14 @@
 (add-hook 'tlc-mode-hook 'tlc-use-xref)
 (add-hook 'tlc-mode-hook 'tlc-use-capf)
 
+(defun ol-add-tlc-mode-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super #'cape-abbrev
+                                     #'tlc-completion-at-point
+                                     #'cape-dabbrev))))
+
+(add-hook 'tlc-mode-mode-hook #'ol-add-tlc-mode-capf)
+
 (add-hook 'rust-mode-hook 'tlc-mode)
 
 (ol-define-key ol-normal-leader-map "l l" 'tlc-open-log-file)

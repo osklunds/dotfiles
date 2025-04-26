@@ -1,19 +1,27 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'ol-evil)
+(require 'ol-completion-in-region)
 
 (require 'corfu)
 (require 'cape)
+(require 'tiny-lsp-client)
 
-;; corfu
+;; -----------------------------------------------------------------------------
+;; Corfu
+;; -----------------------------------------------------------------------------
 
 (global-corfu-mode)
 
 (setc corfu-auto t)
 (setc corfu-auto-prefix 0)
 (setc corfu-auto-delay 0)
+(setc corfu-cycle t)
+(setc corfu-sort-override-function nil)
 
+;; -----------------------------------------------------------------------------
 ;; Keybinds
+;; -----------------------------------------------------------------------------
 
 (ol-define-key corfu-map 'return #'corfu-quit)
 (ol-define-key corfu-map "C-j" #'corfu-next)
@@ -35,5 +43,12 @@
     (ol-insert-tab)))
 
 (ol-define-key evil-insert-state-map 'tab #'ol-complete-or-insert-tab)
+
+;; -----------------------------------------------------------------------------
+;; Capfs
+;; -----------------------------------------------------------------------------
+
+(setc cape-dabbrev-check-other-buffers nil)
+(setc cape-dabbrev-min-length 2)
 
 (provide 'ol-corfu)

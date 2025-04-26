@@ -24,4 +24,11 @@
 
 (setc text-mode-ispell-word-completion nil)
 
+(defun ol-add-text-mode-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super #'cape-abbrev
+                                     #'cape-dabbrev))))
+
+(add-hook 'text-mode-hook #'ol-add-text-mode-capf)
+
 (provide 'ol-text)
