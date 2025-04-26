@@ -24,7 +24,7 @@
 
 (define-abbrev-table 'org-mode-abbrev-table
   '(
-    ("src" "#+BEGIN_SRC @@\n\n#+END_SRC")
+    ("src" "#+begin_src @@\n\n#+end_src")
     ))
 
 ;; -----------------------------------------------------------------------------
