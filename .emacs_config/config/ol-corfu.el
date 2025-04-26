@@ -48,9 +48,10 @@
                     :background 'unspecified
                     :foreground 'unspecified
                     :weight 'unspecified
-                    :inherit 'ol-candidate-face)
+                    :inherit '(ol-candidate-face fixed-pitch))
+
 (set-face-attribute 'corfu-current nil
-                    :inherit 'ol-selection-face
+                    :inherit '(ol-selection-face fixed-pitch)
                     :foreground 'unspecified
                     :background 'unspecified)
 
