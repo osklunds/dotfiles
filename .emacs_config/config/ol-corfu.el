@@ -18,6 +18,7 @@
 (setc corfu-auto-delay 0)
 (setc corfu-cycle t)
 (setc corfu-sort-override-function nil)
+(setc corfu-on-exact-match nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
