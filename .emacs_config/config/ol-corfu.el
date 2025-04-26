@@ -62,4 +62,12 @@
 (setc cape-dabbrev-check-other-buffers nil)
 (setc cape-dabbrev-min-length 2)
 
+(defun ol-capf-abbrev ()
+  (cape-wrap-properties #'cape-abbrev
+                        :annotation-function (lambda (_) "Abbrev")))
+
+(defun ol-capf-dabbrev ()
+  (cape-wrap-properties #'cape-dabbrev
+                        :annotation-function (lambda (_) "Dabbrev")))
+
 (provide 'ol-corfu)

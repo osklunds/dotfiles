@@ -32,9 +32,13 @@
 
 (defun ol-add-emacs-lisp-capf ()
   (setq-local completion-at-point-functions
-              (list (cape-capf-super #'cape-abbrev
-                                     #'elisp-completion-at-point
-                                     #'cape-dabbrev))))
+              (list (cape-capf-super #'ol-capf-abbrev
+                                     #'ol-capf-emacs-lisp
+                                     #'ol-capf-dabbrev))))
+
+(defun ol-capf-emacs-lisp ()
+  (cape-wrap-properties #'elisp-completion-at-point
+                        :annotation-function (lambda (_) "Lisp")))
 
 (add-hook 'emacs-lisp-mode-hook #'ol-add-emacs-lisp-capf)
 
