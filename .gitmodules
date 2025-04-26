@@ -31,9 +31,6 @@
 [submodule ".emacs_config/packages/counsel-projectile"]
 	path = .emacs_config/packages_inactive/counsel-projectile
 	url = https://github.com/ericdanan/counsel-projectile.git
-[submodule ".emacs_config/packages/ripgrep.el"]
-	path = .emacs_config/packages/ripgrep.el
-	url = https://github.com/nlamirault/ripgrep.el.git
 [submodule ".emacs_config/packages/magit"]
 	path = .emacs_config/packages/magit
 	url = https://github.com/magit/magit.git
