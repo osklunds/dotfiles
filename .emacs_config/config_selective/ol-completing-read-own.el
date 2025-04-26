@@ -264,7 +264,6 @@ current buffer."
 
 (add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
 
-;; todo: use sentinel too to detect when no matches
 (defun ol-async-filter (proc output)
   (when (eq proc ol-async-process)
     ;; todo: don't assume that full line
@@ -272,6 +271,7 @@ current buffer."
       (setq ol-async-candidates (append ol-async-candidates lines))
       (ol-async-delayed-exhibit))))
 
+;; todo: more flicker if this is called when process killed
 (defun ol-async-sentinel (proc output)
   (when (eq proc ol-async-process)
     (unless ol-async-candidates
