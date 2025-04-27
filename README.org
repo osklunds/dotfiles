@@ -35,12 +35,13 @@ dotfiles I use
 - consider change ctrl to meta
 - make vdiff auto sync at start work
 - make vdiff sync as scroll always be able to scroll
+- Make markdown look as good as org-mode
 
 *** org-mode
 
-- Make markdown look as good as org-mode
 - Yank without emphasis markers
 - try export
+- spell in completion
 
 *** corfu
 
