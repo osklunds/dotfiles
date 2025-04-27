@@ -451,4 +451,22 @@
 
 (add-hook 'org-mode-hook #'ol-org-fill-column)
 
+;; -----------------------------------------------------------------------------
+;; Export
+;; -----------------------------------------------------------------------------
+
+;; Copied/Modified from https://emacs.stackexchange.com/a/37031
+(defun ol-org-html--format-image (source attributes info)
+  (progn
+    (setq source (replace-regexp-in-string (regexp-quote "%20") "" source nil 'literal))
+    (format "<img src=\"data:image/%s;base64,%s\"%s />"
+            (or (file-name-extension source) "")
+            (base64-encode-string
+             (with-temp-buffer
+               (insert-file-contents-literally source)
+              (buffer-string)))
+            (file-name-nondirectory source))))
+
+(advice-add 'org-html--format-image :override #'ol-org-html--format-image)
+
 (provide 'ol-org-mode)
