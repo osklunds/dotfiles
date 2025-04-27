@@ -454,6 +454,7 @@
 ;; -----------------------------------------------------------------------------
 ;; Export
 ;; -----------------------------------------------------------------------------
+;; C-e C-e then h then h to export to an html file
 
 ;; Copied/Modified from https://emacs.stackexchange.com/a/37031
 (defun ol-org-html--format-image (source attributes info)
