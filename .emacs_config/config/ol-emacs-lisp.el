@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: nil -*-
 
 (require 'ol-evil)
+(require 'ol-corfu)
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table
   '(
@@ -28,5 +29,17 @@
   (indent-region (point-min) (point-max)))
 
 (ol-evil-define-key 'normal emacs-lisp-mode-map "C-c C-q" 'ol-indent-buffer)
+
+(defun ol-add-emacs-lisp-capf ()
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super #'ol-capf-abbrev
+                                     #'ol-capf-emacs-lisp
+                                     #'ol-capf-dabbrev))))
+
+(defun ol-capf-emacs-lisp ()
+  (cape-wrap-properties #'elisp-completion-at-point
+                        :annotation-function (lambda (_) "Lisp")))
+
+(add-hook 'emacs-lisp-mode-hook #'ol-add-emacs-lisp-capf)
 
 (provide 'ol-emacs-lisp)

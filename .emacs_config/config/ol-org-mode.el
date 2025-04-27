@@ -24,8 +24,14 @@
 
 (define-abbrev-table 'org-mode-abbrev-table
   '(
-    ("src" "#+BEGIN_SRC @@\n\n#+END_SRC")
+    ("src" "#+begin_src @@\n\n#+end_src")
     ))
+
+;; So that tab completion works (corfu)
+;; todo: running it directly doesn't have an effect. If I rerun manually
+;; then works as expected. Maybe something loaded afterwards overrides. So
+;; use this workaround.
+(run-with-timer 0 nil #'ol-evil-define-key 'insert org-mode-map 'tab nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Headers

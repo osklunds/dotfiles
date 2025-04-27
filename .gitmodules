@@ -20,7 +20,7 @@
 	path = .emacs_config/packages/swiper
 	url = https://github.com/abo-abo/swiper.git
 [submodule ".emacs_config/packages/company-mode"]
-	path = .emacs_config/packages/company-mode
+	path = .emacs_config/packages_inactive/company-mode
 	url = https://github.com/company-mode/company-mode.git
 [submodule ".emacs_config/packages/themes"]
 	path = .emacs_config/packages/themes
@@ -31,9 +31,6 @@
 [submodule ".emacs_config/packages/counsel-projectile"]
 	path = .emacs_config/packages_inactive/counsel-projectile
 	url = https://github.com/ericdanan/counsel-projectile.git
-[submodule ".emacs_config/packages/ripgrep.el"]
-	path = .emacs_config/packages/ripgrep.el
-	url = https://github.com/nlamirault/ripgrep.el.git
 [submodule ".emacs_config/packages/magit"]
 	path = .emacs_config/packages/magit
 	url = https://github.com/magit/magit.git
@@ -145,3 +142,15 @@
 [submodule ".emacs_config/packages/olivetti"]
 	path = .emacs_config/packages/olivetti
 	url = https://github.com/rnkn/olivetti.git
+[submodule ".emacs_config/packages/corfu"]
+	path = .emacs_config/packages/corfu
+	url = https://github.com/minad/corfu.git
+[submodule ".emacs_config/packages/cape"]
+	path = .emacs_config/packages/cape
+	url = https://github.com/minad/cape.git
+[submodule ".emacs_config/packages_inactive/emacs-corfu-terminal"]
+	path = .emacs_config/packages/emacs-corfu-terminal
+	url = https://codeberg.org/akib/emacs-corfu-terminal.git
+[submodule ".emacs_config/packages/emacs-popon"]
+	path = .emacs_config/packages/emacs-popon
+	url = https://codeberg.org/akib/emacs-popon.git
