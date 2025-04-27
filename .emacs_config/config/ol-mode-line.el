@@ -5,7 +5,6 @@
 (require 'ol-project)
 
 (require 'magit)
-(require 'company)
 
 ;; -----------------------------------------------------------------------------
 ;; Faces
@@ -39,7 +38,7 @@
 (ol-copy-face-fg-bg 'ol-evil-insert-state-mode-line-face 'font-lock-keyword-face)
 (ol-copy-face-fg-bg 'ol-evil-visual-state-mode-line-face 'warning)
 (ol-copy-face-fg-bg 'ol-evil-emacs-state-mode-line-face 'font-lock-builtin-face)
-(ol-copy-face-fg-bg 'ol-evil-plain-state-mode-mode-line-face 'company-tooltip-common)
+(ol-copy-face-fg-bg 'ol-evil-plain-state-mode-mode-line-face 'ol-match-face)
 
 (dolist (face '(ol-evil-normal-state-mode-line-face
                 ol-evil-insert-state-mode-line-face

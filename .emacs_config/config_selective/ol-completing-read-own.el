@@ -4,8 +4,6 @@
 (require 'ol-ert)
 (require 'ol-colors)
 
-(require 'embark)
-
 (require 'icomplete)
 (require 'delsel) ;; for minibuffer-keyboard-quit
 
@@ -372,7 +370,7 @@ current buffer."
 (defvar ol-collect-mode-map (make-sparse-keymap))
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
-(ol-define-key icomplete-vertical-mode-minibuffer-map "M-e" #'embark-collect)
+;; (ol-define-key icomplete-vertical-mode-minibuffer-map "M-e" #'embark-collect)
 (ol-evil-define-key 'normal ol-collect-mode-map "RET" #'ol-select)
 
 (defvar ol-collect-command nil)
