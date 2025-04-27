@@ -457,16 +457,21 @@
 ;; C-e C-e then h then h to export to an html file
 
 ;; Copied/Modified from https://emacs.stackexchange.com/a/37031
+;; and https://www.reddit.com/r/orgmode/comments/7dyywu/creating_a_selfcontained_html/
 (defun ol-org-html--format-image (source attributes info)
-  (progn
-    (setq source (replace-regexp-in-string (regexp-quote "%20") "" source nil 'literal))
-    (format "<img src=\"data:image/%s;base64,%s\"%s />"
-            (or (file-name-extension source) "")
-            (base64-encode-string
-             (with-temp-buffer
-               (insert-file-contents-literally source)
-              (buffer-string)))
-            (file-name-nondirectory source))))
+  (let* ((source (replace-regexp-in-string (regexp-quote "%20") "" source nil 'literal))
+         (ext (or (file-name-extension source) ""))
+         (extra-ext (if (string= "svg" ext) "+xml" ""))
+         (base64-content (base64-encode-string
+                          (with-temp-buffer
+                            (insert-file-contents-literally source)
+                            (buffer-string))))
+         (name (file-name-nondirectory source)))
+    (format "<img src=\"data:image/%s%s;base64,%s\"%s />"
+            ext
+            extra-ext
+            base64-content
+            name)))
 
 (advice-add 'org-html--format-image :override #'ol-org-html--format-image)
 
