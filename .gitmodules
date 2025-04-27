@@ -148,3 +148,9 @@
 [submodule ".emacs_config/packages/cape"]
 	path = .emacs_config/packages/cape
 	url = https://github.com/minad/cape.git
+[submodule ".emacs_config/packages_inactive/emacs-corfu-terminal"]
+	path = .emacs_config/packages/emacs-corfu-terminal
+	url = https://codeberg.org/akib/emacs-corfu-terminal.git
+[submodule ".emacs_config/packages/emacs-popon"]
+	path = .emacs_config/packages/emacs-popon
+	url = https://codeberg.org/akib/emacs-popon.git

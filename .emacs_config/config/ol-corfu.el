@@ -5,6 +5,7 @@
 (require 'ol-colors)
 
 (require 'corfu)
+(require 'corfu-terminal)
 (require 'cape)
 (require 'tiny-lsp-client)
 
@@ -13,6 +14,9 @@
 ;; -----------------------------------------------------------------------------
 
 (global-corfu-mode)
+
+(unless (display-graphic-p)
+  (corfu-terminal-mode t))
 
 (setc corfu-auto t)
 (setc corfu-auto-prefix 1)
