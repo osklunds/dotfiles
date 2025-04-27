@@ -39,8 +39,6 @@ dotfiles I use
 *** org-mode
 
 - Make markdown look as good as org-mode
-- completion sometimes "jumpy" due to variable pitch (maybe corfu or some childframe, posframe, can solve it?)
-- Company flickers over inline images. Solved by =corfu= or =company-posframe=.
 - understand links
 - center inline images
 - Yank without emphasis markers
