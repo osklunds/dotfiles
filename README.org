@@ -42,7 +42,6 @@ dotfiles I use
 - understand links
 - center inline images
 - Yank without emphasis markers
-- Wrong image width first time a buffer is shown if =:width= is specified
 - try export
 
 *** corfu

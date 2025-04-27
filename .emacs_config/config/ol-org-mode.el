@@ -8,6 +8,7 @@
 (require 'org)
 (require 'org-faces)
 (require 'org-indent)
+(require 'ox)
 (require 'color)
 (require 'org-sliced-images)
 (require 'olivetti)
@@ -155,11 +156,24 @@
 (setc org-image-actual-width nil)
 
 ;; Always clamp at 'fill-column as max width, but try to use :width if exists
-(defun ol-org-display-inline-image--width-advice (old-fun &rest args)
-  (let* ((width (apply old-fun args))
+;; Try to parse attr_org manually because the first time an org file is
+;; opened, old-fun doesn't seem to return the value specifed by attr_org. Only
+;; handle the relative width case, because that's what I use most of the time.
+(defun ol-org-display-inline-image--width-advice (old-fun link)
+  (let* ((rel-width (ol-org-rel-image-width link))
+         (width (funcall old-fun link))
          (max-width (* (min fill-column (- (window-total-width) 10))
                        (frame-char-width (selected-frame)))))
-    (min max-width (or width max-width))))
+    (if rel-width
+        (round (* rel-width max-width))
+      (min max-width (or width max-width)))))
+
+(defun ol-org-rel-image-width (link)
+  (when-let* ((paragraph (org-element-lineage link 'paragraph))
+              (attr-width (org-export-read-attribute :attr_org paragraph :width))
+              (matched (ol-regexp-group "\\([0-9.]+\\)%" attr-width 1))
+              (parsed (string-to-number matched)))
+    (/ parsed 100.0)))
 
 (advice-add 'org-display-inline-image--width :around
             #'ol-org-display-inline-image--width-advice)
