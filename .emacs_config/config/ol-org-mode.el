@@ -25,6 +25,7 @@
 (define-abbrev-table 'org-mode-abbrev-table
   '(
     ("src" "#+begin_src @@\n\n#+end_src")
+    ("imw" "#+attr_org: :width ")
     ))
 
 ;; So that tab completion works (corfu)
