@@ -39,8 +39,6 @@ dotfiles I use
 *** org-mode
 
 - Make markdown look as good as org-mode
-- understand links
-- center inline images
 - Yank without emphasis markers
 - try export
 
@@ -55,6 +53,7 @@ dotfiles I use
 
 *** Wanted, but hard to do
 
+- center inline images in sliced org mode (maybe possible, but requires lots of work)
 - Box around the cursorline, like VSCode
 - org-mode
       - Slightly bigger bullets
