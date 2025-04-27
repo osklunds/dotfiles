@@ -32,8 +32,10 @@
        (file-writable-p buffer-file-name)
        (not (file-remote-p buffer-file-name))))
 
+;; todo: still empties echo area
 (defun ol-save-silently ()
-  (let ((inhibit-message t))
+  (let ((inhibit-message t) ;; Prevents in echo area
+        (message-log-max nil)) ;; Prevents in messages buffer
     (save-buffer)))
 
 (defun ol-save-on-window-or-buffer-change ()
