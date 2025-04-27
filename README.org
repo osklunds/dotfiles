@@ -49,8 +49,6 @@ dotfiles I use
 
 *** corfu
 
-- tab doesn't work in =org-mode=
-
 *** Not important at all
 
 - lsp diagnostics
