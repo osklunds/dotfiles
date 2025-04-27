@@ -399,6 +399,33 @@
 (ol-evil-define-key 'visual org-mode-map "M-l"
                     (lambda () (interactive) (org-emphasize ?_)))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Kill without emphasis markers
+;;;; ---------------------------------------------------------------------------
+;; todo: make more sophisticated. However, my main use case is for copying
+;; code/verbatim snippets to terminals.
+
+(defvar ol-org-kill-without-emphasis-markers nil)
+
+(defun ol-toggle-org-kill-without-emphasis-markers ()
+  (interactive)
+  (setq ol-org-kill-without-emphasis-markers (not ol-org-kill-without-emphasis-markers))
+  (message "kill without emphasis: %s" ol-org-kill-without-emphasis-markers))
+
+(ol-define-key ol-normal-leader-map "o t" #'ol-toggle-org-kill-without-emphasis-markers)
+
+(defun ol-org-filter-buffer-substring-function (killed-string)
+  (if ol-org-kill-without-emphasis-markers
+      (replace-regexp-in-string "~\\|=" "" killed-string)
+    killed-string))
+
+(defun ol-add-kill-without-emphasis-function ()
+  (add-function :filter-return
+                (local 'filter-buffer-substring-function)
+                #'ol-org-filter-buffer-substring-function))
+
+(add-hook 'org-mode-hook #'ol-add-kill-without-emphasis-function)
+
 ;; -----------------------------------------------------------------------------
 ;; Links
 ;; -----------------------------------------------------------------------------

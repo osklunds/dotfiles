@@ -39,7 +39,6 @@ dotfiles I use
 
 *** org-mode
 
-- Yank without emphasis markers
 - try export
 - spell in completion
 
