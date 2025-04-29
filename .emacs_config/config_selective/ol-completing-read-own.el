@@ -316,6 +316,15 @@ current buffer."
 
 (add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
 
+(defun ol-compilation-handle-exit-silence-advice (old-fun &rest args)
+  (if (active-minibuffer-window)
+      (let ((inhibit-message t)
+            (message-log-max nil))
+        (apply old-fun args))
+    (apply old-fun args)))
+
+(advice-add 'compilation-handle-exit :around #'ol-compilation-handle-exit-silence-advice)
+
 (defun ol-start-grep (cmd)
   (save-window-excursion
     ;; todo: customize buffer name fun instead
