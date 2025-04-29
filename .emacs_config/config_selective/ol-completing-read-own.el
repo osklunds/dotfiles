@@ -6,6 +6,7 @@
 
 (require 'icomplete)
 (require 'delsel) ;; for minibuffer-keyboard-quit
+(require 'grep)
 
 ;; -----------------------------------------------------------------------------
 ;; UI
@@ -153,6 +154,7 @@
              '(ol ol-try-completion ol-all-completions "ol"))
 
 (defun ol-highlight-completion (regex ignore-case candidate)
+  (message "oskar: %s" candidate)
   (let* ((md (completion-metadata
               ""
               minibuffer-completion-table
@@ -244,14 +246,15 @@ current buffer."
 ;; Async applications
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-async-process nil)
 (defvar ol-async-candidates nil)
+(defvar ol-async-buffer nil)
+(defvar ol-async-timer nil)
 
 (defun ol-stop-async-process ()
-  (interactive)
-  (when (and ol-async-process (eq (process-status ol-async-process) 'run))
-    (kill-process ol-async-process))
-  (setq ol-async-process nil))
+  (let ((inhibit-message t)
+        (message-log-max nil))
+    (ignore-errors
+      (kill-compilation))))
 
 (defun ol-cleanup-async ()
   (ol-stop-async-process)
@@ -262,34 +265,24 @@ current buffer."
 
 (add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
 
-(defun ol-async-filter (proc output)
-  (when (eq proc ol-async-process)
-    ;; todo: don't assume that full line
-    (let* ((lines (split-string output "\n" t)))
-      (setq ol-async-candidates (append ol-async-candidates lines))
-      (ol-async-delayed-exhibit))))
-
-;; todo: more flicker if this is called when process killed
-(defun ol-async-sentinel (proc output)
-  (when (eq proc ol-async-process)
-    (unless ol-async-candidates
-      ;; If not candidates found, and grep process done, make sure to clear
-      ;; the previous candidates
-      (setq completion-all-sorted-completions '("" . 0))
-      (ol-async-delayed-exhibit))))
-
-(defvar ol-async-timer nil)
-
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
   (unless ol-async-timer
     (setq ol-async-timer
-          (run-with-timer 0.01 nil #'ol-async-exhibit))))
+          (run-with-timer 0.1 nil #'ol-async-exhibit))))
 
 (defun ol-async-exhibit ()
   (setq ol-async-timer nil)
+  (with-current-buffer ol-async-buffer
+    (setq ol-async-candidates (split-string (buffer-string) "\n" t)))
   (setq completion-all-sorted-completions (append ol-async-candidates 0))
+  (setq hej ol-async-candidates)
   (icomplete-exhibit))
+
+;; since my mods of grep-filter and grep--heading-format worked and shows
+;; colors in minibuffer, maybe font lock needs to be enabled?
+;; Maybe ol highlight can change text properties to be face?
+;; consult uses add-face-text-property so maybe font-lock-face ain't usable?
 
 (defun ol-async-minibuffer-input-changed (input-to-cmd)
   (ol-stop-async-process)
@@ -298,15 +291,8 @@ current buffer."
   ;; ol-async-exhibit). icomplete shows the candidates in
   ;; completion-all-sorted-completions before any input has arrived
   (setq ol-async-candidates nil)
-  (let* ((input (minibuffer-contents-no-properties))
-         (cmd (funcall input-to-cmd input)))
-    (setq ol-async-process
-          (ignore-errors
-            (make-process
-             :name "ol-async-process"
-             :command cmd
-             :sentinel #'ol-async-sentinel
-             :filter #'ol-async-filter)))))
+  (let* ((input (minibuffer-contents-no-properties)))
+    (ol-start-grep input)))
 
 (defun ol-async-completing-read (prompt input-to-cmd)
   (ol-cleanup-async)
@@ -321,6 +307,22 @@ current buffer."
                           (ol-skip-normal-highlight . t))
                       (complete-with-action action '("") string pred)))))
       (completing-read prompt table))))
+
+(defun ol-on-compilation-filter-hook ()
+  (ol-async-delayed-exhibit))
+
+(add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
+
+(defun ol-start-grep (cmd)
+  (save-window-excursion
+    ;; todo: customize buffer name fun instead
+    (cl-letf (((symbol-function 'compilation-buffer-name)
+               (lambda (&rest _)
+                 (setq ol-async-buffer (generate-new-buffer-name "*Collect: grep*")))))
+      (grep (format "rg --no-heading %s" cmd))))
+  (cl-assert ol-async-buffer))
+
+(setc grep-use-headings t)
 
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt '("rg" "--color=never" "--smart-case"
@@ -390,7 +392,7 @@ current buffer."
          (buffer (generate-new-buffer name)))
     (with-current-buffer buffer
       ;; todo: don't hard code
-      (if (memq command '(ol-dwim-find-file-content))
+      (if nil
           (grep-mode)
         (ol-collect-mode))
       (read-only-mode -1) 
