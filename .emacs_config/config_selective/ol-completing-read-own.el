@@ -295,7 +295,7 @@ current buffer."
   ;; completion-all-sorted-completions before any input has arrived
   (setq ol-async-candidates nil)
   (let* ((input (minibuffer-contents-no-properties)))
-    (ol-start-grep input)))
+    (ol-start-grep (funcall input-to-cmd input))))
 
 (defun ol-async-completing-read (prompt input-to-cmd)
   (ol-cleanup-async)
@@ -322,15 +322,13 @@ current buffer."
     (cl-letf (((symbol-function 'compilation-buffer-name)
                (lambda (&rest _)
                  (setq ol-async-buffer (generate-new-buffer-name "*Collect: grep*")))))
-      (grep (format "rg --no-heading %s" cmd))))
+      (grep cmd)))
   (cl-assert ol-async-buffer))
 
 (setc grep-use-headings t)
 
 (defun ol-ripgrep (prompt)
-  (ol-grep-helper prompt '("rg" "--color=never" "--smart-case"
-                           "--no-heading" "--with-filename"
-                           "--line-number")))
+  (ol-grep-helper prompt '("rg" "--smart-case" "--no-heading")))
 
 (defun ol-git-grep (prompt)
   (ol-grep-helper prompt '("git" "--no-pager" "grep" "-n" "-E")))
@@ -339,7 +337,9 @@ current buffer."
   (ol-grep-helper prompt '("grep" "-E" "-n" "-I" "-r")))
 
 (defun ol-grep-helper (prompt args)
-  (let* ((input-to-cmd (lambda (input) (append args (list (ol-string-to-regex input)))))
+  (let* ((input-to-cmd
+          (lambda (input)
+            (string-join (append args (list (ol-string-to-regex input))) " ")))
          (selection (ol-async-completing-read prompt input-to-cmd)))
     (ol-open-grep-selection selection)))
 
