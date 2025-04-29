@@ -154,11 +154,13 @@
              '(ol ol-try-completion ol-all-completions "ol"))
 
 (defun ol-highlight-completion (regex ignore-case candidate)
-  (message "oskar: %s" candidate)
   (let* ((md (completion-metadata
               ""
               minibuffer-completion-table
               minibuffer-completion-predicate)))
+    (when (completion-metadata-get md 'ol-skip-normal-highlight)
+      (ol-map-font-lock-face-to-face candidate)
+      )
     (unless (completion-metadata-get md 'ol-skip-normal-highlight)
       (ol-normal-highlight-fn regex ignore-case candidate))
     (when-let ((fn (completion-metadata-get md 'ol-extra-highlight-function)))
@@ -279,10 +281,11 @@ current buffer."
   (setq hej ol-async-candidates)
   (icomplete-exhibit))
 
-;; since my mods of grep-filter and grep--heading-format worked and shows
-;; colors in minibuffer, maybe font lock needs to be enabled?
-;; Maybe ol highlight can change text properties to be face?
-;; consult uses add-face-text-property so maybe font-lock-face ain't usable?
+(defun ol-map-font-lock-face-to-face (string)
+  (dolist (pos (number-sequence 0 (1- (length string))))
+    (when-let ((prop (get-text-property pos 'font-lock-face string)))
+      (add-face-text-property pos (1+ pos) prop nil string)))
+  string)
 
 (defun ol-async-minibuffer-input-changed (input-to-cmd)
   (ol-stop-async-process)
