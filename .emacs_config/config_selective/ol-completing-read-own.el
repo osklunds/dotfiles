@@ -354,6 +354,7 @@ current buffer."
 
 (defun ol-open-grep-selection (selection)
   ;; example: .emacs_config/config/ol-file.el:44:(defun ol-save-silently ()
+  ;; this works because the string above is invisible thanks to a text property
   (if (string-match "\\(.*\\):\\([0-9]+\\):" selection)
       (let* ((file (match-string 1 selection))
              (line (match-string 2 selection)))
