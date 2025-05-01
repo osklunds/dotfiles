@@ -261,6 +261,12 @@ current buffer."
 (defvar ol-async-candidates nil)
 (defvar ol-async-timer nil)
 
+(defun ol-async-compilation-buffer-name-advice (name)
+  (setq ol-async-buffer name))
+
+(advice-add 'compilation-buffer-name :filter-return
+            #'ol-async-compilation-buffer-name-advice)
+
 (defun ol-async-stop-process ()
   (ol-silent
     (ignore-errors
@@ -324,11 +330,7 @@ current buffer."
   (let* ((input (minibuffer-contents-no-properties))
          (cmd (funcall input-to-cmd input)))
     (save-window-excursion
-      ;; todo: customize buffer name fun instead
-      (cl-letf (((symbol-function 'compilation-buffer-name)
-                 (lambda (&rest _)
-                   (setq ol-async-buffer (generate-new-buffer-name "*Collect: grep*")))))
-        (grep cmd)))
+      (grep cmd))
     (cl-assert ol-async-buffer)))
 
 (defun ol-async-completing-read (prompt input-to-cmd)
@@ -407,6 +409,22 @@ current buffer."
 
 (defun ol-collect ()
   (interactive)
+  (if ol-async-buffer
+      (ol-collect-async)
+    (ol-collect-sync)))
+
+(defun ol-collect-async ()
+  (message "oskar: %s" "async")
+  (let* ((name (format "*Collect: %s - %s*" ol-collect-command
+                       (minibuffer-contents-no-properties))))
+    (with-current-buffer ol-async-buffer
+      (rename-buffer name 'unique)
+      (setq ol-async-buffer (buffer-name))))
+  (run-at-time nil nil #'switch-to-buffer-other-window ol-async-buffer)
+  (minibuffer-keyboard-quit))
+
+(defun ol-collect-sync ()
+  (message "oskar: %s" "sync")
   (let* ((candidates (completion-all-sorted-completions))
          (name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
