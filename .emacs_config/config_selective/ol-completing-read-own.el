@@ -382,7 +382,8 @@ current buffer."
     (user-error "Couldn't find match")))
 
 (cl-defun ol-completing-read-shell-command (&key prompt history require-match)
-  (let* ((input-to-cmd (lambda (input) input)))
+  (let* ((input-to-cmd (lambda (input) input))
+         (grep-use-headings nil))
     (ol-async-completing-read prompt input-to-cmd)))
 
 ;; -----------------------------------------------------------------------------
