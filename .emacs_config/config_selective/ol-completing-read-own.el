@@ -268,6 +268,11 @@ current buffer."
 ;; Async applications
 ;; -----------------------------------------------------------------------------
 
+(set-face-attribute 'match nil
+                    :inherit 'ol-match-face
+                    :foreground 'unspecified
+                    :background 'unspecified)
+
 (setc grep-use-headings t)
 ;; Also avoids issues in async completion
 (setc compilation-always-kill t)
