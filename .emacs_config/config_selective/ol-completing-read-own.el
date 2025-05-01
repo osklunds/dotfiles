@@ -407,34 +407,11 @@ current buffer."
 
 (add-hook 'minibuffer-setup-hook #'ol-collect-record-this-command)
 
-(defun ol-collect ()
-  (interactive)
-  (if ol-async-buffer
-      (ol-collect-async)
-    (ol-collect-sync)))
-
-(defun ol-collect-async ()
-  (message "oskar: %s" "async")
-  (let* ((name (format "*Collect: %s - %s*" ol-collect-command
-                       (minibuffer-contents-no-properties))))
-    (with-current-buffer ol-async-buffer
-      (rename-buffer name 'unique)
-      (setq ol-async-buffer (buffer-name))))
-  (run-at-time nil nil #'switch-to-buffer-other-window ol-async-buffer)
-  (minibuffer-keyboard-quit))
-
-(defun ol-collect-sync ()
-  (message "oskar: %s" "sync")
-  (let* ((candidates (completion-all-sorted-completions))
-         (name (format "*Collect: %s - %s*" ol-collect-command
-                       (minibuffer-contents-no-properties)))
-         (command ol-collect-command)
-         (buffer (generate-new-buffer name)))
+(defun ol-collect-create-buffer (name command)
+  (let* ((buffer (generate-new-buffer name))
+         (candidates (completion-all-sorted-completions)))
     (with-current-buffer buffer
-      ;; todo: don't hard code
-      (if nil
-          (grep-mode)
-        (ol-collect-mode))
+      (ol-collect-mode)
       (read-only-mode -1) 
       (setq ol-collect-command command)
       (dolist (candidate (ol-nmake-proper-list candidates))
@@ -443,6 +420,18 @@ current buffer."
           (insert "\n")))
       (goto-char (point-min))
       (read-only-mode 1))
+    buffer))
+
+(defun ol-collect ()
+  (interactive)
+  (let* ((command ol-collect-command)
+         (name (format "*Collect: %s - %s*" command
+                       (minibuffer-contents-no-properties)))
+         (buffer (if ol-async-buffer
+                     (progn
+                       (with-current-buffer ol-async-buffer
+                         (rename-buffer name 'unique)))
+                   (ol-collect-create-buffer name command))))
     (run-at-time nil nil #'switch-to-buffer-other-window buffer)
     (minibuffer-keyboard-quit)))
 
