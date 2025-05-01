@@ -306,7 +306,7 @@ current buffer."
 (defun ol-async-delayed-exhibit ()
   (unless ol-async-timer
     (setq ol-async-timer
-          (run-with-timer 0.1 nil #'ol-async-exhibit))))
+          (run-with-timer 0.01 nil #'ol-async-exhibit))))
 
 (defun ol-on-compilation-filter-hook ()
   (ol-async-delayed-exhibit))
