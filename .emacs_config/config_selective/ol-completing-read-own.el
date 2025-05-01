@@ -113,6 +113,7 @@
   (ol-assert-equal "defun  my-fun" (ol-string-to-regex "defun   my-fun"))
   (ol-assert-equal "defun.*?my-fun" (ol-string-to-regex "defun my-fun "))
   (ol-assert-equal "a.*?b.*?c" (ol-string-to-regex "a b c"))
+  (ol-assert-equal "a b c" (ol-string-to-regex "a  b  c"))
   )
 
 (ert-deftest ol-all-completions-test ()
