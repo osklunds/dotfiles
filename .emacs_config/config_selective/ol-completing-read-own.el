@@ -97,11 +97,13 @@
   (string= string (downcase string)))
 
 (defun ol-string-to-regex (string)
-  (replace-regexp-in-string
-   " \\( +\\)" "\\1"
-   (replace-regexp-in-string
-    "\\([^ ]\\) \\([^ ]\\)" "\\1.*?\\2"
-    (string-trim string " " " "))))
+  (let* ((trimmed (string-trim string " " " "))
+         (old nil)
+         (new trimmed))
+    (while (not (string= old new))
+      (setq old new)
+      (setq new (replace-regexp-in-string "\\([^ ]\\) \\([^ ]\\)" "\\1.*?\\2" old)))
+    (replace-regexp-in-string " \\( +\\)" "\\1" new)))
 
 (ert-deftest ol-string-to-regex-test ()
   (ol-assert-equal "" (ol-string-to-regex ""))
@@ -110,6 +112,7 @@
   (ol-assert-equal "defun my-fun" (ol-string-to-regex "defun  my-fun"))
   (ol-assert-equal "defun  my-fun" (ol-string-to-regex "defun   my-fun"))
   (ol-assert-equal "defun.*?my-fun" (ol-string-to-regex "defun my-fun "))
+  (ol-assert-equal "a.*?b.*?c" (ol-string-to-regex "a b c"))
   )
 
 (ert-deftest ol-all-completions-test ()
