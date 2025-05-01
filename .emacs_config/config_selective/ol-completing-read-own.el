@@ -337,6 +337,7 @@ current buffer."
 
 (defun ol-async-minibuffer-input-changed (input-to-cmd)
   (ol-async-stop-process)
+  (ol-async-stop-timer)
   ;; Don't set completion-all-sorted-completions to empty since then there's
   ;; flicker in the display (easier to see if (sit-for 1) in
   ;; ol-async-exhibit). icomplete shows the candidates in
@@ -399,7 +400,7 @@ current buffer."
     (user-error "Couldn't find match")))
 
 (cl-defun ol-completing-read-shell-command (prompt history)
-  (let* ((input-to-cmd (lambda (input) input))
+  (let* ((input-to-cmd (lambda (input) (concat "bash -ic \"" input "\"")))
          (grep-use-headings nil))
     (ol-async-completing-read prompt input-to-cmd history)))
 
