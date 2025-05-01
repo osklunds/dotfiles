@@ -175,6 +175,13 @@
            (end (cadr m)))
       (add-face-text-property start end 'ol-match-face nil candidate))))
 
+;; todo: don't highlight char by char, do intervals for better performance
+(defun ol-map-font-lock-face-to-face (string)
+  (dolist (pos (number-sequence 0 (1- (length string))))
+    (when-let ((prop (get-text-property pos 'font-lock-face string)))
+      (add-face-text-property pos (1+ pos) prop nil string)))
+  string)
+
 (setq completion-lazy-hilit t)
 
 (setc completion-styles '(ol))
@@ -248,24 +255,39 @@ current buffer."
 ;; Async applications
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-async-candidates nil)
+(setc grep-use-headings t)
+
 (defvar ol-async-buffer nil)
+(defvar ol-async-candidates nil)
 (defvar ol-async-timer nil)
 
-(defun ol-stop-async-process ()
-  (let ((inhibit-message t)
-        (message-log-max nil))
+(defun ol-async-stop-process ()
+  (ol-silent
     (ignore-errors
       (kill-compilation))))
 
-(defun ol-cleanup-async ()
-  (ol-stop-async-process)
-  (setq ol-async-timer nil)
+(defun ol-async-stop-timer ()
+  (when ol-async-timer
+    (cancel-timer ol-async-timer))
+  (setq ol-async-timer nil))
+
+(defun ol-async-cleanup ()
+  (ol-async-stop-process)
+  (setq ol-async-buffer nil)
   (setq ol-async-candidates nil)
+  (ol-async-stop-timer)
   ;; Don't set to nil to avoid "No match" which causes flicker
   (setq completion-all-sorted-completions '("" . 0)))
 
-(add-hook 'minibuffer-exit-hook #'ol-cleanup-async)
+(add-hook 'minibuffer-exit-hook #'ol-async-cleanup)
+
+(defun ol-async-exhibit ()
+  (ol-async-stop-timer)
+  (with-current-buffer ol-async-buffer
+    ;; todo: consider only appending new lines
+    (setq ol-async-candidates (split-string (buffer-string) "\n" t)))
+  (setq completion-all-sorted-completions (append ol-async-candidates 0))
+  (icomplete-exhibit))
 
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
@@ -273,32 +295,38 @@ current buffer."
     (setq ol-async-timer
           (run-with-timer 0.1 nil #'ol-async-exhibit))))
 
-(defun ol-async-exhibit ()
-  (setq ol-async-timer nil)
-  (with-current-buffer ol-async-buffer
-    (setq ol-async-candidates (split-string (buffer-string) "\n" t)))
-  (setq completion-all-sorted-completions (append ol-async-candidates 0))
-  (setq hej ol-async-candidates)
-  (icomplete-exhibit))
+(defun ol-on-compilation-filter-hook ()
+  (ol-async-delayed-exhibit))
 
-(defun ol-map-font-lock-face-to-face (string)
-  (dolist (pos (number-sequence 0 (1- (length string))))
-    (when-let ((prop (get-text-property pos 'font-lock-face string)))
-      (add-face-text-property pos (1+ pos) prop nil string)))
-  string)
+(add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
+
+(defun ol-compilation-handle-exit-silence-advice (old-fun &rest args)
+  (if (active-minibuffer-window)
+      (ol-silent
+        (apply old-fun args))
+    (apply old-fun args)))
+
+(advice-add 'compilation-handle-exit :around #'ol-compilation-handle-exit-silence-advice)
 
 (defun ol-async-minibuffer-input-changed (input-to-cmd)
-  (ol-stop-async-process)
+  (ol-async-stop-process)
   ;; Don't set completion-all-sorted-completions to empty since then there's
   ;; flicker in the display (easier to see if (sit-for 1) in
   ;; ol-async-exhibit). icomplete shows the candidates in
   ;; completion-all-sorted-completions before any input has arrived
   (setq ol-async-candidates nil)
-  (let* ((input (minibuffer-contents-no-properties)))
-    (ol-start-grep (funcall input-to-cmd input))))
+  (let* ((input (minibuffer-contents-no-properties))
+         (cmd (funcall input-to-cmd input)))
+    (save-window-excursion
+      ;; todo: customize buffer name fun instead
+      (cl-letf (((symbol-function 'compilation-buffer-name)
+                 (lambda (&rest _)
+                   (setq ol-async-buffer (generate-new-buffer-name "*Collect: grep*")))))
+        (grep cmd)))
+    (cl-assert ol-async-buffer)))
 
 (defun ol-async-completing-read (prompt input-to-cmd)
-  (ol-cleanup-async)
+  (ol-async-cleanup)
   (minibuffer-with-setup-hook
       (lambda ()
         (let* ((hook (lambda (&rest _)
@@ -310,31 +338,6 @@ current buffer."
                           (ol-skip-normal-highlight . t))
                       (complete-with-action action '("") string pred)))))
       (completing-read prompt table))))
-
-(defun ol-on-compilation-filter-hook ()
-  (ol-async-delayed-exhibit))
-
-(add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
-
-(defun ol-compilation-handle-exit-silence-advice (old-fun &rest args)
-  (if (active-minibuffer-window)
-      (let ((inhibit-message t)
-            (message-log-max nil))
-        (apply old-fun args))
-    (apply old-fun args)))
-
-(advice-add 'compilation-handle-exit :around #'ol-compilation-handle-exit-silence-advice)
-
-(defun ol-start-grep (cmd)
-  (save-window-excursion
-    ;; todo: customize buffer name fun instead
-    (cl-letf (((symbol-function 'compilation-buffer-name)
-               (lambda (&rest _)
-                 (setq ol-async-buffer (generate-new-buffer-name "*Collect: grep*")))))
-      (grep cmd)))
-  (cl-assert ol-async-buffer))
-
-(setc grep-use-headings t)
 
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt '("rg" "--smart-case" "--no-heading")))
@@ -366,7 +369,7 @@ current buffer."
     (user-error "Couldn't find match")))
 
 (cl-defun ol-completing-read-shell-command (&key prompt history require-match)
-  (let* ((input-to-cmd (lambda (input) (list "bash" "-c" input))))
+  (let* ((input-to-cmd (lambda (input) (format "bash -c \"%s\"" input))))
     (ol-async-completing-read prompt input-to-cmd)))
 
 ;; -----------------------------------------------------------------------------
