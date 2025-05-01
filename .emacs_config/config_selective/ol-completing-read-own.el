@@ -310,6 +310,7 @@ current buffer."
 (defun ol-on-compilation-filter-hook ()
   (ol-async-delayed-exhibit))
 
+;; todo: only locally
 (add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
 
 (defun ol-compilation-handle-exit-silence-advice (old-fun &rest args)
