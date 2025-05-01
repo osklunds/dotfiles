@@ -168,10 +168,8 @@
   (let* ((default-directory dir)
          (prompt (format "Shell command [%s]: " prompt-dir-part))
          (selection (ol-completing-read-shell-command
-                     :prompt prompt
-                     :history 'ol-shell-command
-                     :require-match t
-                     )))
+                     prompt
+                     'ol-shell-command)))
     (ol-shell-command-open-selection selection)))
 
 (defun ol-shell-command-open-selection (selection)
