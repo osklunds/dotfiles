@@ -83,6 +83,26 @@ Why this complexity? I've used =ivy= for a long time, but wanted to try =vertico
 
 My vertico config is not as polished as for ivy. It was hard to get it work the way ivy worked. I might not spend time on it if I'm going to roll my own anyway.
 
+** Variants and input
+
+*** Find file names
+
+~ol-dwim-find-file-name~ is =rg --files REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. It's synchronous which means no options can be passed to =rg=. For passing options, use ~ol-dwim-shell-command~ instead. The reason ~ol-dwim-find-file-name~ is synchronous is that it's the common case, and synchronous is slightly faster than asynchronous.
+
+*** Find file content
+
+~ol-dwim-find-file-content~ is =rg REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. The options =-g "*.ext"=, =-g "!*.ext"= and =--no-ignore= are relevant to use in some occasions. See below how to use them in the shell and how it translates to ~ol-dwim-find-file-content~.
+
+| shell syntax            | ~ol-dwim-find-file-content~ |
+|-------------------------+---------------------------|
+| =rg hej=                  | =hej=                       |
+| =rg hej.*?hello=          | =hej hello=                 |
+| =rg hej hello=            | =hej  hello=                |
+| =rg -g "*.txt" -- hello=  | =-g "*.txt" -- hello=       |
+| =rg -g "!*.txt" -- hello= | =-g "!*.txt" -- hello=      |
+| =rg --no-ignore hello=    | =--no-ignore -- hello=      |
+| =rg --no-ignore -- hello= | =--no-ignore -- hello=      |
+
 ** completing-read-own todos
 
 - UI
