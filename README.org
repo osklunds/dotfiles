@@ -87,7 +87,7 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 
 *** Find file names
 
-~ol-dwim-find-file-name~ is =rg --files REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. It's synchronous which means no options can be passed to =rg=. For passing options, use ~ol-dwim-shell-command~ instead. The reason ~ol-dwim-find-file-name~ is synchronous is that it's the common case, and synchronous is slightly faster than asynchronous.
+~ol-dwim-find-file-name~ is =rg --files REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. It's synchronous which means no options can be passed to =rg=. For passing options, use ~ol-dwim-shell-command~ instead and pipe manually, e.g. =rg --files --no-ignore -g "*.txt" | rg name=. The reason ~ol-dwim-find-file-name~ is synchronous is that it's the common case, and synchronous is slightly faster than asynchronous.
 
 *** Find file content
 
