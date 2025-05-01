@@ -35,6 +35,18 @@
   (let ((inhibit-message t))
     (apply func args)))
 
+;; Inpired by https://github.com/minad/cape
+;; todo: still empties echo area
+(eval-and-compile
+  (defmacro ol-silent (&rest body)
+    (declare (indent 0))
+    `(cl-letf (;; Prevents in echo area
+               (inhibit-message t)
+               ;; Prevents in messages buffer
+               (message-log-max nil)
+               ((symbol-function #'minibuffer-message) #'ignore))
+       ,@body)))
+
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
 ;;------------------------------------------------------------------------------
