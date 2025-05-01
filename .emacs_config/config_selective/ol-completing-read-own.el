@@ -361,7 +361,10 @@ current buffer."
 (defun ol-grep-helper (prompt args)
   (let* ((input-to-cmd
           (lambda (input)
-            (string-join (append args (list (ol-string-to-regex input))) " ")))
+            (concat 
+             (string-join args " ")
+             " "
+             (shell-quote-argument (ol-string-to-regex input)))))
          (selection (ol-async-completing-read prompt input-to-cmd)))
     (ol-open-grep-selection selection)))
 
