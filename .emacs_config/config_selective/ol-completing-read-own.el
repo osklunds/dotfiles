@@ -286,8 +286,12 @@ current buffer."
   (with-current-buffer ol-async-buffer
     ;; todo: consider only appending new lines
     (let* ((lines (split-string (buffer-string) "\n" t))
-           (relevant-lines (butlast (cdr (cdr (cdr lines))))))
-      (setq ol-async-candidates relevant-lines)))
+           (relevant-lines (butlast (cdr (cdr (cdr lines)))))
+           (width-limit (- (frame-width) 20))
+           (trimmed-lines (mapcar (lambda (str)
+                                    (string-limit str width-limit))
+                                  relevant-lines)))
+      (setq ol-async-candidates trimmed-lines)))
   (setq completion-all-sorted-completions (append ol-async-candidates 0))
   (icomplete-exhibit))
 
