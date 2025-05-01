@@ -273,9 +273,15 @@ current buffer."
                     :foreground 'unspecified
                     :background 'unspecified)
 
+(set-face-attribute 'compilation-line-number nil
+                    :foreground 'unspecified
+                    :underline nil
+                    :inherit 'font-lock-string-face)
+
 (setc grep-use-headings t)
 ;; Also avoids issues in async completion
 (setc compilation-always-kill t)
+(setc compilation-message-face nil)
 
 (defvar ol-async-buffer nil)
 (defvar ol-async-candidates nil)
