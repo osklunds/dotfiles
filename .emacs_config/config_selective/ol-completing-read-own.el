@@ -462,6 +462,7 @@ current buffer."
   (interactive)
   (let* ((candidate (string-trim-right (thing-at-point 'line t)))
          (command ol-collect-command))
+    (select-window (next-window (selected-window)))
     (minibuffer-with-setup-hook
         (lambda ()
           (delete-minibuffer-contents)
