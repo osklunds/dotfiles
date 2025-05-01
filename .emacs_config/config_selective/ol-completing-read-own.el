@@ -102,6 +102,7 @@
          (new trimmed))
     (while (not (string= old new))
       (setq old new)
+      ;; replace below only does one at a time so need to loop
       (setq new (replace-regexp-in-string "\\([^ ]\\) \\([^ ]\\)" "\\1.*?\\2" old)))
     (replace-regexp-in-string " \\( +\\)" "\\1" new)))
 
@@ -391,21 +392,61 @@ current buffer."
                        history))))
 
 (defun ol-ripgrep (prompt)
-  (ol-grep-helper prompt '("rg" "--smart-case" "--no-heading")))
+  (ol-grep-helper prompt "rg --smart-case --no-heading"))
 
 (defun ol-git-grep (prompt)
-  (ol-grep-helper prompt '("git" "--no-pager" "grep" "-n" "-E")))
+  (ol-grep-helper prompt "git --no-pager grep -n -E"))
 
 (defun ol-grep (prompt)
-  (ol-grep-helper prompt '("grep" "-E" "-n" "-I" "-r")))
+  (ol-grep-helper prompt "grep -E -n -I -r"))
+
+(defun ol-grep-input-to-cmd (input)
+  (let* ((split (ol-split-string-once input " @ "))
+         (before (car split))
+         (after (cdr split))
+         (regex (shell-quote-argument (ol-string-to-regex after))))
+    (if before
+        (concat before " -- " regex)
+      regex)))
+
+(ert-deftest ol-grep-input-to-cmd-test ()
+  ;; Search for one term
+  (ol-assert-equal "hej" (ol-grep-input-to-cmd "hej"))
+
+  ;; Serach two terms with space wildcard
+  (ol-assert-equal "a.\\*\\?b" (ol-grep-input-to-cmd "a b"))
+
+  ;; Search for literal space
+  (ol-assert-equal "a\\ b" (ol-grep-input-to-cmd "a  b"))
+
+  ;; Specify option towards grep, a is the option b is the search term
+  (ol-assert-equal "a -- b" (ol-grep-input-to-cmd "a @ b"))
+
+  ;; Specify option towards grep and use literal @ in search term
+  (ol-assert-equal "a -- b.\\*\\?\\@.\\*\\?c" (ol-grep-input-to-cmd "a @ b @ c"))
+
+  ;; Search for literal @
+  (ol-assert-equal " -- \\@" (ol-grep-input-to-cmd " @ @"))
+  )
+
+(defun ol-split-string-once (string separator)
+  (if-let ((pos (string-match separator string)))
+      (cons (substring string 0 pos)
+            (substring string (+ pos (length separator))))
+    (cons nil string)))
+
+(ert-deftest ol-split-string-once-test ()
+  (ol-assert-equal `(,nil . "hej") (ol-split-string-once "hej" " @ "))
+  (ol-assert-equal '("hej" . "hello") (ol-split-string-once "hej @ hello" " @ "))
+  (ol-assert-equal '("hej " . "hello") (ol-split-string-once "hej  @ hello" " @ "))
+  (ol-assert-equal '("hej" . " hello") (ol-split-string-once "hej @  hello" " @ "))
+  (ol-assert-equal '("a" . "b @ c") (ol-split-string-once "a @ b @ c" " @ "))
+  )
 
 (defun ol-grep-helper (prompt args)
   (let* ((input-to-cmd
           (lambda (input)
-            (concat 
-             (string-join args " ")
-             " "
-             (shell-quote-argument (ol-string-to-regex input)))))
+            (concat args " " (ol-grep-input-to-cmd input))))
          (selection (ol-async-completing-read prompt input-to-cmd 'ol-grep)))
     (ol-open-grep-selection selection)))
 
