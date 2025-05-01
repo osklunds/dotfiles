@@ -1,6 +1,9 @@
 
 (require 'ol-corfu)
 
+;; So that aliases are loaded
+(setq shell-command-switch "-ic")
+
 (defun ol-add-sh-mode-capf ()
   (setq-local completion-at-point-functions
               (list (cape-capf-super #'ol-capf-abbrev

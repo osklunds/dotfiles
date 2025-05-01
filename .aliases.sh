@@ -43,7 +43,10 @@ alias gb='git branch'
 
 # dotfiles
 alias ra='source ~/.bashrc'
+
+# emacs
 alias ec='edit_with_emacs'
+alias rge='rg --no-heading'
 
 # Rust
 alias cb='cargo build'
