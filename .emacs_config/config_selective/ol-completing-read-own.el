@@ -340,13 +340,18 @@ current buffer."
 ;; todo: only locally
 (add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
 
-(defun ol-compilation-handle-exit-silence-advice (old-fun &rest args)
+(defun ol-compilation-handle-exit-advice (old-fun &rest args)
+  ;; Adviced for two reasons: silence and empty buffer if no candidates
   (if (active-minibuffer-window)
-      (ol-silent
-        (apply old-fun args))
+      (progn
+        (unless ol-async-candidates
+          (setq completion-all-sorted-completions '("" . 0)))
+        (ol-async-delayed-exhibit)
+        (ol-silent
+          (apply old-fun args)))
     (apply old-fun args)))
 
-(advice-add 'compilation-handle-exit :around #'ol-compilation-handle-exit-silence-advice)
+(advice-add 'compilation-handle-exit :around #'ol-compilation-handle-exit-advice)
 
 (defun ol-async-minibuffer-input-changed (input-to-cmd)
   (ol-async-stop-process)
