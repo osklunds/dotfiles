@@ -39,7 +39,7 @@
 
 (defun ol-capf-tlc ()
   (cape-wrap-properties #'tlc-completion-at-point
-                        :annotation-function (lambda (_) "tlc")))
+                        :annotation-function (lambda (_) " tlc")))
 
 (add-hook 'tlc-mode-hook #'ol-add-tlc-mode-capf)
 

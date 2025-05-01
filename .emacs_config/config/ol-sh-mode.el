@@ -9,7 +9,7 @@
 
 (defun ol-capf-sh-mode ()
   (cape-wrap-properties #'sh-completion-at-point-function
-                        :annotation-function (lambda (_) "Shell")))
+                        :annotation-function (lambda (_) " Shell")))
 
 (add-hook 'sh-mode-hook #'ol-add-sh-mode-capf)
 

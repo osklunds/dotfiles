@@ -38,7 +38,7 @@
 
 (defun ol-capf-emacs-lisp ()
   (cape-wrap-properties #'elisp-completion-at-point
-                        :annotation-function (lambda (_) "Lisp")))
+                        :annotation-function (lambda (_) " Lisp")))
 
 (add-hook 'emacs-lisp-mode-hook #'ol-add-emacs-lisp-capf)
 

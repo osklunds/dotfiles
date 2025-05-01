@@ -90,10 +90,10 @@
 
 (defun ol-capf-abbrev ()
   (cape-wrap-properties #'cape-abbrev
-                        :annotation-function (lambda (_) "Abbrev")))
+                        :annotation-function (lambda (_) " Abbrev")))
 
 (defun ol-capf-dabbrev ()
   (cape-wrap-properties #'cape-dabbrev
-                        :annotation-function (lambda (_) "Dabbrev")))
+                        :annotation-function (lambda (_) " Dabbrev")))
 
 (provide 'ol-corfu)
