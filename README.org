@@ -91,7 +91,7 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 
 *** Find file content
 
-~ol-dwim-find-file-content~ is =rg REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. The options =-g "*.ext"=, =-g "!*.ext"= and =--no-ignore= are relevant to use in some occasions. See below how to use them in the shell and how it translates to ~ol-dwim-find-file-content~.
+~ol-dwim-find-file-content~ is =rg REGEX= where =REGEX= is the user input transformed to regex with space as wildcard. The options =-g "*​.ext"=, =-g "!*.ext"= and =--no-ignore= are relevant to use in some occasions. See below how to use them in the shell and how it translates to ~ol-dwim-find-file-content~.
 
 | shell syntax            | ~ol-dwim-find-file-content~ |
 |-------------------------+---------------------------|
