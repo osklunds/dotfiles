@@ -14,10 +14,7 @@ dotfiles I use
 
 - Upgrade preparation, see [[Upgrade preparation]]
 - Download all packages and store as check-in
-- for dwim find file, support =git ls-files=, =git grep=, =rg= options (for ignoring ignore), select if =cwd= or =project root=
-- for dwim find file, if arg, ask for path
 - =wgrep=
-- add vim mark to bookmarks
 
 *** Less important
 
@@ -36,10 +33,11 @@ dotfiles I use
 - make vdiff auto sync at start work
 - make vdiff sync as scroll always be able to scroll
 - Make markdown look as good as org-mode
+- for dwim find file, if arg, ask for path
+- add vim mark to bookmarks
 
 *** org-mode
 
-- try export
 - spell in completion
 
 *** corfu
