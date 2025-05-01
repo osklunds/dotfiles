@@ -363,7 +363,6 @@ current buffer."
         (grep cmd)))
     (cl-assert ol-async-buffer)))
 
-
 (defun ol-async-completing-read (prompt input-to-cmd history)
   (ol-async-cleanup)
   (minibuffer-with-setup-hook
