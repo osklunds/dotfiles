@@ -34,6 +34,7 @@
 ;; then works as expected. Maybe something loaded afterwards overrides. So
 ;; use this workaround.
 (run-with-timer 0 nil #'ol-evil-define-key 'insert org-mode-map 'tab nil)
+(run-with-timer 0 nil #'ol-define-key org-mode-map 'tab 'org-metaright)
 
 ;; -----------------------------------------------------------------------------
 ;; Headers
