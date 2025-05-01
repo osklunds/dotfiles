@@ -37,6 +37,19 @@
 (run-with-timer 0 nil #'ol-define-key org-mode-map 'tab 'org-metaright)
 
 ;; -----------------------------------------------------------------------------
+;; Paragraphs
+;; -----------------------------------------------------------------------------
+
+(setq ol-original-paragraph-start paragraph-start)
+(setq ol-original-paragraph-separate paragraph-separate)
+
+(defun ol-org-set-paragraphs ()
+  (setq paragraph-start ol-original-paragraph-start)
+  (setq paragraph-separate ol-original-paragraph-separate))
+
+(add-hook 'org-mode-hook #'ol-org-set-paragraphs)
+
+;; -----------------------------------------------------------------------------
 ;; Headers
 ;; -----------------------------------------------------------------------------
 
