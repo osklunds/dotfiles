@@ -92,15 +92,11 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
             - delete selected candidate
       - =find-file=
             - =TAB= should not exit minibuffer, like in =ivy=
-      - =eval-expression=
 - Async applications (i.e. grep)
-      - Colors based on what =ripgrep= etc output using =--color=always=
-      - (Hard, not too important) headings based on =ripgrep='s headings
       - Sometimes there are multilines
 - Collection
       - Take initial directory, intial buffer/mode, prefix arg etc into account when rerunning action, like =embark= does
-      - Colors based on what =ripgrep= etc output using =--color=always=
-      - (Hard, not too important) headings based on =ripgrep='s headings
+      - Switch to other buffer
 
 * Upgrade preparation
 
