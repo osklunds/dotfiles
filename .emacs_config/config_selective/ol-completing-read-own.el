@@ -398,10 +398,10 @@ current buffer."
         (forward-line (1- (string-to-number line))))
     (user-error "Couldn't find match")))
 
-(cl-defun ol-completing-read-shell-command (&key prompt history require-match)
+(cl-defun ol-completing-read-shell-command (prompt history)
   (let* ((input-to-cmd (lambda (input) input))
          (grep-use-headings nil))
-    (ol-async-completing-read prompt input-to-cmd)))
+    (ol-async-completing-read prompt input-to-cmd history)))
 
 ;; -----------------------------------------------------------------------------
 ;; Collection
