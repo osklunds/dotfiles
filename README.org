@@ -39,6 +39,7 @@ dotfiles I use
 *** org-mode
 
 - spell in completion
+- =dd= inside list with line breaks delete from the line below
 
 *** corfu
 
