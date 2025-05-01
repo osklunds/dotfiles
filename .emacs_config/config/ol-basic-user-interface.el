@@ -32,6 +32,7 @@
 (tooltip-mode -1)
 (set-fringe-mode 10)
 (menu-bar-mode -1)
+(blink-cursor-mode -1)
 
 (setq visible-bell nil ring-bell-function #'ignore)
 
