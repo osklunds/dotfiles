@@ -285,7 +285,9 @@ current buffer."
   (ol-async-stop-timer)
   (with-current-buffer ol-async-buffer
     ;; todo: consider only appending new lines
-    (setq ol-async-candidates (split-string (buffer-string) "\n" t)))
+    (let* ((lines (split-string (buffer-string) "\n" t))
+           (relevant-lines (butlast (cdr (cdr (cdr lines))))))
+      (setq ol-async-candidates relevant-lines)))
   (setq completion-all-sorted-completions (append ol-async-candidates 0))
   (icomplete-exhibit))
 
