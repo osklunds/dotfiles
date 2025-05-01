@@ -269,6 +269,8 @@ current buffer."
 ;; -----------------------------------------------------------------------------
 
 (setc grep-use-headings t)
+;; Also avoids issues in async completion
+(setc compilation-always-kill t)
 
 (defvar ol-async-buffer nil)
 (defvar ol-async-candidates nil)
@@ -346,8 +348,10 @@ current buffer."
   (let* ((input (minibuffer-contents-no-properties))
          (cmd (funcall input-to-cmd input)))
     (save-window-excursion
-      (grep cmd))
+      (cl-letf (((symbol-function 'sit-for) (lambda (&rest _))))
+        (grep cmd)))
     (cl-assert ol-async-buffer)))
+
 
 (defun ol-async-completing-read (prompt input-to-cmd history)
   (ol-async-cleanup)
