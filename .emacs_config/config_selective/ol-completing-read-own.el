@@ -279,9 +279,9 @@ current buffer."
 
 (defun ol-async-cleanup ()
   (ol-async-stop-process)
+  (ol-async-stop-timer)
   (setq ol-async-buffer nil)
   (setq ol-async-candidates nil)
-  (ol-async-stop-timer)
   ;; Don't set to nil to avoid "No match" which causes flicker
   (setq completion-all-sorted-completions '("" . 0)))
 
@@ -289,17 +289,18 @@ current buffer."
 
 (defun ol-async-exhibit ()
   (ol-async-stop-timer)
-  (with-current-buffer ol-async-buffer
-    ;; todo: consider only appending new lines
-    (let* ((lines (split-string (buffer-string) "\n" t))
-           (relevant-lines (butlast (cdr (cdr (cdr lines)))))
-           (width-limit (- (frame-width) 20))
-           (trimmed-lines (mapcar (lambda (str)
-                                    (string-limit str width-limit))
-                                  relevant-lines)))
-      (setq ol-async-candidates trimmed-lines)))
-  (setq completion-all-sorted-completions (append ol-async-candidates 0))
-  (icomplete-exhibit))
+  (when ol-async-buffer
+    (with-current-buffer ol-async-buffer
+      ;; todo: consider only appending new lines
+      (let* ((lines (split-string (buffer-string) "\n" t))
+             (relevant-lines (butlast (cdr (cdr (cdr lines)))))
+             (width-limit (- (frame-width) 20))
+             (trimmed-lines (mapcar (lambda (str)
+                                      (string-limit str width-limit))
+                                    relevant-lines)))
+        (setq ol-async-candidates trimmed-lines)))
+    (setq completion-all-sorted-completions (append ol-async-candidates 0))
+    (icomplete-exhibit)))
 
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
