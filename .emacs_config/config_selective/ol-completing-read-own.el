@@ -401,7 +401,7 @@ current buffer."
   (ol-grep-helper prompt "grep -E -n -I -r"))
 
 (defun ol-grep-input-to-cmd (input)
-  (let* ((split (ol-split-string-once input " @ "))
+  (let* ((split (ol-split-string-once input " -- "))
          (before (car split))
          (after (cdr split))
          (regex (shell-quote-argument (ol-string-to-regex after))))
@@ -420,13 +420,13 @@ current buffer."
   (ol-assert-equal "a\\ b" (ol-grep-input-to-cmd "a  b"))
 
   ;; Specify option towards grep, a is the option b is the search term
-  (ol-assert-equal "a -- b" (ol-grep-input-to-cmd "a @ b"))
+  (ol-assert-equal "a -- b" (ol-grep-input-to-cmd "a -- b"))
 
-  ;; Specify option towards grep and use literal @ in search term
-  (ol-assert-equal "a -- b.\\*\\?\\@.\\*\\?c" (ol-grep-input-to-cmd "a @ b @ c"))
+  ;; Specify option towards grep and use literal -- in search term
+  (ol-assert-equal "a -- b.\\*\\?\\--.\\*\\?c" (ol-grep-input-to-cmd "a -- b -- c"))
 
-  ;; Search for literal @
-  (ol-assert-equal " -- \\@" (ol-grep-input-to-cmd " @ @"))
+  ;; Search for literal --
+  (ol-assert-equal " -- \\--" (ol-grep-input-to-cmd " -- --"))
   )
 
 (defun ol-split-string-once (string separator)
@@ -436,11 +436,11 @@ current buffer."
     (cons nil string)))
 
 (ert-deftest ol-split-string-once-test ()
-  (ol-assert-equal `(,nil . "hej") (ol-split-string-once "hej" " @ "))
-  (ol-assert-equal '("hej" . "hello") (ol-split-string-once "hej @ hello" " @ "))
-  (ol-assert-equal '("hej " . "hello") (ol-split-string-once "hej  @ hello" " @ "))
-  (ol-assert-equal '("hej" . " hello") (ol-split-string-once "hej @  hello" " @ "))
-  (ol-assert-equal '("a" . "b @ c") (ol-split-string-once "a @ b @ c" " @ "))
+  (ol-assert-equal `(,nil . "hej") (ol-split-string-once "hej" " -- "))
+  (ol-assert-equal '("hej" . "hello") (ol-split-string-once "hej -- hello" " -- "))
+  (ol-assert-equal '("hej " . "hello") (ol-split-string-once "hej  -- hello" " -- "))
+  (ol-assert-equal '("hej" . " hello") (ol-split-string-once "hej --  hello" " -- "))
+  (ol-assert-equal '("a" . "b -- c") (ol-split-string-once "a -- b -- c" " -- "))
   )
 
 (defun ol-grep-helper (prompt args)
