@@ -41,6 +41,19 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'return #'icomplete-force-complete)
 
+;; I only want input, and that is handled manually below
+(setc history-add-new-input nil)
+
+(defun ol-add-input-to-minibuffer-history (&rest _)
+  (let* ((input (minibuffer-contents-no-properties)))
+    (add-to-history minibuffer-history-variable input)))
+
+(advice-add 'icomplete-force-complete-and-exit :before
+            #'ol-add-input-to-minibuffer-history)
+
+(advice-add 'icomplete-force-complete :before
+            #'ol-add-input-to-minibuffer-history)
+
 ;; Otherwise minibuffer-complete-word is called
 (ol-define-key minibuffer-local-completion-map "SPC" nil)
 
@@ -335,7 +348,7 @@ current buffer."
       (grep cmd))
     (cl-assert ol-async-buffer)))
 
-(defun ol-async-completing-read (prompt input-to-cmd)
+(defun ol-async-completing-read (prompt input-to-cmd history)
   (ol-async-cleanup)
   (minibuffer-with-setup-hook
       (lambda ()
@@ -347,7 +360,11 @@ current buffer."
                         `(metadata
                           (ol-skip-normal-highlight . t))
                       (complete-with-action action '("") string pred)))))
-      (completing-read prompt table))))
+      (completing-read prompt table
+                       nil ;; predicate
+                       nil ;; require-match
+                       nil ;; initial-input
+                       history))))
 
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt '("rg" "--smart-case" "--no-heading")))
@@ -365,7 +382,7 @@ current buffer."
              (string-join args " ")
              " "
              (shell-quote-argument (ol-string-to-regex input)))))
-         (selection (ol-async-completing-read prompt input-to-cmd)))
+         (selection (ol-async-completing-read prompt input-to-cmd 'ol-grep)))
     (ol-open-grep-selection selection)))
 
 (defun ol-open-grep-selection (selection)
