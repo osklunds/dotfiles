@@ -40,12 +40,16 @@
 (eval-and-compile
   (defmacro ol-silent (&rest body)
     (declare (indent 0))
-    `(cl-letf (;; Prevents in echo area
-               (inhibit-message t)
-               ;; Prevents in messages buffer
-               (message-log-max nil)
-               ((symbol-function #'minibuffer-message) #'ignore))
-       ,@body)))
+    `(let* ((old-msg (current-message))
+            ;; Prevents in messages buffer - needed for both body
+            ;; and restore of message in echo area
+            (message-log-max nil))
+       (cl-letf (;; Prevents in echo area
+                 (inhibit-message t))
+         ,@body)
+       ;; Need to restore message manually, the above isn't enough
+       (when old-msg
+         (message old-msg)))))
 
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
