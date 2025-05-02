@@ -317,8 +317,12 @@ current buffer."
   (ol-async-stop-timer)
   (setq ol-async-buffer nil)
   (setq ol-async-candidates nil)
-  ;; Don't set to nil to avoid "No match" which causes flicker
-  (setq completion-all-sorted-completions '("" . 0)))
+  (ol-set-completion-all-sorted-completions nil))
+
+(defun ol-set-completion-all-sorted-completions (completions)
+  ;; Never set to nil to avoid "No match" which causes flicker
+  ;; Also, icomplete requires an improper list with 0 at the end
+  (setq completion-all-sorted-completions (append (or completions '("")) 0)))
 
 (add-hook 'minibuffer-exit-hook #'ol-async-cleanup)
 
@@ -334,8 +338,8 @@ current buffer."
                                       (string-limit str width-limit))
                                     relevant-lines)))
         (setq ol-async-candidates trimmed-lines)))
-    (setq completion-all-sorted-completions (append ol-async-candidates 0))
-    (icomplete-exhibit)))
+        (ol-set-completion-all-sorted-completions ol-async-candidates)
+        (icomplete-exhibit)))
 
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
@@ -354,7 +358,7 @@ current buffer."
   (if (active-minibuffer-window)
       (progn
         (unless ol-async-candidates
-          (setq completion-all-sorted-completions '("" . 0)))
+          (ol-set-completion-all-sorted-completions nil))
         (ol-async-delayed-exhibit)
         (ol-silent
           (apply old-fun args)))
@@ -383,6 +387,8 @@ current buffer."
       (lambda ()
         (let* ((hook (lambda (&rest _)
                        (ol-async-minibuffer-input-changed input-to-cmd))))
+          ;; Set here to avoid "no matches"
+          (ol-set-completion-all-sorted-completions nil)
           (add-hook 'after-change-functions hook nil 'local)))
     (let* ((table (lambda (string pred action)
                     (if (eq action 'metadata)
