@@ -113,6 +113,7 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
             - =TAB= should not exit minibuffer, like in =ivy=
 - Async applications (i.e. grep)
       - Sometimes there are multilines
+      - Prevent message at EOL
 - Collection
       - Take initial directory, intial buffer/mode, prefix arg etc into account when rerunning action, like =embark= does
 
