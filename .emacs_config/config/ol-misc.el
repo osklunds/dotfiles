@@ -22,6 +22,8 @@
 
 (ol-define-key ol-normal-leader-map "m m" 'toggle-frame-maximized)
 
+(setq find-function-C-source-directory "/home/oskar/others_repos/emacs/src")
+
 ;; -----------------------------------------------------------------------------
 ;; Plain view
 ;; -----------------------------------------------------------------------------
