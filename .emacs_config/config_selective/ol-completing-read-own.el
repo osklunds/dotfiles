@@ -30,6 +30,9 @@
   (unless (icomplete-backward-completions)
     (icomplete-vertical-goto-last)))
 
+(ol-define-key minibuffer-mode-map
+               "C-n" #'minibuffer-keyboard-quit)
+;; Need for icomplete too to override default keybind
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-n" #'minibuffer-keyboard-quit)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
