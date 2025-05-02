@@ -28,7 +28,6 @@
 
 (defun ol-save-p ()
   (and buffer-file-name
-       (buffer-modified-p (current-buffer))
        (file-writable-p buffer-file-name)
        (not (file-remote-p buffer-file-name))))
 

@@ -75,10 +75,11 @@
   (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
 
 (defun ol-file-state-segment ()
-  (if (and (not (cl-member major-mode '(wdired-mode)))
-           (or buffer-read-only (not buffer-file-name)))
-      "%%"
-    (if (buffer-modified-p) "*" "-")))
+  (cond
+   ((ol-save-p) "A")
+   (buffer-read-only "%%")
+   ((buffer-modified-p) "*")
+   (t "-")))
 
 (defun ol-relative-position-segment ()
   ;; % for the % itself
