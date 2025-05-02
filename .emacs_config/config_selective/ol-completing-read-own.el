@@ -41,8 +41,9 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'return #'icomplete-force-complete)
 
-;; I only want input, and that is handled manually below
-(setc history-add-new-input nil)
+;; Preferably I only want input in history, but for eval-expression,
+;; icomplete isn't used, so log both input and selection
+(setc history-add-new-input t)
 
 (defun ol-add-input-to-minibuffer-history (&rest _)
   (let* ((input (minibuffer-contents-no-properties)))
