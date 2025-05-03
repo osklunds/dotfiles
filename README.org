@@ -35,16 +35,13 @@ dotfiles I use
 - Make markdown look as good as org-mode
 - for dwim find file, if arg, ask for path
 - add vim mark to bookmarks
-- Sometimes there are multilines in completing-read-own
-
-*** org-mode
-
-- spell in completion
-- =dd= inside list with line breaks delete from the line below
-
-*** corfu
-
-- sepator like space for wildcard matching
+- completing-read-own
+      - Sometimes there are multilines in completing-read-own
+- org-mode
+      - spell in completion
+      - =dd= inside list with line breaks delete from the line below
+- corfu
+      - sepator like space for wildcard matching
 
 *** Not important at all
 
