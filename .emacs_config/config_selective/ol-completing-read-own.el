@@ -495,21 +495,29 @@ current buffer."
 ;; (ol-define-key icomplete-vertical-mode-minibuffer-map "M-e" #'embark-collect)
 (ol-evil-define-key 'normal ol-collect-mode-map "RET" #'ol-select)
 
-(defvar ol-collect-command nil)
-(make-variable-buffer-local 'ol-collect-command)
+(defvar-local ol-collect-command nil)
+(defvar-local ol-collect-buffer nil)
 
 (defun ol-collect-record-this-command ()
-  (setq ol-collect-command this-command))
+  (setq ol-collect-command this-command)
+  (setq ol-collect-buffer
+        (if (and (minibufferp) (minibuffer-selected-window))
+            (window-buffer (minibuffer-selected-window))
+          (current-buffer))))
 
 (add-hook 'minibuffer-setup-hook #'ol-collect-record-this-command)
 
-(defun ol-collect-create-buffer (name command)
+(defun ol-collect-create-buffer (name)
   (let* ((buffer (generate-new-buffer name))
-         (candidates (completion-all-sorted-completions)))
+         (candidates (completion-all-sorted-completions))
+         ;; Remember, these are buffer local
+         (command ol-collect-command)
+         (buf ol-collect-buffer))
     (with-current-buffer buffer
       (ol-collect-mode)
       (read-only-mode -1) 
       (setq ol-collect-command command)
+      (setq ol-collect-buffer buf)
       (dolist (candidate (ol-nmake-proper-list candidates))
         (when (stringp candidate)
           (insert candidate)
@@ -520,29 +528,30 @@ current buffer."
 
 (defun ol-collect ()
   (interactive)
-  (let* ((command ol-collect-command)
-         (name (format "*Collect: %s - %s*" command
+  (let* ((name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
          (buffer (if ol-async-buffer
                      (progn
                        (with-current-buffer ol-async-buffer
                          (rename-buffer name 'unique)))
-                   (ol-collect-create-buffer name command))))
+                   (ol-collect-create-buffer name))))
     (run-at-time nil nil #'switch-to-buffer-other-window buffer)
     (minibuffer-keyboard-quit)))
 
 (defun ol-select ()
   (interactive)
   (let* ((candidate (string-trim-right (thing-at-point 'line t)))
-         (command ol-collect-command))
+         (command ol-collect-command)
+         (buf ol-collect-buffer))
     (select-window (next-window (selected-window)))
-    (minibuffer-with-setup-hook
-        (lambda ()
-          (delete-minibuffer-contents)
-          (insert candidate)
-          (add-hook 'post-command-hook #'exit-minibuffer nil t))
-      (setq this-command command)
-      (command-execute command))))
+    (with-current-buffer buf
+      (minibuffer-with-setup-hook
+          (lambda ()
+            (delete-minibuffer-contents)
+            (insert candidate)
+            (add-hook 'post-command-hook #'exit-minibuffer nil t))
+        (setq this-command command)
+        (command-execute command)))))
 
 ;; Copied/modified from https://stackoverflow.com/a/28585107
 (defun ol-nmake-proper-list (x)
