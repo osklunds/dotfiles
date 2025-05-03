@@ -35,6 +35,7 @@ dotfiles I use
 - Make markdown look as good as org-mode
 - for dwim find file, if arg, ask for path
 - add vim mark to bookmarks
+- Sometimes there are multilines in completing-read-own
 
 *** org-mode
 
@@ -110,8 +111,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
       - =find-file=
             - =TAB= should not exit minibuffer, like in =ivy=
 - Async applications (i.e. grep)
-      - Sometimes there are multilines
-      - Prevent message at EOL
 - Collection
 
 * Upgrade preparation
