@@ -35,6 +35,8 @@ dotfiles I use
 - Make markdown look as good as org-mode
 - for dwim find file, if arg, ask for path
 - add vim mark to bookmarks
+- highlights in sync grep
+- center buffer on =compile-goto-error=
 - completing-read-own
       - Sometimes there are multilines in completing-read-own
 - org-mode
