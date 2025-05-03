@@ -80,10 +80,10 @@
     (org-return))))
 
 (defun ol-org-in-item-p ()
-  (string-match-p "^ *-" (thing-at-point 'line t)))
+  (string-match-p "^ *-" (or (thing-at-point 'line t) "")))
 
 (defun ol-org-in-empty-item-p ()
-  (string-match-p "^ *- *$" (thing-at-point 'line t)))
+  (string-match-p "^ *- *$" (or (thing-at-point 'line t) "")))
 
 (ol-evil-define-key 'insert org-mode-map 'return 'ol-org-return)
 
