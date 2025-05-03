@@ -115,12 +115,20 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol-all-completions (string table pred _point)
-  (let* ((regex (ol-string-to-regex string))
+  ;; bounds, prefix, prefix-length are needed for find-file
+  (let* ((bounds (completion-boundaries string table pred ""))
+         (prefix-length (car bounds))
+         (prefix (substring string 0 prefix-length))
+         (to-complete (substring string prefix-length))
+         (regex (ol-string-to-regex to-complete))
          (completion-regexp-list (list regex))
-         (completion-ignore-case (ol-ignore-case-p string)))
+         (completion-ignore-case (ol-ignore-case-p to-complete))
+         (all (all-completions prefix table pred))
+         )
     (setq completion-lazy-hilit-fn
           (apply-partially #'ol-highlight-completion regex completion-ignore-case))
-    (all-completions "" table pred)))
+    (when all
+      (append all prefix-length))))
 
 (defun ol-ignore-case-p (string)
   (string= string (downcase string)))
@@ -234,9 +242,7 @@
 
 (setq completion-lazy-hilit t)
 
-;; Use partial-completion as fallback because works much better for find-file
-;; todo: make ol style work good too
-(setc completion-styles '(ol partial-completion))
+(setc completion-styles '(ol))
 
 ;; -----------------------------------------------------------------------------
 ;; Sync applications
