@@ -53,27 +53,11 @@
 
 (defun ol-dired-rename-hook ()
   (let* ((path (or dired-directory default-directory))
-         (desired-name (ol2-get-buffer-name-from-path dired-directory "dired")))
+         (desired-name (ol-get-buffer-name-from-path dired-directory "dired")))
     (unless (ol-buffer-name-matches (buffer-name) desired-name)
       (rename-buffer (generate-new-buffer-name desired-name)))))
 
-;; todo: keeping old as fallback
 (defun ol-get-buffer-name-from-path (path &optional prefix)
-  (let* ((abbreviated-path (abbreviate-file-name path))
-         (name (cond
-                ((string-equal abbreviated-path "~/") "~/")
-                ((string-equal abbreviated-path "~") "~/")
-                ((string-equal abbreviated-path "/") "/")
-                (t (let* ((path2 (directory-file-name abbreviated-path))
-                          (current-dir (file-name-nondirectory path2))
-                          (parent-dir (directory-file-name (file-name-directory path2)))
-                          (truncated-parent-dir (string-truncate-left parent-dir 40)))
-                     (concat current-dir "  <" truncated-parent-dir ">")))))
-         (prefix2 (when prefix
-                    (concat prefix ": "))))
-    (concat prefix2 name)))
-
-(defun ol2-get-buffer-name-from-path (path &optional prefix)
   (let* ((abbrev-path (abbreviate-file-name path))
          (parts (file-name-split abbrev-path))
          (last-part (car (last parts 2)))
@@ -91,15 +75,15 @@
       full)))
 
 (ert-deftest ol-get-buffer-name-from-path-test ()
-  (ol-assert-equal "/et/ipt/config" (ol2-get-buffer-name-from-path "/et/iptables/config/"))
-  (ol-assert-equal "/et/.ip/config" (ol2-get-buffer-name-from-path "/et/.iptables/config/"))
-  (ol-assert-equal "/etc/iptables" (ol2-get-buffer-name-from-path "/etc/iptables/"))
-  (ol-assert-equal "/etc" (ol2-get-buffer-name-from-path "/etc/"))
-  (ol-assert-equal "/" (ol2-get-buffer-name-from-path "/"))
-  (ol-assert-equal "~/repos" (ol2-get-buffer-name-from-path "~/repos/"))
-  (ol-assert-equal "~" (ol2-get-buffer-name-from-path "~/"))
+  (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config/"))
+  (ol-assert-equal "/et/.ip/config" (ol-get-buffer-name-from-path "/et/.iptables/config/"))
+  (ol-assert-equal "/etc/iptables" (ol-get-buffer-name-from-path "/etc/iptables/"))
+  (ol-assert-equal "/etc" (ol-get-buffer-name-from-path "/etc/"))
+  (ol-assert-equal "/" (ol-get-buffer-name-from-path "/"))
+  (ol-assert-equal "~/repos" (ol-get-buffer-name-from-path "~/repos/"))
+  (ol-assert-equal "~" (ol-get-buffer-name-from-path "~/"))
   (ol-assert-equal "dired: /etc/ipt/config"
-                   (ol2-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
+                   (ol-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
 
   (ol-assert-equal "iptables  </etc>" (ol-get-buffer-name-from-path "/etc/iptables"))
   (ol-assert-equal "etc  </>" (ol-get-buffer-name-from-path "/etc"))

@@ -61,7 +61,7 @@
   (file-name-as-directory (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
 
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
-  (ol2-get-buffer-name-from-path path "vterm"))
+  (ol-get-buffer-name-from-path path "vterm"))
 
 (defun ol-vterm-set-buffer-name (prompt)
   (unless ol-vterm-manually-renamed
