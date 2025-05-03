@@ -133,8 +133,16 @@
       (shell-command (format "%s %s" cmd pattern) buffer)
       (with-current-buffer buffer
         (setq default-directory dir)
-        (grep-mode))
-      (switch-to-buffer-other-window buffer))))
+        (grep-mode)
+        (when grep-use-headings
+          (goto-char (point-max))
+          (read-only-mode -1)
+          (grep--heading-filter)
+          (read-only-mode t)))
+      (switch-to-buffer-other-window buffer)
+      ;; If done before switch-to-buffer-other-window, only ends up at
+      ;; second line
+      (goto-char (point-min)))))
 
 (defconst ol-sync-find-file-content-methods
   `(("rg" "rg --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
