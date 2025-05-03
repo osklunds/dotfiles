@@ -65,8 +65,14 @@
          (initial-parts (mapcar (lambda (part)
                                   (cond
                                    ((equal "" part) "")
-                                   ((string-match-p ":" part) part)
-                                   (t (substring part 0 (min 3 (length part))))))
+                                   ;; For remote
+                                   ((string-match-p ":" part)
+                                    (concat "/"
+                                            (string-join
+                                             (mapcar (lambda (subpart)
+                                                       (ol-shrink-part subpart))
+                                                     (split-string (substring part 1)":")) ":")))
+                                   (t (ol-shrink-part part))))
                                 other-parts))
          (new-parts (append initial-parts (list last-part)))
          (full (string-join new-parts "/"))
@@ -74,6 +80,9 @@
     (if prefix
         (concat prefix ": " full)
       full)))
+
+(defun ol-shrink-part (part)
+  (substring part 0 (min 3 (length part))))
 
 (ert-deftest ol-get-buffer-name-from-path-test ()
   (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config/"))
@@ -86,9 +95,8 @@
   (ol-assert-equal "dired: /etc/ipt/config"
                    (ol-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
 
-
-  (ol-assert-equal "/docker:some_host/abc/iptables"
-                   (ol-get-buffer-name-from-path "/docker:some_host/abcdef/iptables/"))
+  (ol-assert-equal "/doc:som:/abc/iptables"
+                   (ol-get-buffer-name-from-path "/docker:some_host:/abcdef/iptables/"))
   )
 
 (defun ol-buffer-name-matches (name desired-name)
