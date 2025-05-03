@@ -65,6 +65,7 @@
          (initial-parts (mapcar (lambda (part)
                                   (cond
                                    ((equal "" part) "")
+                                   ((string-match-p ":" part) part)
                                    (t (substring part 0 (min 3 (length part))))))
                                 other-parts))
          (new-parts (append initial-parts (list last-part)))
@@ -93,6 +94,9 @@
                    (ol-get-buffer-name-from-path "/etc/iptables" "dired"))
   (ol-assert-equal "dired: ~/"
                    (ol-get-buffer-name-from-path "~/" "dired"))
+
+  (ol-assert-equal "/docker:some_host/abc/iptables"
+                   (ol-get-buffer-name-from-path "/docker:some_host/abcdef/iptables/"))
   )
 
 (defun ol-buffer-name-matches (name desired-name)
