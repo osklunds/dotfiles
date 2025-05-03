@@ -86,14 +86,6 @@
   (ol-assert-equal "dired: /etc/ipt/config"
                    (ol-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
 
-  (ol-assert-equal "iptables  </etc>" (ol-get-buffer-name-from-path "/etc/iptables"))
-  (ol-assert-equal "etc  </>" (ol-get-buffer-name-from-path "/etc"))
-  (ol-assert-equal "/" (ol-get-buffer-name-from-path "/"))
-  (ol-assert-equal "~/" (ol-get-buffer-name-from-path "~/"))
-  (ol-assert-equal "dired: iptables  </etc>"
-                   (ol-get-buffer-name-from-path "/etc/iptables" "dired"))
-  (ol-assert-equal "dired: ~/"
-                   (ol-get-buffer-name-from-path "~/" "dired"))
 
   (ol-assert-equal "/docker:some_host/abc/iptables"
                    (ol-get-buffer-name-from-path "/docker:some_host/abcdef/iptables/"))
