@@ -40,13 +40,28 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-k" #'ol-icomplete-backward)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
-               'tab #'icomplete-force-complete-and-exit)
+               'tab #'ol-icomplete-dwim-tab)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
-               'return #'icomplete-force-complete)
+               'return #'ol-icomplete-dwim-return)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-d" #'ol-icomplete-delete-action)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "M-i" #'ol-icomplete-insert-current-selection)
+
+(defun ol-icomplete-dwim-tab ()
+  "Exit with currently selected candidate. However, for `find-file' and the
+likes, only exit if the current candidate is a file. If a directory, insert it
+instead."
+  (interactive)
+  (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+           (directory-name-p (ol-icomplete-current-selection)))
+      (icomplete-force-complete)
+    (icomplete-force-complete-and-exit)))
+
+(defun ol-icomplete-dwim-return ()
+  "Insert currently selected candidate."
+  (interactive)
+  (icomplete-force-complete))
 
 (defun ol-icomplete-delete-action ()
   (interactive)
