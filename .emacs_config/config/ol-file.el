@@ -31,6 +31,10 @@
        (file-writable-p buffer-file-name)
        (not (file-remote-p buffer-file-name))))
 
+(defun ol-auto-save (&rest _)
+  (when (ol-save-p)
+    (ol-save-silently)))
+
 (defun ol-save-silently ()
   (ol-silent
     (save-buffer)))
@@ -42,16 +46,13 @@
   (dolist (buffer (cons (window-old-buffer) (cl-subseq (buffer-list) 0 4)))
     (when (buffer-live-p buffer)
       (with-current-buffer buffer
-        (when (ol-save-p)
-          (ol-save-silently))))))
+        (ol-auto-save)))))
 
 (add-hook 'ol-window-or-buffer-change-hook 'ol-save-on-window-or-buffer-change)
 
-(defun ol-on-save-timer ()
-  (when (ol-save-p)
-    (ol-save-silently)))
+(run-with-timer 5 5 #'ol-auto-save)
 
-(run-with-timer 5 5 #'ol-on-save-timer)
+(advice-add 'revert-buffer-quick :before #'ol-auto-save)
 
 (save-place-mode t)
 
