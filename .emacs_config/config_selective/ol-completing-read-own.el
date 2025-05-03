@@ -338,14 +338,14 @@ current buffer."
                                       (string-limit str width-limit))
                                     relevant-lines)))
         (setq ol-async-candidates trimmed-lines)))
-        (ol-set-completion-all-sorted-completions ol-async-candidates)
-        (icomplete-exhibit)))
+    (ol-set-completion-all-sorted-completions ol-async-candidates)
+    (icomplete-exhibit)))
 
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
   (unless ol-async-timer
     (setq ol-async-timer
-          (run-with-timer 0.01 nil #'ol-async-exhibit))))
+          (run-with-timer 0.1 nil #'ol-async-exhibit))))
 
 (defun ol-on-compilation-filter-hook ()
   (ol-async-delayed-exhibit))
@@ -387,8 +387,6 @@ current buffer."
       (lambda ()
         (let* ((hook (lambda (&rest _)
                        (ol-async-minibuffer-input-changed input-to-cmd))))
-          ;; Set here to avoid "no matches"
-          (ol-set-completion-all-sorted-completions nil)
           (add-hook 'after-change-functions hook nil 'local)))
     (let* ((table (lambda (string pred action)
                     (if (eq action 'metadata)
