@@ -44,6 +44,8 @@ dotfiles I use
 
 *** corfu
 
+- sepator like space for wildcard matching
+
 *** Not important at all
 
 - lsp diagnostics
