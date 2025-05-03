@@ -56,8 +56,11 @@ likes, only exit if the current candidate is a file. If e.g. a directory or
 tramp method, insert it instead."
   (interactive)
   (let* ((selection (ol-icomplete-current-selection)))
-    (message "oskar: %s" selection)
     (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+             ;; If no selection, it means no match, so use
+             ;; icomplete-force-complete-and-exit instead to allow exit
+             ;; without match
+             selection
              (not (string= "./" selection))
              (or (directory-name-p selection)
                  (string-match-p ":$" selection)))
