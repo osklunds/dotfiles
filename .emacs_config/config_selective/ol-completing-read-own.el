@@ -45,13 +45,13 @@
                'return #'icomplete-force-complete)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-d" #'ol-icomplete-delete-action)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "M-i" #'ol-icomplete-insert-current-selection)
 
 (defun ol-icomplete-delete-action ()
   (interactive)
   (when-let* ((delete-action (ol-completion-metadata-get 'ol-delete-action)))
-    (let* ((selected (or (car icomplete--scrolled-completions)
-                         ;; If no scroll yet
-                         (car (completion-all-sorted-completions))))
+    (let* ((selected (ol-complete-current-selection))
            (completions (ol-nmake-proper-list completion-all-sorted-completions))
            (new-completions (remove selected completions)))
       (funcall delete-action selected)
@@ -59,6 +59,15 @@
       (setq icomplete--scrolled-completions
             (remove selected icomplete--scrolled-completions))
       (icomplete-exhibit))))
+
+(defun ol-icomplete-current-selection ()
+  (or (car icomplete--scrolled-completions)
+      ;; If no scroll yet
+      (car (completion-all-sorted-completions))))
+
+(defun ol-icomplete-insert-current-selection ()
+  (interactive)
+  (insert (ol-icomplete-current-selection)))
 
 ;; Preferably I only want input in history, but for eval-expression,
 ;; icomplete isn't used, so log both input and selection
