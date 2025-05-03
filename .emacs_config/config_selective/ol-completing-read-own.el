@@ -52,13 +52,17 @@
 
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
-likes, only exit if the current candidate is a file. If a directory, insert it
-instead."
+likes, only exit if the current candidate is a file. If e.g. a directory or
+tramp method, insert it instead."
   (interactive)
-  (if (and (eq minibuffer-completion-table 'read-file-name-internal)
-           (directory-name-p (ol-icomplete-current-selection)))
-      (icomplete-force-complete)
-    (icomplete-force-complete-and-exit)))
+  (let* ((selection (ol-icomplete-current-selection)))
+    (message "oskar: %s" selection)
+    (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+             (not (string= "./" selection))
+             (or (directory-name-p selection)
+                 (string-match-p ":$" selection)))
+        (icomplete-force-complete)
+      (icomplete-force-complete-and-exit))))
 
 (defun ol-icomplete-dwim-return ()
   "Insert currently selected candidate."
