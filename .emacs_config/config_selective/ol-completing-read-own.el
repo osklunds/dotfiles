@@ -43,6 +43,22 @@
                'tab #'icomplete-force-complete-and-exit)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'return #'icomplete-force-complete)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-d" #'ol-icomplete-delete-action)
+
+(defun ol-icomplete-delete-action ()
+  (interactive)
+  (when-let* ((delete-action (ol-completion-metadata-get 'ol-delete-action)))
+    (let* ((selected (or (car icomplete--scrolled-completions)
+                         ;; If no scroll yet
+                         (car (completion-all-sorted-completions))))
+           (completions (ol-nmake-proper-list completion-all-sorted-completions))
+           (new-completions (remove selected completions)))
+      (funcall delete-action selected)
+      (setq completion-all-sorted-completions (append new-completions 0))
+      (setq icomplete--scrolled-completions
+            (remove selected icomplete--scrolled-completions))
+      (icomplete-exhibit))))
 
 ;; Preferably I only want input in history, but for eval-expression,
 ;; icomplete isn't used, so log both input and selection
@@ -176,18 +192,21 @@
              '(ol ol-try-completion ol-all-completions "ol"))
 
 (defun ol-highlight-completion (regex ignore-case candidate)
+  (when (ol-completion-metadata-get 'ol-skip-normal-highlight)
+    (ol-map-font-lock-face-to-face candidate)
+    )
+  (unless (ol-completion-metadata-get 'ol-skip-normal-highlight)
+    (ol-normal-highlight-fn regex ignore-case candidate))
+  (when-let ((fn (ol-completion-metadata-get 'ol-extra-highlight-function)))
+    (funcall fn candidate))
+  candidate)
+
+(defun ol-completion-metadata-get (key)
   (let* ((md (completion-metadata
               ""
               minibuffer-completion-table
               minibuffer-completion-predicate)))
-    (when (completion-metadata-get md 'ol-skip-normal-highlight)
-      (ol-map-font-lock-face-to-face candidate)
-      )
-    (unless (completion-metadata-get md 'ol-skip-normal-highlight)
-      (ol-normal-highlight-fn regex ignore-case candidate))
-    (when-let ((fn (completion-metadata-get md 'ol-extra-highlight-function)))
-      (funcall fn candidate))
-    candidate))
+    (completion-metadata-get md key)))
 
 (defun ol-normal-highlight-fn (regex ignore-case candidate)
   (let* ((case-fold-search ignore-case))
@@ -211,8 +230,10 @@
 ;; -----------------------------------------------------------------------------
 ;; Sync applications
 ;; -----------------------------------------------------------------------------
-;; todo: move sync applications to ol-completing.el once verified
-;; for the other frameworks
+
+;;;; ---------------------------------------------------------------------------
+;;;; switch-to-buffer
+;;;; ---------------------------------------------------------------------------
 
 (defun ol-switch-to-buffer ()
   "Similar to `switch-to-buffer' but avoids face problems and skips
@@ -232,6 +253,7 @@ current buffer."
                   (if (eq action 'metadata)
                       `(metadata
                         (ol-extra-highlight-function . ,#'ol-switch-to-buffer-highlight-fn)
+                        (ol-delete-action . ,#'ol-switch-to-buffer-delete-action)
                         (cycle-sort-function . ,#'identity)
                         (display-sort-function . ,#'identity))
                     (complete-with-action action buffer-names string pred)))))
@@ -270,6 +292,9 @@ current buffer."
 (defface ol-remote-buffer-name-face
   '((default :foreground "#110099"))
   "Face for remote buffer name in `ol-switch-to-buffer'.")
+
+(defun ol-switch-to-buffer-delete-action (selected)
+  (kill-buffer selected))
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 

@@ -107,8 +107,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 - UI
 - Style
 - Sync applications
-      - =switch-to-buffer=
-            - delete selected candidate
       - =find-file=
             - =TAB= should not exit minibuffer, like in =ivy=
 - Async applications (i.e. grep)
