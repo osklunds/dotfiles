@@ -104,16 +104,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
 | =rg --no-ignore hello=    | =--no-ignore -- hello=      |
 | =rg --no-ignore -- hello= | =--no-ignore -- hello=      |
 
-** completing-read-own todos
-
-- UI
-- Style
-- Sync applications
-      - =find-file=
-            - =TAB= should not exit minibuffer, like in =ivy=
-- Async applications (i.e. grep)
-- Collection
-
 * Upgrade preparation
 
 To make upgrades of emacs as easy as possible, I want to rely on as few packages as possible, and those I rely on should preferably have a large community and be maintained, so that no backwards compatibility issues appear
