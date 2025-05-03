@@ -59,27 +59,36 @@
 
 (defun ol-get-buffer-name-from-path (path &optional prefix)
   (let* ((abbrev-path (abbreviate-file-name path))
-         (parts (file-name-split abbrev-path))
+         (parts (split-string abbrev-path "/"))
          (last-part (car (last parts 2)))
+         ;; Special case to handle root
+         (last-part2 (if (string= "" last-part) "/" last-part))
+         ;; Special case to handle remote root
+         (last-part3 (if (string-match-p ":" last-part2)
+                         (concat (ol-shrink-remote-part last-part2) "/")
+                       last-part2))
          (other-parts (butlast parts 2))
-         (initial-parts (mapcar (lambda (part)
-                                  (cond
-                                   ((equal "" part) "")
-                                   ;; For remote
-                                   ((string-match-p ":" part)
-                                    (concat "/"
-                                            (string-join
-                                             (mapcar (lambda (subpart)
-                                                       (ol-shrink-part subpart))
-                                                     (split-string (substring part 1)":")) ":")))
-                                   (t (ol-shrink-part part))))
-                                other-parts))
-         (new-parts (append initial-parts (list last-part)))
-         (full (string-join new-parts "/"))
-         )
+         (initial-parts (ol-shrink-parts other-parts))
+         (new-parts (append initial-parts (list last-part3)))
+         (full (string-join new-parts "/")))
     (if prefix
         (concat prefix ": " full)
       full)))
+
+(defun ol-shrink-parts (parts)
+  (mapcar (lambda (part)
+            (cond
+             ((equal "" part) "")
+             ((string-match-p ":" part) (ol-shrink-remote-part part))
+             (t (ol-shrink-part part))))
+          parts))
+
+(defun ol-shrink-remote-part (part)
+  (let* ((parts (split-string part ":")))
+    (string-join (mapcar #'ol-shrink-part parts) ":")))
+
+(ert-deftest ol-shrink-remote-part-test ()
+  (ol-assert-equal "doc:som:" (ol-shrink-remote-part "docker:some_host:")))
 
 (defun ol-shrink-part (part)
   (substring part 0 (min 3 (length part))))
@@ -97,6 +106,8 @@
 
   (ol-assert-equal "/doc:som:/abc/iptables"
                    (ol-get-buffer-name-from-path "/docker:some_host:/abcdef/iptables/"))
+  (ol-assert-equal "/doc:som:/"
+                   (ol-get-buffer-name-from-path "/docker:some_host:/"))
   )
 
 (defun ol-buffer-name-matches (name desired-name)
