@@ -225,7 +225,9 @@
 
 (setq completion-lazy-hilit t)
 
-(setc completion-styles '(ol))
+;; Use partial-completion as fallback because works much better for find-file
+;; todo: make ol style work good too
+(setc completion-styles '(ol partial-completion))
 
 ;; -----------------------------------------------------------------------------
 ;; Sync applications
