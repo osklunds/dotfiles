@@ -47,6 +47,8 @@
                "C-d" #'ol-icomplete-delete-action)
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "M-i" #'ol-icomplete-insert-current-selection)
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "DEL" #'ol-icomplete-dwim-del)
 
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
@@ -62,6 +64,21 @@ instead."
   "Insert currently selected candidate."
   (interactive)
   (icomplete-force-complete))
+
+(defun ol-icomplete-dwim-del ()
+  "Delete char in minibuffer entry. However, for `find-file' and the likes,
+if the entry ends with a directory separator, delete until the next directory
+separator."
+  (interactive)
+  (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+           (directory-name-p (icomplete--field-string)))
+      (progn
+        (kill-region (point)
+                     (progn
+                       (search-backward "/" nil t 2)
+                       (1+ (point))))
+        (end-of-line))
+    (backward-delete-char 1)))
 
 (defun ol-icomplete-delete-action ()
   (interactive)
