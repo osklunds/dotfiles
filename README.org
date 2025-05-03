@@ -115,7 +115,6 @@ My vertico config is not as polished as for ivy. It was hard to get it work the 
       - Sometimes there are multilines
       - Prevent message at EOL
 - Collection
-      - Take initial directory, intial buffer/mode, prefix arg etc into account when rerunning action, like =embark= does
 
 * Upgrade preparation
 
