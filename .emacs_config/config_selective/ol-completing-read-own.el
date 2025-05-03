@@ -520,6 +520,8 @@ current buffer."
       (setq ol-collect-buffer buf)
       (dolist (candidate (ol-nmake-proper-list candidates))
         (when (stringp candidate)
+          (when completion-lazy-hilit-fn
+            (funcall completion-lazy-hilit-fn candidate))
           (insert candidate)
           (insert "\n")))
       (goto-char (point-min))
