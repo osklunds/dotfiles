@@ -114,6 +114,10 @@ To make upgrades of packages as easy as possible, I want to customize the config
       - Keep them until upgrade problems, but consider rolling my own
 - ~evil-visualstar~ -> own
 
+* libvterm offline install
+
+Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeLists.txt= inside the =emacs-libvterm= submodule. Inside =CMakeLists.txt= change the git stuff to point to the local submodule. After that, run as usual.
+
 * "Merge Survival Knife"
 
 ** Principles
