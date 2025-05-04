@@ -90,7 +90,7 @@ separator."
 (defun ol-icomplete-delete-action ()
   (interactive)
   (when-let* ((delete-action (ol-completion-metadata-get 'ol-delete-action)))
-    (let* ((selected (ol-complete-current-selection))
+    (let* ((selected (ol-icomplete-current-selection))
            (completions (ol-nmake-proper-list completion-all-sorted-completions))
            (new-completions (remove selected completions)))
       (funcall delete-action selected)
