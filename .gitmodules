@@ -154,3 +154,6 @@
 [submodule ".emacs_config/packages/emacs-popon"]
 	path = .emacs_config/packages/emacs-popon
 	url = https://codeberg.org/akib/emacs-popon.git
+[submodule ".emacs_config/packages/libvterm-mirror"]
+	path = .emacs_config/packages/libvterm-mirror
+	url = https://github.com/Sbozzolo/libvterm-mirror.git
