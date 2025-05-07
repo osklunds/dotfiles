@@ -1,7 +1,7 @@
 ;;;  -*- lexical-binding: t; -*-
 
-(require 'ol-completing-read-ivy)
-;; (require 'ol-completing-read-own)
+;; (require 'ol-completing-read-ivy)
+(require 'ol-completing-read-own)
 ;; (require 'ol-completing-read-vertico)
 (require 'ol-project)
 
