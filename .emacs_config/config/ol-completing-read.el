@@ -120,6 +120,7 @@
 (defun ol-async-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-async-find-file-content-methods))
 
+;; todo: messes things up (recursive) when not called over tramp
 (defun ol-sync-find-file-content (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-sync-find-file-content-method)
     (let* ((default-directory dir)
