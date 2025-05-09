@@ -7,7 +7,6 @@
 (require 'corfu)
 (require 'corfu-terminal)
 (require 'cape)
-(require 'tiny-lsp-client)
 
 ;; -----------------------------------------------------------------------------
 ;; Corfu config
