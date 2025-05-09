@@ -116,6 +116,9 @@
 ;; Show all * in headings
 (setc org-indent-mode-turns-on-hiding-stars nil)
 
+;; Prevent occasional double newline in lists
+(setc org-blank-before-new-entry nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Fonts
 ;; -----------------------------------------------------------------------------
