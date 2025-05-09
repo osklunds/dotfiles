@@ -141,7 +141,7 @@
 
 (defconst ol-rg-command "rg --color=always --smart-case --no-heading --line-number\
  --with-filename")
-(defconst ol-git-grep-command "git --no-pager grep --color=always")
+(defconst ol-git-grep-command "git --no-pager grep --color=always --line-number")
 (defconst ol-grep-command "grep --color=always --extended-regexp --line-number\
  --binary-files=without-match --recursive")
 
