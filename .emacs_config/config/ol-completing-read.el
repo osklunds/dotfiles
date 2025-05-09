@@ -130,24 +130,16 @@
                      ))
            (buffer-name (format "*ol-sync-find-file-content: %s*" pattern))
            (buffer (get-buffer-create buffer-name)))
-      (shell-command (format "%s %s" cmd pattern) buffer)
-      (with-current-buffer buffer
-        (setq default-directory dir)
-        (grep-mode)
-        (when grep-use-headings
-          (goto-char (point-max))
-          (read-only-mode -1)
-          (grep--heading-filter)
-          (read-only-mode t)))
-      (switch-to-buffer-other-window buffer)
-      ;; If done before switch-to-buffer-other-window, only ends up at
-      ;; second line
-      (goto-char (point-min)))))
+      (cl-letf (;; To force sync
+                ((symbol-function 'make-process) nil)
+                ;; To make it preserve default-directory when remote
+                ((symbol-function 'call-process) #'process-file))
+        (grep (format "%s %s" cmd pattern))))))
 
 (defconst ol-sync-find-file-content-methods
-  `(("rg" "rg --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
-    ("git" "git --no-pager grep" ,#'ol-can-use-git)
-    ("grep" "grep -n -I -r" ,#'ol-can-use-gnu-cmd)))
+  `(("rg" "rg --color=always --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
+    ("git" "git --no-pager grep --color=always" ,#'ol-can-use-git)
+    ("grep" "grep --color=always -n -I -r" ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
