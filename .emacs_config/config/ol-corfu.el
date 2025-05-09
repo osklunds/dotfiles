@@ -86,6 +86,7 @@
 
 (setc cape-dabbrev-check-other-buffers nil)
 (setc cape-dabbrev-min-length 2)
+(setc dabbrev-case-fold-search nil)
 
 (defun ol-capf-abbrev ()
   (cape-wrap-properties #'cape-abbrev
