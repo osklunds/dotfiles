@@ -3,6 +3,7 @@
 (require 'ol-evil)
 (require 'ol-ert)
 (require 'ol-colors)
+(require 'ol-completing-read)
 
 (require 'icomplete)
 (require 'delsel) ;; for minibuffer-keyboard-quit
@@ -483,13 +484,13 @@ current buffer."
                        history))))
 
 (defun ol-ripgrep (prompt)
-  (ol-grep-helper prompt "rg --smart-case --no-heading"))
+  (ol-grep-helper prompt ol-rg-command))
 
 (defun ol-git-grep (prompt)
-  (ol-grep-helper prompt "git --no-pager grep -n -E"))
+  (ol-grep-helper prompt ol-git-grep-command))
 
 (defun ol-grep (prompt)
-  (ol-grep-helper prompt "grep -E -n -I -r"))
+  (ol-grep-helper prompt ol-grep-command))
 
 (defun ol-grep-input-to-cmd (input)
   (let* ((split (ol-split-string-once input " -- "))

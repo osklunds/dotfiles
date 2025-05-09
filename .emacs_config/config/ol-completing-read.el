@@ -1,8 +1,11 @@
 ;;;  -*- lexical-binding: t; -*-
 
-;; (require 'ol-completing-read-ivy)
-(require 'ol-completing-read-own)
-;; (require 'ol-completing-read-vertico)
+;; One of ol-completing-read-* must also be loaded
+(declare-function ol-ripgrep nil)
+(declare-function ol-git-grep nil)
+(declare-function ol-grep nil)
+(declare-function ol-completing-read-shell-command nil)
+
 (require 'ol-project)
 
 (require 'grep)
@@ -136,10 +139,16 @@
                 ((symbol-function 'call-process) #'process-file))
         (grep (format "%s %s" cmd pattern))))))
 
+(defconst ol-rg-command "rg --color=always --smart-case --no-heading --line-number\
+ --with-filename")
+(defconst ol-git-grep-command "git --no-pager grep --color=always")
+(defconst ol-grep-command "grep --color=always --extended-regexp --line-number\
+ --binary-files=without-match --recursive")
+
 (defconst ol-sync-find-file-content-methods
-  `(("rg" "rg --color=always --no-heading --line-number --with-filename" ,#'ol-can-use-rg)
-    ("git" "git --no-pager grep --color=always" ,#'ol-can-use-git)
-    ("grep" "grep --color=always -n -I -r" ,#'ol-can-use-gnu-cmd)))
+  `(("rg" ,ol-rg-command ,#'ol-can-use-rg)
+    ("git" ,ol-git-grep-command ,#'ol-can-use-git)
+    ("grep" ,ol-grep-command ,#'ol-can-use-gnu-cmd)))
 
 (defun ol-sync-find-file-content-method ()
   (cl-find-if (lambda (method) (funcall (nth 2 method))) ol-sync-find-file-content-methods))
