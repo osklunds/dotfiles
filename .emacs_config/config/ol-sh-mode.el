@@ -1,5 +1,7 @@
+;; -*- lexical-binding: t -*-
 
 (require 'ol-corfu)
+(require 'sh-script)
 
 (defun ol-add-sh-mode-capf ()
   (setq-local completion-at-point-functions

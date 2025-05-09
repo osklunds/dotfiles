@@ -86,7 +86,7 @@ separator."
                        (search-backward "/" nil t 2)
                        (1+ (point))))
         (end-of-line))
-    (backward-delete-char 1)))
+    (delete-char -1)))
 
 (defun ol-icomplete-delete-action ()
   (interactive)

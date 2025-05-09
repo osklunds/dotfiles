@@ -11,10 +11,6 @@
 
 (setq-default fill-column 80)
 
-(defun ol-insert-tab ()
-  (interactive)
-  (insert "    "))
-
 (defun ol-hide-chars ()
   (setq buffer-display-table (make-display-table))
   (aset buffer-display-table ?\^M []))

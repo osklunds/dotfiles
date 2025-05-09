@@ -3,6 +3,7 @@
 (require 'ol-find-replace)
 (require 'ol-evil)
 (require 'ol-project)
+(require 'ol-file)
 
 (require 'magit)
 

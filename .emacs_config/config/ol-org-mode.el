@@ -46,8 +46,8 @@
 ;; Paragraphs
 ;; -----------------------------------------------------------------------------
 
-(setq ol-original-paragraph-start paragraph-start)
-(setq ol-original-paragraph-separate paragraph-separate)
+(defvar ol-original-paragraph-start paragraph-start)
+(defvar ol-original-paragraph-separate paragraph-separate)
 
 (defun ol-org-set-paragraphs ()
   (setq paragraph-start ol-original-paragraph-start)

@@ -5,6 +5,9 @@
 (require 'ol-colors)
 
 (require 'corfu)
+;; To fix compiler warning
+(eval-and-compile
+  (defvar corfu-terminal-mode nil))
 (require 'corfu-terminal)
 (require 'cape)
 
