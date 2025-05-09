@@ -13,7 +13,8 @@ dotfiles I use
 *** More important
 
 - =wgrep=
-- emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location. Also =C-c= is printed in vterm on some occasions.
+- emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
+- Inside vterm =C-c= is printed on some occasions. Doesn't happen with =emacs -Q=.
 
 *** Less important
 
@@ -43,6 +44,7 @@ dotfiles I use
       - =dd= inside list with line breaks delete from the line below
 - corfu
       - sepator like space for wildcard matching
+- In =find-file=, nothing is shown for slow dirs, like webdav or some tramps. At least for tramp, would be good to indicate "loading".
 
 *** Not important at all
 
@@ -58,6 +60,16 @@ dotfiles I use
 - org-mode
       - Slightly bigger bullets
       - Line numbers
+- Sliced images in org without inserting dummy lins, and vdiff overlays that can be partially hidden at top
+      - Maybe can insert a "newline" overlay between each char in image link in org as hack/workaround?
+
+*** Hard-to-reproduce bugs
+
+- Sometimes sync grep doesn't manage to go to result
+- Corfu is laggy when typing the the LSP server is slow
+- Sometimes emacs freezes, feels corfu and/or auto save timer related
+- In =org-mode= the corfu popup is sometimes incorrectly located
+- Sometimes in =org-mode=, =scroll-up= stops working. When scrolling suddenly jumps back a long distance.
 
 * completing-read
 
