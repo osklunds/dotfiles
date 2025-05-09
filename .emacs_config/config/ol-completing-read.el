@@ -132,13 +132,18 @@
                      nil ;; read
                      'ol-sync-find-file-content ;; history
                      ))
+           ;; buffer-name important for two reasons:
+           ;; 1. So that async reading doesn't re-use it
+           ;; 2. So that it can be switched to
            (buffer-name (format "*ol-sync-find-file-content: %s*" pattern))
-           (buffer (get-buffer-create buffer-name)))
+           (compilation-buffer-name-function (lambda (&rest _)
+                                               buffer-name)))
       (cl-letf (;; To force sync
                 ((symbol-function 'make-process) nil)
                 ;; To make it preserve default-directory when remote
                 ((symbol-function 'call-process) #'process-file))
-        (grep (format "%s %s" cmd pattern))))))
+        (grep (format "%s %s" cmd pattern)))
+      (switch-to-buffer-other-window buffer-name))))
 
 (defconst ol-rg-command "rg --color=always --smart-case --no-heading --line-number\
  --with-filename")
