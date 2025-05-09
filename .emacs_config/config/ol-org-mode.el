@@ -46,14 +46,17 @@
 ;; Paragraphs
 ;; -----------------------------------------------------------------------------
 
-(setq ol-original-paragraph-start paragraph-start)
-(setq ol-original-paragraph-separate paragraph-separate)
+(defvar ol-original-paragraph-start paragraph-start)
+(defvar ol-original-paragraph-separate paragraph-separate)
 
-(defun ol-org-set-paragraphs ()
-  (setq paragraph-start ol-original-paragraph-start)
-  (setq paragraph-separate ol-original-paragraph-separate))
-
-(add-hook 'org-mode-hook #'ol-org-set-paragraphs)
+;; Advice instead of changing definitions in org-mode. If changed,
+;; org-insert-item sometimes inserts an extra newline
+(defun ol-org-paragraph-advice (oldfun &rest args)
+  (let ((paragraph-start ol-original-paragraph-separate)
+        (paragraph-separate ol-original-paragraph-separate))
+    (apply oldfun args)))
+(advice-add 'evil-forward-paragraph :around #'ol-org-paragraph-advice)
+(advice-add 'evil-backward-paragraph :around #'ol-org-paragraph-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Headers
