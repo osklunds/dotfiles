@@ -372,6 +372,8 @@ current buffer."
 ;; Also avoids issues in async completion
 (setc compilation-always-kill t)
 (setc compilation-message-face nil)
+;; In terminal, prevent scroll of buffer when clicking result
+(setc compilation-context-lines t)
 
 (defvar ol-async-buffer nil)
 (defvar ol-async-candidates nil)
