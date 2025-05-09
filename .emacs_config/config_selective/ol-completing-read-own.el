@@ -614,6 +614,7 @@ current buffer."
 
 (defun ol-collect ()
   (interactive)
+  (ol-add-input-to-minibuffer-history)
   (let* ((name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
          (buffer (if ol-async-buffer
