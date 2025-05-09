@@ -83,16 +83,16 @@
     (beginning-of-line)
     (kill-line)
     (newline))
-   ((ol-org-in-item-p)
-    (org-insert-item))
-   (t
-    (org-return))))
+   ((ol-org-in-item-p) (org-insert-item))
+   (t (org-return))))
+
+(defconst ol-org-item-re "^ *\\(-\\|\\([0-9]+.\\)\\)")
 
 (defun ol-org-in-item-p ()
-  (string-match-p "^ *-" (or (thing-at-point 'line t) "")))
+  (string-match-p ol-org-item-re (or (thing-at-point 'line t) "")))
 
 (defun ol-org-in-empty-item-p ()
-  (string-match-p "^ *- *$" (or (thing-at-point 'line t) "")))
+  (string-match-p (concat ol-org-item-re " *$") (or (thing-at-point 'line t) "")))
 
 (ol-evil-define-key 'insert org-mode-map 'return 'ol-org-return)
 
