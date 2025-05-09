@@ -70,6 +70,7 @@ dotfiles I use
 - Sometimes emacs freezes, feels corfu and/or auto save timer related
 - In =org-mode= the corfu popup is sometimes incorrectly located
 - Sometimes in =org-mode=, =scroll-up= stops working. When scrolling suddenly jumps back a long distance.
+      - Is related to =variable-pitch-mode=. Toggling it fixes the issue. Reverting the buffer doesn't fix the issue. Copying the file, and the issue doesn't appear in the copy. Try =mixed-pitch-mode= just to try somehting.
 
 * completing-read
 
