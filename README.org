@@ -12,8 +12,6 @@ dotfiles I use
 
 *** More important
 
-- Upgrade preparation, see [[Upgrade preparation]]
-- Download all packages and store as check-in
 - =wgrep=
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location. Also =C-c= is printed in vterm on some occasions.
 
