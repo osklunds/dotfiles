@@ -211,6 +211,15 @@
 
 (add-hook 'before-revert-hook #'ol-org-remove-inline-images)
 
+;; When a new image is inserted, I want to call display, but if there are
+;; already images, for each image, one line after the image is removed.
+(defun ol-org-remove-sliced-images-before-display (&rest _)
+  (org-sliced-images-remove-inline-images)
+  (sleep-for 1))
+
+(advice-add 'org-sliced-images-display-inline-images
+            :before #'ol-org-remove-sliced-images-before-display)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Insertion
 ;;;; ---------------------------------------------------------------------------
