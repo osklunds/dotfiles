@@ -362,6 +362,25 @@
 ;; posn-at-point has a bug/unwanted behavior when there are org inline sliced
 ;; images. The Y-value from posn-at-point is incorrect. So make my own function
 ;; as a hacky workaround. TODO: report the bug after I have a minimal recipe.
+(defvar ol-height-from-window-start-cache nil)
+(defvar ol-prev-line-number nil)
+(defun ol-height-from-window-start-cached ()
+  (if (and ol-height-from-window-start-cache
+           (= ol-prev-line-number (line-number-at-pos)))
+      ol-height-from-window-start-cache
+    (setq ol-prev-line-number (line-number-at-pos))
+    (setq ol-height-from-window-start-cache
+          (ol-height-from-window-start))))
+
+(defun ol-clear-height-cache (window _new-pos)
+  (let* ((buffer (window-buffer window)))
+    (unless (string-match-p (regexp-quote "*corfu*")
+                            (with-current-buffer buffer
+                              (buffer-name)))
+      (setq ol-height-from-window-start-cache nil))))
+
+(add-hook 'window-scroll-functions #'ol-clear-height-cache)
+
 ;; Inspired by https://stackoverflow.com/a/20050881
 (defun ol-height-from-window-start ()
   (let ((r 0))
@@ -383,14 +402,16 @@
         (default-line-height)
       lph)))
 
+;; (benchmark-elapse (ol-height-from-window-start-cached))
 ;; (benchmark-elapse (ol-height-from-window-start))
 ;; (benchmark-elapse (ol-line-height))
 ;; (benchmark-elapse (posn-at-point))
+;; (benchmark-elapse (line-number-at-pos))
 
 (defun ol-corfu-position-advice (func &rest args)
   (if (eq major-mode 'org-mode)
       (progn
-        (let* ((oy (ol-height-from-window-start))
+        (let* ((oy (ol-height-from-window-start-cached))
                (original-posn-x-y (symbol-function #'posn-x-y)))
           (cl-letf (((symbol-function 'posn-x-y)
                      (lambda (posn)
