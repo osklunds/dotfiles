@@ -5,6 +5,7 @@
 (require 'ol-colors)
 (require 'ol-file)
 
+(require 'benchmark)
 (require 'org)
 (require 'org-faces)
 (require 'org-indent)
@@ -165,11 +166,31 @@
 ;; Images
 ;; -----------------------------------------------------------------------------
 
-(setc org-startup-with-inline-images t)
+;;;; ---------------------------------------------------------------------------
+;;;; Startup
+;;;; ---------------------------------------------------------------------------
+
+;; My custom ol-corfu-position-advice doesn't work if
+;; org-startup-with-inline-images is used, so display using run-with-timer
+;; instead
+
+(setc org-startup-with-inline-images nil)
+
+(defun ol-delayed-inline-images ()
+  (run-with-timer nil nil #'org-display-inline-images))
+
+(add-hook 'org-mode-hook #'ol-delayed-inline-images)
+
+;;;; ---------------------------------------------------------------------------
+;;;; Sliced
+;;;; ---------------------------------------------------------------------------
 
 ;; So that an image is more than just one line, makes scrolling much better
 ;; as images can be partially hidden
 (org-sliced-images-mode)
+
+;; Minimize potential corfu position issues
+(setc org-sliced-images-round-image-height t)
 
 ;; Unfortunately, if line numbers are enabled line-spacing causes issues for sliced images
 (add-hook 'org-mode-hook (lambda () (display-line-numbers-mode -1)))
@@ -314,7 +335,10 @@
       (ol-create-dirs-if-needed (file-name-directory out-file))
       (copy-file in-file out-file)
       (insert (format "[[%s]]" out-file))
-      (org-display-inline-images))))
+      (save-buffer)
+      ;; Need to revert, not just remove inline, otherwise even my custom
+      ;; ol-corfu-position-advice returns incorrect values
+      (revert-buffer-quick))))
 
 (ol-define-key ol-normal-leader-map "o i f" #'ol-org-insert-image)
 (ol-evil-define-key 'insert org-mode-map "M-i f" #'ol-org-insert-image)
@@ -329,6 +353,54 @@
     (let* ((parent (file-name-directory (directory-file-name dir))))
       (ol-create-dirs-if-needed-1 parent)
       (make-directory dir))))
+
+;;;; ---------------------------------------------------------------------------
+;;;; corfu position workaround
+;;;; ---------------------------------------------------------------------------
+
+;; corfu uses posn-at-point to find the position of the popup. However,
+;; posn-at-point has a bug/unwanted behavior when there are org inline sliced
+;; images. The Y-value from posn-at-point is incorrect. So make my own function
+;; as a hacky workaround. TODO: report the bug after I have a minimal recipe.
+;; Inspired by https://stackoverflow.com/a/20050881
+(defun ol-height-from-window-start ()
+  (let ((r 0))
+    (save-excursion
+      (let ((pos (point)))
+        (goto-char (window-start))
+        (while (<= (point) pos)
+          (next-line 1)
+          (setq r (+ r (ol-line-height))))
+        ;; compensate for the last itertion
+        (setq r (- r (ol-line-height)))))
+    ;; Avoid gap when writing on a line that doesn't have the default height
+    (- r (- (ol-line-height) (default-line-height)))))
+
+(defun ol-line-height ()
+  (let* ((lph (line-pixel-height)))
+    ;; line-pixel-height can incorrectly return 0 if newlines after inline image
+    (if (= 0 lph)
+        (default-line-height)
+      lph)))
+
+;; (benchmark-elapse (ol-height-from-window-start))
+;; (benchmark-elapse (ol-line-height))
+;; (benchmark-elapse (posn-at-point))
+
+(defun ol-corfu-position-advice (func &rest args)
+  (if (eq major-mode 'org-mode)
+      (progn
+        (let* ((oy (ol-height-from-window-start))
+               (original-posn-x-y (symbol-function #'posn-x-y)))
+          (cl-letf (((symbol-function 'posn-x-y)
+                     (lambda (posn)
+                       (let* ((xy (funcall original-posn-x-y posn))
+                              (x (car xy)))
+                         `(,x . ,oy)))))
+            (apply func args))))
+    (apply func args)))
+
+(advice-add 'corfu--popup-show :around #'ol-corfu-position-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Blocks
