@@ -27,5 +27,7 @@
                                      #'ol-capf-dabbrev))))
 
 (add-hook 'text-mode-hook #'ol-add-text-mode-capf)
+;; Will be overriden by e.g. tlc or lisp hook if available
+(add-hook 'prog-mode-hook #'ol-add-text-mode-capf)
 
 (provide 'ol-text)
