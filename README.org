@@ -14,7 +14,6 @@ dotfiles I use
 
 - =wgrep=
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
-- Inside vterm =C-c= is printed on some occasions. Doesn't happen with =emacs -Q=.
 
 *** Less important
 

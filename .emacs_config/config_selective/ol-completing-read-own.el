@@ -389,7 +389,11 @@ current buffer."
 (defun ol-async-stop-process ()
   (ol-silent
     (ignore-errors
-      (kill-compilation))))
+      ;; Don't use kill-compilation, because it uses compilation-find-buffer
+      ;; which in turn "finds" vterm buffers, so whenever the minibuffer exists
+      ;; C-c is printed in vterm buffers if kill-compilation would be used.
+      (when ol-async-buffer
+        (interrupt-process (get-buffer-process (ol-async-buffer)))))))
 
 (defun ol-async-stop-timer ()
   (when ol-async-timer
