@@ -14,6 +14,7 @@ dotfiles I use
 
 - =wgrep=
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
+- include current buffer in =switch-to-buffer= list
 
 *** Less important
 
