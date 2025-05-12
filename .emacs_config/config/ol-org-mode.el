@@ -385,10 +385,15 @@
 (defun ol-height-from-window-start ()
   (let ((r 0))
     (save-excursion
-      (let ((pos (point)))
+      (let ((pos (point))
+            (cont t))
         (goto-char (window-start))
-        (while (<= (point) pos)
-          (next-line 1)
+        (while cont
+          (setq cont nil)
+          ;; Handle when on last line
+          (ignore-errors
+            (next-line 1)
+            (setq cont (<= (point) pos)))
           (setq r (+ r (ol-line-height))))
         ;; compensate for the last itertion
         (setq r (- r (ol-line-height)))))
