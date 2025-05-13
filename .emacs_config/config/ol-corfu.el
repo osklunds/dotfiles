@@ -22,7 +22,7 @@
 
 (setc corfu-auto t)
 (setc corfu-auto-prefix 3)
-(setc corfu-auto-delay 0.2)
+(setc corfu-auto-delay 0.01)
 (setc corfu-cycle t)
 (setc corfu-sort-override-function nil)
 (setc corfu-on-exact-match nil)
