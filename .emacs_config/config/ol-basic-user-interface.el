@@ -16,10 +16,21 @@
 ;; The column at e.g. 80 chars
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
+(setc help-window-select t)
+
+;; -----------------------------------------------------------------------------
+;; Visual line mode
+;; -----------------------------------------------------------------------------
+
 (global-visual-line-mode t)
 (setq-default visual-line-mode t)
 
-(setc help-window-select t)
+(defun ol-truncate-lines ()
+  (interactive)
+  (visual-line-mode -1)
+  (toggle-truncate-lines 1))
+
+(ol-define-key ol-normal-leader-map "m v" #'ol-truncate-lines)
 
 ;; -----------------------------------------------------------------------------
 ;; Reduce Clutter
