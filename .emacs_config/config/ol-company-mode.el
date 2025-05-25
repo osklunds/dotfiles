@@ -11,7 +11,8 @@
 ;; General
 ;; -----------------------------------------------------------------------------
 
-(global-company-mode t)
+(unless (display-graphic-p)
+  (global-company-mode t))
 
 ;; Workaround due to what seems to be a company bug. Happened at last uplift.
 ;; When I get time I should report this bug.
@@ -38,6 +39,16 @@
                                   ))))
 
 (add-hook 'sh-mode-hook 'ol-no-company-capf)
+
+;; -----------------------------------------------------------------------------
+;; capf completions style
+;; -----------------------------------------------------------------------------
+
+(defun ol-company-capf-style (fun &rest args)
+  (let ((completion-styles '(basic)))
+    (apply fun args)))
+
+(advice-add 'company-capf :around #'ol-company-capf-style)
 
 ;; -----------------------------------------------------------------------------
 ;; dabbrev
