@@ -13,7 +13,6 @@ common_setup="
     (setq ol-emacs-dir (file-name-concat ol-repo-root \".emacs_config\"))
     
     (add-to-list 'load-path (file-name-concat ol-emacs-dir \"config\"))
-    (add-to-list 'load-path (file-name-concat ol-emacs-dir \"config_selective\"))
     (add-to-list 'load-path (file-name-concat ol-emacs-dir \"packages_own\"))
     (let ((default-directory (file-name-concat ol-emacs-dir \"packages/\")))
       (normal-top-level-add-subdirs-to-load-path))
