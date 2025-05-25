@@ -66,6 +66,8 @@ modeline can be good to cache in a hashmap."
 (defun ol-discover-projects ()
   (interactive)
   (setq ol-project-roots nil)
+  ;; If a buffer has incorrectly been assigned a project, give it a new chance
+  (ol-project-clear-cache)
   (dolist (path ol-projects-search-path)
     (let* ((dir (file-truename (car path)))
            (depth (or (cdr-safe path) 0)))
