@@ -20,7 +20,7 @@
 	path = .emacs_config/packages/swiper
 	url = https://github.com/abo-abo/swiper.git
 [submodule ".emacs_config/packages/company-mode"]
-	path = .emacs_config/packages_inactive/company-mode
+	path = .emacs_config/packages/company-mode
 	url = https://github.com/company-mode/company-mode.git
 [submodule ".emacs_config/packages/themes"]
 	path = .emacs_config/packages/themes
