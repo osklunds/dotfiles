@@ -85,8 +85,6 @@
   (let ((bfn (generate-new-buffer-name (concat "*Shell Command Output: '" command "'*"))))
     (shell-command command bfn)))
 
-(ol-global-set-key "M-!" 'shell-command)
-
 ;; -----------------------------------------------------------------------------
 ;; Help mode
 ;; -----------------------------------------------------------------------------
@@ -109,12 +107,15 @@
 ;; -----------------------------------------------------------------------------
 ;; This is what I wished I had everywhere in my computer
 
-(ol-define-key evil-insert-state-map "M-["  (lambda () (interactive) (insert "å")))
-(ol-define-key evil-insert-state-map "M-'"  (lambda () (interactive) (insert "ä")))
-(ol-define-key evil-insert-state-map "M-;"  (lambda () (interactive) (insert "ö")))
-(ol-define-key evil-insert-state-map "M-{"  (lambda () (interactive) (insert "Å")))
-(ol-define-key evil-insert-state-map "M-\"" (lambda () (interactive) (insert "Ä")))
-(ol-define-key evil-insert-state-map "M-:"  (lambda () (interactive) (insert "Ö")))
+;; Not in termnal, conflicts with brackated paste
+(when (display-graphic-p)
+  (ol-define-key evil-insert-state-map "M-["  (lambda () (interactive) (insert "å")))
+  (ol-define-key evil-insert-state-map "M-'"  (lambda () (interactive) (insert "ä")))
+  (ol-define-key evil-insert-state-map "M-;"  (lambda () (interactive) (insert "ö")))
+  (ol-define-key evil-insert-state-map "M-{"  (lambda () (interactive) (insert "Å")))
+  (ol-define-key evil-insert-state-map "M-\"" (lambda () (interactive) (insert "Ä")))
+  (ol-define-key evil-insert-state-map "M-:"  (lambda () (interactive) (insert "Ö"))))
+
 ;; -----------------------------------------------------------------------------
 ;; xref
 ;; -----------------------------------------------------------------------------
