@@ -3,6 +3,7 @@
 (require 'ol-util)
 (require 'ol-evil)
 
+(require 'xref)
 (require 'tramp-cmds)
 
 ;; Setting to nil can supposedly can improve scroll performance
@@ -114,5 +115,10 @@
 (ol-define-key evil-insert-state-map "M-{"  (lambda () (interactive) (insert "Å")))
 (ol-define-key evil-insert-state-map "M-\"" (lambda () (interactive) (insert "Ä")))
 (ol-define-key evil-insert-state-map "M-:"  (lambda () (interactive) (insert "Ö")))
+;; -----------------------------------------------------------------------------
+;; xref
+;; -----------------------------------------------------------------------------
+
+(ol-evil-define-key 'normal xref--xref-buffer-mode-map "o" #'xref-goto-xref)
 
 (provide 'ol-misc)
