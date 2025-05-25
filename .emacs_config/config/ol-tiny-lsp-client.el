@@ -2,6 +2,7 @@
 
 (require 'ol-util)
 (require 'ol-evil)
+(require 'ol-corfu)
 
 (require 'tiny-lsp-client)
 
@@ -30,18 +31,14 @@
 ;; Capf
 ;; -----------------------------------------------------------------------------
 
-(when (featurep 'ol-corfu)
-  (defun ol-add-tlc-mode-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super #'ol-capf-abbrev
-                                       #'ol-capf-tlc
-                                       #'ol-capf-dabbrev))))
+(defun ol-capf-tlc ()
+  (cape-wrap-properties #'tlc-completion-at-point
+                        :annotation-function (lambda (_) " tlc")))
 
-  (defun ol-capf-tlc ()
-    (cape-wrap-properties #'tlc-completion-at-point
-                          :annotation-function (lambda (_) " tlc")))
-
-  (add-hook 'tlc-mode-hook #'ol-add-tlc-mode-capf))
+(add-hook 'tlc-mode-hook
+          (lambda ()
+            (ol-set-capfs
+             '(ol-capf-abbrev ol-capf-tlc ol-capf-dabbrev))))
 
 ;; -----------------------------------------------------------------------------
 ;; Language major modes

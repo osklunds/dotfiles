@@ -15,13 +15,15 @@
 ;; Corfu config
 ;; -----------------------------------------------------------------------------
 
-(global-corfu-mode)
-
-(unless (display-graphic-p)
-  (corfu-terminal-mode t))
+(if (display-graphic-p)
+    (global-corfu-mode t)
+  ;; corfu-terminal is much slower than company. So only use corfu in minibuffer
+  ;; until emacs 31, where corfu is supported in terminal natively.
+  (corfu-terminal-mode t)
+  (add-hook 'minibuffer-setup-hook #'corfu--minibuffer-on))
 
 (setc corfu-auto t)
-(setc corfu-auto-prefix 3)
+(setc corfu-auto-prefix 2)
 (setc corfu-auto-delay 0.01)
 (setc corfu-cycle t)
 (setc corfu-sort-override-function nil)
@@ -98,5 +100,11 @@
 (defun ol-capf-dabbrev ()
   (cape-wrap-properties #'cape-dabbrev
                         :annotation-function (lambda (_) " Dabbrev")))
+
+(defun ol-set-capfs (capfs)
+  ;; If not corfu, company might be used. Don't want double dabbrev
+  (when global-corfu-mode
+    (setq-local completion-at-point-functions
+                (list (apply #'cape-capf-super capfs)))))
 
 (provide 'ol-corfu)

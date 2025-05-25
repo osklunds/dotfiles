@@ -1,20 +1,15 @@
 ;; -*- lexical-binding: t -*-
 
+(require 'ol-corfu)
+
 (require 'sh-script)
 
-
-
-(when (featurep 'ol-corfu)
-  (defun ol-add-sh-mode-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super #'ol-capf-abbrev
-                                       #'ol-capf-sh-mode
-                                       #'ol-capf-dabbrev))))
-
-  (defun ol-capf-sh-mode ()
+(defun ol-capf-sh-mode ()
     (cape-wrap-properties #'sh-completion-at-point-function
                           :annotation-function (lambda (_) " Shell")))
 
-  (add-hook 'sh-mode-hook #'ol-add-sh-mode-capf))
+(add-hook 'sh-mode-hook
+          (lambda () (ol-set-capfs
+                      '(ol-capf-abbrev ol-capf-sh-mode ol-capf-dabbrev))))
 
 (provide 'ol-sh-mode)
