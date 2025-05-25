@@ -392,7 +392,7 @@
           (setq cont nil)
           ;; Handle when on last line
           (ignore-errors
-            (next-line 1)
+            (forward-line 1)
             (setq cont (<= (point) pos)))
           (setq r (+ r (ol-line-height))))
         ;; compensate for the last itertion
