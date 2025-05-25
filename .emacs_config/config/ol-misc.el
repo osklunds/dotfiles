@@ -3,6 +3,8 @@
 (require 'ol-util)
 (require 'ol-evil)
 
+(require 'tramp-cmds)
+
 ;; Setting to nil can supposedly can improve scroll performance
 ;; But setting to t means delete overlays in vdiff can be split both at
 ;; top and bottom!
@@ -23,6 +25,13 @@
 (ol-define-key ol-normal-leader-map "m m" 'toggle-frame-maximized)
 
 (setq find-function-C-source-directory "/home/oskar/others_repos/emacs/src")
+
+(defun ol-clean-tramp ()
+  (interactive)
+  (tramp-cleanup-all-connections)
+  (tramp-cleanup-all-buffers))
+
+(ol-define-key ol-normal-leader-map "m t" #'ol-clean-tramp)
 
 ;; -----------------------------------------------------------------------------
 ;; Plain view
