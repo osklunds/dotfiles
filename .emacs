@@ -48,22 +48,6 @@
 
 (advice-add 'require :before 'ol-require-advice)
 
-(defun ol-compile-own ()
-  (interactive)
-  (save-window-excursion
-    (byte-recompile-directory (file-name-concat ol-emacs-dir "config") 0)
-    (byte-recompile-directory (file-name-concat ol-emacs-dir "packages_own") 0)))
-
-(defun ol-compile-packages ()
-  (interactive)
-  (save-window-excursion
-    (byte-recompile-directory (file-name-concat ol-emacs-dir "packages") 0)))
-
-(defun ol-compile-all ()
-  (interactive)
-  (ol-compile-own)
-  (ol-compile-packages))
-
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (message "Loading '%s'" (file-name-sans-extension file))
   (require (intern (file-name-sans-extension file))))
