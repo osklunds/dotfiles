@@ -49,7 +49,7 @@
          ,@body)
        ;; Need to restore message manually, the above isn't enough
        (when old-msg
-         (message old-msg)))))
+         (message "%s" old-msg)))))
 
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
