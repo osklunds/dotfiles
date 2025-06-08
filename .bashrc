@@ -23,3 +23,7 @@ source "$DOTFILES_REPO/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bas
 
 # Docker
 export BUILDKIT_PROGRESS=plain
+
+# C++
+
+export CXX=/usr/bin/clang++-20
