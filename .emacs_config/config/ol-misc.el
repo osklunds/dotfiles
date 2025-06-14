@@ -122,4 +122,21 @@
 
 (ol-evil-define-key 'normal xref--xref-buffer-mode-map "o" #'xref-goto-xref)
 
+;; -----------------------------------------------------------------------------
+;; Profiler
+;; -----------------------------------------------------------------------------
+
+(defun ol-profile-start ()
+  (interactive)
+  (when (profiler-running-p)
+    (profiler-stop))
+  (profiler-start 'cpu))
+(ol-define-key ol-normal-leader-map "m P" #'ol-profile-start)
+
+(defun ol-profile-stop ()
+  (interactive)
+  (profiler-stop)
+  (profiler-report))
+(ol-define-key ol-normal-leader-map "m S" #'ol-profile-stop)
+
 (provide 'ol-misc)
