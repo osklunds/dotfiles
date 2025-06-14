@@ -5,7 +5,7 @@
 ;; Taken from https://emacs.stackexchange.com/a/24658
 (defun ol-unadvice (sym)
   "Remove all advices from symbol SYM."
-  (interactive "aFunction symbol: ")
+  (interactive (trace--read-args "Unadvice"))
   (advice-mapc (lambda (advice _props) (advice-remove sym advice)) sym))
 
 (defun ol-trace ()
