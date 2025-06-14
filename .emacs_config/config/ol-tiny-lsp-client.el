@@ -15,6 +15,7 @@
 (setc tlc-log-rust-debug t)
 (setc tlc-log-emacs-debug t)
 (setc tlc-log-to-stdio nil)
+(setc tlc-debug-on-error t)
 
 (add-hook 'tlc-mode-hook 'tlc-use-xref)
 
