@@ -104,6 +104,6 @@
 
 (when global-company-mode
   (ol-define-key prog-mode-map 'tab 'company-indent-or-complete-common)
-  (ol-define-key evil-insert-state-map #'ol-insert-tab))
+  (ol-define-key evil-insert-state-map 'tab #'ol-insert-tab))
 
 (provide 'ol-company-mode)
