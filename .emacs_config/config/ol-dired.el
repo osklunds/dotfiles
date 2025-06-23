@@ -146,4 +146,13 @@
 
 (advice-add 'dired-run-shell-command :around 'ol-dired-set-shell-command-buffer-name)
 
+;; -----------------------------------------------------------------------------
+;; Add to history
+;; -----------------------------------------------------------------------------
+
+(defun ol-add-dired-to-file-name-history ()
+  (add-to-history 'file-name-history default-directory))
+
+(add-hook 'dired-after-readin-hook #'ol-add-dired-to-file-name-history)
+
 (provide 'ol-dired)
