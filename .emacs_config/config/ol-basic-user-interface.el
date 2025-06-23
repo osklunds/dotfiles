@@ -81,6 +81,12 @@
 (setc display-line-numbers-grow-only t)
 (setc display-line-numbers-width-start 10000)
 
+(defun ol-set-display-line-numbers-mode ()
+  (when (> (point-max) (* 5 1000 1000))
+    (display-line-numbers-mode -1)))
+
+(add-hook 'after-change-major-mode-hook #'ol-set-display-line-numbers-mode)
+
 ;; -----------------------------------------------------------------------------
 ;; Trailing whitespace
 ;; -----------------------------------------------------------------------------
