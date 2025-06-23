@@ -99,6 +99,7 @@
 (setc imenu-flatten 'prefix)
 (setc imenu-auto-rescan t)
 (setc imenu-max-item-length 200)
+(setc imenu-space-replacement " ")
 
 (ol-define-key ol-normal-leader-map "m s" #'imenu)
 
