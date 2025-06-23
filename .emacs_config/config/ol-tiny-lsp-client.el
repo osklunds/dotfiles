@@ -17,7 +17,10 @@
 (setc tlc-log-to-stdio nil)
 (setc tlc-debug-on-error t)
 
-(add-hook 'tlc-mode-hook 'tlc-use-xref)
+(defun ol-tlc-use-xref ()
+  (add-hook 'xref-backend-functions 'tlc-xref-backend nil t))
+
+(add-hook 'tlc-mode-hook 'ol-tlc-use-xref)
 
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
