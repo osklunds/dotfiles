@@ -26,28 +26,52 @@
   (unless (icomplete-forward-completions)
     (icomplete-vertical-goto-first)))
 
+(defun ol-icomplete-forward-many ()
+  (interactive)
+  (dotimes (_ 10)
+    (ol-icomplete-forward)))
+
 (defun ol-icomplete-backward ()
   (interactive)
   (unless (icomplete-backward-completions)
     (icomplete-vertical-goto-last)))
 
+(defun ol-icomplete-backward-many ()
+  (interactive)
+  (dotimes (_ 10)
+    (ol-icomplete-backward)))
+
 (ol-define-key minibuffer-mode-map
                "C-n" #'minibuffer-keyboard-quit)
+
 ;; Need for icomplete too to override default keybind
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-n" #'minibuffer-keyboard-quit)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-j" #'ol-icomplete-forward)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "M-j" #'ol-icomplete-forward-many)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-k" #'ol-icomplete-backward)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "M-k" #'ol-icomplete-backward-many)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'tab #'ol-icomplete-dwim-tab)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                'return #'ol-icomplete-dwim-return)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-d" #'ol-icomplete-delete-action)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "M-i" #'ol-icomplete-insert-current-selection)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "DEL" #'ol-icomplete-dwim-del)
 
