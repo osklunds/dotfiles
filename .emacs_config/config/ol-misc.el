@@ -143,10 +143,10 @@
   (profiler-start 'cpu))
 (ol-define-key ol-normal-leader-map "m P" #'ol-profile-start)
 
-(defun ol-profile-stop ()
+(defun ol-profile-report ()
   (interactive)
   (profiler-stop)
   (profiler-report))
-(ol-define-key ol-normal-leader-map "m S" #'ol-profile-stop)
+(ol-define-key ol-normal-leader-map "m r" #'ol-profile-report)
 
 (provide 'ol-misc)
