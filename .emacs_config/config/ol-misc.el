@@ -101,7 +101,16 @@
 (setc imenu-max-item-length 200)
 (setc imenu-space-replacement " ")
 
-(ol-define-key ol-normal-leader-map "m s" #'imenu)
+(defun ol-imenu ()
+  "Variant of `imenu' that preserves order."
+  (interactive)
+  (minibuffer-with-setup-hook
+      (lambda ()
+        (setq-local completion-extra-properties
+                    '(:cycle-sort-function identity :display-sort-function identity)))
+    (call-interactively #'imenu)))
+
+(ol-define-key ol-normal-leader-map "m s" #'ol-imenu)
 
 ;; -----------------------------------------------------------------------------
 ;; åäö
