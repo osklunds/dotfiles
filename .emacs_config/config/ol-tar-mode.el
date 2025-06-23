@@ -12,8 +12,9 @@
     (ol-dired)))
 
 ;; Keybinds to mimic dired
-(ol-evil-define-key 'normal tar-mode-map "o" 'tar-view)
-(ol-evil-define-key 'normal tar-mode-map "i" 'ol-tar-up-directory)
+(ol-evil-define-key 'normal tar-mode-map "o" #'tar-view)
+(ol-evil-define-key 'normal tar-mode-map "i" #'ol-tar-up-directory)
+(ol-evil-define-key 'normal tar-mode-map "C" #'tar-copy)
 
 (defun ol-add-tar-font-lock-keywords ()
   (font-lock-add-keywords
