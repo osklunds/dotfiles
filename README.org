@@ -46,6 +46,8 @@ dotfiles I use
 - corfu
       - sepator like space for wildcard matching
 - In =find-file=, nothing is shown for slow dirs, like webdav or some tramps. At least for tramp, would be good to indicate "loading".
+- eldoc flickers when typing
+- delete in =switch-to-buffer= is sometimes buggy, e.g. when deleting 1 out of 2 matches
 
 *** Not important at all
 
