@@ -375,7 +375,8 @@ buffer last."
   "Face for remote buffer name in `ol-switch-to-buffer'.")
 
 (defun ol-switch-to-buffer-delete-action (selected)
-  (kill-buffer selected))
+  (let ((buf (get-buffer selected)))
+    (kill-buffer buf)))
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
