@@ -605,8 +605,12 @@ buffer last."
 (defvar ol-collect-mode-map (make-sparse-keymap))
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
-;; (ol-define-key icomplete-vertical-mode-minibuffer-map "M-e" #'embark-collect)
 (ol-evil-define-key 'normal ol-collect-mode-map "RET" #'ol-select)
+(ol-evil-define-key 'normal ol-collect-mode-map "o" #'ol-select)
+
+(ol-evil-define-key 'normal compilation-button-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal compilation-mode-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal grep-mode-map "o" #'compile-goto-error)
 
 (defvar-local ol-collect-command nil)
 (defvar-local ol-collect-buffer nil)
