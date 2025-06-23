@@ -47,6 +47,7 @@
 
 (add-hook 'rust-mode-hook 'tlc-mode)
 (add-hook 'c++-mode-hook 'tlc-mode)
+(add-hook 'java-mode-hook 'tlc-mode)
 
 (provide 'ol-tiny-lsp-client)
 
