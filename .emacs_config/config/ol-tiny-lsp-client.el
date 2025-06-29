@@ -3,6 +3,7 @@
 (require 'ol-util)
 (require 'ol-evil)
 (require 'ol-corfu)
+(require 'ol-haskell)
 
 (require 'tiny-lsp-client)
 
@@ -51,6 +52,7 @@
 (add-hook 'rust-mode-hook 'tlc-mode)
 (add-hook 'c++-mode-hook 'tlc-mode)
 (add-hook 'java-mode-hook 'tlc-mode)
+(add-hook 'haskell-mode-hook 'tlc-mode)
 
 (provide 'ol-tiny-lsp-client)
 
