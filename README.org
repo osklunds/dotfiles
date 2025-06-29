@@ -55,6 +55,7 @@ dotfiles I use
 - For =find-file-dwim= have a 50k threshold, if above, do async
 - For =find-file-dwim= if enters =--= then swich to async so that can enter =rg= options options
       - keybind for insert =--no-ignore= and globs
+- Sometimes annoying save prompt when checking out files etc. Maybe related to auto save timer
 
 *** Not important at all
 
