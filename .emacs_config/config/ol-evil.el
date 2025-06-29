@@ -333,4 +333,8 @@ the plain text edit keybinds instead."
 
 (advice-add 'evil-ex-search-update :around #'ol-evil-ex-search-update-advice)
 
+(defun ol-evil-ex-start-search-advice (func &rest args)
+  (let ((debug-on-error nil))
+    (apply func args)))
+
 (provide 'ol-evil)
