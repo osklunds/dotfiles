@@ -48,6 +48,13 @@ dotfiles I use
 - In =find-file=, nothing is shown for slow dirs, like webdav or some tramps. At least for tramp, would be good to indicate "loading".
 - eldoc flickers when typing
 - delete in =switch-to-buffer= is sometimes buggy, e.g. when deleting 1 out of 2 matches
+- In =find-file= when input is ~ can't delete ~
+- Slow to open =icomplete= for =.tar.gz= files
+- Scroll when async output changes, things get messed up
+- For tramp, prevent reconnect when process has died. Can show in modeline
+- For =find-file-dwim= have a 50k threshold, if above, do async
+- For =find-file-dwim= if enters =--= then swich to async so that can enter =rg= options options
+      - keybind for insert =--no-ignore= and globs
 
 *** Not important at all
 
