@@ -26,5 +26,19 @@
 
 (setc save-abbrevs 'silently)
 
+;; -----------------------------------------------------------------------------
+;; Silence dabbrev
+;; -----------------------------------------------------------------------------
+
+;; Due to dabbrev's message use, eldoc flickers, but only when there are no
+;; compeltions
+
+(defun ol-dabbrev-silence-advice (func &rest args)
+  (cl-letf (((symbol-function 'message)
+             (lambda (&rest _) nil)))
+    (apply func args)))
+
+(advice-add 'dabbrev--find-expansion :around #'ol-dabbrev-silence-advice)
+
 (provide 'ol-completion-in-region)
 
