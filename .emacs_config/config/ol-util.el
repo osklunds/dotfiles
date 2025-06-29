@@ -43,13 +43,14 @@
     `(let* ((old-msg (current-message))
             ;; Prevents in messages buffer - needed for both body
             ;; and restore of message in echo area
-            (message-log-max nil))
-       (cl-letf (;; Prevents in echo area
-                 (inhibit-message t))
-         ,@body)
+            (message-log-max nil)
+            (result (cl-letf (;; Prevents in echo area
+                              (inhibit-message t))
+                      ,@body)))
        ;; Need to restore message manually, the above isn't enough
        (when old-msg
-         (message "%s" old-msg)))))
+         (message "%s" old-msg))
+       result)))
 
 ;; -----------------------------------------------------------------------------
 ;; Window/buffer changes
