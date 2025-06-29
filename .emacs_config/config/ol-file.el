@@ -50,11 +50,21 @@
 
 (add-hook 'ol-window-or-buffer-change-hook 'ol-save-on-window-or-buffer-change)
 
-(run-with-timer 5 5 #'ol-auto-save)
-
 (advice-add 'revert-buffer-quick :before #'ol-auto-save)
 
 (save-place-mode t)
+
+;; (run-with-timer 5 5 #'ol-auto-save)
+
+(defvar ol-auto-save-buffer nil)
+(defun ol-auto-save-timer ()
+  (when (and ol-auto-save-buffer (buffer-live-p ol-auto-save-buffer))
+    (with-current-buffer ol-auto-save-buffer
+      (ol-auto-save)))
+  (setq ol-auto-save-buffer (current-buffer)))
+
+(run-with-timer 5 5 #'ol-auto-save-timer)
+
 
 ;; ---------------------------------------------------------------------------
 ;; Auto revert
