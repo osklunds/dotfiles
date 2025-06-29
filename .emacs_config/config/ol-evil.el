@@ -320,4 +320,17 @@ the plain text edit keybinds instead."
 ;; Above is not enough
 (setc mouse-1-click-follows-link nil)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Search error workaround
+;;;; ---------------------------------------------------------------------------
+
+;; If searching for something not found and press enter, then * can no
+;; longer highlight matches afterwards.
+
+(defun ol-evil-ex-search-update-advice (func a1 a2 a3 a4)
+  (when (or a1 a2 a3 a4)
+    (funcall func a1 a2 a3 a4)))
+
+(advice-add 'evil-ex-search-update :around #'ol-evil-ex-search-update-advice)
+
 (provide 'ol-evil)
