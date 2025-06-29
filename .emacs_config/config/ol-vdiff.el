@@ -189,8 +189,5 @@
 
 (ol-define-key ol-visual-leader-map "d s 1" #'ol-vdiff-select1)
 (ol-define-key ol-visual-leader-map "d s 2" #'ol-vdiff-select2)
-  
-        
-
 
 (provide 'ol-vdiff)
