@@ -7,11 +7,8 @@
 (require 'haskell-mode)
 (require 'haskell-mode-autoloads)
 
-;; -----------------------------------------------------------------------------
-;; LSP
-;;------------------------------------------------------------------------------
-
-;; (add-hook 'haskell-mode-hook 'lsp)
+;; Remove e.g. interactive-mode which overrides my own completion function
+(setc haskell-mode-hook nil)
 
 ;; -----------------------------------------------------------------------------
 ;; Indentation
