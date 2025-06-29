@@ -15,7 +15,7 @@
 (setc tlc-log-rust-debug t)
 (setc tlc-log-emacs-debug t)
 (setc tlc-log-to-stdio nil)
-(setc tlc-debug-on-error t)
+(setc tlc-debug-on-error nil)
 
 (defun ol-tlc-use-xref ()
   (add-hook 'xref-backend-functions 'tlc-xref-backend nil t))
