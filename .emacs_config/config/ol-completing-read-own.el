@@ -133,12 +133,18 @@ separator."
   (when-let* ((delete-action (ol-completion-metadata-get 'ol-delete-action)))
     (let* ((selected (ol-icomplete-current-selection))
            (completions (ol-nmake-proper-list completion-all-sorted-completions))
+           ;; Note: completions only contains the selected candidate and
+           ;; the candidates behind, which is a bit surprising, but
+           ;; it works for this use case.
+           (was-last (length= completions 1))
            (new-completions (remove selected completions)))
       (funcall delete-action selected)
       (setq completion-all-sorted-completions (append new-completions 0))
       (setq icomplete--scrolled-completions
             (remove selected icomplete--scrolled-completions))
-      (icomplete-exhibit))))
+      (icomplete-exhibit)
+      (when was-last
+        (ol-icomplete-backward)))))
 
 (defun ol-icomplete-current-selection ()
   (or (car icomplete--scrolled-completions)
@@ -691,7 +697,17 @@ the output is meesed up, so stop process when move.")
 
 (defun ol-dummy-completion ()
   (interactive)
-  (completing-read "Dummy: "
-                   '("a" "b" "c" "aa" "ab")))
+  (let* ((delete-action (lambda (cand)
+                          ))
+         (table (lambda (string pred action)
+                  (if (eq action 'metadata)
+                      `(metadata
+                        (ol-delete-action . ,delete-action))
+                    (complete-with-action action '("a" "b" "c" "aa" "ab")
+                                          string pred))))) 
+    (completing-read "Dummy: "
+                     table)))
+
+(ol-define-key ol-normal-leader-map "m d" #'ol-dummy-completion)
 
 (provide 'ol-completing-read-own)
