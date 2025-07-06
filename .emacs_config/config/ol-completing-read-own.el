@@ -23,6 +23,9 @@
 
 (defun ol-icomplete-forward ()
   (interactive)
+  (ol-async-stop-process)
+  (ol-async-stop-timer)
+  (setq ol-async-has-moved t)
   (unless (icomplete-forward-completions)
     (icomplete-vertical-goto-first)))
 
@@ -33,6 +36,9 @@
 
 (defun ol-icomplete-backward ()
   (interactive)
+  (ol-async-stop-process)
+  (ol-async-stop-timer)
+  (setq ol-async-has-moved t)
   (unless (icomplete-backward-completions)
     (icomplete-vertical-goto-last)))
 
@@ -409,6 +415,9 @@ buffer last."
 (defvar ol-async-buffer nil)
 (defvar ol-async-candidates nil)
 (defvar ol-async-timer nil)
+(defvar ol-async-has-moved nil
+  "If moving/scrolling in icomplete and then more candidates comes
+the output is meesed up, so stop process when move.")
 
 (defun ol-async-compilation-buffer-name-advice (name)
   (setq ol-async-buffer name))
@@ -435,6 +444,7 @@ buffer last."
   (ol-async-stop-timer)
   (setq ol-async-buffer nil)
   (setq ol-async-candidates nil)
+  (setq ol-async-has-moved nil)
   (ol-set-completion-all-sorted-completions nil))
 
 (defun ol-set-completion-all-sorted-completions (completions)
@@ -445,8 +455,7 @@ buffer last."
 (add-hook 'minibuffer-exit-hook #'ol-async-cleanup)
 
 (defun ol-async-exhibit ()
-  (ol-async-stop-timer)
-  (when ol-async-buffer
+  (when (and ol-async-buffer (not ol-async-has-moved))
     (with-current-buffer ol-async-buffer
       ;; todo: consider only appending new lines
       (let* ((lines (split-string (buffer-string) "\n" t))
@@ -457,7 +466,8 @@ buffer last."
                                     relevant-lines)))
         (setq ol-async-candidates trimmed-lines)))
     (ol-set-completion-all-sorted-completions ol-async-candidates)
-    (icomplete-exhibit)))
+    (icomplete-exhibit))
+  (ol-async-stop-timer))
 
 ;; Group exhibit due to process output to reduce flicker
 (defun ol-async-delayed-exhibit ()
