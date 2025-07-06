@@ -131,20 +131,21 @@ separator."
 (defun ol-icomplete-delete-action ()
   (interactive)
   (when-let* ((delete-action (ol-completion-metadata-get 'ol-delete-action)))
-    (let* ((selected (ol-icomplete-current-selection))
-           (completions (ol-nmake-proper-list completion-all-sorted-completions))
-           ;; Note: completions only contains the selected candidate and
-           ;; the candidates behind, which is a bit surprising, but
-           ;; it works for this use case.
-           (was-last (length= completions 1))
-           (new-completions (remove selected completions)))
-      (funcall delete-action selected)
-      (setq completion-all-sorted-completions (append new-completions 0))
-      (setq icomplete--scrolled-completions
-            (remove selected icomplete--scrolled-completions))
-      (icomplete-exhibit)
-      (when was-last
-        (ol-icomplete-backward)))))
+    (let ((selected (ol-icomplete-current-selection)))
+      (when (funcall delete-action selected)
+        (let* ((completions (ol-nmake-proper-list completion-all-sorted-completions))
+               ;; Note: completions only contains the selected candidate and
+               ;; the candidates behind, which is a bit surprising, but
+               ;; it works for this use case.
+               (was-last (length= completions 1))
+               (new-completions (remove selected completions)))
+          
+          (setq completion-all-sorted-completions (append new-completions 0))
+          (setq icomplete--scrolled-completions
+                (remove selected icomplete--scrolled-completions))
+          (icomplete-exhibit)
+          (when was-last
+            (ol-icomplete-backward)))))))
 
 (defun ol-icomplete-current-selection ()
   (or (car icomplete--scrolled-completions)
@@ -697,7 +698,7 @@ the output is meesed up, so stop process when move.")
 
 (defun ol-dummy-completion ()
   (interactive)
-  (let* ((delete-action (lambda (cand)
+  (let* ((delete-action (lambda (cand) (not (equal cand "b"))
                           ))
          (table (lambda (string pred action)
                   (if (eq action 'metadata)
