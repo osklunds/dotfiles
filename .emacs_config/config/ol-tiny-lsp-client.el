@@ -3,7 +3,6 @@
 (require 'ol-util)
 (require 'ol-evil)
 (require 'ol-corfu)
-(require 'ol-haskell)
 
 (require 'tiny-lsp-client)
 
