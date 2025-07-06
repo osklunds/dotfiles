@@ -651,8 +651,9 @@ buffer last."
   (let* ((name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
          (buffer (if ol-async-buffer
-                     (progn
+                     (let ((offset (+ 4 (length icomplete--scrolled-past))))
                        (with-current-buffer ol-async-buffer
+                         (forward-line offset)
                          (rename-buffer name 'unique)))
                    (ol-collect-create-buffer name))))
     (run-at-time nil nil #'switch-to-buffer-other-window buffer)
