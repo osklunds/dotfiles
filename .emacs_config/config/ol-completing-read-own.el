@@ -104,6 +104,11 @@ tramp method, insert it instead."
         (icomplete-force-complete-and-exit)))))
 
 (defun ol-icomplete-dwim-return ()
+  "Exit with current input."
+  (interactive)
+  (exit-minibuffer))
+
+(defun ol-icomplete-insert-current-selection ()
   "Insert currently selected candidate."
   (interactive)
   (icomplete-force-complete))
@@ -139,10 +144,6 @@ separator."
   (or (car icomplete--scrolled-completions)
       ;; If no scroll yet
       (car (completion-all-sorted-completions))))
-
-(defun ol-icomplete-insert-current-selection ()
-  (interactive)
-  (insert (ol-icomplete-current-selection)))
 
 ;; Preferably I only want input in history, but for eval-expression,
 ;; icomplete isn't used, so log both input and selection
@@ -683,5 +684,14 @@ the output is meesed up, so stop process when move.")
   (let ((y (last x)))
     (setcdr y nil)
     x))
+
+;; -----------------------------------------------------------------------------
+;; Test
+;; -----------------------------------------------------------------------------
+
+(defun ol-dummy-completion ()
+  (interactive)
+  (completing-read "Dummy: "
+                   '("a" "b" "c" "aa" "ab")))
 
 (provide 'ol-completing-read-own)
