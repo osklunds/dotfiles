@@ -80,17 +80,22 @@
 likes, only exit if the current candidate is a file. If e.g. a directory or
 tramp method, insert it instead."
   (interactive)
-  (let* ((selection (ol-icomplete-current-selection)))
-    (if (and (eq minibuffer-completion-table 'read-file-name-internal)
-             ;; If no selection, it means no match, so use
-             ;; icomplete-force-complete-and-exit instead to allow exit
-             ;; without match
-             selection
-             (not (string= "./" selection))
-             (or (directory-name-p selection)
-                 (string-match-p ":$" selection)))
-        (icomplete-force-complete)
-      (icomplete-force-complete-and-exit))))
+  (if ol-async-buffer
+      (ol-collect-1 (lambda (buffer)
+                      (with-current-buffer buffer
+                        (compile-goto-error))
+                      (kill-buffer buffer)))
+    (let* ((selection (ol-icomplete-current-selection)))
+      (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+               ;; If no selection, it means no match, so use
+               ;; icomplete-force-complete-and-exit instead to allow exit
+               ;; without match
+               selection
+               (not (string= "./" selection))
+               (or (directory-name-p selection)
+                   (string-match-p ":$" selection)))
+          (icomplete-force-complete)
+        (icomplete-force-complete-and-exit)))))
 
 (defun ol-icomplete-dwim-return ()
   "Insert currently selected candidate."
@@ -567,22 +572,8 @@ buffer last."
 (defun ol-grep-helper (prompt args)
   (let* ((input-to-cmd
           (lambda (input)
-            (concat args " " (ol-grep-input-to-cmd input))))
-         (selection (ol-async-completing-read prompt input-to-cmd 'ol-grep)))
-    (ol-open-grep-selection selection)))
-
-(defun ol-open-grep-selection (selection)
-  ;; example: .emacs_config/config/ol-file.el:44:(defun ol-save-silently ()
-  ;; this works because the string above is invisible thanks to a text property
-  (if (string-match "\\(.*\\):\\([0-9]+\\):" selection)
-      (let* ((file (match-string 1 selection))
-             (line (match-string 2 selection)))
-        (unless (file-exists-p file)
-          (user-error "No such file"))
-        (find-file file)
-        (goto-char (point-min))
-        (forward-line (1- (string-to-number line))))
-    (user-error "Couldn't find match")))
+            (concat args " " (ol-grep-input-to-cmd input)))))
+    (ol-async-completing-read prompt input-to-cmd 'ol-grep)))
 
 (cl-defun ol-completing-read-shell-command (prompt history)
   (let* ((input-to-cmd (lambda (input) (concat "bash -ic \"" input "\"")))
@@ -647,6 +638,9 @@ buffer last."
 
 (defun ol-collect ()
   (interactive)
+  (ol-collect-1 #'switch-to-buffer-other-window))
+
+(defun ol-collect-1 (action)
   (ol-add-input-to-minibuffer-history)
   (let* ((name (format "*Collect: %s - %s*" ol-collect-command
                        (minibuffer-contents-no-properties)))
@@ -656,7 +650,7 @@ buffer last."
                          (forward-line offset)
                          (rename-buffer name 'unique)))
                    (ol-collect-create-buffer name))))
-    (run-at-time nil nil #'switch-to-buffer-other-window buffer)
+    (run-at-time nil nil action buffer)
     (minibuffer-keyboard-quit)))
 
 (defun ol-select ()
