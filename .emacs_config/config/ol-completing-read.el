@@ -146,10 +146,10 @@
       (switch-to-buffer-other-window buffer-name))))
 
 (defconst ol-rg-command "rg --color=always --smart-case --no-heading --line-number\
- --with-filename")
+ --with-filename --null")
 (defconst ol-git-grep-command "git --no-pager grep --color=always --line-number")
 (defconst ol-grep-command "grep --color=always --extended-regexp --line-number\
- --binary-files=without-match --recursive")
+ --binary-files=without-match --recursive --null")
 
 (defconst ol-sync-find-file-content-methods
   `(("rg" ,ol-rg-command ,#'ol-can-use-rg)
