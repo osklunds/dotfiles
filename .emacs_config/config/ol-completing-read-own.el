@@ -84,6 +84,10 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "~" #'ol-icomplete-dwim-tilde)
 
+;; To prevent help menu from opening
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-h" (lambda () (interactive)))
+
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
 likes, only exit if the current candidate is a file. If e.g. a directory or
