@@ -66,6 +66,10 @@
 
 (setc anzu-cons-mode-line-p nil)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Cache issues
+;;;; ---------------------------------------------------------------------------
+
 (defun ol-anzu--use-result-cache-p (func &rest args)
   (and anzu--cached-positions (apply func args)))
 
@@ -76,9 +80,19 @@
 
 (add-hook 'ol-window-or-buffer-change-hook 'ol-anzu-reset-cache)
 
-;; Fixing case sensitive
+;;;; ---------------------------------------------------------------------------
+;;;; Case issues
+;;;; ---------------------------------------------------------------------------
+
+(defvar ol-anzu-search-term nil)
+
+(defun ol-anzu--search-all-position-advice (str)
+  (setq ol-anzu-search-term str))
+
+(advice-add 'anzu--search-all-position :before #'ol-anzu--search-all-position-advice)
+
 (defun ol-anzu--case-fold-search--advice (&rest r)
-  (eq (evil-ex-regex-case (nth 0 (or evil-ex-search-pattern '(""))) evil-ex-search-case)
+  (eq (evil-ex-regex-case (or ol-anzu-search-term "") evil-ex-search-case)
       'insensitive))
 
 (advice-add 'anzu--case-fold-search :override 'ol-anzu--case-fold-search--advice)
