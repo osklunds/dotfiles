@@ -81,6 +81,9 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "DEL" #'ol-icomplete-dwim-del)
 
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "~" #'ol-icomplete-dwim-tilde)
+
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
 likes, only exit if the current candidate is a file. If e.g. a directory or
@@ -127,6 +130,13 @@ separator."
                        (1+ (point))))
         (end-of-line))
     (delete-char -1)))
+
+(defun ol-icomplete-dwim-tilde ()
+  (interactive)
+  (if (and (eq minibuffer-completion-table 'read-file-name-internal)
+           (directory-name-p (icomplete--field-string)))
+      (insert (expand-file-name "~/"))
+    (insert "~")))
 
 (defun ol-icomplete-delete-action ()
   (interactive)
