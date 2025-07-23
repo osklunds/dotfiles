@@ -297,8 +297,8 @@
       "master")))
 
 (defun ol-does-branch-exist (branch)
-  (let ((all-branches (shell-command-to-string "git branch --list"))
-        (regex (concat "[ \\n]" branch "$")))
+  (let ((all-branches (shell-command-to-string "git branch --list --all"))
+        (regex (concat "[ \\n]\\(remotes/\\)?" branch "$")))
     (string-match-p regex all-branches)))
 
 ;; Valid assumption in this repo
