@@ -134,6 +134,7 @@ the plain text edit keybinds instead."
 (setc evil-insert-state-modes nil)
 (setq evil-insert-state-cursor 'box)
 (setc evil-want-Y-yank-to-eol t)
+(setc evil-echo-state nil)
 
 ;; at least for magit, disabling this enables normal keybinds in buffers.
 ;; can be something to play around with
