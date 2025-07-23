@@ -5,7 +5,7 @@
 
 (defun ol-print-buffer-file-name ()
   (interactive)
-  (message "%s" (buffer-file-name)))
+  (message "%s" (or (buffer-file-name) default-directory)))
 
 (ol-define-key ol-normal-leader-map "b n" 'ol-print-buffer-file-name)
 
