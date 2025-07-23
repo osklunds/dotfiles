@@ -61,7 +61,7 @@ modeline can be good to cache in a hashmap."
 (defvar ol-projects-search-path '(("~/own_repos" . 1)
                                   ("~/others_repos" . 1)
                                   ("~/own_repos/dotfiles/.emacs_config" . 2)
-                                  ("~/Dropbox/Dokument")))
+                                  ("~/Dokument")))
 
 (defun ol-discover-projects ()
   (interactive)
