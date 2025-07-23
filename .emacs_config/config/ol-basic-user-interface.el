@@ -30,7 +30,14 @@
   (visual-line-mode -1)
   (toggle-truncate-lines 1))
 
-(ol-define-key ol-normal-leader-map "m v" #'ol-truncate-lines)
+(ol-define-key ol-normal-leader-map "m l" #'ol-truncate-lines)
+
+(defun ol-wrap-lines ()
+  (interactive)
+  (visual-line-mode t)
+  (toggle-truncate-lines -1))
+
+(ol-define-key ol-normal-leader-map "m L" #'ol-wrap-lines)
 
 ;; -----------------------------------------------------------------------------
 ;; Reduce Clutter
