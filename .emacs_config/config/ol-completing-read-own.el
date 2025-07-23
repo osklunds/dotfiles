@@ -382,8 +382,11 @@ buffer last."
                        table))))
 
 (defun ol-switch-to-buffer-highlight-fn (candidate)
-  (let* ((buffer (get-buffer candidate))
-         (mode (buffer-local-value 'major-mode buffer)))
+  ;; "when" version needed to fix bug when two buffers of same file name are
+  ;; open, and one is deleted. The remaining one will change name from name<dir>
+  ;; to name and hence not be found anymore
+  (when-let* ((buffer (get-buffer candidate))
+              (mode (buffer-local-value 'major-mode buffer)))
     (cond
      ;; todo: consider what to do if remote and dired
      ;; (find-file "/docker:tests-dotfiles-tramp-test-1:/")
@@ -414,7 +417,8 @@ buffer last."
   "Face for remote buffer name in `ol-switch-to-buffer'.")
 
 (defun ol-switch-to-buffer-delete-action (selected)
-  (let ((buf (get-buffer selected)))
+  ;; Use "when" version as extra robustification, although unsure if needed
+  (when-let ((buf (get-buffer selected)))
     (kill-buffer buf)))
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
