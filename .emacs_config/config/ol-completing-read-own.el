@@ -344,6 +344,9 @@ separator."
 
 (setc completion-styles '(ol))
 
+;; So that 'ol style is used for everything
+(setc completion-category-defaults nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Sync applications
 ;; -----------------------------------------------------------------------------
