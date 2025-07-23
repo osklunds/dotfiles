@@ -298,7 +298,10 @@ separator."
   (let ((all (ol-all-completions string table pred point)))
     (cond
      ((null all) nil)
-     ((eq (length all) 1) string)
+     ;; This caused the hard to find issue "Error running timer: (wrong-type-argument listp 0)
+     ;; all is not a proper list. To trigger this, type M-x and type
+     ;; "l time" and select list-timers. Maybe many buffers need to be open.
+     ((eq (length (ol-nmake-proper-list all)) 1) string)
      (t string))))
 
 ;; This style is not just about matching, but also about highlights
