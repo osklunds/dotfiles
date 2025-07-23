@@ -5,6 +5,7 @@
 
 (require 'xref)
 (require 'tramp-cmds)
+(require 'profiler)
 
 ;; Setting to nil can supposedly can improve scroll performance
 ;; But setting to t means delete overlays in vdiff can be split both at
