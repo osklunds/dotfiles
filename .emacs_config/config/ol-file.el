@@ -10,6 +10,7 @@
 (ol-define-key ol-normal-leader-map "b n" 'ol-print-buffer-file-name)
 
 (setc large-file-warning-threshold (* 100 1000 1000))
+(setc find-file-existing-other-name nil)
 
 ;; ---------------------------------------------------------------------------
 ;; Backup
