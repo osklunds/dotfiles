@@ -1,6 +1,10 @@
 
 PS1='$PWD\$ '
 
+if [[ -n "$INSIDE_EMACS" ]]; then
+   PS1='> '
+fi
+
 # Copied from https://stackoverflow.com/a/246128
 DOTFILES_REPO=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
