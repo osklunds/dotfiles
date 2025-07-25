@@ -81,7 +81,7 @@
 (add-hook 'ol-window-or-buffer-change-hook 'ol-anzu-reset-cache)
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Case issues
+;;;; Case issues test test TEST
 ;;;; ---------------------------------------------------------------------------
 
 (defvar ol-anzu-search-term nil)
