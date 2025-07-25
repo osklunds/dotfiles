@@ -66,3 +66,5 @@ lc() {
     rg --files | rg "\.$1" | xargs wc -l
 }
 
+alias delete_all_docker_images='docker rmi -f $(docker images -aq)'
+
