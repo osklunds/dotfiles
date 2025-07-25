@@ -94,7 +94,10 @@
 
 (defvar-local ol-branch-name-segment nil)
 (defun ol-branch-name-segment ()
+  (interactive)
   (setq ol-branch-name-segment (ol-get-current-branch)))
+
+(ol-define-key ol-normal-leader-map "m b" #'ol-branch-name-segment)
 
 (add-hook 'after-revert-hook 'ol-branch-name-segment)
 (add-hook 'find-file-hook 'ol-branch-name-segment)
