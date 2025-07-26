@@ -91,11 +91,91 @@
 
 (advice-add 'anzu--search-all-position :before #'ol-anzu--search-all-position-advice)
 
-(defun ol-anzu--case-fold-search--advice (&rest r)
-  (eq (evil-ex-regex-case (or ol-anzu-search-term "") evil-ex-search-case)
+(defun ol-anzu--case-fold-search ()
+  (eq (evil-ex-regex-case
+       (or ol-anzu-search-term "") evil-ex-search-case)
       'insensitive))
 
-(advice-add 'anzu--case-fold-search :override 'ol-anzu--case-fold-search--advice)
+;;;;;; -------------------------------------------------------------------------
+;;;;;; Copied code from anzu.el
+;;;;;; -------------------------------------------------------------------------
+
+;; Copied from anzu.el commit 26fb50b429ee968eb944b0615dd0aed1dd66172c
+;; but with anzu--case-fold-search changed to ol-anzu--case-fold-search
+;; The reason is that anzu--case-fold-search is defsubst which makes it
+;; impossible to advice and this fix the case issue for.
+
+(defun anzu--search-all-position (str)
+  (unless anzu--last-command
+    (setq anzu--last-command last-command))
+  (let ((input (anzu--transform-input str)))
+    (if (not (anzu--validate-regexp input))
+        anzu--cached-positions
+      (save-excursion
+        (goto-char (point-min))
+        (let ((positions '())
+              (count 0)
+              (overflow nil)
+              (finish nil)
+              (search-func (if (anzu--use-migemo-p)
+                               (lambda (word &optional bound noerror count)
+                                 (with-no-warnings
+                                   (migemo-forward word bound noerror count)))
+                             #'re-search-forward))
+              (case-fold-search (ol-anzu--case-fold-search)))
+          (while (and (not finish) (funcall search-func input nil t))
+            (push (cons (match-beginning 0) (match-end 0)) positions)
+            (cl-incf count)
+            (when (= (match-beginning 0) (match-end 0)) ;; Case of anchor such as "^"
+              (if (eobp)
+                  (setq finish t)
+                (forward-char 1)))
+            (when (and anzu-search-threshold (>= count anzu-search-threshold))
+              (setq overflow t finish t)))
+          (let ((result (anzu--construct-position-info count overflow (reverse positions))))
+            (setq anzu--cached-positions (copy-sequence result))
+            result))))))
+
+(defun anzu--count-and-highlight-matched (buf str replace-beg replace-end
+                                              use-regexp overlay-limit case-sensitive)
+  (anzu--cleanup-markers)
+  (setq str (anzu--convert-for-lax-whitespace str use-regexp))
+  (if (not (anzu--validate-regexp str))
+      anzu--cached-count
+    (with-current-buffer buf
+      (save-excursion
+        (let* ((backward (> replace-beg replace-end))
+               (overlay-beg (if backward (max replace-end overlay-limit) replace-beg))
+               (overlay-end (if backward replace-beg (min replace-end overlay-limit))))
+          (goto-char replace-beg)
+          (let ((count 0)
+                (overlayed 0)
+                (finish nil)
+                (cmp-func (if backward #'< #'>))
+                (search-func (if backward #'re-search-backward #'re-search-forward))
+                (step (if backward -1 1))
+                (case-fold-search (if case-sensitive
+                                      nil
+                                    (ol-anzu--case-fold-search))))
+            (while (and (not finish) (funcall search-func str replace-end t))
+              (if anzu--region-noncontiguous
+                  (when (cl-loop for (b . e) in anzu--region-noncontiguous
+                                 thereis (and (>= (point) b) (<= (point) e)))
+                    (cl-incf count))
+                (cl-incf count))
+              (let ((beg (match-beginning 0))
+                    (end (match-end 0)))
+                (when (= beg end)
+                  (if (eobp)
+                      (setq finish t)
+                    (forward-char step)))
+                (when (and replace-end (funcall cmp-func (point) replace-end))
+                  (setq finish t))
+                (when (and (not finish) (anzu2--put-overlay-p beg end overlay-beg overlay-end))
+                  (cl-incf overlayed)
+                  (anzu--add-overlay beg end))))
+            (setq anzu--cached-count count)
+            overlayed))))))
 
 ;; -----------------------------------------------------------------------------
 ;; Making Evil more similar to Vim
