@@ -68,3 +68,9 @@ lc() {
 
 alias delete_all_docker_images='docker rmi -f $(docker images -aq)'
 
+disk_space() {
+    du -ach --max-depth=1 2> >(grep -v "Permission denied") | \
+        sort -h | \
+        grep -v "\.\$"
+}
+
