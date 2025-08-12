@@ -3,6 +3,7 @@
 (require 'ol-util)
 (require 'ol-evil)
 (require 'ol-corfu)
+(require 'ol-eldoc)
 
 (require 'tiny-lsp-client)
 
@@ -43,6 +44,14 @@
           (lambda ()
             (ol-set-capfs
              '(ol-capf-abbrev ol-capf-tlc ol-capf-dabbrev))))
+
+;; -----------------------------------------------------------------------------
+;; eldoc
+;; -----------------------------------------------------------------------------
+
+(add-hook 'tlc-mode-hook
+          (lambda ()
+            (add-hook 'eldoc-documentation-functions #'tlc-eldoc-function nil t)))
 
 ;; -----------------------------------------------------------------------------
 ;; Language major modes
