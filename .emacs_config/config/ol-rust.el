@@ -46,6 +46,7 @@
 (define-abbrev-table 'rust-mode-abbrev-table
   '(
     ("dbg" "println!(\"oskar: {:?}\", @@);")
+    ("tdbg" "logger::log_rust_debug!(\"@@\");")
     ("dbgg" "println!(\"\\n\\n  {:?}   \\n\\n\\n\\n\", @@);")
     ("ar" "// Arrange")
     ("ac" "// Act")
