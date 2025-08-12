@@ -52,6 +52,9 @@
 
 (advice-add 'markdown-fontify-headings :around #'ol-dont-hide-markup-for-headings)
 
+;; To align with org-mode
+(add-hook 'markdown-mode-hook (lambda () (display-line-numbers-mode -1)))
+
 ;; -----------------------------------------------------------------------------
 ;; Emphasis
 ;; -----------------------------------------------------------------------------
@@ -69,5 +72,16 @@
   (add-hook 'markdown-mode-hook #'markdown-toggle-inline-images))
 
 (setc markdown-max-image-size '(600 . 600))
+
+;; -----------------------------------------------------------------------------
+;; Olivetti
+;; -----------------------------------------------------------------------------
+
+(add-hook 'markdown-mode-hook #'olivetti-mode)
+
+(defun ol-markdown-fill-column (&rest _)
+  (setq-local fill-column 120))
+
+(add-hook 'markdown-mode-hook #'ol-markdown-fill-column)
 
 (provide 'ol-markdown-mode)
