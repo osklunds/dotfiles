@@ -24,7 +24,8 @@
     `(customize-set-variable ',var ,val)))
 
 (defun ol-require-external (cmd)
-  (cl-assert (executable-find cmd)))
+  (unless (executable-find cmd)
+    (message "WARNING: Can't find '%s'" cmd)))
 
 ;; Copied from https://emacs.stackexchange.com/a/24602
 (defun ol-disable-y-or-n-p (orig-fun &rest args)
