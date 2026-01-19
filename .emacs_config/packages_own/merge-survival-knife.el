@@ -305,7 +305,6 @@
 ;;;; Create diffs
 ;;;; ---------------------------------------------------------------------------
 
-;; TODO: Create a "4 way diff" with BL and RM are on top, and BR and LM are on top
 (defun msk-create-diffs ()
   ;; By inhibiting diff vdiff seems to work nicer. No more warnings about
   ;; sentinel and first diff not showing. It could be that when concurrent async
@@ -428,6 +427,16 @@
 (defun msk-remote-merged ()
   (interactive)
   (msk-set-view "REMOTE" "MERGED" nil nil msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-base-local-and-base-remote ()
+  (interactive)
+  (msk-set-view "BASE" "LOCAL" "BASE" "REMOTE" msk-bottom)
+  (msk-refresh-view))
+
+(defun msk-local-merged-and-remote-merged ()
+  (interactive)
+  (msk-set-view "LOCAL" "MERGED" "REMOTE" "MERGED" msk-bottom)
   (msk-refresh-view))
 
 (defun msk-local-changes-compare ()
