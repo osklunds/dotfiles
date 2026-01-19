@@ -21,6 +21,11 @@
 
 (setc magit-commit-diff-inhibit-same-window t)
 
+(defconst ol-diff-green "#9fec9d")
+(defconst ol-diff-dark-red "#e45649")
+(defconst ol-diff-light-red "#f5d9d6")
+(defconst ol-diff-dark-orange "#ffd787")
+(defconst ol-diff-light-orange "#f6eee8")
 
 ;; -----------------------------------------------------------------------------
 ;; Blame
@@ -105,6 +110,26 @@
 
 (ol-define-key ol-normal-leader-map "g s" 'ol-magit-status)
 
+(ol-set-face 'magit-section-heading :background 'unspecified)
+(ol-set-face 'magit-section-highlight :background "#ffffff" :extend t)
+(ol-set-face 'magit-section-heading-selection :background "#ffffff")
+(ol-set-face 'magit-diff-file-heading-selection :background "#ffffff")
+
+(ol-set-face 'magit-diff-context :background "#eeeeee")
+(ol-set-face 'magit-diff-their :background ol-diff-light-red)
+(ol-set-face 'magit-diff-base :background ol-diff-dark-orange)
+(ol-set-face 'magit-diff-our :background ol-diff-green)
+
+(ol-set-face 'magit-diff-context-highlight :background "#eeeeee")
+(ol-set-face 'magit-diff-their-highlight :background ol-diff-light-red)
+(ol-set-face 'magit-diff-base-highlight :background ol-diff-dark-orange)
+(ol-set-face 'magit-diff-our-highlight :background ol-diff-green)
+
+(ol-set-face 'magit-diff-file-heading :background 'unspecified :extend t)
+(ol-set-face 'magit-diff-file-heading-highlight :background 'unspecified :extend t)
+(ol-set-face 'magit-diff-lines-boundary :background "#ee0000")
+(ol-set-face 'magit-section-secondary-heading :background "#ee0000")
+
 ;; -----------------------------------------------------------------------------
 ;; Diff
 ;; -----------------------------------------------------------------------------
@@ -117,12 +142,6 @@
 
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
-
-(defconst ol-diff-green "#9fec9d")
-(defconst ol-diff-dark-red "#e45649")
-(defconst ol-diff-light-red "#f5d9d6")
-(defconst ol-diff-dark-orange "#ffd787")
-(defconst ol-diff-light-orange "#f6eee8")
 
 (defun ol-magit-diff-set-face (face-to-set face-val)
   (ol-set-face face-to-set
