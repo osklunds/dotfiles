@@ -2,6 +2,8 @@
 
 (require 'ol-completing-read-framework)
 
+(require 'ol-project) ;; for project-root. todo: avoid this dependency
+
 ;; -----------------------------------------------------------------------------
 ;; Helpers
 ;; -----------------------------------------------------------------------------
@@ -156,7 +158,7 @@ buffer last."
       ;; if two buffers with same name but different <dir> suffix existed, one
       ;; is deleteed, then the remaining buffer changes name but not the one
       ;; among the candidates in completion.
-      (message "%S doesn't exist (anymore), not switching"))))
+      (message "%S doesn't exist (anymore), not switching" buffer))))
 
 (defun ol-switch-to-buffer-highlight-fn (candidate)
   ;; "when" version needed to fix bug when two buffers of same file name are

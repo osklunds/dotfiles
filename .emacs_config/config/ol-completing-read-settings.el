@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'ol-evil)
+(require 'ol-windows)
+(require 'ol-project)
 (require 'ol-completing-read-framework)
 (require 'ol-completing-read-applications)
 
@@ -97,6 +99,11 @@
 (ol-evil-define-key 'normal compilation-mode-map "o" #'ol-async-goto-result)
 (ol-evil-define-key 'normal grep-mode-map "o" #'ol-async-goto-result)
 (ol-evil-define-key 'normal grep-mode-map "O" #'ol-async-goto-result-other-window)
+
+(defun ol-async-goto-result-other-window ()
+  (interactive)
+  (ol-split-window)
+  (ol-async-goto-result))
 
 ;; -----------------------------------------------------------------------------
 ;; Async face attributes

@@ -1,5 +1,8 @@
+;; -*- lexical-binding: t -*-
 
 (require 'yaml-mode)
+
+(require 'ol-evil)
 
 (add-hook 'yaml-mode-hook #'display-fill-column-indicator-mode)
 

@@ -7,6 +7,15 @@
 (require 'delsel) ;; for minibuffer-keyboard-quit
 (require 'grep)
 
+(defvar ol-async-completing-read-active nil)
+(defvar ol-async-buffer nil)
+(defvar ol-async-candidates nil)
+(defvar ol-async-timer nil)
+(defvar ol-async-has-moved nil
+  "If moving/scrolling in icomplete and then more candidates comes
+the output is meesed up, so stop process when move.")
+(defvar ol-async-goto-function nil)
+
 ;; -----------------------------------------------------------------------------
 ;; UI
 ;; -----------------------------------------------------------------------------
@@ -366,15 +375,6 @@ separator."
 ;; In terminal, prevent scroll of buffer when clicking result
 (setc compilation-context-lines t)
 
-(defvar ol-async-completing-read-active nil)
-(defvar ol-async-buffer nil)
-(defvar ol-async-candidates nil)
-(defvar ol-async-timer nil)
-(defvar ol-async-has-moved nil
-  "If moving/scrolling in icomplete and then more candidates comes
-the output is meesed up, so stop process when move.")
-(defvar ol-async-goto-function nil)
-
 (defun ol-async-compilation-buffer-name-advice (name)
   (setq ol-async-buffer name))
 
@@ -492,11 +492,6 @@ the output is meesed up, so stop process when move.")
 (defun ol-async-goto-result ()
   (interactive)
   (funcall ol-async-goto-function))
-
-(defun ol-async-goto-result-other-window ()
-  (interactive)
-  (ol-split-window)
-  (ol-async-goto-result))
 
 (defun ol-icomplete-print-async-debug-info ()
   (interactive)

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: nil -*-
 
 ;; -----------------------------------------------------------------------------
 ;; Merge Commit Analyzer (part of Merge Survival Knife)

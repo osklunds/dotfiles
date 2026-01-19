@@ -197,7 +197,7 @@
 (defun ol-vdiff-prevent-updates ()
   (interactive)
   (setq vdiff--inhibit-diff-update (not vdiff--inhibit-diff-update))
-  (when (called-interactively-p)
+  (when (called-interactively-p nil)
     (message "Prevent updates. Now: %s" vdiff--inhibit-diff-update)))
 
 (ol-define-key vdiff-mode-map "C-c U" #'ol-vdiff-prevent-updates)

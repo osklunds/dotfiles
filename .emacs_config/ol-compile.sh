@@ -24,6 +24,14 @@ common_setup="
 )
 "
 
+for file in packages_own/*.el; do
+    echo "$file"
+    emacs --batch \
+          --eval "$common_setup" \
+          --eval "(byte-recompile-file \"$file\" t 0)"
+
+done
+
 for file in config/*.el; do
     echo "$file"
     emacs --batch \
