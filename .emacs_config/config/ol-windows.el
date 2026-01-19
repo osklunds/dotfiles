@@ -89,5 +89,20 @@
 
 (ol-define-key ol-override-map "M-r" 'ol-force-split-window)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Only current window
+;;;; ---------------------------------------------------------------------------
+
+;; Inspired by https://github.com/FrostyX/current-window-only
+
+(setq display-buffer-alist
+      '((".*" (display-buffer-reuse-window display-buffer-same-window)
+         (reusable-frames . t))))
+
+(advice-add 'pop-to-buffer :override #'ol-current-window-only--pop-to-buffer)
+
+(defun ol-current-window-only--pop-to-buffer (buffer-or-name &optional action norecord)
+  (ignore action)
+  (switch-to-buffer buffer-or-name norecord))
 
 (provide 'ol-windows)
