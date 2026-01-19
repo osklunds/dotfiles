@@ -606,14 +606,17 @@ the output is meesed up, so stop process when move.")
           (run-with-timer 0.1 nil #'ol-async-exhibit))))
 
 (defun ol-on-compilation-filter-hook ()
-  (ol-async-delayed-exhibit))
+  ;; to handle when e.g. grep is called not as part of async completion
+  ;; todo: check ol-async-completing-read-active instead?
+  (when ol-async-buffer
+    (ol-async-delayed-exhibit)))
 
 ;; todo: only locally
 (add-hook 'compilation-filter-hook #'ol-on-compilation-filter-hook)
 
 (defun ol-compilation-handle-exit-advice (old-fun &rest args)
   ;; Adviced for two reasons: silence and empty buffer if no candidates
-  (if (active-minibuffer-window)
+  (if ol-async-buffer
       (progn
         (unless ol-async-candidates
           (ol-set-completion-all-sorted-completions nil))
