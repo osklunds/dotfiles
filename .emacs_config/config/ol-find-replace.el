@@ -224,4 +224,34 @@
 (advice-add 'evil-ex-start-word-search :around 'ol-dont-move-advice)
 (advice-add 'evil-visualstar/begin-search :around 'ol-dont-move-advice)
 
+;; -----------------------------------------------------------------------------
+;; Regex search
+;; -----------------------------------------------------------------------------
+
+(defvar ol-evil-regex-search t)
+
+(defun ol-toggle-evil-regex-search ()
+  (interactive)
+  (setq ol-evil-regex-search (not ol-evil-regex-search))
+  (message "ol-evil-regex-search: %s" ol-evil-regex-search))
+
+(ol-define-key ol-normal-leader-map "s r" #'ol-toggle-evil-regex-search)
+
+(defun ol-evil-ex-make-pattern-advice (org-fun regex &rest args)
+  (let ((escaped-regex (if ol-evil-regex-search regex (regexp-quote regex))))
+    (apply org-fun escaped-regex args)))
+
+(advice-add 'evil-ex-make-pattern :around #'ol-evil-ex-make-pattern-advice)
+
+;; -----------------------------------------------------------------------------
+;; Case sensitive
+;; -----------------------------------------------------------------------------
+
+(defun ol-toggle-evil-ex-search-case ()
+  (interactive)
+  (setq evil-ex-search-case (if (eq evil-ex-search-case 'smart) 'sensitive 'smart))
+  (message "evil-ex-search-case: %s" evil-ex-search-case))
+
+(ol-define-key ol-normal-leader-map "s s" #'ol-toggle-evil-ex-search-case)
+
 (provide 'ol-find-replace)
