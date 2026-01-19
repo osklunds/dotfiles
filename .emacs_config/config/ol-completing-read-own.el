@@ -746,16 +746,61 @@ the output is meesed up, so stop process when move.")
          (grep-use-headings nil))
     (ol-async-completing-read prompt input-to-cmd history)))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Application: file name
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-dwim-async-find-file-name (&optional prefer-project-root)
+  (interactive)
+  (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
+      (ol-async-find-file-name root "project")
+    (ol-async-find-file-name default-directory "cwd")))
+
+;; todo: fix bug that sometimes, especially after insert option, no results are
+;; shown
+(defun ol-async-find-file-name (dir prompt-dir-part)
+  (interactive)
+  (setq ol-async-goto-function #'ol-async-goto-file-name)
+  (let* ((default-directory dir)
+         (prompt (format "Async find file name [%s]: " prompt-dir-part))
+         (grep-use-headings nil))
+    (ol-async-completing-read prompt #'ol-async-find-file-name-input-to-cmd
+                              'ol-async-find-file-name)))
+
+(defun ol-async-find-file-name-input-to-cmd (input)
+  (let* ((split (ol-split-string-once input " -- "))
+         (before (car split))
+         (options (or before ""))
+         (after-plain (cdr split))
+         (after-as-regex (ol-string-to-regex after-plain))
+         (after-quoted (shell-quote-argument after-as-regex)))
+    (concat "rg --files " options " | rg " options " -- " after-quoted)))
+
+(ert-deftest ol-async-find-file-name-input-to-cmd-test ()
+  ;; one term
+  (ol-assert-equal "rg --files  | rg  -- defun"
+                   (ol-async-find-file-name-input-to-cmd "defun"))
+
+  ;; wildcard
+  (ol-assert-equal "rg --files  | rg  -- def.\\*\\?fun"
+                   (ol-async-find-file-name-input-to-cmd "def fun"))
+
+  ;; options
+  (ol-assert-equal "rg --files o | rg -o -- defun"
+                   (ol-async-find-file-name-input-to-cmd "-o -- defun"))
+  )
+
+(defun ol-async-goto-file-name ()
+  (let ((file-name (buffer-substring-no-properties (line-beginning-position)
+                                                   (line-end-position))))
+    (find-file file-name)))
+
+(ol-define-key ol-normal-leader-map "m a" #'ol-dwim-async-find-file-name)
+
 ;; -----------------------------------------------------------------------------
 ;; Collection
 ;; -----------------------------------------------------------------------------
 ;; Inspired by https://github.com/oantolin/embark
-
-;; some ideas:
-;; - vterm when running ls seems to show color codes. So maybe can do
-;; similar for ripgrep?
-;; - maybe ripgrep headings can work as well as in consult since grep-mode
-;; seemed to have such support
 
 (define-derived-mode ol-collect-mode fundamental-mode "ol-collect")
 
