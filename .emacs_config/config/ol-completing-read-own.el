@@ -672,6 +672,19 @@ the output is meesed up, so stop process when move.")
   (ol-split-window)
   (ol-async-goto-result))
 
+(defun ol-icomplete-print-async-debug-info ()
+  (interactive)
+  (message "ol-async-completing-read-active %s" ol-async-completing-read-active)
+  (message "ol-async-buffer %s" ol-async-buffer)
+  (message "ol-async-candidates %s" ol-async-candidates)
+  (message "ol-async-timer %s" ol-async-timer)
+  (message "ol-async-has-moved %s" ol-async-has-moved)
+  (message "ol-async-goto-function %s" ol-async-goto-function))
+
+;;;; ---------------------------------------------------------------------------
+;;;; Application: file content
+;;;; ---------------------------------------------------------------------------
+
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt ol-rg-command))
 
