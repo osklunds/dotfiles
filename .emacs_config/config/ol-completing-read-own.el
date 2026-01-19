@@ -99,7 +99,7 @@ tramp method, insert it instead."
   (if ol-async-completing-read-active
       (ol-collect-1 (lambda (buffer)
                       (with-current-buffer buffer
-                        (compile-goto-error))
+                        (ol-async-goto-result))
                       (kill-buffer buffer)))
     (let* ((selection (ol-icomplete-current-selection)))
       (if (and (eq minibuffer-completion-table 'read-file-name-internal)
@@ -454,6 +454,7 @@ buffer last."
 (defvar ol-async-has-moved nil
   "If moving/scrolling in icomplete and then more candidates comes
 the output is meesed up, so stop process when move.")
+(defvar ol-async-goto-function nil)
 
 (defun ol-async-compilation-buffer-name-advice (name)
   (setq ol-async-buffer name))
@@ -566,6 +567,15 @@ the output is meesed up, so stop process when move.")
                        nil ;; initial-input
                        history))))
 
+(defun ol-async-goto-result ()
+  (interactive)
+  (funcall ol-async-goto-function))
+
+(defun ol-async-goto-result-other-window ()
+  (interactive)
+  (ol-split-window)
+  (ol-async-goto-result))
+
 (defun ol-ripgrep (prompt)
   (ol-grep-helper prompt ol-rg-command))
 
@@ -619,6 +629,7 @@ the output is meesed up, so stop process when move.")
   )
 
 (defun ol-grep-helper (prompt args)
+  (setq ol-async-goto-function #'compile-goto-error)
   (let* ((input-to-cmd
           (lambda (input)
             (concat args " " (ol-grep-input-to-cmd input)))))
@@ -648,9 +659,10 @@ the output is meesed up, so stop process when move.")
 (ol-evil-define-key 'normal ol-collect-mode-map "RET" #'ol-select)
 (ol-evil-define-key 'normal ol-collect-mode-map "o" #'ol-select)
 
-(ol-evil-define-key 'normal compilation-button-map "o" #'compile-goto-error)
-(ol-evil-define-key 'normal compilation-mode-map "o" #'compile-goto-error)
-(ol-evil-define-key 'normal grep-mode-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal compilation-button-map "o" #'ol-async-goto-result)
+(ol-evil-define-key 'normal compilation-mode-map "o" #'ol-async-goto-result)
+(ol-evil-define-key 'normal grep-mode-map "o" #'ol-async-goto-result)
+(ol-evil-define-key 'normal grep-mode-map "O" #'ol-async-goto-result-other-window)
 
 (defvar-local ol-collect-command nil)
 (defvar-local ol-collect-buffer nil)
