@@ -457,10 +457,16 @@ buffer last."
                         (ol-delete-action . ,#'ol-switch-to-buffer-delete-action)
                         (cycle-sort-function . ,#'identity)
                         (display-sort-function . ,#'identity))
-                    (complete-with-action action buffer-names string pred)))))
-    (switch-to-buffer (completing-read
-                       "Switch to buffer: "
-                       table))))
+                    (complete-with-action action buffer-names string pred))))
+         (buffer (completing-read
+                  "Switch to buffer: "
+                  table)))
+    (if (get-buffer buffer)
+        (switch-to-buffer buffer)
+      ;; if two buffers with same name but different <dir> suffix existed, one
+      ;; is deleteed, then the remaining buffer changes name but not the one
+      ;; among the candidates in completion.
+      (message "%S doesn't exist (anymore), not switching"))))
 
 (defun ol-switch-to-buffer-highlight-fn (candidate)
   ;; "when" version needed to fix bug when two buffers of same file name are
