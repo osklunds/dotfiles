@@ -102,7 +102,7 @@ behaves like `define-key' and `keymap-set'."
 ;;;; Plain state
 ;;;; ---------------------------------------------------------------------------
 
-;; todo: consider blocking minor mode todo
+;; todo: block minor mode todo
 
 (defvar-local ol-plain-previous-local-map nil)
 
