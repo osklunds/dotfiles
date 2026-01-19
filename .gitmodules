@@ -71,7 +71,7 @@
 	path = .emacs_config/packages_inactive/ht.el
 	url = https://github.com/Wilfred/ht.el.git
 [submodule ".emacs_config/packages/markdown-mode"]
-	path = .emacs_config/packages/markdown-mode
+	path = .emacs_config/packages_inactive/markdown-mode
 	url = https://github.com/jrblevin/markdown-mode.git
 [submodule ".emacs_config/packages/spinner.el"]
 	path = .emacs_config/packages_inactive/spinner.el
