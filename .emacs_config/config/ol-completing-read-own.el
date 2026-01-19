@@ -511,11 +511,20 @@ buffer last."
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
 ;; -----------------------------------------------------------------------------
-;; Async applications
+;; Async
 ;; -----------------------------------------------------------------------------
+
+;;;; ---------------------------------------------------------------------------
+;;;; Framework
+;;;; ---------------------------------------------------------------------------
+
+(set-face-attribute 'grep-heading nil
+                    :foreground "#000000"
+                    :background "#eeeee")
 
 (set-face-attribute 'match nil
                     :inherit 'ol-match-face
+                    :weight 'normal
                     :foreground 'unspecified
                     :background 'unspecified)
 
