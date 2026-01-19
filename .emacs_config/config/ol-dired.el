@@ -59,27 +59,34 @@
 
 (defun ol-get-buffer-name-from-path (path &optional prefix)
   (let* ((abbrev-path (abbreviate-file-name path))
-         (parts (split-string abbrev-path "/"))
-         (last-part (car (last parts 2)))
-         ;; Special case to handle root
-         (last-part2 (if (string= "" last-part) "/" last-part))
-         ;; Special case to handle remote root
-         (last-part3 (if (string-match-p ":" last-part2)
-                         (concat (ol-shrink-remote-part last-part2) "/")
-                       last-part2))
-         (other-parts (butlast parts 2))
-         (initial-parts (ol-shrink-parts other-parts))
-         (new-parts (append initial-parts (list last-part3)))
-         (full (string-join new-parts "/")))
-    (if prefix
-        (concat prefix ": " full)
-      full)))
+         (parts (split-string abbrev-path "/" 'omit-nulls))
+
+         (last-part (car (last parts)))
+         ;; Special case to handle the combination root in remote
+         (last-part (if (and last-part (string-match-p ":" last-part)
+                             (length= parts 1))
+                        (concat (ol-shrink-remote-part last-part) "/")
+                      last-part))
+
+         (init-parts (butlast parts))
+
+         (head-part (car init-parts))
+         ;; Can be nil when path is /
+         (head-part (when head-part (ol-shrink-remote-part head-part)))
+
+         (mid-parts (cdr init-parts))
+         (mid-parts (ol-shrink-parts mid-parts))
+
+         (new-parts (append (when head-part (list head-part)) mid-parts (list last-part)))
+         (full (string-join new-parts "/"))
+         ;; All paths are relative root except if they begin with ~
+         (full (if (string-prefix-p "~" full) full (concat "/" full))))
+    (if prefix (concat prefix ": " full) full)))
 
 (defun ol-shrink-parts (parts)
   (mapcar (lambda (part)
             (cond
              ((equal "" part) "")
-             ((string-match-p ":" part) (ol-shrink-remote-part part))
              (t (ol-shrink-part part))))
           parts))
 
@@ -95,6 +102,7 @@
 
 (ert-deftest ol-get-buffer-name-from-path-test ()
   (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config/"))
+  (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config"))
   (ol-assert-equal "/et/.ip/config" (ol-get-buffer-name-from-path "/et/.iptables/config/"))
   (ol-assert-equal "/etc/iptables" (ol-get-buffer-name-from-path "/etc/iptables/"))
   (ol-assert-equal "/etc" (ol-get-buffer-name-from-path "/etc/"))
@@ -108,6 +116,11 @@
                    (ol-get-buffer-name-from-path "/docker:some_host:/abcdef/iptables/"))
   (ol-assert-equal "/doc:som:/"
                    (ol-get-buffer-name-from-path "/docker:some_host:/"))
+
+  (ol-assert-equal "/etc/ipt/hej"
+                   (ol-get-buffer-name-from-path "/etc/iptables: hej/hej/"))
+  (ol-assert-equal "/etc/iptables: hej"
+                   (ol-get-buffer-name-from-path "/etc/iptables: hej/"))
   )
 
 (defun ol-buffer-name-matches (name desired-name)
