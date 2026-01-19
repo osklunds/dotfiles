@@ -15,6 +15,7 @@ dotfiles I use
 - =wgrep=
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
 - include current buffer in =switch-to-buffer= list
+- For tramp, prevent reconnect when process has died. Can show in modeline
 
 *** Less important
 
@@ -34,7 +35,6 @@ dotfiles I use
 - make vdiff auto sync at start work
 - make vdiff sync as scroll always be able to scroll
 - Make markdown look as good as org-mode
-- for dwim find file, if arg, ask for path
 - add vim mark to bookmarks
 - highlights in sync grep
 - center buffer on =compile-goto-error=
@@ -44,6 +44,7 @@ dotfiles I use
       - SPC m s, should preserve order
       - spell in completion
       - =dd= inside list with line breaks delete from the line below
+      - Implement centering yourself, like David Wilson did
 - corfu
       - sepator like space for wildcard matching
 - In =find-file=, nothing is shown for slow dirs, like webdav or some tramps. At least for tramp, would be good to indicate "loading".
@@ -52,16 +53,14 @@ dotfiles I use
 - In =find-file= when input is ~ can't delete ~
 - Slow to open =icomplete= for =.tar.gz= files
 - Scroll when async output changes, things get messed up
-- For tramp, prevent reconnect when process has died. Can show in modeline
-- For =find-file-dwim= have a 50k threshold, if above, do async
-- For =find-file-dwim= if enters =--= then swich to async so that can enter =rg= options options
-      - keybind for insert =--no-ignore= and globs
 - Sometimes annoying save prompt when checking out files etc. Maybe related to auto save timer
+- transient or similar for ripgrep
+- evil bug with e.g. d2k and visual lines
+- search and highlight several search hits at the same time
 
 *** Not important at all
 
 - lsp diagnostics
-- cleaner magit transient (BIG)
 - alt-ret for continuing list also outside org-mode
 - cache modeline segments, like doom modeline
 
