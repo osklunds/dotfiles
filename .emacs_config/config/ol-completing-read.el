@@ -46,7 +46,6 @@
 (ol-define-key ol-override-map "M-q" #'ol-dwim-find-file-name)
 (setq ol-switch-to-project-action #'ol-dwim-find-file-name)
 
-;; todo: prompt for dir of double M-U
 (defun ol-find-file-name (dir prompt-dir-part)
   (cl-destructuring-bind (name cmd _pred) (ol-find-file-name-method)
     (let* ((default-directory dir)
@@ -142,7 +141,7 @@
                 ((symbol-function 'make-process) nil)
                 ;; To make it preserve default-directory when remote
                 ((symbol-function 'call-process) #'process-file))
-        (grep (format "%s %s" cmd pattern)))
+        (grep (format "%s %s" cmd (ol-string-to-regex pattern))))
       (switch-to-buffer-other-window buffer-name))))
 
 (defconst ol-rg-command "rg --color=always --smart-case --no-heading --line-number\
