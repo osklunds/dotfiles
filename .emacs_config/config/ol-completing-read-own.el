@@ -9,6 +9,13 @@
 (require 'delsel) ;; for minibuffer-keyboard-quit
 (require 'grep)
 
+;; todo: split into framework, application and settings (yes, also dwm for file
+;; names and contents make sense as application, since application means use fw
+;; to make something convenient) Move all this packages_own, and add readme
+;; "isolated, but too small for separate repo" Also add a file with test cases
+;; end-to-end, if possible, like entering something in a minibuffer and see that
+;; expected results arrive and process dies afterwards
+
 ;; -----------------------------------------------------------------------------
 ;; UI
 ;; -----------------------------------------------------------------------------
