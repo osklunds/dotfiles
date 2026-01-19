@@ -684,11 +684,13 @@ the output is meesed up, so stop process when move.")
 (defun ol-grep-input-to-cmd (input)
   (let* ((split (ol-split-string-once input " -- "))
          (before (car split))
-         (after (cdr split))
-         (regex (shell-quote-argument (ol-string-to-regex after))))
+         (after-plain (cdr split))
+         (after-as-regex (ol-string-to-regex after-plain))
+         (after (if (and before (string-match-p "-F" before)) after-plain after-as-regex))
+         (after-quoted (shell-quote-argument after)))
     (if before
-        (concat before " -- " regex)
-      regex)))
+        (concat before " -- " after-quoted)
+      after-quoted)))
 
 (ert-deftest ol-grep-input-to-cmd-test ()
   ;; Search for one term
@@ -704,10 +706,18 @@ the output is meesed up, so stop process when move.")
   (ol-assert-equal "a -- b" (ol-grep-input-to-cmd "a -- b"))
 
   ;; Specify option towards grep and use literal -- in search term
-  (ol-assert-equal "a -- b.\\*\\?\\--.\\*\\?c" (ol-grep-input-to-cmd "a -- b -- c"))
+  (ol-assert-equal "a -- b.\\*\\?--.\\*\\?c" (ol-grep-input-to-cmd "a -- b -- c"))
+
+  ;; Option and two terms
+  (ol-assert-equal "a -- b.\\*\\?c" (ol-grep-input-to-cmd "a -- b c"))
 
   ;; Search for literal --
-  (ol-assert-equal " -- \\--" (ol-grep-input-to-cmd " -- --"))
+  (ol-assert-equal " -- --" (ol-grep-input-to-cmd " -- --"))
+
+  ;; Fixed string option
+  (ol-assert-equal "-F -- a" (ol-grep-input-to-cmd "-F -- a"))
+  (ol-assert-equal "-F -- a\\ b" (ol-grep-input-to-cmd "-F -- a b"))
+  (ol-assert-equal "-F -- a\\ \\ b" (ol-grep-input-to-cmd "-F -- a  b"))
   )
 
 (defun ol-split-string-once (string separator)
