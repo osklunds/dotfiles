@@ -141,6 +141,16 @@ To make upgrades of packages as easy as possible, I want to customize the config
 
 Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeLists.txt= inside the =emacs-libvterm= submodule. Inside =CMakeLists.txt= change the git stuff to point to the local submodule. After that, run as usual.
 
+* Docker development environment
+
+One idea is to make my dotfiles repo a Docker image. I like Tumbleweed for development because you have the latest packges. But, sometimes there can be driver issues at upgrade.
+
+- Mount x11 socket
+- VNC
+- Mount repos dir outside docker container
+- Use Emacs as "window manager"
+- Mount docker socket so that can run "docker-in-docker"
+
 * "Merge Survival Knife"
 
 ** Principles
