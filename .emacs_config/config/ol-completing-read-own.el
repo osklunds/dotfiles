@@ -871,7 +871,7 @@ the output is meesed up, so stop process when move.")
          (command ol-collect-command)
          (buf ol-collect-buffer))
     ;; todo: doesn't work when 3 windows
-    (select-window (next-window (selected-window)))
+    ;; (select-window (next-window (selected-window)))
     (with-current-buffer buf
       (minibuffer-with-setup-hook
           (lambda ()
