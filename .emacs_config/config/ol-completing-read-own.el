@@ -93,7 +93,10 @@
 likes, only exit if the current candidate is a file. If e.g. a directory or
 tramp method, insert it instead."
   (interactive)
-  (if ol-async-buffer
+  ;; Can't check ol-async-buffer, because after ol-collect and restart inside
+  ;; compilation buffer, ol-async-buffer is non-nil, and this function
+  ;; incorrectly chooses the async clause here.
+  (if ol-async-completing-read-active
       (ol-collect-1 (lambda (buffer)
                       (with-current-buffer buffer
                         (compile-goto-error))
@@ -444,6 +447,7 @@ buffer last."
 ;; In terminal, prevent scroll of buffer when clicking result
 (setc compilation-context-lines t)
 
+(defvar ol-async-completing-read-active nil)
 (defvar ol-async-buffer nil)
 (defvar ol-async-candidates nil)
 (defvar ol-async-timer nil)
@@ -548,7 +552,10 @@ the output is meesed up, so stop process when move.")
         (let* ((hook (lambda (&rest _)
                        (ol-async-minibuffer-input-changed input-to-cmd))))
           (add-hook 'after-change-functions hook nil 'local)))
-    (let* ((table (lambda (string pred action)
+    ;; use let to automatically have ol-async-completing-read-active be t
+    ;; for the appropriate scope
+    (let* ((ol-async-completing-read-active t)
+           (table (lambda (string pred action)
                     (if (eq action 'metadata)
                         `(metadata
                           (ol-skip-normal-highlight . t))
