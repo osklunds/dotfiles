@@ -72,20 +72,34 @@
 ;;;; Splitting
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-split-window ()
-  (interactive)
+(defun ol-split-window (&optional to-left)
+  (interactive "P")
   (let ((current-point (point))
-        (current-window-start (window-start)))
-    (switch-to-buffer-other-window (current-buffer))
+        (current-window-start (window-start))
+        (buffer (current-buffer))
+        (move-fun-1 (if to-left #'windmove-left #'windmove-right))
+        (move-fun-2 (if to-left #'windmove-right #'windmove-left)))
+    (pcase (count-windows)
+      (1 (progn
+           (split-window-right)
+           (other-window 1)))
+      (2 (progn
+           (other-window 1)
+           (switch-to-buffer buffer)))
+      (_ (condition-case nil
+             (funcall move-fun-1)
+           (error (funcall move-fun-2)))
+         (switch-to-buffer buffer)))
     (set-window-point (selected-window) current-point)
     (set-window-start (selected-window) current-window-start)))
 
 (ol-define-key ol-override-map "M-d" 'ol-split-window)
 
-(defun ol-force-split-window ()
-  (interactive)
+(defun ol-force-split-window (&optional to-left)
+  (interactive "P")
   (split-window-right)
-  (evil-window-right 1))
+  (unless to-left
+    (windmove-right)))
 
 (ol-define-key ol-override-map "M-r" 'ol-force-split-window)
 
