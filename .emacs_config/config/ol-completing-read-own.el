@@ -95,6 +95,27 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "C-h" (lambda () (interactive)))
 
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-i" #'ol-icomplete-insert-include-glob)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-e" #'ol-icomplete-insert-exclude-glob)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-f" #'ol-icomplete-insert-fixed-strings-option)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-s" #'ol-icomplete-insert-case-sensitive-option)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-n" #'ol-icomplete-insert-no-ignore-option)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-o" #'ol-icomplete-maybe-insert-options-separator)
+
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-M-d" #'ol-icomplete-print-async-debug-info)
+
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
 likes, only exit if the current candidate is a file. If e.g. a directory or
@@ -216,6 +237,56 @@ separator."
 
 (advice-add 'icomplete--render-vertical :filter-return
             #'ol-icomplete--render-vertical-highlight-to-end)
+
+(defun ol-icomplete-insert-include-glob ()
+  (interactive)
+  (ol-icomplete-insert-glob "-g ''"))
+
+(defun ol-icomplete-insert-exclude-glob ()
+  (interactive)
+  (ol-icomplete-insert-glob (concat "-g '!'")))
+
+(defun ol-icomplete-insert-glob (glob)
+  (ol-icomplete-maybe-insert-options-separator)
+  (insert " ")
+  (insert glob)
+  (forward-char -1))
+
+(defun ol-icomplete-insert-case-sensitive-option ()
+  (interactive)
+  (ol-icomplete-insert-option "-s"))
+
+(defun ol-icomplete-insert-fixed-strings-option ()
+  (interactive)
+  (ol-icomplete-insert-option "-F"))
+
+(defun ol-icomplete-insert-no-ignore-option ()
+  (interactive)
+  (ol-icomplete-insert-option "--no-ignore"))
+
+(defun ol-icomplete-insert-option (option)
+  (let* ((num-added-chars 0)
+         (org-point (point))
+         (options-len (1+ (length option))))
+    (setq num-added-chars (+ (ol-icomplete-maybe-insert-options-separator) num-added-chars))
+    (insert " ")
+    (insert option)
+    (setq num-added-chars (+ options-len num-added-chars))
+    (goto-char org-point)
+    (forward-char num-added-chars)))
+
+(defun ol-icomplete-maybe-insert-options-separator ()
+  (interactive)
+  (let* ((num-added-chars
+          (if (string-match-p " -- " (icomplete--field-string))
+              0
+            (goto-char (line-beginning-position))
+            (insert " -- ")
+            4)))
+    (goto-char (line-beginning-position))
+    (re-search-forward " -- ")
+    (forward-char -4)
+    num-added-chars))
 
 ;; -----------------------------------------------------------------------------
 ;; Style
