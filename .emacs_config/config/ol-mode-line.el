@@ -73,7 +73,7 @@
      'face evil-face)))
 
 (defun ol-buffer-name-segment ()
-  (propertize "%b" 'face 'ol-buffer-name-mode-line-face))
+  (list -50 (propertize "%b" 'face 'ol-buffer-name-mode-line-face)))
 
 (defun ol-file-state-segment ()
   (cond
