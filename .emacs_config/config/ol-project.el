@@ -8,29 +8,33 @@
 ;; Project root and name of current buffer
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-project-root-cache nil)
-(defvar ol-project-name-cache nil)
+(defvar ol-project-info-cache nil)
 
 (defun ol-project-clear-cache ()
   "If project info seems wrong for a buffer, try clearing the cache.
 Recalculating is probably not a big deal. But if frequent calls from
 modeline can be good to cache in a hashmap."
   (interactive)
-  (setq ol-project-root-cache (make-hash-table :test 'equal))
-  (setq ol-project-name-cache (make-hash-table :test 'equal)))
+  (setq ol-project-info-cache (make-hash-table :test 'equal)))
 
 (ol-project-clear-cache)
 
-(defun ol-project-root ()
-  (let ((cached (gethash default-directory ol-project-root-cache 'not-found)))
+(defun ol-project-info ()
+  (let ((cached (gethash default-directory ol-project-info-cache 'not-found)))
     (if (equal cached 'not-found)
-        (puthash default-directory (ol-project-root-compute) ol-project-root-cache)
+        (let* ((info (ol-project-info-compute))
+               (info (pcase info
+                       (`(,root ,name) (list root name))
+                       (`nil           nil)
+                       (root           (list root (file-name-nondirectory
+                                                   (directory-file-name root)))))))
+          (puthash default-directory info ol-project-info-cache))
       cached)))
 
-(defun ol-project-root-compute ()
-  (run-hook-with-args-until-success 'ol-project-root-functions))
+(defun ol-project-info-compute ()
+  (run-hook-with-args-until-success 'ol-project-info-functions))
 
-(defvar ol-project-root-functions '(ol-project-marker-file-root
+(defvar ol-project-info-functions '(ol-project-marker-file-root
                                     ol-project-git-root
                                     ))
 
@@ -42,15 +46,11 @@ modeline can be good to cache in a hashmap."
   (when-let ((root (locate-dominating-file default-directory ".git")))
     (file-truename root)))
 
-(defun ol-project-name ()
-  (let ((cached (gethash default-directory ol-project-name-cache 'not-found)))
-    (if (equal cached 'not-found)
-        (puthash default-directory (ol-project-name-compute) ol-project-name-cache)
-      cached)))
+(defun ol-project-root ()
+  (nth 0 (ol-project-info)))
 
-(defun ol-project-name-compute ()
-  (when-let ((root (ol-project-root)))
-    (file-name-nondirectory (directory-file-name root))))
+(defun ol-project-name ()
+  (nth 1 (ol-project-info)))
 
 ;; -----------------------------------------------------------------------------
 ;; List of projects
