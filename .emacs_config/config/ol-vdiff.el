@@ -190,4 +190,18 @@
 (ol-define-key ol-visual-leader-map "d s 1" #'ol-vdiff-select1)
 (ol-define-key ol-visual-leader-map "d s 2" #'ol-vdiff-select2)
 
+;; -----------------------------------------------------------------------------
+;; Prevent updates
+;; -----------------------------------------------------------------------------
+
+(defun ol-vdiff-prevent-updates ()
+  (interactive)
+  (setq vdiff--inhibit-diff-update (not vdiff--inhibit-diff-update))
+  (when (called-interactively-p)
+    (message "Prevent updates. Now: %s" vdiff--inhibit-diff-update)))
+
+(ol-define-key vdiff-mode-map "C-c U" #'ol-vdiff-prevent-updates)
+
+(add-hook 'vdiff--cleanup-hook (lambda () (setq vdiff--inhibit-diff-update nil)))
+
 (provide 'ol-vdiff)
