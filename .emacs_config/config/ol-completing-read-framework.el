@@ -1,20 +1,11 @@
 ;; -*- lexical-binding: t -*-
 
-(require 'ol-evil)
 (require 'ol-ert)
 (require 'ol-colors)
-(require 'ol-completing-read)
 
 (require 'icomplete)
 (require 'delsel) ;; for minibuffer-keyboard-quit
 (require 'grep)
-
-;; todo: split into framework, application and settings (yes, also dwm for file
-;; names and contents make sense as application, since application means use fw
-;; to make something convenient) Move all this packages_own, and add readme
-;; "isolated, but too small for separate repo" Also add a file with test cases
-;; end-to-end, if possible, like entering something in a minibuffer and see that
-;; expected results arrive and process dies afterwards
 
 ;; -----------------------------------------------------------------------------
 ;; UI
@@ -53,68 +44,6 @@
   (interactive)
   (dotimes (_ 10)
     (ol-icomplete-backward)))
-
-(ol-define-key minibuffer-mode-map
-               "C-n" #'minibuffer-keyboard-quit)
-
-;; Need for icomplete too to override default keybind
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-n" #'minibuffer-keyboard-quit)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-j" #'ol-icomplete-forward)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "M-j" #'ol-icomplete-forward-many)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-k" #'ol-icomplete-backward)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "M-k" #'ol-icomplete-backward-many)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               'tab #'ol-icomplete-dwim-tab)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               'return #'ol-icomplete-dwim-return)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-d" #'ol-icomplete-delete-action)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "M-i" #'ol-icomplete-insert-current-selection)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "DEL" #'ol-icomplete-dwim-del)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "~" #'ol-icomplete-dwim-tilde)
-
-;; To prevent help menu from opening
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-h" (lambda () (interactive)))
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-i" #'ol-icomplete-insert-include-glob)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-e" #'ol-icomplete-insert-exclude-glob)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-f" #'ol-icomplete-insert-fixed-strings-option)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-s" #'ol-icomplete-insert-case-sensitive-option)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-n" #'ol-icomplete-insert-no-ignore-option)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-o" #'ol-icomplete-maybe-insert-options-separator)
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-d" #'ol-icomplete-print-async-debug-info)
 
 (defun ol-icomplete-dwim-tab ()
   "Exit with currently selected candidate. However, for `find-file' and the
@@ -210,9 +139,6 @@ separator."
 
 (advice-add 'icomplete-force-complete :before
             #'ol-add-input-to-minibuffer-history)
-
-;; Otherwise minibuffer-complete-word is called
-(ol-define-key minibuffer-local-completion-map "SPC" nil)
 
 (set-face-attribute 'icomplete-selected-match nil
                     :background 'unspecified
@@ -428,110 +354,10 @@ separator."
 ;; So that 'ol style is used for everything
 (setc completion-category-defaults nil)
 
-;; -----------------------------------------------------------------------------
-;; Sync applications
-;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; switch-to-buffer
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-switch-to-buffer ()
-  "Similar to `switch-to-buffer' but avoids face problems and puts current
-buffer last."
-  (interactive)
-  (let* ((buffers (cl-remove-if (lambda (buffer)
-                                  (or
-                                   (eq buffer (current-buffer))
-                                   (minibufferp buffer) 
-                                   ))
-                                (buffer-list)))
-         (buffer-names (mapcar (lambda (buffer) (with-current-buffer buffer
-                                                  (buffer-name)))
-                               (append buffers (list (current-buffer)))))
-         ;; Copied/modified from https://emacs.stackexchange.com/a/8177
-         (table (lambda (string pred action)
-                  (if (eq action 'metadata)
-                      `(metadata
-                        (ol-extra-highlight-function . ,#'ol-switch-to-buffer-highlight-fn)
-                        (ol-delete-action . ,#'ol-switch-to-buffer-delete-action)
-                        (cycle-sort-function . ,#'identity)
-                        (display-sort-function . ,#'identity))
-                    (complete-with-action action buffer-names string pred))))
-         (buffer (completing-read
-                  "Switch to buffer: "
-                  table)))
-    (if (get-buffer buffer)
-        (switch-to-buffer buffer)
-      ;; if two buffers with same name but different <dir> suffix existed, one
-      ;; is deleteed, then the remaining buffer changes name but not the one
-      ;; among the candidates in completion.
-      (message "%S doesn't exist (anymore), not switching"))))
-
-(defun ol-switch-to-buffer-highlight-fn (candidate)
-  ;; "when" version needed to fix bug when two buffers of same file name are
-  ;; open, and one is deleted. The remaining one will change name from name<dir>
-  ;; to name and hence not be found anymore
-  (when-let* ((buffer (get-buffer candidate))
-              (mode (buffer-local-value 'major-mode buffer)))
-    (cond
-     ;; todo: consider what to do if remote and dired
-     ;; (find-file "/docker:tests-dotfiles-tramp-test-1:/")
-     ((file-remote-p (buffer-local-value 'default-directory buffer))
-      (ol-add-face-text-property candidate 'ol-remote-buffer-name-face))
-
-     ((eq mode 'dired-mode)
-      (ol-add-face-text-property candidate 'ol-dired-buffer-name-face))
-
-     ((eq mode 'vterm-mode)
-      (ol-add-face-text-property candidate 'ol-vterm-buffer-name-face))
-
-     (t nil))))
-
-(defun ol-add-face-text-property (str face)
-  (add-face-text-property 0 (length str) face nil str))
-
-(defface ol-dired-buffer-name-face
-  '((default :weight bold :inherit 'font-lock-function-name-face))
-  "Face for dired buffer name in `ol-switch-to-buffer'.")
-
-(defface ol-vterm-buffer-name-face
-  '((default :weight bold :inherit 'font-lock-type-face))
-  "Face for vterm buffer name in `ol-switch-to-buffer'.")
-
-(defface ol-remote-buffer-name-face
-  '((default :foreground "#110099"))
-  "Face for remote buffer name in `ol-switch-to-buffer'.")
-
-(defun ol-switch-to-buffer-delete-action (selected)
-  ;; Use "when" version as extra robustification, although unsure if needed
-  (when-let ((buf (get-buffer selected)))
-    (kill-buffer buf)))
-
-(ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
 ;; -----------------------------------------------------------------------------
 ;; Async
 ;; -----------------------------------------------------------------------------
-
-;;;; ---------------------------------------------------------------------------
-;;;; Framework
-;;;; ---------------------------------------------------------------------------
-
-(set-face-attribute 'grep-heading nil
-                    :foreground "#000000"
-                    :background "#eeeee")
-
-(set-face-attribute 'match nil
-                    :inherit 'ol-match-face
-                    :weight 'normal
-                    :foreground 'unspecified
-                    :background 'unspecified)
-
-(set-face-attribute 'compilation-line-number nil
-                    :foreground 'unspecified
-                    :underline nil
-                    :inherit 'font-lock-string-face)
 
 (setc grep-use-headings t)
 ;; Also avoids issues in async completion
@@ -682,133 +508,8 @@ the output is meesed up, so stop process when move.")
   (message "ol-async-goto-function %s" ol-async-goto-function))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Application: file content
-;;;; ---------------------------------------------------------------------------
-
-(defun ol-ripgrep (prompt)
-  (ol-grep-helper prompt ol-rg-command))
-
-(defun ol-git-grep (prompt)
-  (ol-grep-helper prompt ol-git-grep-command))
-
-(defun ol-grep (prompt)
-  (ol-grep-helper prompt ol-grep-command))
-
-(defun ol-grep-input-to-cmd (input)
-  (let* ((split (ol-split-string-once input " -- "))
-         (before (car split))
-         (after-plain (cdr split))
-         (after-as-regex (ol-string-to-regex after-plain))
-         (after (if (and before (string-match-p "-F" before)) after-plain after-as-regex))
-         (after-quoted (shell-quote-argument after)))
-    (if before
-        (concat before " -- " after-quoted)
-      after-quoted)))
-
-(ert-deftest ol-grep-input-to-cmd-test ()
-  ;; Search for one term
-  (ol-assert-equal "hej" (ol-grep-input-to-cmd "hej"))
-
-  ;; Serach two terms with space wildcard
-  (ol-assert-equal "a.\\*\\?b" (ol-grep-input-to-cmd "a b"))
-
-  ;; Search for literal space
-  (ol-assert-equal "a\\ b" (ol-grep-input-to-cmd "a  b"))
-
-  ;; Specify option towards grep, a is the option b is the search term
-  (ol-assert-equal "a -- b" (ol-grep-input-to-cmd "a -- b"))
-
-  ;; Specify option towards grep and use literal -- in search term
-  (ol-assert-equal "a -- b.\\*\\?--.\\*\\?c" (ol-grep-input-to-cmd "a -- b -- c"))
-
-  ;; Option and two terms
-  (ol-assert-equal "a -- b.\\*\\?c" (ol-grep-input-to-cmd "a -- b c"))
-
-  ;; Search for literal --
-  (ol-assert-equal " -- --" (ol-grep-input-to-cmd " -- --"))
-
-  ;; Fixed string option
-  (ol-assert-equal "-F -- a" (ol-grep-input-to-cmd "-F -- a"))
-  (ol-assert-equal "-F -- a\\ b" (ol-grep-input-to-cmd "-F -- a b"))
-  (ol-assert-equal "-F -- a\\ \\ b" (ol-grep-input-to-cmd "-F -- a  b"))
-  )
-
-(defun ol-split-string-once (string separator)
-  (if-let ((pos (string-match separator string)))
-      (cons (substring string 0 pos)
-            (substring string (+ pos (length separator))))
-    (cons nil string)))
-
-(ert-deftest ol-split-string-once-test ()
-  (ol-assert-equal `(,nil . "hej") (ol-split-string-once "hej" " -- "))
-  (ol-assert-equal '("hej" . "hello") (ol-split-string-once "hej -- hello" " -- "))
-  (ol-assert-equal '("hej " . "hello") (ol-split-string-once "hej  -- hello" " -- "))
-  (ol-assert-equal '("hej" . " hello") (ol-split-string-once "hej --  hello" " -- "))
-  (ol-assert-equal '("a" . "b -- c") (ol-split-string-once "a -- b -- c" " -- "))
-  )
-
-(defun ol-grep-helper (prompt args)
-  (setq ol-async-goto-function #'compile-goto-error)
-  (let* ((input-to-cmd
-          (lambda (input)
-            (concat args " " (ol-grep-input-to-cmd input)))))
-    (ol-async-completing-read prompt input-to-cmd 'ol-grep)))
-
-(cl-defun ol-completing-read-shell-command (prompt history)
-  (let* ((input-to-cmd (lambda (input) (concat "bash -ic \"" input "\"")))
-         (grep-use-headings nil))
-    (ol-async-completing-read prompt input-to-cmd history)))
-
-;;;; ---------------------------------------------------------------------------
 ;;;; Application: file name
 ;;;; ---------------------------------------------------------------------------
-
-(defun ol-dwim-async-find-file-name (&optional prefer-project-root)
-  (interactive)
-  (if-let ((root (ol-dwim-use-project-root prefer-project-root)))
-      (ol-async-find-file-name root "project")
-    (ol-async-find-file-name default-directory "cwd")))
-
-;; todo: fix bug that sometimes, especially after insert option, no results are
-;; shown
-(defun ol-async-find-file-name (dir prompt-dir-part)
-  (interactive)
-  (setq ol-async-goto-function #'ol-async-goto-file-name)
-  (let* ((default-directory dir)
-         (prompt (format "Async find file name [%s]: " prompt-dir-part))
-         (grep-use-headings nil))
-    (ol-async-completing-read prompt #'ol-async-find-file-name-input-to-cmd
-                              'ol-async-find-file-name)))
-
-(defun ol-async-find-file-name-input-to-cmd (input)
-  (let* ((split (ol-split-string-once input " -- "))
-         (before (car split))
-         (options (or before ""))
-         (after-plain (cdr split))
-         (after-as-regex (ol-string-to-regex after-plain))
-         (after-quoted (shell-quote-argument after-as-regex)))
-    (concat "rg --files " options " | rg " options " -- " after-quoted)))
-
-(ert-deftest ol-async-find-file-name-input-to-cmd-test ()
-  ;; one term
-  (ol-assert-equal "rg --files  | rg  -- defun"
-                   (ol-async-find-file-name-input-to-cmd "defun"))
-
-  ;; wildcard
-  (ol-assert-equal "rg --files  | rg  -- def.\\*\\?fun"
-                   (ol-async-find-file-name-input-to-cmd "def fun"))
-
-  ;; options
-  (ol-assert-equal "rg --files o | rg -o -- defun"
-                   (ol-async-find-file-name-input-to-cmd "-o -- defun"))
-  )
-
-(defun ol-async-goto-file-name ()
-  (let ((file-name (buffer-substring-no-properties (line-beginning-position)
-                                                   (line-end-position))))
-    (find-file file-name)))
-
-(ol-define-key ol-normal-leader-map "m a" #'ol-dwim-async-find-file-name)
 
 ;; -----------------------------------------------------------------------------
 ;; Collection
@@ -818,15 +519,6 @@ the output is meesed up, so stop process when move.")
 (define-derived-mode ol-collect-mode fundamental-mode "ol-collect")
 
 (defvar ol-collect-mode-map (make-sparse-keymap))
-
-(ol-define-key icomplete-vertical-mode-minibuffer-map "M-o" #'ol-collect)
-(ol-evil-define-key 'normal ol-collect-mode-map "RET" #'ol-select)
-(ol-evil-define-key 'normal ol-collect-mode-map "o" #'ol-select)
-
-(ol-evil-define-key 'normal compilation-button-map "o" #'ol-async-goto-result)
-(ol-evil-define-key 'normal compilation-mode-map "o" #'ol-async-goto-result)
-(ol-evil-define-key 'normal grep-mode-map "o" #'ol-async-goto-result)
-(ol-evil-define-key 'normal grep-mode-map "O" #'ol-async-goto-result-other-window)
 
 (defvar-local ol-collect-command nil)
 (defvar-local ol-collect-buffer nil)
@@ -917,6 +609,5 @@ the output is meesed up, so stop process when move.")
     (completing-read "Dummy: "
                      table)))
 
-(ol-define-key ol-normal-leader-map "m d" #'ol-dummy-completion)
 
-(provide 'ol-completing-read-own)
+(provide 'ol-completing-read-framework)
