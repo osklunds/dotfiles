@@ -134,13 +134,13 @@
 	path = .emacs_config/packages_inactive/consult
 	url = https://github.com/minad/consult.git
 [submodule ".emacs_config/packages/org-sliced-images"]
-	path = .emacs_config/packages/org-sliced-images
+	path = .emacs_config/packages_inactive/org-sliced-images
 	url = https://github.com/jcfk/org-sliced-images.git
 [submodule ".emacs_config/packages_inactive/orderless"]
 	path = .emacs_config/packages_inactive/orderless
 	url = https://github.com/oantolin/orderless.git
 [submodule ".emacs_config/packages/olivetti"]
-	path = .emacs_config/packages/olivetti
+	path = .emacs_config/packages_inactive/olivetti
 	url = https://github.com/rnkn/olivetti.git
 [submodule ".emacs_config/packages/corfu"]
 	path = .emacs_config/packages/corfu
