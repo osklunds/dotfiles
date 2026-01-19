@@ -290,6 +290,15 @@
 
 (advice-add 'magit-process-git-arguments :filter-return 'ol-magit-disable-patches-advice)
 
+;; Always show all files in diff when log filter on one file
+(defun ol-magit-diff-swap-file-restriction ()
+  (when (local-variable-p 'magit-buff-diff-files)
+    (cl-rotatef magit-buffer-diff-files
+                magit-buffer-diff-files-suspended)))
+
+;; problem with this: -- option stops working in e.g. diff
+;; (add-hook 'magit-setup-buffer-hook #'ol-magit-diff-swap-file-restriction)
+
 ;; -----------------------------------------------------------------------------
 ;; Transient
 ;;------------------------------------------------------------------------------
