@@ -58,16 +58,17 @@
 (defvar-local ol-vterm-manually-renamed nil)
 
 (defun ol-vterm-get-cwd-from-prompt (prompt)
-  (file-name-as-directory (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
+  (when-let* ((path (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
+    (file-name-as-directory path)))
 
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
   (ol-get-buffer-name-from-path path "vterm"))
 
 (defun ol-vterm-set-buffer-name (prompt)
   (unless ol-vterm-manually-renamed
-    (let* ((current-name (buffer-name))
-           (path (ol-vterm-get-cwd-from-prompt prompt))
-           (desired-name (ol-vterm-get-desired-buffer-name-from-path path)))
+    (when-let* ((current-name (buffer-name))
+                (path (ol-vterm-get-cwd-from-prompt prompt))
+                (desired-name (ol-vterm-get-desired-buffer-name-from-path path)))
       (unless (ol-buffer-name-matches current-name desired-name)
         (let ((new-name (generate-new-buffer-name desired-name)))
           (rename-buffer new-name))))))
