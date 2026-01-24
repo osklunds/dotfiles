@@ -1,7 +1,8 @@
 
 FROM opensuse/tumbleweed:latest
 
-RUN zypper in -y openssh xclock xauth emacs emacs-x11 firefox
+RUN zypper in -y openssh xclock xauth emacs emacs-x11 firefox \
+    git ripgrep adobe-sourcecodepro-fonts
 
 # By the way, after cloning this repo, these are the only symlinks you need to
 # do to "install" this repo.
