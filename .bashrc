@@ -46,7 +46,8 @@ export PATH="$DOTFILES_REPO/scripts:$PATH"
 
 source "$DOTFILES_REPO/.aliases.sh"
 
-source "$DOTFILES_REPO/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bash.sh"
+# Temp disabled for docker reasons
+# source "$DOTFILES_REPO/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bash.sh"
 
 # Docker
 export BUILDKIT_PROGRESS=plain
