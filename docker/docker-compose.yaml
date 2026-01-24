@@ -9,6 +9,7 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
+      - /var/run/user/1000/docker.sock:/var/run/docker.sock
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - /:/host_root
       - ${HOME}/dotfiles/:/dotfiles
