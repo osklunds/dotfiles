@@ -8,8 +8,10 @@ services:
     container_name: dev-env
     environment:
       - DISPLAY=${DISPLAY}
+    privileged: true
+    user: docker
     volumes:
-      # - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - /home/oskar:/host_root
       - /home/oskar/Oskar/own_repos/dotfiles/docker/ssh:/etc/ssh
       # - /home/oskar/Oskar/own_repos/dotfiles/docker/.Xauthority:/home/docker/.Xauthority
@@ -17,4 +19,4 @@ services:
     ports:
       - 127.0.0.1:5000:22
     init: true
-    command: bash -c "/usr/sbin/sshd && sleep 365d"
+    command: bash -c "sleep 365d"
