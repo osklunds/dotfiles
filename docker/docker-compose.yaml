@@ -8,12 +8,10 @@ services:
     container_name: dev-env
     environment:
       - DISPLAY=${DISPLAY}
-    privileged: true
     user: docker
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - /home/oskar:/host_root
-      - /home/oskar/Oskar/own_repos/dotfiles/docker/ssh:/etc/ssh
       # - /home/oskar/Oskar/own_repos/dotfiles/docker/.Xauthority:/home/docker/.Xauthority
       # - /etc/ssh:/home/oskar/Oskar/own_repos/dotfiles/docker/ssh
     ports:
