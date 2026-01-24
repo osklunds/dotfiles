@@ -150,7 +150,7 @@ I have (or is in the process of) containerized my development environment.
 
 I want to keep the required host setup as small as possible. What you need to do on the host:
 
-- Install rootless Docker
+- Install rootless Docker (and docker-compose)
 - Clone this repo
 - Make sure the paths in volumes: in docker/docker-compose.yaml are available
 - Run the commands below
@@ -160,7 +160,7 @@ I want to keep the required host setup as small as possible. What you need to do
 xhost +local:docker
 
 # To start the container. Run inside $DOTFILES_REPO/docker.
-docker-compose up --build
+docker compose up --build
 
 # To get a shell to the container. Run anywhere.
 docker exec -it dev-env bash

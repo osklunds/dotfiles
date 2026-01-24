@@ -2,7 +2,10 @@
 FROM opensuse/tumbleweed:latest
 
 RUN zypper in -y openssh xclock xauth emacs emacs-x11 firefox \
-    git ripgrep adobe-sourcecodepro-fonts
+    git ripgrep adobe-sourcecodepro-fonts rustup clang cmake \
+    libstdc++-devel wget docker docker-compose
+
+RUN rustup default stable && rustup component add rust-analyzer
 
 RUN usermod -s /bin/bash root 
 
