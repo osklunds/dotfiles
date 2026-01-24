@@ -143,13 +143,15 @@ Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeL
 
 * Docker development environment
 
-One idea is to make my dotfiles repo a Docker image. I like Tumbleweed for development because you have the latest packges. But, sometimes there can be driver issues at upgrade.
+** Host config
 
-- Mount x11 socket
-- VNC
-- Mount repos dir outside docker container
-- Use Emacs as "window manager"
-- Mount docker socket so that can run "docker-in-docker"
+#+begin_src
+# To start the container. Run inside $DOTFILES_REPO/docker.
+docker-compose up --build
+
+# To get a shell to the container. Run anywhere.
+docker exec -it dev-env bash
+#+end_src
 
 * "Merge Survival Knife"
 
