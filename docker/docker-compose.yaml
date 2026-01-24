@@ -12,7 +12,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - /home/oskar:/host_root
     init: true
-    command: bash -c "sleep 365d"
+    command: bash -c "sleep 999999999d"
 
 # Run as root inside container so that container user becomes the same as
 # host user when running docker rootless.
