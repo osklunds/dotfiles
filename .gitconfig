@@ -1,0 +1,15 @@
+[init]
+	defaultBranch = main
+[user]
+	name = Oskar Lundström
+	email = 21679735+osklunds@users.noreply.github.com
+[credential]
+	helper = store
+[diff]
+	submodule = log
+[pager]
+	branch = false
+[merge]
+	conflictstyle = diff3
+[core]
+	fileMode = false
