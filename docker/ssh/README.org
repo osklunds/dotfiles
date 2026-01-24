@@ -1,2 +1,0 @@
-
-No, storing the keys in git is not secure. But this is for experimenting and is just local. Later, I might add them to .gitignore and instead generate them if missing.
