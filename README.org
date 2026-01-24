@@ -143,15 +143,34 @@ Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeL
 
 * Docker development environment
 
-** Host config
+I have (or is in the process of) containerized my development environment.
+
+
+** Host setup
+
+I want to keep the required host setup as small as possible. What you need to do on the host:
+
+- Install rootless Docker
+- Clone this repo
+- Make sure the paths in volumes: in docker/docker-compose.yaml are available
+- Run the commands below
 
 #+begin_src
+# One time setup
+xhost +local:docker
+
 # To start the container. Run inside $DOTFILES_REPO/docker.
 docker-compose up --build
 
 # To get a shell to the container. Run anywhere.
 docker exec -it dev-env bash
 #+end_src
+
+** Notes
+
+The symlinks done in Dockerfile happen to be the ones you need to create to "install" this repo also on a normal host. The directories in docker-compose.yaml happen to be the ones you need to have available also on a normal host for this repo to function properly. What a pleasent side-effect. These two docker files document the dependencies of this repo.
+
+The user inside the container is root, because in rootless docker, it means the user on the host becomes the user you are.
 
 * "Merge Survival Knife"
 

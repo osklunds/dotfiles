@@ -24,6 +24,3 @@ services:
       - ${HOME}/others_repos/:/root/others_repos
 
     init: true
-
-# Run as root inside container so that container user becomes the same as
-# host user when running docker rootless.
