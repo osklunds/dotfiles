@@ -85,7 +85,7 @@
                "C-M-o" #'ol-icomplete-maybe-insert-options-separator)
 
 (ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-M-d" #'ol-icomplete-print-async-debug-info)
+               "C-M-b" #'ol-icomplete-print-async-debug-info)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Collect
