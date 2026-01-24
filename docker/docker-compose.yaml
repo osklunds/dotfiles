@@ -6,13 +6,23 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: dev-env
+    hostname: dev-env
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
+      # System stuff
       - /var/run/user/1000/docker.sock:/var/run/docker.sock
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+
+      # System access
       - /:/host_root
-      - ${HOME}/dotfiles/:/dotfiles
+
+      # Home dir
+      - ${HOME}/.git-credentials:/root/.git-credentials
+      - ${HOME}/dotfiles/:/root/dotfiles
+      - ${HOME}/own_repos/:/root/own_repos
+      - ${HOME}/others_repos/:/root/others_repos
+
     init: true
 
 # Run as root inside container so that container user becomes the same as
