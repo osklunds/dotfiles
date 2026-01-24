@@ -11,6 +11,8 @@ RUN usermod -s /bin/bash root
 RUN ln -s /dotfiles/.bashrc /root/.bashrc
 RUN ln -s /dotfiles/.emacs /root/.emacs
 
+ENV SHELL "/bin/bash"
+
 CMD /dotfiles/docker/container_start.sh
 
 # Run this on host
