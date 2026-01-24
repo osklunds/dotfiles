@@ -13,7 +13,6 @@ services:
       - /:/host_root
       - ${HOME}/dotfiles/:/dotfiles
     init: true
-    command: bash -c "sleep 999999999d"
 
 # Run as root inside container so that container user becomes the same as
 # host user when running docker rootless.
