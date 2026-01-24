@@ -1,18 +1,4 @@
 
-# Different brackets to notice where I am
-if [[ -n "$INSIDE_EMACS" ]]; then
-    if [[ "$HOSTNAME" == "dev-env" ]]; then
-        PS1='[$PWD] '
-    else
-        PS1='($PWD) '
-    fi
-else
-    if [[ "$HOSTNAME" == "dev-env" ]]; then
-        PS1='$PWD]] '
-    else
-        PS1='$PWD)) '
-    fi
-fi
 
 # Copied from https://stackoverflow.com/a/246128
 get_script_dir()
@@ -64,3 +50,26 @@ export BUILDKIT_PROGRESS=plain
 # C++
 
 export CXX=/usr/bin/clang++-20
+
+# Different brackets to notice where I am
+if [[ -n "$INSIDE_EMACS" ]]; then
+    if [[ "$HOSTNAME" == "dev-env" ]]; then
+        PS1='[$PWD] '
+    else
+        PS1='($PWD) '
+    fi
+
+    # Redefine cd after all symlink magic is over
+    function cd () {
+        builtin cd "$@"
+        call_emacs.sh "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
+    }
+else
+    if [[ "$HOSTNAME" == "dev-env" ]]; then
+        PS1='$PWD]] '
+    else
+        PS1='$PWD)) '
+    fi
+
+    unset -f cd
+fi

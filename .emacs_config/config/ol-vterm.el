@@ -28,7 +28,8 @@
                  (ol-buffer-name-matches (buffer-name buffer) desired-name))))
     (if-let ((existing-buffer (seq-find pred (buffer-list))))
         (switch-to-buffer existing-buffer)
-      (vterm))))
+      (vterm)
+      (ol-vterm-set-buffer-name default-directory))))
 
 (defun ol-send-cmd-to-visible-vterm-buffers (cmd)
   (dolist (window (window-list))
@@ -57,23 +58,16 @@
 
 (defvar-local ol-vterm-manually-renamed nil)
 
-(defun ol-vterm-get-cwd-from-prompt (prompt)
-  (when-let* ((path (ol-regexp-group ":\\(/.*\\)$" prompt 1)))
-    (file-name-as-directory path)))
-
 (defun ol-vterm-get-desired-buffer-name-from-path (path)
   (ol-get-buffer-name-from-path path "vterm"))
 
-(defun ol-vterm-set-buffer-name (prompt)
+(defun ol-vterm-set-buffer-name (path)
   (unless ol-vterm-manually-renamed
     (when-let* ((current-name (buffer-name))
-                (path (ol-vterm-get-cwd-from-prompt prompt))
                 (desired-name (ol-vterm-get-desired-buffer-name-from-path path)))
       (unless (ol-buffer-name-matches current-name desired-name)
         (let ((new-name (generate-new-buffer-name desired-name)))
           (rename-buffer new-name))))))
-
-(advice-add 'vterm--set-title :override 'ol-vterm-set-buffer-name)
 
 (defun ol-rename-buffer ()
   (interactive)
@@ -86,6 +80,19 @@
   (interactive)
   (vterm t)
   (ol-rename-buffer))
+
+(defun ol-vterm-shell-cwd-changed (new-cwd)
+  (when (file-directory-p new-cwd)
+    (with-current-buffer (ol-vterm-last-vterm-buffer)
+      (setq default-directory new-cwd)
+      (ol-vterm-set-buffer-name new-cwd))))
+
+(defun ol-vterm-last-vterm-buffer ()
+  (seq-find
+   (lambda (buffer)
+     (with-current-buffer buffer
+       (eq major-mode 'vterm-mode)))
+   (buffer-list)))
 
 ;; -----------------------------------------------------------------------------
 ;; Keybindings
