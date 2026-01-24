@@ -168,7 +168,7 @@ docker exec -it dev-env bash
 
 ** Notes
 
-The symlinks done in Dockerfile happen to be the ones you need to create to "install" this repo also on a normal host. The directories in docker-compose.yaml happen to be the ones you need to have available also on a normal host for this repo to function properly. What a pleasent side-effect. These two docker files document the dependencies of this repo.
+The symlinks done in Dockerfile happen to be the ones you need to create to "install" this repo also on a normal host. The directories in docker-compose.yaml happen to be the ones you need to have available also on a normal host for this repo to function properly. What a pleasent side-effect. These two docker files document the dependencies of this repo. Note, when running the containerized variant, only things in docker-compose.yaml needs to be taken care of.
 
 The user inside the container is root, because in rootless docker, it means the user on the host becomes the user you are.
 
