@@ -1,8 +1,17 @@
 
-PS1='$PWD\$ '
-
+# Different brackets to notice where I am
 if [[ -n "$INSIDE_EMACS" ]]; then
-   PS1='> '
+    if [[ "$HOSTNAME" == "dev-env" ]]; then
+        PS1='[$PWD] '
+    else
+        PS1='($PWD) '
+    fi
+else
+    if [[ "$HOSTNAME" == "dev-env" ]]; then
+        PS1='$PWD]] '
+    else
+        PS1='$PWD)) '
+    fi
 fi
 
 # Copied from https://stackoverflow.com/a/246128
