@@ -51,13 +51,22 @@ export BUILDKIT_PROGRESS=plain
 
 export CXX=/usr/bin/clang++-20
 
-# Different brackets to notice where I am
+# Prompt
+
+# Different brackets to notice where I am.
+# Upper case means yes, that env is available.
+# Lower case means no, that env is not available.
+prompt_docker_part=""
+prompt_emacs_part=""
+
+if [[ "$HOSTNAME" == "dev-env" ]]; then
+    prompt_docker_part="D"
+else
+    prompt_docker_part="d"
+fi
+
 if [[ -n "$INSIDE_EMACS" ]]; then
-    if [[ "$HOSTNAME" == "dev-env" ]]; then
-        PS1='[$PWD] '
-    else
-        PS1='($PWD) '
-    fi
+    prompt_emacs_part="E"
 
     # Redefine cd after all symlink magic is over
     function cd () {
@@ -65,11 +74,9 @@ if [[ -n "$INSIDE_EMACS" ]]; then
         call_emacs.sh "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
     }
 else
-    if [[ "$HOSTNAME" == "dev-env" ]]; then
-        PS1='$PWD]] '
-    else
-        PS1='$PWD)) '
-    fi
+    prompt_emacs_part="e"
 
     unset -f cd
 fi
+
+PS1='[$prompt_docker_part$prompt_emacs_part $PWD] '
