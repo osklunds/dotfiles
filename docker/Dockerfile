@@ -1,9 +1,22 @@
 
 FROM opensuse/tumbleweed:latest
 
-RUN zypper in -y openssh xclock xauth emacs emacs-x11 firefox \
-    git ripgrep adobe-sourcecodepro-fonts rustup clang cmake \
-    libstdc++-devel wget docker docker-compose
+# Not optimal to split perhaps, but it makes additions during development faster
+RUN zypper in -y xauth
+RUN zypper in -y xclock
+RUN zypper in -y firefox
+RUN zypper in -y adobe-sourcecodepro-fonts
+RUN zypper in -y git
+RUN zypper in -y ripgrep
+RUN zypper in -y wget
+RUN zypper in -y docker
+RUN zypper in -y docker-compose
+RUN zypper in -y libstdc++-devel
+RUN zypper in -y emacs
+RUN zypper in -y emacs-x11
+RUN zypper in -y rustup
+RUN zypper in -y clang
+RUN zypper in -y cmake
 
 RUN rustup default stable && rustup component add rust-analyzer
 
