@@ -74,3 +74,12 @@ disk_space() {
         grep -v "\.\$"
 }
 
+dev_env_start() {
+    xhost +local:docker
+    (cd $DOTFILES_REPO/docker; docker compose up --build) 
+}
+
+dev_env_attach() {
+    docker exec -it dev-env bash
+}
+

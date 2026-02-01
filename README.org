@@ -153,19 +153,9 @@ I want to keep the required host setup as small as possible. What you need to do
 
 - Install rootless Docker (and docker-compose)
 - Clone this repo
-- Make sure the paths in volumes: in docker/docker-compose.yaml are available
-- Run the commands below
-
-#+begin_src
-# One time setup
-xhost +local:docker
-
-# To start the container. Run inside $DOTFILES_REPO/docker.
-docker compose up --build
-
-# To get a shell to the container. Run anywhere.
-docker exec -it dev-env bash
-#+end_src
+- Make sure the paths in volumes: in =docker/docker-compose.yaml= are available
+- Symlink =.bashrc=
+- Run =dev_env_start= and =dev_env_attach= respectively.
 
 ** Notes
 
