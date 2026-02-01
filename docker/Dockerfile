@@ -20,6 +20,8 @@ RUN zypper in -y cmake
 
 RUN rustup default stable && rustup component add rust-analyzer
 
+RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
+
 RUN usermod -s /bin/bash root 
 
 RUN ln -s /root/dotfiles/.bashrc /root/.bashrc
