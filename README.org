@@ -57,6 +57,7 @@ dotfiles I use
 - transient or similar for ripgrep
 - evil bug with e.g. d2k and visual lines
 - search and highlight several search hits at the same time
+- Make emacs start up faster.
 
 *** Not important at all
 
