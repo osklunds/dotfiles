@@ -59,6 +59,18 @@ export CXX=/usr/bin/clang++-20
 prompt_docker_part=""
 prompt_emacs_part=""
 
+prompt_dir_part () {
+    if [[ -n "$INSIDE_EMACS" ]]; then
+        emacs_prompt
+    else
+        pwd
+    fi
+}
+
+emacs_prompt () {
+    call_emacs.sh "(ol-get-buffer-name-from-path default-directory)" | tr -d '"'
+}
+
 if [[ "$HOSTNAME" == "dev-env" ]]; then
     prompt_docker_part="D"
 else
@@ -67,6 +79,7 @@ fi
 
 if [[ -n "$INSIDE_EMACS" ]]; then
     prompt_emacs_part="E"
+    prompt_dir_part="'$(emacs_prompt)'"
 
     # Redefine cd after all symlink magic is over
     function cd () {
@@ -75,8 +88,9 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     }
 else
     prompt_emacs_part="e"
+    prompt_dir_part="$PWD"
 
     unset -f cd
 fi
 
-PS1='[$prompt_docker_part$prompt_emacs_part $PWD] '
+PS1='[$prompt_docker_part$prompt_emacs_part $(prompt_dir_part)] '
