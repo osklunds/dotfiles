@@ -109,9 +109,15 @@
 ;; Async face attributes
 ;; -----------------------------------------------------------------------------
 
-(set-face-attribute 'grep-heading nil
-                    :foreground "#000000"
-                    :background "#eeeee")
+(if (display-graphic-p)
+    (set-face-attribute 'grep-heading nil
+                        :weight 'bold
+                        :foreground "#000000"
+                        :background "#dddddd")
+  (set-face-attribute 'grep-heading nil
+                      :weight 'normal
+                      :foreground "#000000"
+                      :background "#eeeee"))
 
 (set-face-attribute 'match nil
                     :inherit 'ol-match-face
