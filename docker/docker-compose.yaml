@@ -17,10 +17,11 @@ services:
       # System access
       - /:/host_root
 
-      # Home dir
+      # Repos
+      - /docker_root/own_repos:/docker_root/own_repos
+      - /docker_root/others_repos:/docker_root/others_repos
+
+      # User config
       - ${HOME}/.git-credentials:/root/.git-credentials
-      - ${HOME}/dotfiles/:/root/dotfiles
-      - ${HOME}/own_repos/:/root/own_repos
-      - ${HOME}/others_repos/:/root/others_repos
 
     init: true

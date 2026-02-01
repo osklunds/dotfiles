@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /root/dotfiles/.bashrc
+source /root/own_repos/dotfiles/.bashrc
 
 emacs &
 

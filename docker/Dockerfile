@@ -24,10 +24,19 @@ RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
 
 RUN usermod -s /bin/bash root 
 
-RUN ln -s /root/dotfiles/.bashrc /root/.bashrc
-RUN ln -s /root/dotfiles/.emacs /root/.emacs
-RUN ln -s /root/dotfiles/.gitconfig /root/.gitconfig
+# Need to have repos in a path that:
+# 1. Can have user permissions on host
+# 2. Can be the same in host and container
+# So that all relative paths in dockerfiles/compose files inside
+# own_repos and others_repos can be resolved when running docker inside docker.
+RUN mkdir /docker_root
+RUN ln -s /docker_root/own_repos /root/own_repos
+RUN ln -s /docker_root/others_repos /root/others_repos
 
+# User configuration
+RUN ln -s /root/own_repos/dotfiles/.bashrc /root/.bashrc
+RUN ln -s /root/own_repos/dotfiles/.emacs /root/.emacs
+RUN ln -s /root/own_repos/dotfiles/.gitconfig /root/.gitconfig
 ENV SHELL "/bin/bash"
 
-CMD /root/dotfiles/docker/container_start.sh
+CMD /root/own_repos/dotfiles/docker/container_start.sh
