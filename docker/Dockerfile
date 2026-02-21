@@ -22,6 +22,8 @@ RUN rustup default stable && rustup component add rust-analyzer
 
 RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
 
+RUN zypper in -y ImageMagick
+
 RUN usermod -s /bin/bash root 
 
 # Need to have repos in a path that:
