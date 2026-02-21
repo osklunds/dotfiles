@@ -1,11 +1,13 @@
 
 FROM opensuse/tumbleweed:latest
 
+### Zypper
+
 # Not optimal to split perhaps, but it makes additions during development faster
 RUN zypper in -y xauth
 RUN zypper in -y xclock
 RUN zypper in -y firefox
-RUN zypper in -y adobe-sourcecodepro-fonts
+RUN zypper in -y adobe-sourcecodepro-fonts # Prettier fonts in emacs
 RUN zypper in -y git
 RUN zypper in -y ripgrep
 RUN zypper in -y wget
@@ -17,15 +19,22 @@ RUN zypper in -y emacs-x11
 RUN zypper in -y rustup
 RUN zypper in -y clang
 RUN zypper in -y cmake
+RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
+RUN zypper in -y ImageMagick
+RUN zypper in -y ipa-mincho-fonts # Japanese fonts
+
+
+### Other programs
 
 RUN rustup default stable && rustup component add rust-analyzer
 
-RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
 
-RUN zypper in -y ImageMagick
-RUN zypper in -y ipa-mincho-fonts
+### Config
 
-RUN usermod -s /bin/bash root 
+RUN usermod -s /bin/bash root
+
+
+### Dirs and symlinks
 
 # Need to have repos in a path that:
 # 1. Can have user permissions on host
@@ -41,5 +50,8 @@ RUN ln -s /root/own_repos/dotfiles/.bashrc /root/.bashrc
 RUN ln -s /root/own_repos/dotfiles/.emacs /root/.emacs
 RUN ln -s /root/own_repos/dotfiles/.gitconfig /root/.gitconfig
 ENV SHELL "/bin/bash"
+
+
+### Start
 
 CMD /root/own_repos/dotfiles/docker/container_start.sh
