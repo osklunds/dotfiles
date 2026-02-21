@@ -23,6 +23,7 @@ RUN rustup default stable && rustup component add rust-analyzer
 RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
 
 RUN zypper in -y ImageMagick
+RUN zypper in -y ipa-mincho-fonts
 
 RUN usermod -s /bin/bash root 
 
