@@ -76,6 +76,11 @@ disk_space() {
 
 dev_env_start() {
     xhost +local:docker
+    (cd $DOTFILES_REPO/docker; docker compose up) 
+}
+
+dev_env_start_build() {
+    xhost +local:docker
     (cd $DOTFILES_REPO/docker; docker compose up --build) 
 }
 
