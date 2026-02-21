@@ -47,10 +47,6 @@ source "$DOTFILES_REPO/.aliases.sh"
 # Docker
 export BUILDKIT_PROGRESS=plain
 
-# C++
-
-export CXX=/usr/bin/clang++-20
-
 # Prompt
 
 # Different brackets to notice where I am.
