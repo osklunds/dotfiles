@@ -109,6 +109,8 @@
   (ol-split-window)
   (ol-async-goto-result))
 
+(ol-define-key grep-mode-map "C-x C-q" #'ol-grep-read-only-mode)
+
 ;; -----------------------------------------------------------------------------
 ;; Async face attributes
 ;; -----------------------------------------------------------------------------

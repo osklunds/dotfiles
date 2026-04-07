@@ -591,6 +591,51 @@ separator."
     (setcdr y nil)
     x))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Editable collection/grep buffer
+;;;; ---------------------------------------------------------------------------
+
+;; Inspired by wgrep
+
+(defun ol-grep-read-only-mode ()
+  (interactive)
+  (unless (eq major-mode 'grep-mode)
+    (user-error "Only works in grep-mode"))
+  (if buffer-read-only
+      (progn
+        (use-local-map (make-sparse-keymap))
+        (local-set-key (kbd "C-x C-q") #'ol-grep-read-only-mode)
+        (read-only-mode -1))
+    (ol-grep-apply-changes)
+    (use-local-map grep-mode-map)
+    (read-only-mode t)))
+
+(defun ol-grep-apply-changes ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (not (eobp))
+      (when-let* ((props (text-properties-at (point)))
+                  (msg (plist-get props 'compilation-message))
+                  (loc (compilation--message->loc msg))
+                  (file-name (caar (compilation--loc->file-struct loc)))
+                  (line-num (compilation--loc->line loc))
+                  (line-text (buffer-substring-no-properties
+                              (line-beginning-position)
+                              (line-end-position))))
+        (when (string-match "^[^ ]+ [0-9]+:\\(.+\\)$" line-text)
+          (let ((new-content (match-string 1 line-text)))
+            ;; todo: don't run mode hooks etc
+            (with-current-buffer (find-file-noselect file-name)
+              (save-excursion
+                (goto-char (point-min))
+                (forward-line (1- line-num))
+                (delete-region (line-beginning-position) (line-end-position))
+                (insert new-content))
+              (ol-save-silently)))))
+      (forward-line 1)))
+  (message "Applied grep changes"))
+
 ;; -----------------------------------------------------------------------------
 ;; Test
 ;; -----------------------------------------------------------------------------
