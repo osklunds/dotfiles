@@ -218,8 +218,9 @@
 
 (defun ol-get-revision-buffer-current-file (rev)
   (let* ((file (magit-current-file))
-         ;; Assuming the file name didn't change between HEAD and worktree
-         (file-in-rev (magit--rev-file-name file "HEAD" rev)))
+         ;; nil as other-rev is like "{worktree}"
+         ;; need "or" in case of no rename
+         (file-in-rev (or (magit--rev-file-name file "HEAD" nil) file)))
     (ol-get-revision-buffer rev file-in-rev)))
 
 (defun ol-get-revision-buffer (rev file)
