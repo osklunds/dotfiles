@@ -246,6 +246,43 @@
      nil nil t t)))
 
 (advice-add 'vdiff-magit-show-staged :override #'ol-vdiff-magit-show-staged)
+
+;; -----------------------------------------------------------------------------
+;; Patch file name
+;; -----------------------------------------------------------------------------
+
+(defun ol-magit-save-patch ()
+  (interactive)
+  (unless (eq major-mode 'magit-diff-mode)
+    (user-error "Only works in magit diff mode"))
+  (let* ((file-name (ol-magit-patch-name))
+         (path (read-file-name "Write patch file: " default-directory))
+         (path (concat path file-name))
+         (path (file-truename path)))
+    (make-empty-file path)
+    (magit-patch-save path)))
+
+(defun ol-magit-patch-name ()
+  ;; (when (magit-changed-files "HEAD")
+  ;;   ;; Safety protection
+  ;;   (user-error "Not allowed when uncommited changes exist"))
+  (let* ((range (if (string-match-p "\\.\\." magit-buffer-range-hashed)
+                    magit-buffer-range-hashed
+                  (format "%s..%s" magit-buffer-range-hashed (magit-commit-p "HEAD"))))
+         (split (string-split range "\\.\\."))
+         (from (nth 0 split))
+         (to (nth 1 split)))
+    (format "%s__%s..%s__%s..%s.patch"
+            (string-replace "/" "_" (ol-get-current-branch))
+            (ol-commit-date from)
+            (ol-commit-date to)
+            from
+            to)))
+
+(defun ol-commit-date (rev)
+  (string-replace " " "_"
+                  (magit-git-string "show" "--no-patch" "--format=%ci" rev)))
+
 ;; -----------------------------------------------------------------------------
 ;; Log
 ;; -----------------------------------------------------------------------------
