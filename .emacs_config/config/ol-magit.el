@@ -226,6 +226,26 @@
 (defun ol-get-revision-buffer (rev file)
   (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
 
+;;;; ---------------------------------------------------------------------------
+;;;; Renamed files for status diff
+;;;; ---------------------------------------------------------------------------
+
+;; copy pasted from vdiff. But file-head added
+
+(defun ol-vdiff-magit-show-staged (file)
+  (interactive
+   (list (magit-read-file-choice "Show staged changes for file"
+                                 (magit-staged-files)
+                                 "No staged files")))
+  (let* ((file-head (magit--rev-file-name file "HEAD" nil)))
+    (vdiff-buffers
+     (or (magit-get-revision-buffer "HEAD" file-head)
+         (magit-find-file-noselect "HEAD" file-head))
+     (or (get-buffer (concat file ".~{index}~"))
+         (magit-find-file-index-noselect file t))
+     nil nil t t)))
+
+(advice-add 'vdiff-magit-show-staged :override #'ol-vdiff-magit-show-staged)
 ;; -----------------------------------------------------------------------------
 ;; Log
 ;; -----------------------------------------------------------------------------
