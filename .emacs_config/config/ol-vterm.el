@@ -103,6 +103,7 @@
 (ol-evil-define-key 'insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
 (ol-global-set-key "C-x t" 'ol-vterm)
+(ol-global-set-key "C-x T" 'ol-vterm-named)
 
 ;; Some normal state keybinds
 (ol-evil-define-key 'insert vterm-mode-map "C-j" 'ivy-switch-buffer)
