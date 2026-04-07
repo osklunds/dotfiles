@@ -114,6 +114,18 @@
 (ol-evil-define-key 'insert vterm-mode-map "C-d" 'vterm--self-insert)
 (ol-evil-define-key 'insert vterm-mode-map "C-c" 'vterm--self-insert)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Special keys
+;;;; ---------------------------------------------------------------------------
+
+(ol-evil-define-key 'insert vterm-mode-map "C-M-e" #'vterm-send-escape)
+
+(defun ol-vterm-send-C-g ()
+  (interactive)
+  (vterm-send "C-g"))
+
+(ol-evil-define-key 'insert vterm-mode-map "C-M-n" #'ol-vterm-send-C-g)
+
 ;; -----------------------------------------------------------------------------
 ;; Width
 ;; -----------------------------------------------------------------------------
