@@ -21,6 +21,11 @@
 (ol-evil-define-key 'normal dired-mode-map "i" #'dired-up-directory)
 (ol-evil-define-key 'normal dired-mode-map "*" #'evil-ex-search-word-forward)
 
+;; Do not use dired's next file, which doesn't preserve column, i.e.,
+;; is different from the normal vanilla movement
+(ol-evil-define-key 'normal dired-mode-map "j" nil)
+(ol-evil-define-key 'normal dired-mode-map "k" nil)
+
 ;; Seems to be the only way override space
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 (ol-define-key dired-mode-map "SPC" nil)
