@@ -29,8 +29,11 @@
 
 (defun ol-save-p ()
   (and buffer-file-name
-       (file-writable-p buffer-file-name)
-       (not (file-remote-p buffer-file-name))))
+       (not (file-remote-p buffer-file-name))
+       ;; Must be after file-remote-p, because file-writable-p opens a tramp
+       ;; connection and causes emacs to freeze since ol-save-p is called from
+       ;; the mode line, if the tramp connection can't be opened.
+       (file-writable-p buffer-file-name)))
 
 (defun ol-auto-save (&rest _)
   (when (ol-save-p)
