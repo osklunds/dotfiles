@@ -12,10 +12,8 @@ dotfiles I use
 
 *** More important
 
-- =wgrep=
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
 - include current buffer in =switch-to-buffer= list
-- For tramp, prevent reconnect when process has died. Can show in modeline
 
 *** Less important
 
@@ -34,7 +32,6 @@ dotfiles I use
 - consider change ctrl to meta
 - make vdiff auto sync at start work
 - make vdiff sync as scroll always be able to scroll
-- Make markdown look as good as org-mode
 - add vim mark to bookmarks
 - highlights in sync grep
 - center buffer on =compile-goto-error=
