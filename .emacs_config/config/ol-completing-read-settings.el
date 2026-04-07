@@ -59,6 +59,10 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "DEL" #'ol-icomplete-dwim-del)
 
+;; Don't want C-h to open help, and bind it to something useful instead
+(ol-define-key icomplete-vertical-mode-minibuffer-map
+               "C-h" #'ol-icomplete-dumb-del)
+
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "~" #'ol-icomplete-dwim-tilde)
 

@@ -89,6 +89,10 @@ tramp method, insert it instead."
   (interactive)
   (icomplete-force-complete))
 
+(defun ol-icomplete-dumb-del ()
+  (interactive)
+  (delete-char -1))
+
 (defun ol-icomplete-dwim-del ()
   "Delete char in minibuffer entry. However, for `find-file' and the likes,
 if the entry ends with a directory separator, delete until the next directory
@@ -102,7 +106,7 @@ separator."
                        (search-backward "/" nil t 2)
                        (1+ (point))))
         (end-of-line))
-    (delete-char -1)))
+    (ol-icomplete-dumb-del)))
 
 (defun ol-icomplete-dwim-tilde ()
   (interactive)
