@@ -21,7 +21,7 @@ RUN zypper in -y clang
 RUN zypper in -y cmake
 RUN zypper in -y --force-resolution diff # default doesn't work well with vdiff
 RUN zypper in -y ImageMagick
-RUN zypper in -y ipa-mincho-fonts # Japanese fonts
+RUN zypper in -y ipa-mincho-fonts # Japanese fonts, still not working though
 
 
 ### Other programs
