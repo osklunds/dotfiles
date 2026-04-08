@@ -16,6 +16,7 @@ services:
 
       # System access
       - /:/host_root
+      - ${HOME}:/host_home
 
       # Repos
       - /docker_root/own_repos:/docker_root/own_repos

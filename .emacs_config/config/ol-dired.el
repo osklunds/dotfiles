@@ -30,7 +30,13 @@
 (evil-collection-define-key 'normal 'dired-mode-map " " nil)
 (ol-define-key dired-mode-map "SPC" nil)
 
-(ol-define-key ol-normal-leader-map "d h" (lambda () (interactive) (dired "~")))
+(ol-define-key ol-normal-leader-map "d h" #'ol-dired-home)
+
+(defun ol-dired-home ()
+  (interactive)
+  (if (string= (getenv "HOSTNAME") "dev-env")
+      (dired "/host_home")
+    (dired "~")))
 
 (ol-evil-define-key 'normal dired-mode-map "S" 'dired-do-relsymlink)
 
