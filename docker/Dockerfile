@@ -14,6 +14,7 @@ RUN zypper in -y wget
 RUN zypper in -y docker
 RUN zypper in -y docker-compose
 RUN zypper in -y libstdc++-devel
+RUN zypper in -y gcc-c++
 RUN zypper in -y emacs
 RUN zypper in -y emacs-x11
 RUN zypper in -y rustup
