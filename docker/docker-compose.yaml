@@ -6,23 +6,37 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: dev-env
+    init: true
     hostname: dev-env
     environment:
       - DISPLAY=${DISPLAY}
+      - HOST_REPOS_DIR=${REPOS_DIR} 
     volumes:
+      ### General
+      # System access
+      - /:/host_root
+      - ${HOME}:/host_home
+      
+      # Repos
+      # For docker sibling containers to work, path inside container and on
+      # host need to be the same
+      - ${REPOS_DIR}:${REPOS_DIR}
+
+      ### Host-specific
       # System stuff
       - /var/run/user/1000/docker.sock:/var/run/docker.sock
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
 
-      # System access
-      - /:/host_root
-      - ${HOME}:/host_home
-
-      # Repos
-      - /docker_root/own_repos:/docker_root/own_repos
-      - /docker_root/others_repos:/docker_root/others_repos
-
       # User config
       - ${HOME}/.git-credentials:/root/.git-credentials
 
-    init: true
+    command:
+      - /bin/bash
+      - -c
+      - |
+        ln -s "$$HOST_REPOS_DIR" /root/own_repos
+        ln -s /root/own_repos/dotfiles/.bashrc /root/.bashrc
+        ln -s /root/own_repos/dotfiles/.emacs /root/.emacs
+        ln -s /root/own_repos/dotfiles/.gitconfig /root/.gitconfig
+        sleep 100d
+

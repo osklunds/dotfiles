@@ -34,26 +34,5 @@ RUN rustup default stable && rustup component add rust-analyzer
 ### Config
 
 RUN usermod -s /bin/bash root
-
-
-### Dirs and symlinks
-
-# Need to have repos in a path that:
-# 1. Can have user permissions on host
-# 2. Can be the same in host and container
-# So that all relative paths in dockerfiles/compose files inside
-# own_repos and others_repos can be resolved when running docker inside docker.
-RUN mkdir /docker_root
-RUN ln -s /docker_root/own_repos /root/own_repos
-RUN ln -s /docker_root/others_repos /root/others_repos
-
-# User configuration
-RUN ln -s /root/own_repos/dotfiles/.bashrc /root/.bashrc
-RUN ln -s /root/own_repos/dotfiles/.emacs /root/.emacs
-RUN ln -s /root/own_repos/dotfiles/.gitconfig /root/.gitconfig
 ENV SHELL "/bin/bash"
 
-
-### Start
-
-CMD /root/own_repos/dotfiles/docker/container_start.sh

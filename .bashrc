@@ -23,7 +23,8 @@ get_script_dir()
     echo "$SCRIPT_DIR"
 }
 
-DOTFILES_REPO=$(get_script_dir)
+export DOTFILES_REPO=$(get_script_dir)
+export REPOS_DIR=$(dirname "$DOTFILES_REPO")
 
 export SHELL_SESSION_HISTORY=0
 export BASH_SILENCE_DEPRECATION_WARNING=1

@@ -76,12 +76,11 @@ disk_space() {
 
 dev_env_start() {
     xhost +local:docker
-    (cd $DOTFILES_REPO/docker; docker compose up) 
+    (cd $DOTFILES_REPO/docker; docker compose up --force-recreate $1)
 }
 
 dev_env_start_build() {
-    xhost +local:docker
-    (cd $DOTFILES_REPO/docker; docker compose up --build) 
+	dev_env_start --build
 }
 
 dev_env_attach() {
