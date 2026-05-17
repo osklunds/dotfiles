@@ -6,10 +6,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; To make sure e.g. ♝ are monospaced
-(set-fontset-font t 'symbol
-                  (font-spec :family "DejaVu Sans Mono"))
-
 (global-hl-line-mode)
 (make-variable-buffer-local 'global-hl-line-mode)
 

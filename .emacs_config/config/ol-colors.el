@@ -68,6 +68,14 @@ Maybe inherit would be cleaner to use."
 ;; Fonts
 ;; -----------------------------------------------------------------------------
 
+;; To make the first char of 竹馬 also use the Japanese font.
+(set-fontset-font t 'japanese-jisx0208
+                  (font-spec :family "Noto Sans CJK JP"))
+
+;; To make sure e.g. ♝ are monospaced
+(set-fontset-font t 'symbol
+                  (font-spec :family "DejaVu Sans Mono"))
+
 (defun ol-font-available-p (font)
   (when (cl-member font (font-family-list) :test 'string-equal)
     font))
@@ -82,13 +90,5 @@ Maybe inherit would be cleaner to use."
 (set-face-attribute 'default nil :family ol-fixed-pitch-font :height 90)
 (set-face-attribute 'line-number nil :family ol-fixed-pitch-font)
 (set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font)
-
-(defconst ol-variable-pitch-font (or (ol-font-available-p "Open Sans")
-                                     "DejaVu Sans"))
-
-(set-face-attribute 'variable-pitch nil
-                    :family ol-variable-pitch-font
-                    :height 1.1
-                    :weight 'normal)
 
 (provide 'ol-colors)
