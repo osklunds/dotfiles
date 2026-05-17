@@ -6,7 +6,6 @@ FROM opensuse/tumbleweed:latest
 # Not optimal to split perhaps, but it makes additions during development faster
 RUN zypper in -y xauth
 RUN zypper in -y xclock
-RUN zypper in -y firefox
 RUN zypper in -y adobe-sourcecodepro-fonts # Prettier fonts in emacs
 RUN zypper in -y git
 RUN zypper in -y ripgrep
@@ -25,6 +24,8 @@ RUN zypper in -y ImageMagick
 RUN zypper in -y ipa-mincho-fonts # Japanese fonts, still not working though
 RUN zypper in -y vim # in case emacs doesn't start, as backup
 
+RUN zypper in -y firefox
+RUN zypper in -y nautilus
 
 ### Other programs
 
