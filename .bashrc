@@ -65,7 +65,7 @@ prompt_dir_part () {
 }
 
 emacs_prompt () {
-    call_emacs.sh "(ol-get-buffer-name-from-path default-directory)" | tr -d '"'
+    call_emacs "(ol-get-buffer-name-from-path default-directory)" | tr -d '"'
 }
 
 if [[ "$HOSTNAME" == "dev-env" ]]; then
@@ -81,7 +81,7 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     # Redefine cd after all symlink magic is over
     function cd () {
         builtin cd "$@"
-        call_emacs.sh "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
+        call_emacs "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
     }
 else
     prompt_emacs_part="e"
