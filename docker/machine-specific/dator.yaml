@@ -4,3 +4,4 @@ services:
     environment:
     volumes:
       - ${HOME}/others_repos:/root/others_repos
+      - ${HOME}/Oskar:/root/Oskar

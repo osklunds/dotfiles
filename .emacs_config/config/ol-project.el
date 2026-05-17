@@ -58,9 +58,12 @@ modeline can be good to cache in a hashmap."
 
 (defvar ol-project-roots nil)
 
+;; Even if not found, such entries don't cause harm.
 (defvar ol-projects-search-path '(("~/own_repos" . 1)
+                                  ("~/own_repos/dotfiles/.emacs_config" . 2)
                                   ("~/others_repos" . 1)
-                                  ("~/own_repos/dotfiles/.emacs_config" . 2)))
+                                  ("~/Oskar/Dokument")
+                                  ("~/Oskar/Bilder")))
 
 (defun ol-discover-projects ()
   (interactive)
