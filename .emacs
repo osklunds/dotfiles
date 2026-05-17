@@ -40,14 +40,14 @@
 ;; Loading packages and config
 ;; -----------------------------------------------------------------------------
 
-;; TODO: By disabling this, emacs-init-time is halved
 ;; Naive and simplified method
 (defun ol-require-advice (feature &optional filename _noerror)
   (when-let ((filename (locate-file (format "%s.el" feature) load-path)))
     (when (string-prefix-p ol-repo-root filename)
       (byte-recompile-file filename nil 0))))
 
-(advice-add 'require :before 'ol-require-advice)
+;; Save 50% of init time. Only enable when stuff is changed.
+;; (advice-add 'require :before 'ol-require-advice)
 
 (dolist (file (directory-files (file-name-concat ol-emacs-dir "config") nil "\\.el$"))
   (message "Loading '%s'" (file-name-sans-extension file))
