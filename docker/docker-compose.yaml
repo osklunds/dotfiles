@@ -22,6 +22,9 @@ services:
       # host need to be the same
       - ${REPOS_DIR}:${REPOS_DIR}
 
+      # Cache
+      - dev-env-emacs-cache:/root/.emacs.d
+
       ### Host-specific
       # System stuff
       - /var/run/user/1000/docker.sock:/var/run/docker.sock
@@ -39,4 +42,6 @@ services:
         ln -s /root/own_repos/dotfiles/.emacs /root/.emacs
         ln -s /root/own_repos/dotfiles/.gitconfig /root/.gitconfig
         sleep 100d
+volumes:
+  dev-env-emacs-cache:
 
