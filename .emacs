@@ -40,6 +40,7 @@
 ;; Loading packages and config
 ;; -----------------------------------------------------------------------------
 
+;; TODO: By disabling this, emacs-init-time is halved
 ;; Naive and simplified method
 (defun ol-require-advice (feature &optional filename _noerror)
   (when-let ((filename (locate-file (format "%s.el" feature) load-path)))
