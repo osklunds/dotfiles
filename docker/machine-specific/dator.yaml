@@ -1,0 +1,6 @@
+
+services:
+  dev-env:
+    environment:
+    volumes:
+      - ${HOME}/others_repos:/root/others_repos
