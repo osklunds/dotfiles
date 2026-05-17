@@ -34,9 +34,7 @@
 
 (defun ol-dired-home ()
   (interactive)
-  (if (string= (getenv "HOSTNAME") "dev-env")
-      (dired "/host_home")
-    (dired "~")))
+  (dired "~"))
 
 (ol-evil-define-key 'normal dired-mode-map "S" 'dired-do-relsymlink)
 
