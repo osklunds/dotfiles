@@ -18,4 +18,7 @@ services:
     command:
       sleep 100d
 volumes:
+  # Needed for 2 reasons:
+  # 1. cache inner podman images when outer podman restarts
+  # 2. Overlay on overlay not allowed
   podman-dir:
