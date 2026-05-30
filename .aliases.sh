@@ -89,8 +89,9 @@ dev_env_attach() {
 }
 
 podman_start() {
-    (cd $DOTFILES_REPO/docker2; podman-compose up --force-recreate $1 --detach)
-    podman_attach
+    if (cd $DOTFILES_REPO/docker2; podman-compose up --force-recreate $1 --detach); then
+        podman_attach
+    fi
 }
 
 podman_start_build() {
