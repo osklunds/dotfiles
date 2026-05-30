@@ -8,10 +8,14 @@ services:
     container_name: docker2
     init: true
     hostname: docker2
-    userns_mode: keep-id:uid=2000,gid=2000
+    # userns_mode: keep-id:uid=1000,gid=1000
     volumes:
       ### General
       # System access
       - /:/host_root
+
+      - podman-dir:/home/podman/.local/share/containers
     command:
       sleep 100d
+volumes:
+  podman-dir:
