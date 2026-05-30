@@ -8,7 +8,7 @@ services:
     container_name: docker2
     init: true
     hostname: docker2
-    # userns_mode: keep-id:uid=1000,gid=1000
+    userns_mode: keep-id:uid=1000,gid=1000
     volumes:
       ### General
       # System access
@@ -21,4 +21,6 @@ volumes:
   # Needed for 2 reasons:
   # 1. cache inner podman images when outer podman restarts
   # 2. Overlay on overlay not allowed
+  # Also, if userns_mode is changed, this volume needs to be deleted to avoid
+  # permission issues.
   podman-dir:
