@@ -8,7 +8,7 @@ services:
     container_name: docker2
     init: true
     hostname: docker2
-    userns: keep-id:uid=2000,gid=2000
+    userns_mode: keep-id:uid=2000,gid=2000
     volumes:
       ### General
       # System access
