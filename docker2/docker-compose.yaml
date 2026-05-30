@@ -1,0 +1,17 @@
+
+services:
+  docker2:
+    image: docker2
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker2
+    init: true
+    hostname: docker2
+    userns: keep-id:uid=2000,gid=2000
+    volumes:
+      ### General
+      # System access
+      - /:/host_root
+    command:
+      sleep 100d

@@ -88,3 +88,15 @@ dev_env_attach() {
     docker exec -it dev-env bash
 }
 
+podman_start() {
+    (cd $DOTFILES_REPO/docker2; podman-compose up --force-recreate $1 --detach)
+    podman_attach
+}
+
+podman_start_build() {
+	podman_start --build
+}
+
+podman_attach() {
+    podman exec -it docker2 bash
+}
