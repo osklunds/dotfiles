@@ -1,6 +1,10 @@
 
 FROM opensuse/tumbleweed:latest
 
+### Credits
+# https://www.redhat.com/en/blog/podman-inside-container
+# https://samuel.forestier.app/blog/security/podman-rootless-in-podman-rootless-the-debian-way
+
 ### Zypper
 
 # Not optimal to split perhaps, but it makes additions during development faster
@@ -21,6 +25,7 @@ RUN echo podman:1001:5000 > /etc/subgid;
 RUN echo "podman ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/podman && \
     chmod 0440 /etc/sudoers.d/podman
 
+# Copied from https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/containers.conf
 RUN cat > /etc/containers/containers.conf <<'EOF'
 [containers]
 netns="host"
@@ -36,6 +41,8 @@ events_logger="file"
 runtime="crun"
 EOF
 
+# Copied from https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/podman-containers.conf
+# But critical change: added runtime="crun"
 RUN mkdir -p /home/podman/.config/containers/
 RUN cat > /home/podman/.config/containers/containers.conf <<'EOF'
 [containers]
@@ -46,11 +53,7 @@ default_sysctls = []
 [engine]
 runtime="crun"
 EOF
-
-RUN mkdir -p /home/podman/.local/share/containers && \
-    chown podman:podman -R /home/podman && \
-    chmod 0644 /etc/containers/containers.conf
-# VOLUME /home/podman/.local/share/containers
+RUN chmod 0644 /etc/containers/containers.conf
 
 USER podman
 
