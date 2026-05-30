@@ -18,12 +18,17 @@ RUN zypper in -y podman-compose
 RUN zypper in -y sudo
 RUN zypper in -y crun
 
+### User config
+
 RUN useradd podman -s /bin/bash
+
 RUN echo podman:1001:5000 > /etc/subuid;
 RUN echo podman:1001:5000 > /etc/subgid;
 
 RUN echo "podman ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/podman && \
     chmod 0440 /etc/sudoers.d/podman
+
+### Podman config
 
 # Copied from https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/containers.conf
 RUN cat > /etc/containers/containers.conf <<'EOF'
@@ -53,7 +58,7 @@ default_sysctls = []
 [engine]
 runtime="crun"
 EOF
-RUN chmod 0644 /etc/containers/containers.conf
+
+### Needs to be last
 
 USER podman
-
