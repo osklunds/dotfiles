@@ -17,6 +17,10 @@ RUN zypper in -y podman
 RUN zypper in -y podman-compose
 RUN zypper in -y sudo
 RUN zypper in -y crun
+RUN zypper --non-interactive in --force-resolution -t pattern xfce
+RUN zypper in -y xinit
+RUN zypper in -y tigervnc
+RUN zypper in -y dbus-launch
 
 ### User config
 
@@ -59,6 +63,23 @@ default_sysctls = []
 runtime="crun"
 EOF
 
+### VNC and XFCE4
+
+# RUN mkdir -p /home/podman/.vnc
+# RUN cat > /home/podman/.vnc/xstartup << 'EOF'
+# #!/bin/sh
+# unset SESSION_MANAGER
+# unset DBUS_SESSION_BUS_ADDRESS
+# exec startxfce4
+# EOF
+
+# RUN chmod +x /home/podman/.vnc/xstartup
+# RUN printf "mypassword\nmypassword\nn\n" | vncpasswd
+
+# CMD ["vncserver", ":1", "-geometry", "1280x800", "-depth", "24", "-fg"]
+
+CMD ["/sbin/init"]
+
 ### Needs to be last
 
-USER podman
+# USER podman
