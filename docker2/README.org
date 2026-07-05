@@ -2,3 +2,5 @@
 This docker2 directory is an experiment to use podman instead of docker. The reason for podman is that it supports userns_mode: keep-id, so that I can be non-root inside the container. That's useful when wanting to run e.g. Nautlius, which refuses to start as root. I wanted to move my entire computer environment to be containerized, but for now, I pause that project, since compared to just the development environment, the returns are dimishing.
 
 I also need systemd and D-bus inside the container.
+
+However, one other reason for podman is that it can avoid sibling containers, and thus reduce host dependency.
