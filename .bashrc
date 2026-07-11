@@ -56,14 +56,6 @@ export BUILDKIT_PROGRESS=plain
 prompt_docker_part=""
 prompt_emacs_part=""
 
-prompt_dir_part () {
-    if [[ -n "$INSIDE_EMACS" ]]; then
-        emacs_prompt
-    else
-        pwd
-    fi
-}
-
 emacs_prompt () {
     call_emacs "(ol-get-buffer-name-from-path default-directory)" | tr -d '"'
 }
@@ -76,7 +68,7 @@ fi
 
 if [[ -n "$INSIDE_EMACS" ]]; then
     prompt_emacs_part="E"
-    prompt_dir_part="'$(emacs_prompt)'"
+    prompt_dir_part=""
 
     # Redefine cd after all symlink magic is over
     function cd () {
@@ -90,4 +82,4 @@ else
     unset -f cd
 fi
 
-PS1='[$prompt_docker_part$prompt_emacs_part $(prompt_dir_part)] '
+PS1='[$prompt_docker_part$prompt_emacs_part $prompt_dir_part] '
