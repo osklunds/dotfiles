@@ -58,6 +58,19 @@
 ;; To avoid refreshing revision buffers that might be open when I blame
 (remove-hook 'magit-blame-goto-chunk-hook #'magit-blame-maybe-update-revision-buffer)
 
+;;;; ---------------------------------------------------------------------------
+;;;; Keybinds
+;;;; ---------------------------------------------------------------------------
+
+(ol-define-key ol-normal-leader-map "g b" #'magit-blame-addition)
+
+;; To avoid special keybinds
+(remove-hook 'magit-find-file-hook #'magit-blob-mode)
+(add-hook 'magit-blame-mode-hook (lambda () (magit-blame-read-only-mode -1)))
+
+;; magit-blame-read-only is... read-only and with special keybinds I don't want
+(ol-evil-define-key 'normal magit-blame-mode-map "RET" #'magit-show-commit)
+
 ;; -----------------------------------------------------------------------------
 ;; Commit
 ;; -----------------------------------------------------------------------------
