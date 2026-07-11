@@ -636,6 +636,27 @@ separator."
       (forward-line 1)))
   (message "Applied grep changes"))
 
+;;;; ---------------------------------------------------------------------------
+;;;; imenu
+;;;; ---------------------------------------------------------------------------
+
+(defun ol-grep-files-imenu-create-index-function ()
+  (goto-char (point-min))
+  (let* ((res nil))
+    (while (not (eobp))
+      (let* ((line (buffer-substring (line-beginning-position) (line-end-position)))
+             (props (text-properties-at (point)))
+             (face (plist-get props 'font-lock-face)))
+        (when (eq face 'grep-heading)
+          (push `(,line . ,(point)) res)))
+      (forward-line 1))
+    (reverse res)))
+
+(defun ol-grep-files-imenu ()
+  (setq imenu-create-index-function #'ol-grep-files-imenu-create-index-function))
+
+(add-hook 'grep-mode-hook #'ol-grep-files-imenu)
+
 ;; -----------------------------------------------------------------------------
 ;; Test
 ;; -----------------------------------------------------------------------------
