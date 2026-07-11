@@ -131,12 +131,14 @@
 (ol-set-face 'magit-section-heading-selection :background "#ffffff")
 (ol-set-face 'magit-diff-file-heading-selection :background "#ffffff")
 
-(ol-set-face 'magit-diff-context :background "#eeeeee")
+(ol-set-face 'magit-diff-context :background ol-white)
 (ol-set-face 'magit-diff-their :background ol-diff-light-red)
 (ol-set-face 'magit-diff-base :background ol-diff-dark-orange)
 (ol-set-face 'magit-diff-our :background ol-diff-green)
 
-(ol-set-face 'magit-diff-context-highlight :background "#eeeeee")
+(ol-set-face 'magit-diff-context-highlight :background ol-white)
+(ol-set-face 'magit-diff-added-highlight :weight 'normal)
+(ol-set-face 'magit-diff-removed-highlight :weight 'normal)
 (ol-set-face 'magit-diff-their-highlight :background ol-diff-light-red)
 (ol-set-face 'magit-diff-base-highlight :background ol-diff-dark-orange)
 (ol-set-face 'magit-diff-our-highlight :background ol-diff-green)
@@ -145,6 +147,9 @@
 (ol-set-face 'magit-diff-file-heading-highlight :background 'unspecified :extend t)
 (ol-set-face 'magit-diff-lines-boundary :background "#ee0000")
 (ol-set-face 'magit-section-secondary-heading :background "#ee0000")
+
+(ol-set-face 'magit-diff-hunk-heading :foreground ol-white)
+(ol-set-face 'magit-diff-hunk-heading-highlight :foreground ol-white)
 
 ;; -----------------------------------------------------------------------------
 ;; Diff
