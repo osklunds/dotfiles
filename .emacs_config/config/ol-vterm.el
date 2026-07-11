@@ -108,11 +108,14 @@
 ;; Some normal state keybinds
 (ol-evil-define-key 'insert vterm-mode-map "C-j" 'ivy-switch-buffer)
 (ol-evil-define-key 'insert vterm-mode-map 'c-6 'evil-switch-to-windows-last-buffer)
+(ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
+(ol-evil-define-key 'insert vterm-mode-map "C-r" 'ol-rename-buffer)
 
 ;; Make the terminal experience more natural
 (ol-evil-define-key 'insert vterm-mode-map "C-y" 'vterm-yank)
 (ol-evil-define-key 'insert vterm-mode-map "C-d" 'vterm--self-insert)
 (ol-evil-define-key 'insert vterm-mode-map "C-c" 'vterm--self-insert)
+(ol-evil-define-key 'insert vterm-mode-map "C-u" 'vterm--self-insert)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Special keys
@@ -126,6 +129,12 @@
 
 (ol-evil-define-key 'insert vterm-mode-map "C-M-n" #'ol-vterm-send-C-g)
 
+(ol-evil-define-key 'inert vterm-mode-map "C-M-j" #'ol-vterm-send-shift-return)
+
+(defun ol-vterm-send-shift-return ()
+  (interactive)
+  (vterm-send-string "\n"))
+
 ;; -----------------------------------------------------------------------------
 ;; Width
 ;; -----------------------------------------------------------------------------
@@ -137,7 +146,5 @@
   (interactive)
   (let ((width (read-from-minibuffer "vterm width (default: 1000): " nil nil 'read 'ol-vterm-width "1000")))
     (setq vterm-min-window-width width)))
-
-(ol-evil-define-key 'insert vterm-mode-map "C-w" 'ol-vterm-set-width)
 
 (provide 'ol-vterm)
