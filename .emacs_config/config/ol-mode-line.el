@@ -22,10 +22,7 @@
 ;; I don't remember why I did this
 (ol-set-face 'mode-line :overline 'unspecified :underline 'unspecified)
 
-;; I don't remember why I did this
-(if (display-graphic-p)
-    (ol-set-face 'mode-line :background "#d7e4e8")
-  (ol-set-face 'mode-line :background "#cccccc"))
+(ol-set-face 'mode-line :background "#d7e4e8")
 
 (ol-set-face 'mode-line-inactive
              :background "#e9eded"
