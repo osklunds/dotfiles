@@ -38,7 +38,10 @@
        ;; Must be after file-remote-p, because file-writable-p opens a tramp
        ;; connection and causes emacs to freeze since ol-save-p is called from
        ;; the mode line, if the tramp connection can't be opened.
-       (file-writable-p buffer-file-name)))
+       (file-writable-p buffer-file-name)
+       ;; WHen vdiff with magit, if file doesn't exist, prevent it from being
+       ;; created
+       (file-exists-p buffer-file-name)))
 
 (defun ol-auto-save (&rest _)
   (when (ol-save-p)
