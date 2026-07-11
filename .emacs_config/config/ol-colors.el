@@ -44,6 +44,9 @@ Maybe inherit would be cleaner to use."
 (unless (display-graphic-p)
   (ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
   (ol-set-face 'hl-line :background "#eeeeee"))
+;; So that hl-line is visible in magit buffers
+;; Need to use run-timer, otherwise doesn't work
+(run-with-timer 0 nil (lambda () (ol-set-face 'magit-section-highlight :background 'unspecified)))
 
 ;; To prevent alignment issue in e.g. markdown-mode with variable-pitch
 (set-face-attribute 'show-paren-match nil :weight 'bold)
