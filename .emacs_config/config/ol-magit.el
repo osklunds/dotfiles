@@ -161,6 +161,12 @@
 (defun ol-include-stat (&rest r)
   (add-to-list 'magit-buffer-diff-args "--stat"))
 
+(setc magit-diff-extra-stat-arguments #'ol-magit-diff-use-window-width-as-stat-width)
+
+(defun ol-magit-diff-use-window-width-as-stat-width ()
+  (and-let* ((window (get-buffer-window (current-buffer) 'visible)))
+    (list (format "--stat-width=%d" (ffloor (* 0.8 (window-width window)))))))
+
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
 
