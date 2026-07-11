@@ -146,4 +146,17 @@
 (with-current-buffer (get-buffer "*Messages*")
   (setq mode-line-format (default-value 'mode-line-format)))
 
+;; -----------------------------------------------------------------------------
+;; header-line
+;; -----------------------------------------------------------------------------
+
+(setq-default header-line-format
+              (list
+               "   "
+               '(:eval (ol-file-name-segment))))
+
+(ol-set-face 'header-line
+             :background "#e9eded"
+             :weight 'bold)
+
 (provide 'ol-mode-line)

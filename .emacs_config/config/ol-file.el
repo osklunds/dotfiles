@@ -12,6 +12,11 @@
 (setc large-file-warning-threshold (* 100 1000 1000))
 (setc find-file-existing-other-name nil)
 
+(defun ol-file-name-segment ()
+  ;; buffer-file-name is the common case. So only do extra processing for
+  ;; the rarer case. Also used in header-line.
+  (or buffer-file-name (expand-file-name default-directory)))
+
 ;; ---------------------------------------------------------------------------
 ;; Backup
 ;; ---------------------------------------------------------------------------
