@@ -55,6 +55,7 @@
 
 (ol-define-key ol-normal-leader-map "g b" 'magit-blame-addition)
 
+;; To avoid refreshing revision buffers that might be open when I blame
 (remove-hook 'magit-blame-goto-chunk-hook #'magit-blame-maybe-update-revision-buffer)
 
 ;; -----------------------------------------------------------------------------
