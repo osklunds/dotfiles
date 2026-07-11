@@ -95,6 +95,8 @@
 (setc magit-status-initial-section nil)
 (setc vdiff-magit-dwim-show-on-hunks t)
 
+(add-to-list 'magit-no-confirm 'stage-all-changes)
+
 (defun ol-magit-set-simple-status-header ()
   (magit-set-header-line-format "Magit Status"))
 
