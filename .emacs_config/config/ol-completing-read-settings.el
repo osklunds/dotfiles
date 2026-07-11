@@ -123,7 +123,7 @@
   (set-face-attribute 'grep-heading nil
                       :weight 'normal
                       :foreground "#000000"
-                      :background "#eeeee"))
+                      :background "#eeeeee"))
 
 (set-face-attribute 'match nil
                     :inherit 'ol-match-face

@@ -4,6 +4,7 @@
 (require 'faces)
 (require 'hl-line)
 (require 'doom-themes)
+(require 'magit)
 
 (load-theme 'doom-one-light t)
 
@@ -41,9 +42,9 @@ Maybe inherit would be cleaner to use."
 (ol-set-face 'font-lock-comment-face :foreground "#5f8700")
 (ol-set-face 'font-lock-string-face :foreground "#d78700")
 
-(unless (display-graphic-p)
-  (ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
-  (ol-set-face 'hl-line :background "#eeeeee"))
+(ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
+(ol-set-face 'hl-line :background "#eeeeee")
+
 ;; So that hl-line is visible in magit buffers
 ;; Need to use run-timer, otherwise doesn't work
 (run-with-timer 0 nil (lambda () (ol-set-face 'magit-section-highlight :background 'unspecified)))
