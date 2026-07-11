@@ -6,6 +6,7 @@
 (require 'xref)
 (require 'tramp-cmds)
 (require 'profiler)
+(require 'js)
 
 ;; Setting to nil can supposedly can improve scroll performance
 ;; But setting to t means delete overlays in vdiff can be split both at
@@ -149,5 +150,11 @@
   (profiler-stop)
   (profiler-report))
 (ol-define-key ol-normal-leader-map "m r" #'ol-profile-report)
+
+;; -----------------------------------------------------------------------------
+;; json
+;; -----------------------------------------------------------------------------
+
+(setc js-indent-level 2)
 
 (provide 'ol-misc)
