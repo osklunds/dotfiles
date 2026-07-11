@@ -393,6 +393,8 @@
 (keymap-set transient-base-map "C-n" 'transient-quit-one)
 (keymap-set transient-sticky-map "C-n" 'transient-quit-seq)
 
+(setc transient-default-level 7)
+
 ;; -----------------------------------------------------------------------------
 ;; Misc
 ;; -----------------------------------------------------------------------------
