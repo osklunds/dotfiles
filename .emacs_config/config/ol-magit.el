@@ -314,8 +314,6 @@
 ;; Log
 ;; -----------------------------------------------------------------------------
 
-;; trick: magit-diff-toggle-file-filter
-
 (ol-set-face 'magit-log-date :foreground "#da8548")
 
 ;; TODO: Maybe these can be saved better with transient?
@@ -377,12 +375,16 @@
 
 ;; Always show all files in diff when log filter on one file
 (defun ol-magit-diff-swap-file-restriction ()
-  (when (local-variable-p 'magit-buff-diff-files)
-    (cl-rotatef magit-buffer-diff-files
-                magit-buffer-diff-files-suspended)))
+  ;; If not run-with-timer, then magit-diff-toggle-file-filter is run on
+  ;; wrong buffer and error message is shown.
+  (run-with-timer 0 nil
+                  (lambda ()
+                    ;; Need to check magit-buffer-diff-files because if nil
+                    ;; magit-diff-toggle-file-filter prompts
+                    (when magit-buffer-diff-files
+                      (magit-diff-toggle-file-filter)))))
 
-;; problem with this: -- option stops working in e.g. diff
-;; (add-hook 'magit-setup-buffer-hook #'ol-magit-diff-swap-file-restriction)
+(add-hook 'magit-revision-mode-hook #'ol-magit-diff-swap-file-restriction)
 
 ;; -----------------------------------------------------------------------------
 ;; Transient
