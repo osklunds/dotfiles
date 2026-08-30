@@ -98,7 +98,7 @@
 
 (defun ol-rust-run-test (test-name)
   (ol-save-silently)
-  (let ((cmd (concat "ct " test-name)))
+  (let ((cmd (format "RUST_BACKTRACE=1 cargo test %s -- --show-output --test-threads 1 --color always" test-name)))
     (setq ol-rust-last-test-name test-name)
     (ol-send-cmd-to-visible-vterm-buffers cmd)))
 
