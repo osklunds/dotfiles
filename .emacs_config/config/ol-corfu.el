@@ -5,22 +5,13 @@
 (require 'ol-colors)
 
 (require 'corfu)
-;; To fix compiler warning
-(eval-and-compile
-  (defvar corfu-terminal-mode nil))
-(require 'corfu-terminal)
 (require 'cape)
 
 ;; -----------------------------------------------------------------------------
 ;; Corfu config
 ;; -----------------------------------------------------------------------------
 
-(if (display-graphic-p)
-    (global-corfu-mode t)
-  ;; corfu-terminal is much slower than company. So only use corfu in minibuffer
-  ;; until emacs 31, where corfu is supported in terminal natively.
-  (corfu-terminal-mode t)
-  (add-hook 'minibuffer-setup-hook #'corfu--minibuffer-on))
+(global-corfu-mode t)
 
 (setc corfu-auto t)
 (setc corfu-auto-prefix 1)
