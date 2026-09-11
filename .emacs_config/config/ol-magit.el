@@ -248,10 +248,7 @@
          ;; nil as other-rev is like "{worktree}"
          ;; need "or" in case of no rename
          (file-in-rev (or (magit--rev-file-name file "HEAD" nil) file)))
-    (ol-get-revision-buffer rev file-in-rev)))
-
-(defun ol-get-revision-buffer (rev file)
-  (magit-get-revision-buffer rev file (magit-find-file-noselect rev file)))
+    (magit-find-file-noselect rev file-in-rev)))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Renamed files for status diff
@@ -422,5 +419,14 @@
 
 (defun ol-merge-base (c1 c2)
   (magit-commit-p (magit-git-string "merge-base" c1 c2)))
+
+;;;; ---------------------------------------------------------------------------
+;;;; vidff hacks
+;;;; ---------------------------------------------------------------------------
+
+;; Since magit-get-revision-buffer was deleted in
+;; ad79d46df92b38c2f43d48f6c6f49781186bdf72 but still needed by vdiff-magit
+(defun magit-get-revision-buffer (rev file)
+  (magit-find-file-noselect rev file))
 
 (provide 'ol-magit)

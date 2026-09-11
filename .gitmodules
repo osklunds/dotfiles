@@ -157,3 +157,9 @@
 [submodule ".emacs_config/packages/libvterm-mirror"]
 	path = .emacs_config/packages/libvterm-mirror
 	url = https://github.com/Sbozzolo/libvterm-mirror.git
+[submodule ".emacs_config/packages/cond-let"]
+	path = .emacs_config/packages/cond-let
+	url = https://github.com/tarsius/cond-let.git
+[submodule ".emacs_config/packages/llama"]
+	path = .emacs_config/packages/llama
+	url = https://github.com/tarsius/llama.git
