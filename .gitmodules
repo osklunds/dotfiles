@@ -17,7 +17,7 @@
 	path = .emacs_config/packages/evil-visualstar
 	url = https://github.com/bling/evil-visualstar.git
 [submodule ".emacs_config/packages/swiper"]
-	path = .emacs_config/packages/swiper
+	path = .emacs_config/packages_inactive/swiper
 	url = https://github.com/abo-abo/swiper.git
 [submodule ".emacs_config/packages/company-mode"]
 	path = .emacs_config/packages_inactive/company-mode
@@ -38,7 +38,7 @@
 	path = .emacs_config/packages/compat
 	url = https://github.com/emacs-compat/compat.git
 [submodule ".emacs_config/packages/dash.el"]
-	path = .emacs_config/packages/dash.el
+	path = .emacs_config/packages_inactive/dash.el
 	url = https://github.com/magnars/dash.el.git
 [submodule ".emacs_config/packages/with-editor"]
 	path = .emacs_config/packages/with-editor
@@ -47,7 +47,7 @@
 	path = .emacs_config/packages/emacs-vdiff
 	url = https://github.com/justbur/emacs-vdiff.git
 [submodule ".emacs_config/packages/hydra"]
-	path = .emacs_config/packages/hydra
+	path = .emacs_config/packages_inactive/hydra
 	url = https://github.com/abo-abo/hydra.git
 [submodule ".emacs_config/packages/emacs-vdiff-magit"]
 	path = .emacs_config/packages/emacs-vdiff-magit
@@ -113,7 +113,7 @@
 	path = .emacs_config/packages_inactive/pfuture
 	url = https://github.com/Alexander-Miller/pfuture.git
 [submodule ".emacs_config/packages/emacs-request"]
-	path = .emacs_config/packages/emacs-request
+	path = .emacs_config/packages_inactive/emacs-request
 	url = https://github.com/tkf/emacs-request.git
 [submodule ".emacs_config/packages/dockerfile-mode"]
 	path = .emacs_config/packages/dockerfile-mode
@@ -152,7 +152,7 @@
 	path = .emacs_config/packages_inactive/emacs-corfu-terminal
 	url = https://codeberg.org/akib/emacs-corfu-terminal.git
 [submodule ".emacs_config/packages/emacs-popon"]
-	path = .emacs_config/packages/emacs-popon
+	path = .emacs_config/packages_inactive/emacs-popon
 	url = https://codeberg.org/akib/emacs-popon.git
 [submodule ".emacs_config/packages/libvterm-mirror"]
 	path = .emacs_config/packages/libvterm-mirror

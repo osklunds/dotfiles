@@ -37,6 +37,18 @@
     (normal-top-level-add-subdirs-to-load-path)))
 
 ;; -----------------------------------------------------------------------------
+;; Dependency hacks
+;; -----------------------------------------------------------------------------
+
+(defun defhydra (&optional))
+
+(defun ol-require-advice-dependency (func feature &rest rest)
+  (unless (eq 'hydra feature)
+    (apply func feature rest)))
+
+(advice-add 'require :around 'ol-require-advice-dependency)
+
+;; -----------------------------------------------------------------------------
 ;; Loading packages and config
 ;; -----------------------------------------------------------------------------
 
