@@ -3,10 +3,17 @@
 (require 'jka-compr) ;; To avoid problem with recursive load error
 (require 'faces)
 (require 'hl-line)
-(require 'doom-themes)
 (require 'magit)
 
-(load-theme 'doom-one-light t)
+;; -----------------------------------------------------------------------------
+;; Theme
+;; -----------------------------------------------------------------------------
+
+;; Set custom-theme--listed-faces to (face-list)
+;; Then run customize-create-theme
+(load-theme 'ol t)
+
+;; todo: with the above, all set-face-attribute should be removed
 
 ;; -----------------------------------------------------------------------------
 ;; Helpers (to be removed)

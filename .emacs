@@ -24,6 +24,7 @@
         (or load-file-name buffer-file-name))))
 (setq ol-emacs-dir (file-name-concat ol-repo-root ".emacs_config"))
 
+(add-to-list 'custom-theme-load-path (file-name-concat ol-emacs-dir "config/"))
 (add-to-list 'load-path (file-name-concat ol-emacs-dir "config"))
 (add-to-list 'load-path (file-name-concat ol-emacs-dir "packages_own"))
 (let ((default-directory (file-name-concat ol-emacs-dir "packages/")))
