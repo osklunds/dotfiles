@@ -13,3 +13,4 @@
 	conflictstyle = diff3
 [core]
 	fileMode = false
+	excludesFile = /root/own_repos/dotfiles/.gitignore_global
