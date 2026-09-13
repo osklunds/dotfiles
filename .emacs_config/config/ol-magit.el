@@ -421,12 +421,15 @@
   (magit-commit-p (magit-git-string "merge-base" c1 c2)))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; vidff hacks
+;;;; old vdiff compatibility hacks
 ;;;; ---------------------------------------------------------------------------
 
 ;; Since magit-get-revision-buffer was deleted in
 ;; ad79d46df92b38c2f43d48f6c6f49781186bdf72 but still needed by vdiff-magit
 (defun magit-get-revision-buffer (rev file)
   (magit-find-file-noselect rev file))
+
+(defun magit-find-file-index-noselect (file &rest _)
+  (magit-find-file-noselect "{index}" file t))
 
 (provide 'ol-magit)

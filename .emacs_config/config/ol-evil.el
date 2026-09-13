@@ -138,9 +138,7 @@ the plain text edit keybinds instead."
 
 ;; at least for magit, disabling this enables normal keybinds in buffers.
 ;; can be something to play around with
-(with-eval-after-load 'dired (evil-collection-dired-setup))
 (with-eval-after-load 'magit (evil-collection-magit-setup))
-(with-eval-after-load 'term (evil-collection-term-setup))
 
 (set-face-attribute 'evil-ex-search nil
                     ;; Not bold to avoid annoying "flicker" when
