@@ -5,10 +5,10 @@
 	path = .emacs_config/packages/evil
 	url = https://github.com/emacs-evil/evil.git
 [submodule ".emacs_config/packages/evil-collection"]
-	path = .emacs_config/packages/evil-collection
+	path = .emacs_config/packages_inactive/evil-collection
 	url = https://github.com/emacs-evil/evil-collection.git
 [submodule ".emacs_config/packages/annalist.el"]
-	path = .emacs_config/packages/annalist.el
+	path = .emacs_config/packages_inactive/annalist.el
 	url = https://github.com/noctuid/annalist.el.git
 [submodule ".emacs_config/packages/evil-nerd-commenter"]
 	path = .emacs_config/packages/evil-nerd-commenter
