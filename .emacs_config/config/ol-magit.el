@@ -28,6 +28,69 @@
 (defconst ol-diff-light-orange "#f6eee8")
 
 ;; -----------------------------------------------------------------------------
+;; Keybinds
+;; -----------------------------------------------------------------------------
+
+;; I extracted what I needed from evil-collection (but mainly by looking
+;; at the transient popup)
+;; So, credits to evil-collection
+;; Some might be modified my me
+
+;; Transient and dwim commands
+(ol-evil-define-key 'normal magit-mode-map "?" #'magit-dispatch)
+(ol-evil-define-key 'normal magit-mode-map "A" #'magit-cherry-pick)
+(ol-evil-define-key 'normal magit-mode-map "b" #'magit-branch)
+(ol-evil-define-key 'normal magit-mode-map "B" #'magit-bisect)
+(ol-evil-define-key 'normal magit-mode-map "c" #'magit-commit)
+(ol-evil-define-key 'normal magit-mode-map "C" #'magit-clone)
+(ol-evil-define-key 'normal magit-mode-map "d" #'magit-diff)
+(ol-evil-define-key 'normal magit-mode-map "D" #'magit-diff-refresh)
+(ol-evil-define-key 'normal magit-mode-map "e" #'vdiff-magit-dwim)
+(ol-evil-define-key 'normal magit-mode-map "E" #'vdiff-magit)
+(ol-evil-define-key 'normal magit-mode-map "f" #'magit-fetch)
+(ol-evil-define-key 'normal magit-mode-map "F" #'magit-pull)
+(ol-evil-define-key 'normal magit-mode-map "h" #'magit-info)
+(ol-evil-define-key 'normal magit-mode-map "H" #'magit-describe-section)
+(ol-evil-define-key 'normal magit-mode-map "i" #'magit-gitignore)
+(ol-evil-define-key 'normal magit-mode-map "I" #'magit-init)
+(ol-evil-define-key 'normal magit-mode-map "l" #'magit-log)
+(ol-evil-define-key 'normal magit-mode-map "L" #'magit-log-refresh)
+(ol-evil-define-key 'normal magit-mode-map "m" #'magit-merge)
+(ol-evil-define-key 'normal magit-mode-map "M" #'magit-remote)
+(ol-evil-define-key 'normal magit-mode-map "'" #'magit-submodule)
+(ol-evil-define-key 'normal magit-mode-map "\"" #'magit-subtree)
+(ol-evil-define-key 'normal magit-mode-map "P" #'magit-push)
+(ol-evil-define-key 'normal magit-mode-map "Q" #'magit-git-command)
+(ol-evil-define-key 'normal magit-mode-map "r" #'magit-rebase)
+(ol-evil-define-key 'normal magit-mode-map "t" #'magit-tag)
+(ol-evil-define-key 'normal magit-mode-map "T" #'magit-notes)
+(ol-evil-define-key 'normal magit-mode-map "_" #'magit-revert)
+(ol-evil-define-key 'normal magit-mode-map "w" #'magit-am)
+(ol-evil-define-key 'normal magit-mode-map "W" #'magit-patch)
+(ol-evil-define-key 'normal magit-mode-map "O" #'magit-reset)
+(ol-evil-define-key 'normal magit-mode-map "y" #'magit-show-refs)
+(ol-evil-define-key 'normal magit-mode-map "Y" #'magit-cherry)
+(ol-evil-define-key 'normal magit-mode-map "z" #'magit-stash)
+(ol-evil-define-key 'normal magit-mode-map "Z" #'magit-worktree)
+(ol-evil-define-key 'normal magit-mode-map "!" #'magit-run)
+
+;; Applying changes
+(ol-evil-define-key 'normal magit-mode-map "a" #'magit-apply)
+(ol-evil-define-key 'normal magit-mode-map "-" #'magit-reverse)
+(ol-evil-define-key 'normal magit-mode-map "x" #'magit-discard)
+(ol-evil-define-key 'normal magit-mode-map "s" #'magit-stage)
+(ol-evil-define-key 'normal magit-mode-map "u" #'magit-unstage)
+(ol-evil-define-key 'normal magit-mode-map "S" #'magit-stage-modified)
+(ol-evil-define-key 'normal magit-mode-map "U" #'magit-unstage-all)
+
+;; Essential commands
+(ol-evil-define-key 'normal magit-mode-map "g" nil)
+(ol-evil-define-key 'normal magit-mode-map "g r" #'magit-refresh)
+(ol-evil-define-key 'normal magit-mode-map "q" #'magit-mode-bury-buffer)
+(ol-evil-define-key 'normal magit-mode-map 'tab #'magit-section-toggle)
+(ol-evil-define-key 'normal magit-mode-map 'return #'magit-visit-thing)
+
+;; -----------------------------------------------------------------------------
 ;; Blame
 ;; -----------------------------------------------------------------------------
 

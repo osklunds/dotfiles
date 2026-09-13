@@ -17,7 +17,6 @@
   (defvar evil-respect-visual-line-mode t))
 
 (require 'evil)
-(require 'evil-collection)
 (require 'evil-nerd-commenter)
 (require 'goto-chg)
 
@@ -135,10 +134,6 @@ the plain text edit keybinds instead."
 (setq evil-insert-state-cursor 'box)
 (setc evil-want-Y-yank-to-eol t)
 (setc evil-echo-state nil)
-
-;; at least for magit, disabling this enables normal keybinds in buffers.
-;; can be something to play around with
-(with-eval-after-load 'magit (evil-collection-magit-setup))
 
 (set-face-attribute 'evil-ex-search nil
                     ;; Not bold to avoid annoying "flicker" when
