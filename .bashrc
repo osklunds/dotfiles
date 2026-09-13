@@ -42,6 +42,9 @@ export PATH="$DOTFILES_REPO/scripts:$PATH"
 
 source "$DOTFILES_REPO/.aliases.sh"
 
+# Colors when running emacs in a terminal
+export TERM="xterm-256color"
+
 # Temp disabled for docker reasons
 # source "$DOTFILES_REPO/.emacs_config/packages/emacs-libvterm/etc/emacs-vterm-bash.sh"
 
