@@ -71,7 +71,6 @@ fi
 
 if [[ -n "$INSIDE_EMACS" ]]; then
     prompt_emacs_part="E"
-    prompt_dir_part=""
 
     # Redefine cd after all symlink magic is over
     function cd () {
@@ -80,9 +79,8 @@ if [[ -n "$INSIDE_EMACS" ]]; then
     }
 else
     prompt_emacs_part="e"
-    prompt_dir_part="$PWD"
 
     unset -f cd
 fi
 
-PS1='[$prompt_docker_part$prompt_emacs_part $prompt_dir_part] '
+PS1='[$prompt_docker_part$prompt_emacs_part \w] '
