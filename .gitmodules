@@ -49,9 +49,6 @@
 [submodule ".emacs_config/packages/hydra"]
 	path = .emacs_config/packages_inactive/hydra
 	url = https://github.com/abo-abo/hydra.git
-[submodule ".emacs_config/packages/emacs-vdiff-magit"]
-	path = .emacs_config/packages/emacs-vdiff-magit
-	url = https://github.com/justbur/emacs-vdiff-magit.git
 [submodule ".emacs_config/packages/rust-mode"]
 	path = .emacs_config/packages/rust-mode
 	url = https://github.com/rust-lang/rust-mode.git
@@ -163,3 +160,6 @@
 [submodule ".emacs_config/packages/llama"]
 	path = .emacs_config/packages/llama
 	url = https://github.com/tarsius/llama.git
+[submodule ".emacs_config/packages_own/emacs-vdiff-magit"]
+	path = .emacs_config/packages_own/emacs-vdiff-magit
+	url = https://github.com/osklunds/emacs-vdiff-magit.git
