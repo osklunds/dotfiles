@@ -116,8 +116,6 @@
             :filter-args
             (lambda (args) (apply 'ol-magit-blame-run-process-args-advice args)))
 
-(ol-define-key ol-normal-leader-map "g b" 'magit-blame-addition)
-
 ;; To avoid refreshing revision buffers that might be open when I blame
 (remove-hook 'magit-blame-goto-chunk-hook #'magit-blame-maybe-update-revision-buffer)
 
@@ -128,11 +126,22 @@
 (ol-define-key ol-normal-leader-map "g b" #'magit-blame-addition)
 
 ;; To avoid special keybinds
-(remove-hook 'magit-find-file-hook #'magit-blob-mode)
+(remove-hook 'magit-find-blob-hook #'magit-blob-mode)
+
+;; magit-blame-read-only has special keybinds I don't want
 (add-hook 'magit-blame-mode-hook (lambda () (magit-blame-read-only-mode -1)))
 
-;; magit-blame-read-only is... read-only and with special keybinds I don't want
-(ol-evil-define-key 'normal magit-blame-mode-map "RET" #'magit-show-commit)
+;; The only keybinds I want
+(ol-define-key magit-blame-mode-map 'return #'magit-show-commit)
+
+;; Workaround since overriding q was hard
+(defun ol-magit-blame-quit-on-quit-window (fun &rest args)
+  (interactive)
+  (if magit-blame-mode
+      (magit-blame-quit)
+    (apply fun args)))
+
+(advice-add 'quit-window :around #'ol-magit-blame-quit-on-quit-window)
 
 ;; -----------------------------------------------------------------------------
 ;; Commit
