@@ -90,6 +90,10 @@
 (ol-evil-define-key 'normal magit-mode-map 'tab #'magit-section-toggle)
 (ol-evil-define-key 'normal magit-mode-map 'return #'magit-visit-thing)
 
+;; See ol-override.el
+(ol-define-key magit-module-section-map "C-j" nil)
+(ol-define-key magit-diff-section-map "C-j" nil)
+
 ;; -----------------------------------------------------------------------------
 ;; Blame
 ;; -----------------------------------------------------------------------------

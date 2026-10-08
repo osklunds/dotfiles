@@ -72,6 +72,9 @@ behaves like `define-key' and `keymap-set'."
 
 ;; Overriding inspired by: https://emacs.stackexchange.com/a/358
 
+;; TODO: this doesn't seem to work after Emacs 31. C-j doesn't work
+;; in magit-status-mode and magit-diff-mode because they bind C-j.
+
 (defvar ol-override-map (make-sparse-keymap))
 
 ;;;###autoload
