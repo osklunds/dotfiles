@@ -67,6 +67,7 @@
 (ol-evil-define-key 'normal magit-mode-map "_" #'magit-revert)
 (ol-evil-define-key 'normal magit-mode-map "w" #'magit-am)
 (ol-evil-define-key 'normal magit-mode-map "W" #'magit-patch)
+(ol-evil-define-key 'normal magit-mode-map "o" #'magit-submodule)
 (ol-evil-define-key 'normal magit-mode-map "O" #'magit-reset)
 (ol-evil-define-key 'normal magit-mode-map "y" #'magit-show-refs)
 (ol-evil-define-key 'normal magit-mode-map "Y" #'magit-cherry)
