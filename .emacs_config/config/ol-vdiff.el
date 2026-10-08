@@ -26,30 +26,6 @@
 (setc vdiff-magit-stage-is-2way t)
 
 ;; -----------------------------------------------------------------------------
-;; Colors
-;; -----------------------------------------------------------------------------
-
-(ol-copy-face-fg-bg 'vdiff-closed-fold-face 'magit-diff-hunk-heading-highlight)
-
-(defun ol-vdiff-set-face (face-to-set face-val)
-  (ol-set-face face-to-set
-               :inherit nil
-               :extend t
-               :background face-val
-               :foreground 'unspecified))
-
-;; Add
-(ol-vdiff-set-face 'vdiff-addition-face ol-diff-green)
-(ol-vdiff-set-face 'vdiff-refine-added ol-diff-green)
-
-;; Delete
-(ol-vdiff-set-face 'vdiff-subtraction-face ol-diff-dark-red)
-
-;; Change
-(ol-vdiff-set-face 'vdiff-refine-changed ol-diff-dark-orange)
-(ol-vdiff-set-face 'vdiff-change-face ol-diff-light-orange)
-
-;; -----------------------------------------------------------------------------
 ;; Synced scroll
 ;; -----------------------------------------------------------------------------
 

@@ -14,13 +14,6 @@
           (re-search-forward "^<<<<<<< " nil t))
     (smerge-mode)))
 
-(defun ol-smerge-set-face (face-to-set face-val)
-  (ol-set-face face-to-set :background face-val :foreground ol-black :weight 'normal))
-
-(ol-smerge-set-face 'smerge-base ol-diff-dark-orange)
-(ol-smerge-set-face 'smerge-lower ol-diff-light-red)
-(ol-smerge-set-face 'smerge-upper ol-diff-green)
-
 ;; Copied and modified from smerge-mode. This is to make sure markers override
 ;; keywords from other modes
 (defconst smerge-font-lock-keywords

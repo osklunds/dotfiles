@@ -19,34 +19,6 @@
 (defface ol-evil-plain-state-mode-mode-line-face nil "")
 (defface ol-buffer-name-mode-line-face nil "")
 
-;; I don't remember why I did this
-(ol-set-face 'mode-line :overline 'unspecified :underline 'unspecified)
-
-(ol-set-face 'mode-line :background "#d7e4e8")
-
-(ol-set-face 'mode-line-inactive
-             :background "#e9eded"
-             :overline 'unspecified
-             :underline 'unspecified)
-
-(ol-set-face 'ol-buffer-name-mode-line-face
-             :weight 'bold)
-
-(ol-copy-face-fg-bg 'ol-evil-normal-state-mode-line-face 'font-lock-comment-face)
-(ol-copy-face-fg-bg 'ol-evil-insert-state-mode-line-face 'font-lock-keyword-face)
-(ol-copy-face-fg-bg 'ol-evil-visual-state-mode-line-face 'warning)
-(ol-copy-face-fg-bg 'ol-evil-emacs-state-mode-line-face 'font-lock-builtin-face)
-(ol-copy-face-fg-bg 'ol-evil-plain-state-mode-mode-line-face 'ol-match-face)
-
-(dolist (face '(ol-evil-normal-state-mode-line-face
-                ol-evil-insert-state-mode-line-face
-                ol-evil-visual-state-mode-line-face
-                ol-evil-emacs-state-mode-line-face
-                ol-evil-operator-state-mode-line-face
-                ol-evil-plain-state-mode-mode-line-face
-                ))
-  (ol-set-face face :weight 'bold))
-
 ;; -----------------------------------------------------------------------------
 ;; Left part
 ;; -----------------------------------------------------------------------------
@@ -155,9 +127,5 @@
               (list
                "   "
                '(:eval (ol-file-name-segment))))
-
-(ol-set-face 'header-line
-             :background "#e9eded"
-             :weight 'bold)
 
 (provide 'ol-mode-line)

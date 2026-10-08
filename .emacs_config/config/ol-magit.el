@@ -21,12 +21,6 @@
 
 (setc magit-commit-diff-inhibit-same-window t)
 
-(defconst ol-diff-green "#9fec9d")
-(defconst ol-diff-dark-red "#e45649")
-(defconst ol-diff-light-red "#f5d9d6")
-(defconst ol-diff-dark-orange "#ffd787")
-(defconst ol-diff-light-orange "#f6eee8")
-
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
 ;; -----------------------------------------------------------------------------
@@ -84,6 +78,9 @@
 (ol-evil-define-key 'normal magit-mode-map "S" #'magit-stage-modified)
 (ol-evil-define-key 'normal magit-mode-map "U" #'magit-unstage-all)
 
+(ol-evil-define-key 'visual magit-mode-map "s" #'magit-stage)
+(ol-evil-define-key 'visual magit-mode-map "u" #'magit-unstage)
+
 ;; Essential commands
 (ol-evil-define-key 'normal magit-mode-map "g" nil)
 (ol-evil-define-key 'normal magit-mode-map "g r" #'magit-refresh)
@@ -110,8 +107,6 @@
          )
         )
       )
-
-(ol-set-face 'magit-blame-margin :background "#e4e4e4")
 
 (defun ol-magit-blame-run-process-args-advice (revision file args &optional lines)
   ;; To handle symlinks
@@ -203,31 +198,6 @@
 
 (ol-define-key ol-normal-leader-map "g s" 'ol-magit-status)
 
-(ol-set-face 'magit-section-heading :background 'unspecified)
-(ol-set-face 'magit-section-highlight :background "#ffffff" :extend t)
-(ol-set-face 'magit-section-heading-selection :background "#ffffff")
-(ol-set-face 'magit-diff-file-heading-selection :background "#ffffff")
-
-(ol-set-face 'magit-diff-context :background ol-white)
-(ol-set-face 'magit-diff-their :background ol-diff-light-red)
-(ol-set-face 'magit-diff-base :background ol-diff-dark-orange)
-(ol-set-face 'magit-diff-our :background ol-diff-green)
-
-(ol-set-face 'magit-diff-context-highlight :background ol-white)
-(ol-set-face 'magit-diff-added-highlight :weight 'normal)
-(ol-set-face 'magit-diff-removed-highlight :weight 'normal)
-(ol-set-face 'magit-diff-their-highlight :background ol-diff-light-red)
-(ol-set-face 'magit-diff-base-highlight :background ol-diff-dark-orange)
-(ol-set-face 'magit-diff-our-highlight :background ol-diff-green)
-
-(ol-set-face 'magit-diff-file-heading :background 'unspecified :extend t)
-(ol-set-face 'magit-diff-file-heading-highlight :background 'unspecified :extend t)
-(ol-set-face 'magit-diff-lines-boundary :background "#ee0000")
-(ol-set-face 'magit-section-secondary-heading :background "#ee0000")
-
-(ol-set-face 'magit-diff-hunk-heading :foreground ol-white)
-(ol-set-face 'magit-diff-hunk-heading-highlight :foreground ol-white)
-
 ;; -----------------------------------------------------------------------------
 ;; Diff
 ;; -----------------------------------------------------------------------------
@@ -246,19 +216,6 @@
 
 (advice-add 'magit-insert-revision-diff :before 'ol-include-stat)
 (advice-add 'magit-insert-diff :before 'ol-include-stat)
-
-(defun ol-magit-diff-set-face (face-to-set face-val)
-  (ol-set-face face-to-set
-               :background face-val
-               :foreground 'unspecified))
-
-(unless (display-graphic-p)
-  (ol-magit-diff-set-face 'magit-diff-added-highlight   ol-diff-green)
-  (ol-magit-diff-set-face 'magit-diff-added             ol-diff-green)
-  (ol-magit-diff-set-face 'magit-diff-base-highlight    ol-diff-dark-orange)
-  (ol-magit-diff-set-face 'magit-diff-base              ol-diff-dark-orange)
-  (ol-magit-diff-set-face 'magit-diff-removed-highlight ol-diff-light-red)
-  (ol-magit-diff-set-face 'magit-diff-removed           ol-diff-light-red))
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Diffing all files
@@ -345,8 +302,6 @@
 ;; -----------------------------------------------------------------------------
 ;; Log
 ;; -----------------------------------------------------------------------------
-
-(ol-set-face 'magit-log-date :foreground "#da8548")
 
 ;; TODO: Maybe these can be saved better with transient?
 (defconst ol-magit-log-default-arguments '("-n256"))

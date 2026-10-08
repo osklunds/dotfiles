@@ -13,52 +13,6 @@
 ;; Then run customize-create-theme
 (load-theme 'ol t)
 
-;; todo: with the above, all set-face-attribute should be removed
-
-;; -----------------------------------------------------------------------------
-;; Helpers (to be removed)
-;; -----------------------------------------------------------------------------
-
-(defun ol-set-face (face &rest properties)
-  "Wrapper around `set-face-attribute' that sets for all frames."
-  (apply 'set-face-attribute (append `(,face nil) properties)))
-
-(defun ol-copy-face (to attribute from)
-  "Sets `attribute' on `to' based on the value of `attribute' in `from'.
-Maybe inherit would be cleaner to use."
-  (ol-set-face to attribute (face-attribute from attribute)))
-
-(defun ol-copy-face-fg-bg (to from)
-  "Sets `:foreground' and `:background' on `to' based on the values in `from'
-Maybe inherit would be cleaner to use."
-  (ol-copy-face to :foreground from)
-  (ol-copy-face to :background from))
-
-;; -----------------------------------------------------------------------------
-;; Color definitions
-;; -----------------------------------------------------------------------------
-
-(defconst ol-white "#ffffff") ;; ff works better than white in terminal
-(defconst ol-black "#000000")
-
-;; -----------------------------------------------------------------------------
-;; Setting some faces
-;; -----------------------------------------------------------------------------
-
-(ol-set-face 'default :foreground ol-black :background ol-white)
-(ol-set-face 'font-lock-comment-face :foreground "#5f8700")
-(ol-set-face 'font-lock-string-face :foreground "#d78700")
-
-(ol-set-face 'lazy-highlight :background "#c2d3f7" :foreground ol-white)
-(ol-set-face 'hl-line :background "#eeeeee")
-
-;; So that hl-line is visible in magit buffers
-;; Need to use run-timer, otherwise doesn't work
-(run-with-timer 0 nil (lambda () (ol-set-face 'magit-section-highlight :background 'unspecified)))
-
-;; To prevent alignment issue in e.g. markdown-mode with variable-pitch
-(set-face-attribute 'show-paren-match nil :weight 'bold)
-
 ;; -----------------------------------------------------------------------------
 ;; Own faces
 ;; -----------------------------------------------------------------------------
@@ -84,22 +38,10 @@ Maybe inherit would be cleaner to use."
                   (font-spec :family "Noto Sans CJK JP"))
 
 ;; To make sure e.g. ♝ are monospaced
+;; So use DejaVu Sans Mono instead of Source Code Pro for this
 (set-fontset-font t 'symbol
                   (font-spec :family "DejaVu Sans Mono"))
 
-(defun ol-font-available-p (font)
-  (when (cl-member font (font-family-list) :test 'string-equal)
-    font))
-
 ;; todo: check in fonts
-(defconst ol-fixed-pitch-font (or (ol-font-available-p "Source Code Pro")
-                                  "DejaVu Sans Mono"))
-
-;; inheriting from default doesn't work, so need to specify manully for both
-;; default and fixed-pitch
-(set-face-attribute 'fixed-pitch nil :family ol-fixed-pitch-font :height 90)
-(set-face-attribute 'default nil :family ol-fixed-pitch-font :height 90)
-(set-face-attribute 'line-number nil :family ol-fixed-pitch-font)
-(set-face-attribute 'line-number-current-line nil :family ol-fixed-pitch-font)
 
 (provide 'ol-colors)

@@ -8,8 +8,6 @@
 (require 'anzu)
 (require 'evil-anzu)
 
-(ol-set-face 'lazy-highlight :background "#ffff5f" :foreground ol-black)
-
 ;; -----------------------------------------------------------------------------
 ;; Replace commands
 ;; -----------------------------------------------------------------------------

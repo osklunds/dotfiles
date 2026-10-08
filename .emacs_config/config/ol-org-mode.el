@@ -113,10 +113,6 @@
 ;; Blocks
 ;; -----------------------------------------------------------------------------
 
-(ol-set-face 'org-block :background
-             (color-darken-name
-              (face-attribute 'default :background) 5))
-
 (setc org-src-preserve-indentation t)
 (setc org-edit-src-content-indentation 0)
 
