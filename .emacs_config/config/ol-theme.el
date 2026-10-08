@@ -649,7 +649,7 @@
  `(icon ((t (:underline nil))))
  `(tooltip ((t (:foreground "#383a42" :background "#e7e7e7"))))
  `(eldoc-highlight-function-argument ((t (:inherit (bold)))))
- `(elisp-shorthand-font-lock-face ((t (:foreground "cyan" :inherit (font-lock-keyword-face)))))
+ `(elisp-shorthand-font-lock-face ((t (:inherit (font-lock-keyword-face)))))
  `(vc-ignored-state ((default (:inherit (vc-state-base)))))
  `(vc-edited-state ((default (:inherit (vc-state-base)))))
  `(vc-missing-state ((default (:inherit (vc-state-base)))))
