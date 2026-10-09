@@ -2,10 +2,18 @@
 
 (require 'grep)
 
+(require 'ol-project)
+
 (setc grep-use-null-device nil)
 (setc grep-use-headings t)
 
-(ol-define-key ol-override-map "M-e" #'ol-grep)
+(defun ol-dwim-root (&optional prefer-project-root)
+  (let ((root (ol-project-root)))
+    (cond
+     ((and root prefer-project-root) root)
+     ;; todo: don't have vterm here, but files aren't found if using project root
+     ((cl-member major-mode '(dired-mode vterm-mode)) default-directory)
+     (t root))))
 
 ;; -----------------------------------------------------------------------------
 ;; Commands and options
@@ -37,10 +45,13 @@
 ;; Grepping
 ;; -----------------------------------------------------------------------------
 
-(defun ol-grep ()
-  (interactive)
+(defun ol-grep (&optional prefer-project-root)
+  (interactive "P")
   (setc grep-command (ol-select-grep-command))
-  (call-interactively #'grep))
+  (let* ((default-directory (ol-dwim-use-project-root prefer-project-root)))
+    (call-interactively #'grep)))
+
+(ol-define-key ol-override-map "M-e" #'ol-grep)
 
 (provide 'ol-grep)
 
