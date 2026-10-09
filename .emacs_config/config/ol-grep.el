@@ -2,18 +2,14 @@
 
 (require 'grep)
 
-(require 'ol-project)
+(require 'ol-file-name)
 
 (setc grep-use-null-device nil)
 (setc grep-use-headings t)
-
-(defun ol-dwim-root (&optional prefer-project-root)
-  (let ((root (ol-project-root)))
-    (cond
-     ((and root prefer-project-root) root)
-     ;; todo: don't have vterm here, but files aren't found if using project root
-     ((cl-member major-mode '(dired-mode vterm-mode)) default-directory)
-     (t root))))
+(setc compilation-always-kill t)
+(setc compilation-message-face nil)
+;; In terminal, prevent scroll of buffer when clicking result
+(setc compilation-context-lines t)
 
 ;; -----------------------------------------------------------------------------
 ;; Commands and options
@@ -22,16 +18,6 @@
 (defconst ol-rg-command "rg --color=always --no-heading -n -H -0 -S -- ")
 (defconst ol-git-grep-command "git --no-pager grep --color=always -n -- ")
 (defconst ol-grep-command "grep --color=always -E -n -I -r -Z -- ")
-
-(defun ol-can-use-rg ()
-  (executable-find "rg" 'remote))
-
-(defun ol-can-use-git ()
-  (and (executable-find "git" 'remote)
-       (locate-dominating-file default-directory ".git")))
-
-(defun ol-can-use-gnu-cmd ()
-  t)
 
 (defconst ol-grep-commands
   `((,ol-rg-command ,#'ol-can-use-rg)
@@ -48,10 +34,45 @@
 (defun ol-grep (&optional prefer-project-root)
   (interactive "P")
   (setc grep-command (ol-select-grep-command))
-  (let* ((default-directory (ol-dwim-use-project-root prefer-project-root)))
+  (let* ((default-directory (ol-dwim-root prefer-project-root)))
     (call-interactively #'grep)))
 
 (ol-define-key ol-override-map "M-e" #'ol-grep)
+
+;; -----------------------------------------------------------------------------
+;; Keybinds
+;; -----------------------------------------------------------------------------
+
+(ol-evil-define-key 'normal compilation-button-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal compilation-mode-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal grep-mode-map "o" #'compile-goto-error)
+(ol-evil-define-key 'normal grep-mode-map "O" #'ol-compile-goto-error-other-window)
+
+(defun ol-compile-goto-error-other-window ()
+  (interactive)
+  (ol-split-window)
+  (compile-goto-error))
+
+;; -----------------------------------------------------------------------------
+;; imenu
+;; -----------------------------------------------------------------------------
+
+(defun ol-grep-imenu-create-index-function ()
+  (goto-char (point-min))
+  (let* ((res nil))
+    (while (not (eobp))
+      (let* ((line (buffer-substring (line-beginning-position) (line-end-position)))
+             (props (text-properties-at (point)))
+             (face (plist-get props 'font-lock-face)))
+        (when (eq face 'grep-heading)
+          (push `(,line . ,(point)) res)))
+      (forward-line 1))
+    (reverse res)))
+
+(defun ol-grep-files-imenu ()
+  (setq imenu-create-index-function #'ol-grep-imenu-create-index-function))
+
+(add-hook 'grep-mode-hook #'ol-grep-files-imenu)
 
 (provide 'ol-grep)
 
