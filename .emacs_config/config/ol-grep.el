@@ -37,11 +37,13 @@
   (let* ((default-directory (ol-dwim-root prefer-project-root)))
     (call-interactively #'grep)))
 
-(ol-define-key ol-override-map "M-e" #'ol-grep)
-
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
 ;; -----------------------------------------------------------------------------
+
+(ol-define-key ol-override-map "M-e" #'ol-grep)
+
+(ol-evil-define-key 'normal grep-mode-map "x" #'grep-change-to-grep-edit-mode)
 
 (ol-evil-define-key 'normal compilation-button-map "o" #'compile-goto-error)
 (ol-evil-define-key 'normal compilation-mode-map "o" #'compile-goto-error)
