@@ -135,6 +135,51 @@ To make upgrades of packages as easy as possible, I want to customize the config
       - Keep them until upgrade problems, but consider rolling my own
 - ~evil-visualstar~ -> own
 
+** Packages
+
+*** Big and critical
+
+#+begin_src 
+evil
+corfu (+cape)
+magit (+ with-editor, cond-let, llma)
+vterm
+#+end_src
+
+The above are big and impossible to replace on my own. Fortunetly, they have a big community.
+
+*** Small and non-critical
+
+#+begin_src 
+anzu
+evil-anzu
+evil-nerd-commenter
+evil-visualstar
+goto-chg
+#+end_src
+
+These are smaller. If they break, not as critical. Can e.g. do a poor-man reimplementation of anzu that simply counts the number of occurrences and current.
+
+*** Small and critical
+
+#+begin_src 
+vdiff
+vdiff-magit
+#+end_src
+
+These are critical, but if needed, I can tweak them myself if they break. In fact, I have already done that for vdiff-magit.
+
+*** Own
+
+#+begin_src 
+tiny-lsp-client
+merge-survival-knife
+ol-completing-read
+#+end_src
+
+tiny-lsp-client and merge-survival-knife are critical, but maintainable.
+ol-completing-read can be simplified by skipping async and fuzzy for content search, and just using built-in grep-mode instead.
+
 * libvterm offline install
 
 Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeLists.txt= inside the =emacs-libvterm= submodule. Inside =CMakeLists.txt= change the git stuff to point to the local submodule. After that, run as usual.
