@@ -31,14 +31,6 @@
 
 (add-hook 'corfu-mode-hook #'ol-set-corfu-completion-style)
 
-(set-face-attribute 'completions-common-part nil
-                    :foreground 'unspecified
-                    :inherit 'ol-match-face)
-
-(set-face-attribute 'completions-first-difference nil
-                    :weight 'normal
-                    :foreground 'unspecified)
-
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
 ;; -----------------------------------------------------------------------------
@@ -60,21 +52,6 @@
 
 (defun ol-quit-corfu-on-normal-state (&rest _)
   (corfu-quit))
-
-;; -----------------------------------------------------------------------------
-;; Faces
-;; -----------------------------------------------------------------------------
-
-(set-face-attribute 'corfu-default nil
-                    :background 'unspecified
-                    :foreground 'unspecified
-                    :weight 'unspecified
-                    :inherit '(ol-candidate-face fixed-pitch))
-
-(set-face-attribute 'corfu-current nil
-                    :inherit '(ol-selection-face fixed-pitch)
-                    :foreground 'unspecified
-                    :background 'unspecified)
 
 ;; -----------------------------------------------------------------------------
 ;; Capfs

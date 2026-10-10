@@ -93,6 +93,7 @@
     (use-local-map grep-mode-map)
     (read-only-mode t)))
 
+;; Warning: relies on some internal variables/functions
 (defun ol-grep-apply-changes ()
   (interactive)
   (save-excursion

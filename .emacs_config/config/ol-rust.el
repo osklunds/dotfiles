@@ -21,25 +21,6 @@
 (ol-evil-define-key 'normal rust-mode-map "C-c C-q" 'ol-rust-format-buffer)
 
 ;; -----------------------------------------------------------------------------
-;; LSP
-;;------------------------------------------------------------------------------
-
-;; (add-hook 'rust-mode-hook 'lsp)
-
-;; (add-hook 'rust-mode-hook 'eglot-ensure)
-
-;; it seems rust-mode's imenu is better than lsp's. So maybe don't need that
-;; functionality for tlc
-
-;; (defun ol-lsp-rust-analyzer--make-init-options (original)
-;;   (let ((extra `(:workspace (:symbol (:search (:kind ,"all_symbols"))))))
-;;     (append original extra)))
-
-;; (advice-add 'lsp-rust-analyzer--make-init-options :filter-return #'ol-lsp-rust-analyzer--make-init-options)
-
-;; (setc lsp-rust-analyzer-completion-add-call-parenthesis nil)
-
-;; -----------------------------------------------------------------------------
 ;; Snippets
 ;;------------------------------------------------------------------------------
 

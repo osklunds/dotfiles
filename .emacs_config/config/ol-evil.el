@@ -138,11 +138,6 @@ the plain text edit keybinds instead."
 (setc evil-want-Y-yank-to-eol t)
 (setc evil-echo-state nil)
 
-(set-face-attribute 'evil-ex-search nil
-                    ;; Not bold to avoid annoying "flicker" when
-                    ;; variable-pitch is used.
-                    :weight 'normal)
-
 ;;;; ---------------------------------------------------------------------------
 ;;;; Words (don't come easy, to me)
 ;;;; ---------------------------------------------------------------------------
