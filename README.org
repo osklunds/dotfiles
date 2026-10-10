@@ -13,12 +13,10 @@ dotfiles I use
 *** More important
 
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
-- include current buffer in =switch-to-buffer= list
 
 *** Less important
 
 - For =tiny-lsp-client= remap to proper root for rust library files
-- =evil= in minibuffer
 - Change to emacs built-in search and search-and-replace
 - Lower memory usage. Garbage collection is slow for me. Even if my config doesn't generate more garbage than more lightweight configs, because so much memory is used, it takes time to find the garbage. My guess at least. *BIG*
       - One suggestion was to decrease shell term size.
@@ -85,9 +83,7 @@ To make upgrades of emacs as easy as possible, I want to rely on as few packages
 
 To make upgrades of packages as easy as possible, I want to customize the config of packages as little as possible, especially advising on internal functions.
 
-- ~anzu/evil-anzu~ -> own
-      - Keep them until upgrade problems, but consider rolling my own
-- ~evil-visualstar~ -> own
+Also, I want to customize emacs built-in packages in hacky ways as little as possible.
 
 ** Packages
 
@@ -95,7 +91,7 @@ To make upgrades of packages as easy as possible, I want to customize the config
 
 #+begin_src 
 evil
-corfu (+cape)
+corfu (+ cape)
 magit (+ with-editor, cond-let, llma)
 vterm
 #+end_src
@@ -126,13 +122,11 @@ These are critical, but if needed, I can tweak them myself if they break. In fac
 *** Own
 
 #+begin_src 
-tiny-lsp-client
+tiny-lsp-client (+ merge-commit-analyzer)
 merge-survival-knife
-ol-completing-read
 #+end_src
 
 tiny-lsp-client and merge-survival-knife are critical, but maintainable.
-ol-completing-read can be simplified by skipping async and fuzzy for content search, and just using built-in grep-mode instead.
 
 * libvterm offline install
 
@@ -141,7 +135,6 @@ Inside the =libvterm-mirror= submodule, checkout the commit specified by =CMakeL
 * Docker development environment
 
 I have (or is in the process of) containerized my development environment.
-
 
 ** Host setup
 
