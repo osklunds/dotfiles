@@ -134,7 +134,19 @@
   (rename-buffer (generate-new-buffer-name (concat "*grep* " ol-grep-command-args))))
 
 (add-hook 'grep-mode-hook #'ol-grep-buffer-name)
-  
+
+;; -----------------------------------------------------------------------------
+;; Results as file names
+;; -----------------------------------------------------------------------------
+
+(defun ol-grep-goto-file ()
+  (interactive)
+  (let* ((line (buffer-substring-no-properties
+                              (line-beginning-position)
+                              (line-end-position))))
+    (find-file line)))
+
+(ol-evil-define-key 'normal grep-mode-map "x" #'ol-grep-goto-file)
 
 (provide 'ol-grep)
 
