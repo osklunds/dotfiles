@@ -95,6 +95,12 @@
      ((eq (length (ol-nmake-proper-list all)) 1) string)
      (t string))))
 
+;; Copied/modified from https://stackoverflow.com/a/28585107
+(defun ol-nmake-proper-list (x)
+  (let ((y (last x)))
+    (setcdr y nil)
+    x))
+
 ;; This style is not just about matching, but also about highlights
 (add-to-list 'completion-styles-alist
              '(ol ol-try-completion ol-all-completions "ol"))
