@@ -197,7 +197,7 @@ separator."
       (when (get-text-property 0 'icomplete-selected line)
         (setq selected line)))
     (when selected
-      (string-match (format "%s.*\n" (regexp-quote selected)) return)
+      (string-match (format "%s\n" (regexp-quote selected)) return)
       (let* ((m (match-data))
              (start (car m))
              (end (cadr m)))
