@@ -329,4 +329,26 @@ the plain text edit keybinds instead."
   (let ((debug-on-error nil))
     (apply func args)))
 
+;;;; ---------------------------------------------------------------------------
+;;;; insertTextFormat=Snippet from LSP server
+;;;; ---------------------------------------------------------------------------
+
+;; From erlang-language-platform
+;; E.g. supervisor:start_child(${1:Arg}, ${2:ChildSpec})
+
+(defun ol-modify-lsp-placeholder ()
+  (interactive)
+  (unless (looking-at-p "\\$")
+    (re-search-backward "\\$"))
+  (let* ((beg (point))
+         (end (save-excursion
+                (re-search-forward "}")
+                (point))))
+    (list beg end)))
+
+(evil-define-text-object ol-evil-lsp-placeholder (count &optional _beg _end _type)
+  (ol-modify-lsp-placeholder))
+
+(ol-define-key evil-inner-text-objects-map "l" #'ol-evil-lsp-placeholder)
+
 (provide 'ol-evil)
