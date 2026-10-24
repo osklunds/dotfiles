@@ -356,7 +356,7 @@
                                    msk-left-bottom
                                    msk-right-bottom
                                    msk-bottom)))
-    (if-let (window-config (plist-get msk-window-configs window-config-key 'string-equal))
+    (if-let* (window-config (plist-get msk-window-configs window-config-key 'string-equal))
         (set-window-configuration window-config)
 
       ;; Prepare - get to known state

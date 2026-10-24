@@ -61,7 +61,7 @@
 (defvar ol-rust-last-test-name nil)
 
 (defun ol-rust-name-of-test ()
-  (if-let ((name (ol-rust-get-function-on-current-line)))
+  (if-let* ((name (ol-rust-get-function-on-current-line)))
       (save-excursion
         (forward-line -1)
         (beginning-of-line)
@@ -90,7 +90,7 @@
 
 (defun ol-rust-run-test-dwim ()
   (interactive)
-  (if-let ((current (ol-rust-name-of-test)))
+  (if-let* ((current (ol-rust-name-of-test)))
       (ol-rust-run-test current)
     (if ol-rust-last-test-name
         (ol-rust-run-test ol-rust-last-test-name)

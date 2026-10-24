@@ -32,7 +32,7 @@
 
 (defun ol-haskell-load-current-module ()
   (interactive)
-  (when-let ((module (haskell-guess-module-name)))
+  (when-let* ((module (haskell-guess-module-name)))
     (ol-send-cmd-to-visible-vterm-buffers (concat ":l " module))))
 
 (ol-evil-define-key 'normal haskell-mode-map "C-c l" 'ol-haskell-load-current-module)

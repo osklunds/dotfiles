@@ -74,7 +74,7 @@ buffer last."
 
 (defun ol-switch-to-buffer-delete-action (selected)
   ;; Use "when" version as extra robustification, although unsure if needed
-  (when-let ((buf (get-buffer selected)))
+  (when-let* ((buf (get-buffer selected)))
     (kill-buffer buf)))
 
 (provide 'ol-switch-to-buffer)

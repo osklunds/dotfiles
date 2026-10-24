@@ -26,7 +26,7 @@
   (let* ((desired-name (ol-vterm-get-desired-buffer-name-from-path default-directory))
          (pred (lambda (buffer)
                  (ol-buffer-name-matches (buffer-name buffer) desired-name))))
-    (if-let ((existing-buffer (seq-find pred (buffer-list))))
+    (if-let* ((existing-buffer (seq-find pred (buffer-list))))
         (switch-to-buffer existing-buffer)
       (vterm)
       (ol-vterm-set-buffer-name default-directory))))

@@ -51,8 +51,8 @@
 
 ;; Naive and simplified method
 (defun ol-require-advice (feature &optional filename _noerror)
-  (when-let ((filename (locate-file (format "%s.el" feature) load-path)))
-    (when (string-prefix-p ol-repo-root filename)
+  (when-let* ((filename (locate-file (format "%s.el" feature) load-path)))
+    (when (string-match-p "dotfiles" filename)
       (byte-recompile-file filename nil 0))))
 
 ;; Save 50% of init time. Only enable when stuff is changed.

@@ -111,7 +111,7 @@
     )
   (unless (ol-completion-metadata-get 'ol-skip-normal-highlight)
     (ol-normal-highlight-fn regex ignore-case candidate))
-  (when-let ((fn (ol-completion-metadata-get 'ol-extra-highlight-function)))
+  (when-let* ((fn (ol-completion-metadata-get 'ol-extra-highlight-function)))
     (funcall fn candidate))
   candidate)
 
@@ -133,7 +133,7 @@
 ;; todo: don't highlight char by char, do intervals for better performance
 (defun ol-map-font-lock-face-to-face (string)
   (dolist (pos (number-sequence 0 (1- (length string))))
-    (when-let ((prop (get-text-property pos 'font-lock-face string)))
+    (when-let* ((prop (get-text-property pos 'font-lock-face string)))
       (add-face-text-property pos (1+ pos) prop nil string)))
   string)
 

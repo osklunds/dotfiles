@@ -39,11 +39,11 @@ modeline can be good to cache in a hashmap."
                                     ))
 
 (defun ol-project-marker-file-root ()
-  (when-let ((root (locate-dominating-file default-directory ".emacs-project")))
+  (when-let* ((root (locate-dominating-file default-directory ".emacs-project")))
     (file-truename root)))
 
 (defun ol-project-git-root ()
-  (when-let ((root (locate-dominating-file default-directory ".git")))
+  (when-let* ((root (locate-dominating-file default-directory ".git")))
     (file-truename root)))
 
 (defun ol-project-root ()
