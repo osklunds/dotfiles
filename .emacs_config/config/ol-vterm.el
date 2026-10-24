@@ -76,11 +76,6 @@
 
 (ol-define-key ol-normal-leader-map "b r" 'ol-rename-buffer)
 
-(defun ol-vterm-named ()
-  (interactive)
-  (vterm t)
-  (ol-rename-buffer))
-
 (defun ol-vterm-shell-cwd-changed (new-cwd)
   (when (file-directory-p new-cwd)
     (with-current-buffer (ol-vterm-last-vterm-buffer)
@@ -103,7 +98,6 @@
 (ol-evil-define-key 'insert vterm-mode-map "C-SPC" ol-normal-leader-map)
 
 (ol-global-set-key "C-x t" 'ol-vterm)
-(ol-global-set-key "C-x T" 'ol-vterm-named)
 
 ;; Some normal state keybinds
 (ol-evil-define-key 'insert vterm-mode-map "C-j" 'ivy-switch-buffer)
