@@ -15,9 +15,9 @@
 ;; Commands and options
 ;; -----------------------------------------------------------------------------
 
-(defconst ol-rg-command "rg --color=always --no-heading -n -H -0 -S -- ")
-(defconst ol-git-grep-command "git --no-pager grep --color=always -n -- ")
-(defconst ol-grep-command "grep --color=always -E -n -I -r -Z -- ")
+(defconst ol-rg-command "rg --color=always --no-heading -n -H -0 -S")
+(defconst ol-git-grep-command "git --no-pager grep --color=always -n")
+(defconst ol-grep-command "grep --color=always -E -n -I -r -Z")
 
 (defconst ol-grep-commands
   `((,ol-rg-command ,#'ol-can-use-rg)
@@ -33,7 +33,8 @@
 
 (defun ol-grep (&optional prefer-project-root)
   (interactive "P")
-  (setc grep-command (ol-select-grep-command))
+  (setc grep-command (concat (ol-select-grep-command) " \"\""))
+  (setc grep-command-position (length grep-command))
   (let* ((default-directory (ol-dwim-root prefer-project-root)))
     (call-interactively #'grep)))
 
