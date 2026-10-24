@@ -48,6 +48,9 @@
   (when (ol-save-p)
     (ol-save-silently)))
 
+;; E.g. suspicious file question
+(advice-add 'ol-auto-save :around #'ol-disable-y-or-n-p)
+
 (defun ol-save-silently ()
   (ol-silent
     (save-buffer)))
