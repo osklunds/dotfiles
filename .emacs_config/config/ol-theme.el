@@ -835,3 +835,17 @@
  `(default ((t (:family "Source Code Pro" :foundry "ADBO" :width normal :height 90 :weight regular :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground ,ol-black :background ,ol-white :stipple nil :inherit nil)))))
 
 (provide-theme 'ol)
+
+(unless (display-graphic-p)
+  (set-face-attribute 'mode-line nil :foreground ol-black :background "#cccccc")
+  (set-face-attribute 'magit-diff-file-heading nil :foreground ol-black)
+  (set-face-attribute 'magit-diff-hunk-heading nil :background "#b751b6")
+  (set-face-attribute 'magit-diff-context nil :foreground ol-black)
+  (set-face-attribute 'magit-diff-context-highlight nil :foreground ol-black)
+
+  (set-face-attribute 'magit-diff-added-highlight nil   :background ol-diff-green       :foreground ol-black)
+  (set-face-attribute 'magit-diff-added nil             :background ol-diff-green       :foreground ol-black)
+  (set-face-attribute 'magit-diff-base-highlight nil    :background ol-diff-dark-orange :foreground ol-black)
+  (set-face-attribute 'magit-diff-base nil              :background ol-diff-dark-orange :foreground ol-black)
+  (set-face-attribute 'magit-diff-removed-highlight nil :background ol-diff-light-red   :foreground ol-black)
+  (set-face-attribute 'magit-diff-removed nil           :background ol-diff-light-red   :foreground ol-black))
