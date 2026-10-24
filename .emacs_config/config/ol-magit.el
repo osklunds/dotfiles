@@ -91,6 +91,13 @@
 (ol-define-key magit-module-section-map "C-j" nil)
 (ol-define-key magit-diff-section-map "C-j" nil)
 
+;; Note: use v not V for staging multiple files/hunks
+;; Related to exclusive and inclusive range. E.g. built-in Emacs C-SPC and v
+;; work, but not V.
+;; Using keybind so that no habit needs change
+;; This was needed after Emacs 31 and the corresponding magit uplift
+(ol-evil-define-key 'normal magit-mode-map "V" #'evil-visual-char)
+
 ;; -----------------------------------------------------------------------------
 ;; Blame
 ;; -----------------------------------------------------------------------------
