@@ -36,7 +36,8 @@
 ;; Dependency hacks
 ;; -----------------------------------------------------------------------------
 
-(defun defhydra (&optional))
+(eval-and-compile
+  (defun defhydra (&optional)))
 
 (defun ol-require-advice-dependency (func feature &rest rest)
   (unless (eq 'hydra feature)
