@@ -137,17 +137,20 @@
 ;; magit-blame-read-only has special keybinds I don't want
 (add-hook 'magit-blame-mode-hook (lambda () (magit-blame-read-only-mode -1)))
 
-;; The only keybinds I want
-(ol-define-key magit-blame-mode-map 'return #'magit-show-commit)
-
 ;; Workaround since overriding q was hard
 (defun ol-magit-blame-quit-on-quit-window (fun &rest args)
   (interactive)
   (if magit-blame-mode
       (magit-blame-quit)
     (apply fun args)))
-
 (advice-add 'quit-window :around #'ol-magit-blame-quit-on-quit-window)
+
+(defun ol-magit-blame-show-commit (fun &rest args)
+  (interactive)
+  (if magit-blame-mode
+      (call-interactively #'magit-show-commit)
+    (apply fun args)))
+(advice-add 'evil-ret :around #'ol-magit-blame-show-commit)
 
 ;; -----------------------------------------------------------------------------
 ;; Commit
