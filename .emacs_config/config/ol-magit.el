@@ -207,6 +207,22 @@
 
 (ol-define-key ol-normal-leader-map "g s" 'ol-magit-status)
 
+;; Hack to show files deleted by us or them during merge conflicts.
+;; Need to make the
+;;       (unless (and (derived-mode-p 'magit-status-mode)
+;;                    (not (member "--cached" args)))
+;; condition nil, so that this section is inserted
+(defun ol-magit-diff-wash-diff-advice (func &rest args)
+  (let* ((old-derived-mode-p (symbol-function #'derived-mode-p)))
+    (cl-letf (((symbol-function #'derived-mode-p)
+               (lambda (mode &rest _)
+                 (if (eq mode 'magit-status-mode)
+                     nil
+                   (funcall old-derived-mode-p mode)))))
+      (apply func args))))
+
+(advice-add 'magit-diff-wash-diff :around #'ol-magit-diff-wash-diff-advice)
+
 ;; -----------------------------------------------------------------------------
 ;; Diff
 ;; -----------------------------------------------------------------------------
