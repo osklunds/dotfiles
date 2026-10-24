@@ -27,22 +27,21 @@
 
 ;; 'conflict-area
 ;; 'entire-file
-;; ('merge-commit merge-commit)
+;; ('merge-commit merge-commit) -- same as 'entire-file but based on merge commit
 (defvar msk-variant nil)
 
 (defvar msk-file nil)
 
-(defun msk-mode-enable (&optional variant file)
+(defun msk-mode-enable (variant file)
   (interactive "P")
-  (setq msk-variant (or variant 'conflict-area))
-  (setq msk-file (or file (buffer-file-name) magit-buffer-file-name))
-  (unless (or (equal msk-variant 'conflict-area) msk-file)
-    (user-error "no file provided"))
+  (setq msk-variant variant)
+  (setq msk-file file)
   (msk-mode t))
 
 (defun msk-mode-dwim ()
   (interactive)
   (cond
+   ;; After magit-show-commit, put cursor on FILE-NAME and analyze commit
    ((and (equal major-mode 'magit-revision-mode)
          magit-buffer-revision-hash
          (msk-has-2-parents magit-buffer-revision-hash)
@@ -50,16 +49,29 @@
     (let ((rev magit-buffer-revision-hash))
       (msk-mode-enable (list 'merge-commit rev) (magit-current-file))))
 
+   ;; Inside magit-status-mode, put cursor on "unmerged FILE-NAME" and analyze
+   ;; entire file
+   ((and (magit-merge-in-progress-p)
+         (equal major-mode 'magit-status-mode)
+         (magit-current-file))
+    (msk-mode-enable 'entire-file (magit-current-file)))
+
+   ;; After maghit-show-commit, when cursor NOT on FILE-NAME, analyze all files
+   ;; in the commit
+   ;; TODO: this variant could be useful also when merge is in progress
    ((and (equal major-mode 'magit-revision-mode)
          magit-buffer-revision-hash
          (msk-has-2-parents magit-buffer-revision-hash))
     (mca-mode))
 
+   ;; Inside a file, put cursor inside a confluct, and analyze just the conflict
+   ;; area
    ((msk-inside-conflict-p)
-    (msk-mode-enable 'conflict-area))
+    (msk-mode-enable 'conflict-area (buffer-file-name)))
 
+   ;; Inside a file, outside conflict area, analyze entire file
    ((magit-merge-in-progress-p)
-    (msk-mode-enable 'entire-file))
+    (msk-mode-enable 'entire-file (buffer-file-name)))
 
    (t (user-error "Couldn't read your mind"))))
 
@@ -356,7 +368,7 @@
                                    msk-left-bottom
                                    msk-right-bottom
                                    msk-bottom)))
-    (if-let* (window-config (plist-get msk-window-configs window-config-key 'string-equal))
+    (if-let* ((window-config (plist-get msk-window-configs window-config-key 'string-equal)))
         (set-window-configuration window-config)
 
       ;; Prepare - get to known state
