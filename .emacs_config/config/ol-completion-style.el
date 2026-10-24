@@ -124,11 +124,12 @@
 
 (defun ol-normal-highlight-fn (regex ignore-case candidate)
   (let* ((case-fold-search ignore-case))
-    (string-match regex candidate)
-    (let* ((m (match-data))
-           (start (car m))
-           (end (cadr m)))
-      (add-face-text-property start end 'ol-match-face nil candidate))))
+    ;; Need to check if non-nil, fixes bug where can't delete selection in dired
+    (when (string-match regex candidate)
+      (let* ((m (match-data))
+             (start (car m))
+             (end (cadr m)))
+        (add-face-text-property start end 'ol-match-face nil candidate)))))
 
 ;; todo: don't highlight char by char, do intervals for better performance
 (defun ol-map-font-lock-face-to-face (string)
