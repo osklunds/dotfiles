@@ -4,7 +4,6 @@
 (require 'ol-evil)
 
 (require 'xref)
-(require 'tramp-cmds)
 (require 'profiler)
 (require 'js)
 
@@ -28,13 +27,6 @@
 (ol-define-key ol-normal-leader-map "m m" 'toggle-frame-maximized)
 
 (setq find-function-C-source-directory "/home/oskar/others_repos/emacs/src")
-
-(defun ol-clean-tramp ()
-  (interactive)
-  (tramp-cleanup-all-connections)
-  (tramp-cleanup-all-buffers))
-
-(ol-define-key ol-normal-leader-map "m t" #'ol-clean-tramp)
 
 ;; -----------------------------------------------------------------------------
 ;; Plain view
