@@ -4,6 +4,7 @@
 (require 'delsel) ;; for minibuffer-keyboard-quit
 
 (require 'ol-completion-style)
+(require 'ol-util)
 
 ;; -----------------------------------------------------------------------------
 ;; Basic settings

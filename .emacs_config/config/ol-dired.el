@@ -2,7 +2,6 @@
 
 (require 'ol-util)
 (require 'ol-evil)
-(require 'ol-ert)
 
 (require 'dired)
 (require 'dired-x)
@@ -128,50 +127,45 @@
              (t (ol-shrink-part part))))
           parts))
 
+(defun ol-shrink-part (part)
+  (substring part 0 (min 3 (length part))))
+
 (defun ol-shrink-remote-part (part)
   (let* ((parts (split-string part ":")))
     (string-join (mapcar #'ol-shrink-part parts) ":")))
 
-(ert-deftest ol-shrink-remote-part-test ()
-  (ol-assert-equal "doc:som:" (ol-shrink-remote-part "docker:some_host:")))
+(ol-assert-equal "doc:som:" (ol-shrink-remote-part "docker:some_host:"))
 
-(defun ol-shrink-part (part)
-  (substring part 0 (min 3 (length part))))
+(ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config/"))
+(ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config"))
+(ol-assert-equal "/et/.ip/config" (ol-get-buffer-name-from-path "/et/.iptables/config/"))
+(ol-assert-equal "/etc/iptables" (ol-get-buffer-name-from-path "/etc/iptables/"))
+(ol-assert-equal "/etc" (ol-get-buffer-name-from-path "/etc/"))
+(ol-assert-equal "/" (ol-get-buffer-name-from-path "/"))
+(ol-assert-equal "~/repos" (ol-get-buffer-name-from-path "~/repos/"))
+(ol-assert-equal "~" (ol-get-buffer-name-from-path "~/"))
+(ol-assert-equal "dired: /etc/ipt/config"
+                 (ol-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
 
-(ert-deftest ol-get-buffer-name-from-path-test ()
-  (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config/"))
-  (ol-assert-equal "/et/ipt/config" (ol-get-buffer-name-from-path "/et/iptables/config"))
-  (ol-assert-equal "/et/.ip/config" (ol-get-buffer-name-from-path "/et/.iptables/config/"))
-  (ol-assert-equal "/etc/iptables" (ol-get-buffer-name-from-path "/etc/iptables/"))
-  (ol-assert-equal "/etc" (ol-get-buffer-name-from-path "/etc/"))
-  (ol-assert-equal "/" (ol-get-buffer-name-from-path "/"))
-  (ol-assert-equal "~/repos" (ol-get-buffer-name-from-path "~/repos/"))
-  (ol-assert-equal "~" (ol-get-buffer-name-from-path "~/"))
-  (ol-assert-equal "dired: /etc/ipt/config"
-                   (ol-get-buffer-name-from-path "/etc/iptables/config/" "dired"))
+(ol-assert-equal "/doc:som:/abc/iptables"
+                 (ol-get-buffer-name-from-path "/docker:some_host:/abcdef/iptables/"))
+(ol-assert-equal "/doc:som:/"
+                 (ol-get-buffer-name-from-path "/docker:some_host:/"))
 
-  (ol-assert-equal "/doc:som:/abc/iptables"
-                   (ol-get-buffer-name-from-path "/docker:some_host:/abcdef/iptables/"))
-  (ol-assert-equal "/doc:som:/"
-                   (ol-get-buffer-name-from-path "/docker:some_host:/"))
-
-  (ol-assert-equal "/etc/ipt/hej"
-                   (ol-get-buffer-name-from-path "/etc/iptables: hej/hej/"))
-  (ol-assert-equal "/etc/iptables: hej"
-                   (ol-get-buffer-name-from-path "/etc/iptables: hej/"))
-  )
+(ol-assert-equal "/etc/ipt/hej"
+                 (ol-get-buffer-name-from-path "/etc/iptables: hej/hej/"))
+(ol-assert-equal "/etc/iptables: hej"
+                 (ol-get-buffer-name-from-path "/etc/iptables: hej/"))
 
 (defun ol-buffer-name-matches (name desired-name)
   (let ((regexp (concat "^" (regexp-quote desired-name) "\\(<[0-9]>\\)?$")))
     (string-match-p regexp name)))
 
-(ert-deftest ol-buffer-name-matches-test ()
-  (ol-assert (ol-buffer-name-matches "some-name" "some-name"))
-  (ol-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
-  (ol-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
-  (ol-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
-  (ol-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
-  )
+(ol-assert (ol-buffer-name-matches "some-name" "some-name"))
+(ol-assert (ol-buffer-name-matches "some-name<2>" "some-name"))
+(ol-assert (not (ol-buffer-name-matches "some-name-more" "some-name")))
+(ol-assert (not (ol-buffer-name-matches "some-name" "some-name-more")))
+(ol-assert (not (ol-buffer-name-matches "some-name" "vterm: some-name")))
 
 ;; -----------------------------------------------------------------------------
 ;; Default shell commands

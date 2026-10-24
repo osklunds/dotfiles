@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: nil -*-
 
 (require 'trace)
+(require 'ert)
 
 ;; Taken from https://emacs.stackexchange.com/a/24658
 (defun ol-unadvice (sym)
@@ -70,5 +71,32 @@
 
 ;; Mainly for save
 (add-function :after after-focus-change-function 'ol-window-or-buffer-change)
+
+;; -----------------------------------------------------------------------------
+;; Test
+;; -----------------------------------------------------------------------------
+
+(defun ol-assert-equal (exp act &optional label)
+  (when (not (equal exp act))
+    (message "")
+    (message "")
+    (message "")
+    (message "-----------------------------------------------------------------------------")
+    (message "Assert failed. label: '%s'" label)
+    (message "Exp: '%S'" exp)
+    (message "Act: '%S'" act)
+    (message "-----------------------------------------------------------------------------")
+    (message "")
+    (message "")
+    (message "")
+    (sleep-for 1)
+    )
+  (should (equal exp act)))
+
+(defun ol-assert (exp &optional label)
+  (ol-assert-equal t (not (not exp)) label))
+
+(defun ol-assert-not (exp &optional label)
+  (ol-assert-equal nil exp label))
 
 (provide 'ol-util)

@@ -2,6 +2,7 @@
 
 (require 'ol-evil)
 (require 'ol-icomplete)
+(require 'ol-util)
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
