@@ -382,18 +382,8 @@
 
 (advice-add 'magit-process-git-arguments :filter-return 'ol-magit-disable-patches-advice)
 
-;; Always show all files in diff when log filter on one file
-(defun ol-magit-diff-swap-file-restriction ()
-  ;; If not run-with-timer, then magit-diff-toggle-file-filter is run on
-  ;; wrong buffer and error message is shown.
-  (run-with-timer 0 nil
-                  (lambda ()
-                    ;; Need to check magit-buffer-diff-files because if nil
-                    ;; magit-diff-toggle-file-filter prompts
-                    (when magit-buffer-diff-files
-                      (magit-diff-toggle-file-filter)))))
+(ol-evil-define-key 'normal magit-diff-mode-map "C-c t" #'magit-diff-toggle-file-filter)
 
-(add-hook 'magit-revision-mode-hook #'ol-magit-diff-swap-file-restriction)
 
 ;; -----------------------------------------------------------------------------
 ;; Transient
