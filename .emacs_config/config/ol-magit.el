@@ -384,6 +384,13 @@
 
 (ol-evil-define-key 'normal magit-diff-mode-map "C-c t" #'magit-diff-toggle-file-filter)
 
+;; This is only to change date format
+(setc magit-revision-headers-format "\
+Author:     %aN <%aE>
+AuthorDate: %ai
+Commit:     %cN <%cE>
+CommitDate: %ci
+")
 
 ;; -----------------------------------------------------------------------------
 ;; Transient
