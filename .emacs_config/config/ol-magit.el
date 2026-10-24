@@ -2,7 +2,6 @@
 
 (require 'ol-util)
 (require 'ol-evil)
-(require 'ol-colors)
 
 (require 'magit)
 (require 'vdiff)

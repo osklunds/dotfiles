@@ -2,7 +2,6 @@
 
 (require 'ol-evil)
 (require 'ol-completion-in-region)
-(require 'ol-colors)
 
 (require 'corfu)
 (require 'cape)

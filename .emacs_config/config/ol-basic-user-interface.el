@@ -1,6 +1,5 @@
 ;; -*- lexical-binding: nil -*-
 
-(require 'ol-colors)
 (require 'ol-util)
 (require 'ol-evil)
 
