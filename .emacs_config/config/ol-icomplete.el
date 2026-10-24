@@ -1,10 +1,12 @@
 ;; -*- lexical-binding: t -*-
 
 (require 'icomplete)
+(require 'grep)
 (require 'delsel) ;; for minibuffer-keyboard-quit
 
 (require 'ol-completion-style)
 (require 'ol-util)
+(require 'ol-file)
 
 ;; -----------------------------------------------------------------------------
 ;; Basic settings

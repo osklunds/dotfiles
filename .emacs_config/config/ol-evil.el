@@ -81,6 +81,7 @@ behaves like `define-key' and `keymap-set'."
 (define-minor-mode ol-override-mode
   "Minor mode for overriding keys"
   :init-value t
+  :group 'ol
   :lighter " ol-override-mode"
   :keymap ol-override-map)
 
@@ -115,6 +116,7 @@ opens log, but in with `ol-plain-state-mode' state, l goes to the right. While
 the special keybinds are useful most of the times, sometimes it's useful to have
 the plain text edit keybinds instead."
   :init-value nil
+  :group 'ol
   (cond
    (ol-plain-state-mode
     (setq ol-plain-previous-local-map (current-local-map))

@@ -1,5 +1,8 @@
+;; -*- lexical-binding: t -*-
 
 (require 'tramp-cmds)
+
+(require 'ol-evil)
 
 (defun ol-clean-tramp ()
   (interactive)

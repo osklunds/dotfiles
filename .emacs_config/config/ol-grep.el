@@ -3,6 +3,9 @@
 (require 'grep)
 
 (require 'ol-file-name)
+(require 'ol-util)
+(require 'ol-file)
+(require 'ol-windows)
 
 (setc grep-use-null-device nil)
 (setc grep-use-headings t)

@@ -141,7 +141,7 @@
 (defun ol-magit-blame-quit-on-quit-window (fun &rest args)
   (interactive)
   (if magit-blame-mode
-      (magit-blame-quit)
+      (call-interactively #'magit-blame-quit)
     (apply fun args)))
 (advice-add 'quit-window :around #'ol-magit-blame-quit-on-quit-window)
 

@@ -21,6 +21,7 @@
   :lighter "msk-mode"
   :keymap msk-mode-map
   :global t
+  :group 'ol
   (cond
    (msk-mode (msk-start))
    (t        (msk-stop))))
@@ -43,7 +44,7 @@
   (cond
    ;; After magit-show-commit, put cursor on FILE-NAME and analyze commit
    ((and (equal major-mode 'magit-revision-mode)
-         magit-buffer-revision-hash
+         magit-buffer-revision-oid
          (msk-has-2-parents magit-buffer-revision-hash)
          (magit-current-file))
     (let ((rev magit-buffer-revision-hash))

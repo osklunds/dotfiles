@@ -83,13 +83,6 @@
 
 (advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
 
-(defun ol-vdiff-magit-stage-cleanup (file)
-  (let* ((trailing-buf (or (magit-get-revision-buffer "HEAD" file)
-                           (magit-find-file-noselect "HEAD" file))))
-    (kill-buffer trailing-buf)))
-
-(advice-add 'vdiff-magit-stage :after 'ol-vdiff-magit-stage-cleanup)
-
 ;; -----------------------------------------------------------------------------
 ;; Refine
 ;; -----------------------------------------------------------------------------

@@ -4,6 +4,8 @@
 ;; Merge Commit Analyzer (part of Merge Survival Knife)
 ;;------------------------------------------------------------------------------
 
+(require 'merge-survival-knife)
+
 ;;;; ---------------------------------------------------------------------------
 ;;;; Minor mode
 ;;;;----------------------------------------------------------------------------
@@ -17,6 +19,7 @@
   :lighter "mca-mode"
   :keymap mca-mode-map
   :global t
+  :group 'ol
   (cond
    (mca-mode (mca-start))
    (t        (mca-stop))))
@@ -32,7 +35,7 @@
   (interactive)
   (setq mca-original-window-configuration (current-window-configuration))
 
-  (let* ((commit magit-buffer-revision-hash)
+  (let* ((commit magit-buffer-revision-oid)
          (parents (magit-commit-parents commit)))
     (unless (length= parents 2)
       (user-error "Can only be used for commits with exactly 2 parents"))

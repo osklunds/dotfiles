@@ -8,6 +8,12 @@ DOTFILES_REPO=$(git rev-parse --show-toplevel)
 
 common_setup="
 (progn
+     (defun ol-require-advice-dependency (func feature &rest rest)
+       (unless (eq 'hydra feature)
+         (apply func feature rest)))
+     
+     (advice-add 'require :around 'ol-require-advice-dependency)
+
     (setq ol-repo-root \"$DOTFILES_REPO\")
 
     (setq ol-emacs-dir (file-name-concat ol-repo-root \".emacs_config\"))
