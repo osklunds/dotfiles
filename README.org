@@ -13,7 +13,7 @@ dotfiles I use
 *** More important
 
 - emacs in dired/vterm is very slow to open minibuffer when the directory is on a slow location.
-- magit stage many files is broken in evil, but not normal region.
+- Remove hydra dependency from vidff. It breaks native compilation of some of my files, including ol-magit and merge-survival-knife
 
 *** Less important
 
