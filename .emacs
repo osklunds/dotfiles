@@ -62,12 +62,6 @@
   (message "Loading '%s'" (file-name-sans-extension file))
   (require (intern (file-name-sans-extension file))))
 
-;; For some reason, isn't killed without this idle timer
-(run-with-idle-timer 0 nil (lambda ()
-                             (when (buffer-live-p "*Compile-Log*")
-                               (kill-buffer "*Compile-Log*"))
-                             (delete-other-windows)))
-
 ;; ---------------------------------------------------------------------------
 ;; Undo stuff needed just when loading emacs config
 ;; ---------------------------------------------------------------------------
