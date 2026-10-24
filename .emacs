@@ -32,11 +32,6 @@
 (let ((default-directory (file-name-concat ol-emacs-dir "packages_own/")))
   (normal-top-level-add-subdirs-to-load-path))
 
-(defun ol-add-all-to-load-path ()
-  (interactive)
-  (let ((default-directory ol-emacs-dir))
-    (normal-top-level-add-subdirs-to-load-path)))
-
 ;; -----------------------------------------------------------------------------
 ;; Dependency hacks
 ;; -----------------------------------------------------------------------------
