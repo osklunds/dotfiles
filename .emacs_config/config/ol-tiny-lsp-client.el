@@ -10,10 +10,11 @@
 ;; Config
 ;; -----------------------------------------------------------------------------
 
-(setc tlc-log-io t)
-(setc tlc-log-stderr t)
-(setc tlc-log-rust-debug t)
-(setc tlc-log-emacs-debug t)
+;; TODO: async log in tiny-lsp-client. IO at every keystroke causes hiccups.
+(setc tlc-log-io nil)
+(setc tlc-log-stderr nil)
+(setc tlc-log-rust-debug nil)
+(setc tlc-log-emacs-debug nil)
 (setc tlc-log-to-stdio nil)
 (setc tlc-debug-on-error nil)
 
