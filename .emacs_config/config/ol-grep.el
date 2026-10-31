@@ -36,7 +36,9 @@
 
 (defun ol-grep (&optional prefer-project-root)
   (interactive "P")
-  (setc grep-command (concat (ol-select-grep-command) " \"\""))
+  ;; -- so that e.g. -opt is interpreted as a pattern, not an option
+  ;; to the grep program
+  (setc grep-command (concat (ol-select-grep-command) " -- \"\""))
   (setc grep-command-position (length grep-command))
   (let* ((default-directory (ol-dwim-root prefer-project-root)))
     (call-interactively #'grep)))
