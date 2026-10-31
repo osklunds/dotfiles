@@ -200,7 +200,9 @@ separator."
       (when (get-text-property 0 'icomplete-selected line)
         (setq selected line)))
     (when selected
-      (string-match (format "%s\n" (regexp-quote selected)) return)
+      ;; ^ to avoid duplicate highlight when suffixes match
+      ;; \n ot $ to go to EOL
+      (string-match (format "^%s\n" (regexp-quote selected)) return)
       (let* ((m (match-data))
              (start (car m))
              (end (cadr m)))
