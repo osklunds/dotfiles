@@ -53,6 +53,7 @@ dotfiles I use
 - evil bug with e.g. d2k and visual lines
 - search and highlight several search hits at the same time
 - Make emacs start up faster.
+- Inside docker container, simplify host paths and paths to repos etc. Also, dH to host home
 
 *** Not important at all
 
