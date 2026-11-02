@@ -44,4 +44,7 @@
 
 ;; todo: check in fonts
 
+;; 90 is default
+(set-face-attribute 'default nil :height 100)
+
 (provide 'ol-colors)
