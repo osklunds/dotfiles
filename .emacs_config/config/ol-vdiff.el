@@ -56,6 +56,7 @@
 ;; Cleaning up buffers
 ;; -----------------------------------------------------------------------------
 
+;; todo: kill buffer if and only if it didn't exist before
 (defvar ol-vdiff-kill-buffers nil)
 
 (defun ol-vdiff-new-args (buffer-a
