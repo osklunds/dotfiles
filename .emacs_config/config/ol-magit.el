@@ -2,6 +2,7 @@
 
 (require 'ol-util)
 (require 'ol-evil)
+(require 'ol-corfu)
 
 (require 'magit)
 (require 'vdiff)
@@ -167,6 +168,9 @@
       (goto-char (point-min)))))
 
 (add-hook 'git-commit-setup-hook 'ol-git-commit-setup)
+
+;; Because it's buggy anyway
+(add-hook 'git-commit-setup-hook (lambda () (corfu-mode -1)))
 
 ;; -----------------------------------------------------------------------------
 ;; Status
