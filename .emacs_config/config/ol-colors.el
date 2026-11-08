@@ -42,7 +42,4 @@
 (set-fontset-font t 'symbol
                   (font-spec :family "DejaVu Sans Mono"))
 
-;; 90 is default
-(set-face-attribute 'default nil :height 100)
-
 (provide 'ol-colors)

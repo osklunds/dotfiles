@@ -1,0 +1,2 @@
+
+Symlink the relevant file to the config dir
