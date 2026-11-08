@@ -311,9 +311,9 @@
   ;; (when (magit-changed-files "HEAD")
   ;;   ;; Safety protection
   ;;   (user-error "Not allowed when uncommited changes exist"))
-  (let* ((range (if (string-match-p "\\.\\." magit-buffer-range-hashed)
-                    magit-buffer-range-hashed
-                  (format "%s..%s" magit-buffer-range-hashed (magit-commit-p "HEAD"))))
+  (let* ((range (if (string-match-p "\\.\\." magit-buffer-range-oids)
+                    magit-buffer-range-oids
+                  (format "%s..%s" magit-buffer-range-oids (magit-commit-p "HEAD"))))
          (split (string-split range "\\.\\."))
          (from (nth 0 split))
          (to (nth 1 split)))
@@ -372,7 +372,7 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol-magit-set-revision-header ()
-  (magit-set-header-line-format (magit-rev-format "%B" magit-buffer-revision-hash)))
+  (magit-set-header-line-format (magit-rev-format "%B" magit-buffer-revision-oid)))
 
 (add-hook 'magit-revision-sections-hook 'ol-magit-set-revision-header)
 
