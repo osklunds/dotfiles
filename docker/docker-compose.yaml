@@ -10,12 +10,17 @@ services:
     hostname: dev-env
     environment:
       - DISPLAY=${DISPLAY}
+      # REPOS_DIR is the location from the current system's perspective.
+      # Since it's the host starting the container, REPOS_DIR is the location
+      # of the directory containing this repo from the host's perspective.
+      # HOST_REPOS_DIR is the same path inside the container.
+      # REPOS_DIR becomes the same as HOST_REPOS_DIR inside the container,
+      # but calculated in a different way.
       - HOST_REPOS_DIR=${REPOS_DIR} 
     volumes:
-      ### General
-      # System access
-      - /:/host_root
-      - ${HOME}:/host_home
+      # Host access
+      - /:/root/host_root
+      - ${HOME}:/root/host_home
       
       # Repos
       # For docker sibling containers to work, path inside container and on
@@ -25,15 +30,8 @@ services:
       # Cache
       - dev-env-emacs-cache:/root/.emacs.d
 
-      ### Host-specific
-      # System stuff
-      - /var/run/user/1000/docker.sock:/var/run/docker.sock
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-
-      # User config
-      - ${HOME}/.git-credentials:/root/.git-credentials
-
     command:
+      # Symlink HOST_REPOS_DIR to a predicable and static path
       - /bin/bash
       - -c
       - |

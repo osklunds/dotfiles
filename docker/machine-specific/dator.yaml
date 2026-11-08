@@ -3,5 +3,9 @@ services:
   dev-env:
     environment:
     volumes:
-      - ${HOME}/others_repos:/root/others_repos
-      - ${HOME}/Oskar:/root/Oskar
+      # System stuff
+      - /var/run/user/1000/docker.sock:/var/run/docker.sock
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+
+      # User config
+      - ${HOME}/.git-credentials:/root/.git-credentials
