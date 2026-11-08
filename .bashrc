@@ -52,35 +52,18 @@ export TERM="xterm-256color"
 export BUILDKIT_PROGRESS=plain
 
 # Prompt
+PS1='[\h \W]\$ '
 
-# Different brackets to notice where I am.
-# Upper case means yes, that env is available.
-# Lower case means no, that env is not available.
-prompt_docker_part=""
-prompt_emacs_part=""
-
-emacs_prompt () {
-    call_emacs "(ol-get-buffer-name-from-path default-directory)" | tr -d '"'
-}
-
+# Directory tracking in emacs
 if [[ "$HOSTNAME" == "dev-env" ]]; then
-    prompt_docker_part="D"
-else
-    prompt_docker_part="d"
+    if [[ -n "$INSIDE_EMACS" ]]; then
+        # Redefine cd after all symlink magic is over
+        function cd () {
+            builtin cd "$@"
+            call_emacs "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
+        }
+
+        # To refresh default-directory in emacs
+        cd .
+    fi
 fi
-
-if [[ -n "$INSIDE_EMACS" ]]; then
-    prompt_emacs_part="E"
-
-    # Redefine cd after all symlink magic is over
-    function cd () {
-        builtin cd "$@"
-        call_emacs "(ol-vterm-shell-cwd-changed \"$(pwd)\")" &> /dev/null
-    }
-else
-    prompt_emacs_part="e"
-
-    unset -f cd
-fi
-
-PS1='[$prompt_docker_part$prompt_emacs_part \w] '
