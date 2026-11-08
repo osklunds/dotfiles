@@ -42,8 +42,6 @@
 (set-fontset-font t 'symbol
                   (font-spec :family "DejaVu Sans Mono"))
 
-;; todo: check in fonts
-
 ;; 90 is default
 (set-face-attribute 'default nil :height 100)
 
