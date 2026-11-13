@@ -36,6 +36,8 @@
 
 (defun ol-grep (&optional prefer-project-root)
   (interactive "P")
+  ;; Tramp issues - when grepping in a new host
+  (setq grep-host-defaults-alist nil)
   ;; -- so that e.g. -opt is interpreted as a pattern, not an option
   ;; to the grep program
   (setc grep-command (concat (ol-select-grep-command) " -- \"\""))
