@@ -132,17 +132,24 @@
 ;; Buffer name
 ;; -----------------------------------------------------------------------------
 
-(defvar ol-grep-command-args nil)
+(defvar ol-grep-buffer-name "")
 
-(defun ol-get-grep-command-args (command-args)
-  (setq ol-grep-command-args command-args))
+(defun ol-set-grep-buffer-name (command-args)
+  (let* ((pattern (cadr (string-split command-args " -- ")))
+         (new-name (concat "*grep* " pattern))
+         (new-name (generate-new-buffer-name new-name)))
+    (setq ol-grep-buffer-name new-name)))
 
-(advice-add 'grep :after #'ol-get-grep-command-args)
+;; :before is CRITICAL, because ol-grep-buffer-name is needed by
+;; ol-compilation-buffer-name-function which is before grep returns
+(advice-add 'grep :before #'ol-set-grep-buffer-name)
 
-(defun ol-grep-buffer-name ()
-  (rename-buffer (generate-new-buffer-name (concat "*grep* " ol-grep-command-args))))
+(defun ol-compilation-buffer-name-function (mode)
+  (if (string-equal mode "grep")
+      ol-grep-buffer-name
+    (compilation--default-buffer-name mode)))
 
-(add-hook 'grep-mode-hook #'ol-grep-buffer-name)
+(setq compilation-buffer-name-function #'ol-compilation-buffer-name-function)
 
 ;; -----------------------------------------------------------------------------
 ;; Results as file names
@@ -151,8 +158,8 @@
 (defun ol-grep-goto-file ()
   (interactive)
   (let* ((line (buffer-substring-no-properties
-                              (line-beginning-position)
-                              (line-end-position))))
+                (line-beginning-position)
+                (line-end-position))))
     (find-file line)))
 
 (ol-evil-define-key 'normal grep-mode-map "x" #'ol-grep-goto-file)
