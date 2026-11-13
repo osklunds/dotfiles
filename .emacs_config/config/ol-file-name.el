@@ -12,11 +12,17 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol-dwim-root (prefer-project-root)
-  (let ((root (ol-project-root)))
+  (let* ((root (ol-project-root))
+
+         (exception-modes '(
+                            ;; So that can choose a custom dir to search in
+                            dired-mode
+                            ;; So that if running grep again from a grep buffer,
+                            ;; the same dir is re-used
+                            grep-mode)))
     (cond
      ((and root prefer-project-root) root)
-     ;; todo: don't have vterm here, but files aren't found if using project root
-     ((cl-member major-mode '(dired-mode vterm-mode)) default-directory)
+     ((cl-member major-mode exception-modes) default-directory)
      (t root))))
 
 (defun ol-can-use-rg ()
