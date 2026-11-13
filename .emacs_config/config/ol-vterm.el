@@ -47,7 +47,7 @@
 (add-hook 'evil-insert-state-exit-hook 'ol-vterm-enable-copy-mode)
 
 ;; -----------------------------------------------------------------------------
-;; Dir track
+;; Track default-directory
 ;; -----------------------------------------------------------------------------
 
 (defun ol-vterm-shell-cwd-changed (new-cwd)
