@@ -75,9 +75,10 @@
 
 ;; Avoid after-change-major-mode-hook because slow for .el.gz files and
 ;; is called every time minibuffer closes
-;; To handle e.g. magit-status when the buffer has no file
-;; But needed in emacs 31
-(add-hook 'after-change-major-mode-hook 'ol-branch-name-segment)
+;; The below are needed for modes that don't have files because the above hooks
+;; are not called
+(add-hook 'dired-mode-hook #'ol-branch-name-segment)
+(add-hook 'magit-mode-hook #'ol-branch-name-segment)
 
 (defun ol-get-current-branch ()
   (unless (active-minibuffer-window)
