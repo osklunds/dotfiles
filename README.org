@@ -104,15 +104,11 @@ The above are big and impossible to replace on my own. Fortunetly, they have a b
 *** Small and non-critical
 
 #+begin_src 
-anzu
-evil-anzu
 evil-nerd-commenter
-evil-visualstar
 goto-chg
 #+end_src
 
-These are smaller. If they break, not as critical. Can e.g. do a poor-man reimplementation of anzu that simply counts the number of occurrences and current.
-
+These are smaller. If they break, not as critical. Can e.g. do a poor-man reimplementation.
 *** Small and critical
 
 #+begin_src 
