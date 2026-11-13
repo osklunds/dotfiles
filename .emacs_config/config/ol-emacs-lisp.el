@@ -21,8 +21,14 @@
   (call-interactively 'eval-buffer)
   (message "eval-buffer"))
 
+(defun ol-native-compile-buffer ()
+  (interactive)
+  (ol-save-silently)
+  (emacs-lisp-native-compile-and-load))
+
 (ol-define-key ol-visual-leader-map "e r" 'ol-eval-region)
 (ol-define-key ol-normal-leader-map "e b" 'ol-eval-buffer)
+(ol-define-key ol-normal-leader-map "e B" #'ol-native-compile-buffer)
 
 (defun ol-indent-buffer ()
   (interactive)
