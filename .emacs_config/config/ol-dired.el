@@ -12,7 +12,6 @@
 ;; General
 ;; -----------------------------------------------------------------------------
 
-(setc dired-kill-when-opening-new-dired-buffer t)
 (setc dired-clean-confirm-killing-deleted-buffers nil)
 (setc dired-auto-revert-buffer 'dired-directory-changed-p)
 
