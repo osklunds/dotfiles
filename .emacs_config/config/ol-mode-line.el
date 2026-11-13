@@ -67,6 +67,7 @@
   (interactive)
   (setq ol-branch-name-segment (ol-get-current-branch)))
 
+;; Manually update if out-of-sync and gr doesn't work since not a file buffer
 (ol-define-key ol-normal-leader-map "m b" #'ol-branch-name-segment)
 
 (add-hook 'after-revert-hook 'ol-branch-name-segment)
