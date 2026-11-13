@@ -68,10 +68,6 @@
 (ol-define-key icomplete-vertical-mode-minibuffer-map
                "~" #'ol-icomplete-dwim-tilde)
 
-;; To prevent help menu from opening
-(ol-define-key icomplete-vertical-mode-minibuffer-map
-               "C-h" (lambda () (interactive)))
-
 (defun ol-icomplete-forward ()
   (interactive)
   (unless (icomplete-forward-completions)
