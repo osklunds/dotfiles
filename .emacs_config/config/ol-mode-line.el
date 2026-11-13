@@ -118,9 +118,10 @@
 ;; far to the left
 (setc mode-line-right-align-edge 'window)
 
-;; Workaround to make sure also the messages buffer has the correct value
-(with-current-buffer (get-buffer "*Messages*")
-  (setq mode-line-format (default-value 'mode-line-format)))
+;; Refresh for all buffers. Needed for *Messages* but can be useful for all
+(dolist (buf (buffer-list))
+  (with-current-buffer buf
+    (setq mode-line-format (default-value 'mode-line-format))))
 
 ;; -----------------------------------------------------------------------------
 ;; header-line
