@@ -4,15 +4,9 @@
 (require 'ol-basic-user-interface)
 (require 'ol-evil)
 
-(require 'evil-visualstar)
-(require 'anzu)
-(require 'evil-anzu)
-
 ;; -----------------------------------------------------------------------------
 ;; Replace commands
 ;; -----------------------------------------------------------------------------
-
-(global-evil-visualstar-mode)
 
 (defconst ol-full-range "%")
 (defconst ol-from-here-range ",$")
@@ -57,123 +51,79 @@
       (evil-ex ex-command))))
 
 ;; -----------------------------------------------------------------------------
+;; Search visual selection
+;; -----------------------------------------------------------------------------
+
+;; @credits https://github.com/bling/evil-visualstar.git
+;; Copied/inspired from evil-visualstar, but simplified
+
+(defun ol-begin-visual-search (beg end)
+  (when (evil-visual-state-p)
+    (evil-exit-visual-state)
+    (let* ((selection (regexp-quote (buffer-substring-no-properties beg end)))
+           (pattern (evil-ex-make-search-pattern selection)))
+      (setq evil-ex-search-direction 'forward)
+      (setq evil-ex-search-pattern pattern)
+      (evil-ex-search-activate-highlight pattern))))
+
+(evil-define-motion ol-begin-visual-search-motion (beg end)
+  ""
+  :jump t
+  :repeat nil
+  (interactive "<r>")
+  (ol-begin-visual-search beg end))
+
+(ol-define-key evil-visual-state-map "*" #'ol-begin-visual-search-motion)
+
+;; -----------------------------------------------------------------------------
 ;; Number of search hits
 ;; -----------------------------------------------------------------------------
 
-(global-anzu-mode t)
+;; @credits https://github.com/emacsorphanage/anzu.git
+;; @credits https://github.com/emacsorphanage/evil-anzu.git
+;; Inspired by the above
 
-(setc anzu-cons-mode-line-p nil)
+(defun ol-search-count (string)
+  (let* ((here (point))
+         (total 0)
+         (current 0)
+         (case-fold-search (ol-case-fold string)))
+    (save-excursion
+      (goto-char (point-min))
+      ;; For performance, can consider to skip regex
+      (while (search-forward-regexp string nil t)
+        (setq total (1+ total))
+        (when (and (zerop current) (>= (match-end 0) here))
+          (setq current total))))
+    (cons current total)))
+
+;; Fold means ignore case
+(defun ol-case-fold (string)
+  (eq (evil-ex-regex-case string evil-ex-search-case) 'insensitive))
+
+(defun ol-search-count-evil-ex-search-pattern ()
+  (let* ((string (evil-ex-pattern-regex evil-ex-search-pattern)))
+    (ol-search-count string)))
 
 ;;;; ---------------------------------------------------------------------------
-;;;; Cache issues
+;;;; Caching the count
 ;;;; ---------------------------------------------------------------------------
 
-(defun ol-anzu--use-result-cache-p (func &rest args)
-  (and anzu--cached-positions (apply func args)))
+(defvar ol-search-count-cache nil)
 
-(advice-add 'anzu--use-result-cache-p :around 'ol-anzu--use-result-cache-p)
+(defun ol-search-count-cached ()
+  (or ol-search-count-cache
+      (setq ol-search-count-cache (ol-search-count-evil-ex-search-pattern))))
 
-(defun ol-anzu-reset-cache (&rest _)
-  (setq anzu--cached-positions nil))
+(defun ol-invalidate-search-count-cache ()
+  (setq ol-search-count-cache nil))
 
-(add-hook 'ol-window-or-buffer-change-hook 'ol-anzu-reset-cache)
+(add-hook 'ol-window-or-buffer-change-hook #'ol-invalidate-search-count-cache)
 
-;;;; ---------------------------------------------------------------------------
-;;;; Case issues test test TEST
-;;;; ---------------------------------------------------------------------------
-
-(defvar ol-anzu-search-term nil)
-
-(defun ol-anzu--search-all-position-advice (str)
-  (setq ol-anzu-search-term str))
-
-(advice-add 'anzu--search-all-position :before #'ol-anzu--search-all-position-advice)
-
-(defun ol-anzu--case-fold-search ()
-  (eq (evil-ex-regex-case
-       (or ol-anzu-search-term "") evil-ex-search-case)
-      'insensitive))
-
-;;;;;; -------------------------------------------------------------------------
-;;;;;; Copied code from anzu.el
-;;;;;; -------------------------------------------------------------------------
-
-;; Copied from anzu.el commit 26fb50b429ee968eb944b0615dd0aed1dd66172c
-;; but with anzu--case-fold-search changed to ol-anzu--case-fold-search
-;; The reason is that anzu--case-fold-search is defsubst which makes it
-;; impossible to advice and this fix the case issue for.
-
-(defun anzu--search-all-position (str)
-  (unless anzu--last-command
-    (setq anzu--last-command last-command))
-  (let ((input (anzu--transform-input str)))
-    (if (not (anzu--validate-regexp input))
-        anzu--cached-positions
-      (save-excursion
-        (goto-char (point-min))
-        (let ((positions '())
-              (count 0)
-              (overflow nil)
-              (finish nil)
-              (search-func (if (anzu--use-migemo-p)
-                               (lambda (word &optional bound noerror count)
-                                 (with-no-warnings
-                                   (migemo-forward word bound noerror count)))
-                             #'re-search-forward))
-              (case-fold-search (ol-anzu--case-fold-search)))
-          (while (and (not finish) (funcall search-func input nil t))
-            (push (cons (match-beginning 0) (match-end 0)) positions)
-            (cl-incf count)
-            (when (= (match-beginning 0) (match-end 0)) ;; Case of anchor such as "^"
-              (if (eobp)
-                  (setq finish t)
-                (forward-char 1)))
-            (when (and anzu-search-threshold (>= count anzu-search-threshold))
-              (setq overflow t finish t)))
-          (let ((result (anzu--construct-position-info count overflow (reverse positions))))
-            (setq anzu--cached-positions (copy-sequence result))
-            result))))))
-
-(defun anzu--count-and-highlight-matched (buf str replace-beg replace-end
-                                              use-regexp overlay-limit case-sensitive)
-  (anzu--cleanup-markers)
-  (setq str (anzu--convert-for-lax-whitespace str use-regexp))
-  (if (not (anzu--validate-regexp str))
-      anzu--cached-count
-    (with-current-buffer buf
-      (save-excursion
-        (let* ((backward (> replace-beg replace-end))
-               (overlay-beg (if backward (max replace-end overlay-limit) replace-beg))
-               (overlay-end (if backward replace-beg (min replace-end overlay-limit))))
-          (goto-char replace-beg)
-          (let ((count 0)
-                (overlayed 0)
-                (finish nil)
-                (cmp-func (if backward #'< #'>))
-                (search-func (if backward #'re-search-backward #'re-search-forward))
-                (step (if backward -1 1))
-                (case-fold-search (if case-sensitive
-                                      nil
-                                    (ol-anzu--case-fold-search))))
-            (while (and (not finish) (funcall search-func str replace-end t))
-              (if anzu--region-noncontiguous
-                  (when (cl-loop for (b . e) in anzu--region-noncontiguous
-                                 thereis (and (>= (point) b) (<= (point) e)))
-                    (cl-incf count))
-                (cl-incf count))
-              (let ((beg (match-beginning 0))
-                    (end (match-end 0)))
-                (when (= beg end)
-                  (if (eobp)
-                      (setq finish t)
-                    (forward-char step)))
-                (when (and replace-end (funcall cmp-func (point) replace-end))
-                  (setq finish t))
-                (when (and (not finish) (anzu2--put-overlay-p beg end overlay-beg overlay-end))
-                  (cl-incf overlayed)
-                  (anzu--add-overlay beg end))))
-            (setq anzu--cached-count count)
-            overlayed))))))
+;; test
+;; test
+;; TEST
+;; testabc
 
 ;; -----------------------------------------------------------------------------
 ;; Making Evil more similar to Vim
@@ -195,12 +145,14 @@
 
 (defun ol-evil-start-search-advice (&rest _args)
   (setq ol-evil-is-searching t)
+  (ol-invalidate-search-count-cache)
   (ol-update-evil-search-visible-buffers))
 
 (advice-add 'evil-ex-start-search :after 'ol-evil-start-search-advice)
 (advice-add 'evil-ex-start-word-search :after 'ol-evil-start-search-advice)
 (advice-add 'evil-ex-search-next :after 'ol-evil-start-search-advice)
 (advice-add 'evil-ex-search-previous :after 'ol-evil-start-search-advice)
+(advice-add 'ol-begin-visual-search :after 'ol-evil-start-search-advice)
 
 (defun ol-evil-stop-search ()
   (interactive)
@@ -220,7 +172,6 @@
     (evil-ex-search-previous)))
 
 (advice-add 'evil-ex-start-word-search :around 'ol-dont-move-advice)
-(advice-add 'evil-visualstar/begin-search :around 'ol-dont-move-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Regex search

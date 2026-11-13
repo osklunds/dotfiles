@@ -24,8 +24,9 @@
 ;; -----------------------------------------------------------------------------
 
 (defun ol-search-hits-segment ()
-  (when (and (mode-line-window-selected-p) anzu--state evil-ex-search-start-point)
-    (format "(%d/%d)  " anzu--current-position anzu--total-matched)))
+  (when (and (mode-line-window-selected-p) ol-evil-is-searching)
+    (pcase-let* ((`(,current . ,total) (ol-search-count-cached)))
+      (format "(%d/%d)  " current total))))
 
 (defun ol-evil-segment ()
   (let ((evil-face (cond
