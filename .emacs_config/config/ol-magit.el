@@ -3,10 +3,9 @@
 (require 'ol-util)
 (require 'ol-evil)
 (require 'ol-corfu)
+(require 'ol-vdiff)
 
 (require 'magit)
-(require 'vdiff)
-(require 'vdiff-magit)
 
 (ol-require-external "git")
 
@@ -39,8 +38,7 @@
 (ol-evil-define-key 'normal magit-mode-map "C" #'magit-clone)
 (ol-evil-define-key 'normal magit-mode-map "d" #'magit-diff)
 (ol-evil-define-key 'normal magit-mode-map "D" #'magit-diff-refresh)
-(ol-evil-define-key 'normal magit-mode-map "e" #'vdiff-magit-dwim)
-(ol-evil-define-key 'normal magit-mode-map "E" #'vdiff-magit)
+(ol-evil-define-key 'normal magit-mode-map "e" #'ol-vdiff-magit-dwim)
 (ol-evil-define-key 'normal magit-mode-map "f" #'magit-fetch)
 (ol-evil-define-key 'normal magit-mode-map "F" #'magit-pull)
 (ol-evil-define-key 'normal magit-mode-map "h" #'magit-info)
@@ -279,18 +277,65 @@
 (ol-define-key ol-normal-leader-map "g d h" 'ol-diff-current-file-head)
 
 (defun ol-diff-current-file (rev-left &optional rev-right)
+  (ol-vdiff-save-buffers-before)
   (let* ((buffer-left (ol-get-revision-buffer-current-file rev-left))
          (buffer-right (if rev-right
                            (ol-get-revision-buffer-current-file rev-right)
                          (current-buffer))))
-    (vdiff-buffers buffer-left buffer-right)))
+    (ol-vdiff-buffers buffer-left buffer-right)))
 
 (defun ol-get-revision-buffer-current-file (rev)
   (let* ((file (magit-current-file))
-         ;; nil as other-rev is like "{worktree}"
-         ;; need "or" in case of no rename
-         (file-in-rev (or (magit--rev-file-name file "HEAD" nil) file)))
+         (file-in-rev (ol-magit-rev-file-name file rev "HEAD")))
     (magit-find-file-noselect rev file-in-rev)))
+
+;; -----------------------------------------------------------------------------
+;; vdiff
+;; -----------------------------------------------------------------------------
+;; @credits https://github.com/osklunds/emacs-vdiff-magit.git
+;; My own simplified version
+
+(defun ol-vdiff-magit-diff (rev-a rev-b file-b)
+  (magit-with-toplevel ;; Not sure why vdiff-magit used this
+    (let* ((file-a (ol-magit-rev-file-name file-b rev-a rev-b)))
+      (ol-vdiff-save-buffers-before)
+      (ol-vdiff-buffers
+       (magit-find-file-noselect rev-a file-a)
+       (magit-find-file-noselect rev-b file-b)))))
+
+(defun ol-magit-rev-file-name (file rev rev-of-file)
+  ;; or to handle no rename
+  ;; if to handle if HEAD is the rev, need to do it in this wonky way
+  (or (if (string-equal "HEAD" rev)
+          (magit--rev-file-name file "HEAD" nil)
+        (magit--rev-file-name file rev rev-of-file))
+      file))
+
+(defun ol-vdiff-magit-dwim ()
+  (interactive)
+  (if-let* ((file (magit-current-file))
+            (type (magit-diff--dwim)))
+      (pcase type
+        ;; In unstaged section of magit-status
+        (`unstaged (ol-vdiff-magit-diff "{index}" "{worktree}" file))
+
+        ;; In staged section of magit-status
+        (`staged (ol-vdiff-magit-diff "HEAD" "{index}" file))
+
+        ;; Inside magit-diff-mode
+        ((pred stringp) (pcase-let* ((`(,rev-a ,rev-b) (magit-ediff-compare--read-revisions type)))
+                          (ol-vdiff-magit-diff rev-a rev-b file)))
+
+        ;; Inside magit-revison-mode (also for stash)
+        (`(commit . ,commit) (let* ((rev-a (concat commit "^"))
+                                    (rev-b commit))
+                               (ol-vdiff-magit-diff rev-a rev-b file)))
+        (_ (message "other")))
+    (message "No file selected")))
+
+;; Tests
+;; Commit with rename: (magit-show-commit "585ae16e7f44bfb691312aa106b51b9ddf9478c7")
+;; Staged and diff with rename: (shell-command-to-string "git mv ol-c.el ol-d.el")
 
 ;; -----------------------------------------------------------------------------
 ;; Patch file name

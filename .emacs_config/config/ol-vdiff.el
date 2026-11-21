@@ -1,8 +1,7 @@
-;; -*- lexical-binding: nil -*-
+;; -*- lexical-binding: t -*-
 
 (require 'ol-util)
 (require 'ol-basic-user-interface)
-(require 'ol-magit)
 (require 'ol-evil)
 
 (require 'vdiff)
@@ -18,12 +17,10 @@
 ;; I have it here for easy on-demand customization
 (setq vdiff--after-change-refresh-delay 1)
 
-(defun ol-vdiff-fold-string (n-lines first-line-text width)
+(defun ol-vdiff-fold-string (n-lines _first-line-text _width)
   (format "   %d lines\n" n-lines))
 
 (setc vdiff-fold-string-function 'ol-vdiff-fold-string)
-
-(setc vdiff-magit-stage-is-2way t)
 
 ;; -----------------------------------------------------------------------------
 ;; Synced scroll
@@ -36,17 +33,18 @@
 ;; TODO: Calling fix scroll automatically as part of vdiff next hunk doesn't
 ;; work. Probably related to the fixes/bugs I had to do for msk.
 
-(advice-add 'vdiff-next-hunk :after (lambda (&rest r) (ol-vdiff-fix-scroll)))
-(advice-add 'vdiff-previous-hunk :after (lambda (&rest r) (ol-vdiff-fix-scroll)))
+(advice-add 'vdiff-next-hunk :after (lambda (&rest _) (ol-vdiff-fix-scroll)))
+(advice-add 'vdiff-previous-hunk :after (lambda (&rest _) (ol-vdiff-fix-scroll)))
 
 ;; -----------------------------------------------------------------------------
 ;; Truncate lines
 ;; -----------------------------------------------------------------------------
 
-(advice-add 'vdiff-buffers :after (lambda (&rest r)
-                                    (ol-enable-truncate-lines)
-                                    (other-window 1)
-                                    (ol-enable-truncate-lines)))
+(advice-add 'vdiff-buffers :after (lambda (&rest _)
+                                    (save-window-excursion
+                                      (ol-enable-truncate-lines)
+                                      (other-window 1)
+                                      (ol-enable-truncate-lines))))
 
 (defun ol-enable-truncate-lines ()
   (unless truncate-lines
@@ -56,33 +54,50 @@
 ;; Cleaning up buffers
 ;; -----------------------------------------------------------------------------
 
-;; todo: kill buffer if and only if it didn't exist before
-(defvar ol-vdiff-kill-buffers nil)
+(defvar ol-vdiff-buffers-before nil)
 
-(defun ol-vdiff-new-args (buffer-a
-                          buffer-b
-                          &optional
-                          rotate
-                          on-quit
-                          restore-windows-on-quit
-                          kill-buffers-on-quit)
-  (let* ((new-on-quit (lambda (buf-a buf-b)
-                        (when ol-vdiff-kill-buffers
-                          (kill-buffer buf-a)
-                          (kill-buffer buf-b))
-                        (setq ol-vdiff-kill-buffers nil)
-                        (vdiff-magit--kill-temp-buffers buf-a buf-b)
-                        (visual-line-mode 1)))
-         (new-restore-windows-on-quit t)
-         (new-kill-buffers-on-quit nil))
-    (list buffer-a
-          buffer-b
-          rotate
-          new-on-quit
-          new-restore-windows-on-quit
-          new-kill-buffers-on-quit)))
+(defun ol-vdiff-save-buffers-before ()
+  (when ol-vdiff-buffers-before
+    (error "Buffers already saved"))
+  (setq ol-vdiff-buffers-before (buffer-list)))
 
-(advice-add 'vdiff-buffers :filter-args (lambda (args) (apply 'ol-vdiff-new-args args)))
+(defun ol-vdiff-on-quit (buffers-before buf-a buf-b)
+  (dolist (buf (list buf-a buf-b))
+    (unless (cl-member buf buffers-before)
+      (kill-buffer buf))))
+
+(defun ol-vdiff-buffers (buf-a buf-b)
+  (unless ol-vdiff-buffers-before
+    (error "Buffers not saved before"))
+  (let* ((buffers-before ol-vdiff-buffers-before)
+         (on-quit (apply-partially #'ol-vdiff-on-quit buffers-before)))
+    (setq ol-vdiff-buffers-before nil)
+    (vdiff-buffers buf-a buf-b nil on-quit t)
+    ;; So that the buffer on the right is selected
+    (other-window 1)))
+
+(defun ol-vdiff-buffers-interactive ()
+  (interactive)
+  (ol-vdiff-save-buffers-before)
+  (let* ((buf-a (get-buffer (read-buffer "Buffer 1: " (current-buffer))))
+         (buf-b (get-buffer (read-buffer "Buffer 2: " (current-buffer)))))
+    (ol-vdiff-buffers buf-a buf-b)))
+
+;; -----------------------------------------------------------------------------
+;; Cleaning up process buffers
+;; -----------------------------------------------------------------------------
+
+;; inside vdiff-quit, vdiff-session-process-buffer returns buffer names, not
+;; buffers. But buffer-live-p only supports buffers
+;; This it to prevent *vdiff* -123 buffers
+(defun ol-vdiff-quit-bug-fix-advice (vdiff-quit-func)
+  (let* ((old-buffer-live-p (symbol-function #'buffer-live-p)))
+    (cl-letf (((symbol-function #'buffer-live-p)
+               (lambda (buf)
+                 (funcall old-buffer-live-p (get-buffer buf)))))
+      (funcall vdiff-quit-func))))
+
+(advice-add 'vdiff-quit :around #'ol-vdiff-quit-bug-fix-advice)
 
 ;; -----------------------------------------------------------------------------
 ;; Refine
@@ -103,6 +118,7 @@
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
 ;; -----------------------------------------------------------------------------
+;; todo: move to where used
 
 (ol-define-key vdiff-mode-map "C-c" vdiff-mode-prefix-map)
 
@@ -110,21 +126,13 @@
 (ol-define-key vdiff-mode-map "M-p" 'vdiff-previous-hunk)
 (ol-define-key vdiff-mode-map "M-l" 'ol-vdiff-fix-scroll)
 
-(ol-define-key ol-normal-leader-map "b d" 'vdiff-buffers)
+(ol-define-key ol-normal-leader-map "b d" #'ol-vdiff-buffers-interactive)
 
 ;; Hunk refinement
 (ol-define-key vdiff-mode-map "C-c f" 'ol-vdiff-refine-all-hunks)
 (ol-define-key vdiff-mode-map "C-c F" 'vdiff-refine-this-hunk)
 (ol-define-key vdiff-mode-map "C-c x" 'ol-vdiff-remove-all-refinements)
 (ol-define-key vdiff-mode-map "C-c X" 'vdiff-remove-refinements-in-hunk)
-
-;; Magit integration
-(ol-define-key magit-mode-map "e" 'vdiff-magit-dwim)
-(ol-define-key magit-mode-map "E" 'vdiff-magit)
-(transient-suffix-put 'magit-dispatch "e" :description "vdiff (dwim)")
-(transient-suffix-put 'magit-dispatch "e" :command 'vdiff-magit-dwim)
-(transient-suffix-put 'magit-dispatch "E" :description "vdiff")
-(transient-suffix-put 'magit-dispatch "E" :command 'vdiff-magit)
 
 ;; -----------------------------------------------------------------------------
 ;; Diff of selection 
@@ -147,15 +155,18 @@
   (setq ol-selection2 (buffer-substring-no-properties (region-beginning)
                                                       (region-end)))
   (evil-normal-state)
-  (setq ol-vdiff-kill-buffers t)
-  (vdiff-temp-files)
-  ;; Assumes only two buffers
-  (other-window 1)
-  (insert ol-selection1)
-  (other-window 1)
-  (insert ol-selection2)
-  (setq ol-selection1 nil)
-  (setq ol-selection2 nil))
+
+  (ol-vdiff-save-buffers-before)
+
+  (let* ((buf-sel1 (generate-new-buffer "selection1"))
+         (buf-sel2 (generate-new-buffer "selection2")))
+    (with-current-buffer buf-sel1
+      (insert ol-selection1))
+    (with-current-buffer buf-sel2
+      (insert ol-selection2))
+    (setq ol-selection1 nil)
+    (setq ol-selection2 nil)
+    (ol-vdiff-buffers buf-sel1 buf-sel2)))
 
 (ol-define-key ol-visual-leader-map "d s 1" #'ol-vdiff-select1)
 (ol-define-key ol-visual-leader-map "d s 2" #'ol-vdiff-select2)
