@@ -5,7 +5,6 @@
 (require 'ol-evil)
 
 (require 'vdiff)
-(require 'vdiff-magit)
 
 (ol-require-external "diff")
 

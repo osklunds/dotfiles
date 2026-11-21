@@ -9,6 +9,7 @@
 (require 'magit-patch)
 (require 'magit-subtree)
 (require 'magit-gitignore)
+(require 'magit-ediff)
 
 (ol-require-external "git")
 

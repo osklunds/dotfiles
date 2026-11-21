@@ -55,6 +55,3 @@
 [submodule ".emacs_config/packages/llama"]
 	path = .emacs_config/packages/llama
 	url = https://github.com/tarsius/llama.git
-[submodule ".emacs_config/packages_own/emacs-vdiff-magit"]
-	path = .emacs_config/packages_own/emacs-vdiff-magit
-	url = https://github.com/osklunds/emacs-vdiff-magit.git
