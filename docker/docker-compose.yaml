@@ -30,6 +30,9 @@ services:
       # Cache
       - dev-env-emacs-cache:/root/.emacs.d
 
+      # Other
+      - /etc/localtime:/etc/localtime:ro
+
     command:
       # Symlink HOST_REPOS_DIR to a predicable and static path
       - /bin/bash
