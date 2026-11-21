@@ -6,7 +6,19 @@
 
 (require 'vdiff)
 (require 'magit)
-(require 'vdiff-magit)
+
+(declare-function 'mca-mode "merge-commit-analyzer.el")
+
+;;;; ---------------------------------------------------------------------------
+;;;; Constants and variables
+;;;; ---------------------------------------------------------------------------
+
+(defconst msk-local-start-re "^<<<<<<<")
+(defconst msk-local-end-re "^|||||||")
+(defconst msk-remote-start-re "^=======")
+(defconst msk-remote-end-re "^>>>>>>>")
+
+(defvar msk-skip-vdiff-refresh nil)
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; Minor mode
@@ -45,9 +57,9 @@
    ;; After magit-show-commit, put cursor on FILE-NAME and analyze commit
    ((and (equal major-mode 'magit-revision-mode)
          magit-buffer-revision-oid
-         (msk-has-2-parents magit-buffer-revision-hash)
+         (msk-has-2-parents magit-buffer-revision-oid)
          (magit-current-file))
-    (let ((rev magit-buffer-revision-hash))
+    (let ((rev magit-buffer-revision-oid))
       (msk-mode-enable (list 'merge-commit rev) (magit-current-file))))
 
    ;; Inside magit-status-mode, put cursor on "unmerged FILE-NAME" and analyze
@@ -61,8 +73,8 @@
    ;; in the commit
    ;; TODO: this variant could be useful also when merge is in progress
    ((and (equal major-mode 'magit-revision-mode)
-         magit-buffer-revision-hash
-         (msk-has-2-parents magit-buffer-revision-hash))
+         magit-buffer-revision-oid
+         (msk-has-2-parents magit-buffer-revision-oid))
     (mca-mode))
 
    ;; Inside a file, put cursor inside a confluct, and analyze just the conflict
@@ -91,15 +103,6 @@
 (defun msk-cant-save-reminder ()
   (interactive)
   (user-error "Can't save temp buffers in msk-mode"))
-
-;;;; ---------------------------------------------------------------------------
-;;;; Constants
-;;;; ---------------------------------------------------------------------------
-
-(defconst msk-local-start-re "^<<<<<<<")
-(defconst msk-local-end-re "^|||||||")
-(defconst msk-remote-start-re "^=======")
-(defconst msk-remote-end-re "^>>>>>>>")
 
 ;;;; ---------------------------------------------------------------------------
 ;;;; State
@@ -256,12 +259,12 @@
            (end-point nil))
       (re-search-forward start)
       (unless inclusive
-        (next-line))
+        (forward-line))
       (beginning-of-line)
       (setq start-point (point))
       (re-search-forward end)
       (unless inclusive
-        (previous-line))
+        (forward-line -1))
       (end-of-line)
       (setq end-point (point))
       (buffer-substring-no-properties start-point end-point))))
@@ -346,6 +349,8 @@
     (msk-put-buffer right-name right-buffer)
     (add-to-list 'msk-buffers-to-kill right-buffer)
 
+    ;; Not using any options to kill buffers or restore windows since msk is
+    ;; doing that itself
     (vdiff-buffers left-buffer right-buffer)))
 
 (defun msk-diff-name (left right this)
@@ -415,8 +420,6 @@
       (add-to-list 'msk-shown-diffs has-shown-key)
       (unless msk-skip-vdiff-refresh
         (vdiff-refresh)))))
-
-(defvar msk-skip-vdiff-refresh nil)
 
 (defun msk-base-local ()
   (interactive)

@@ -2,6 +2,7 @@
 
 (require 'ol-evil)
 (require 'ol-corfu)
+(require 'ol-file)
 
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table
   '(

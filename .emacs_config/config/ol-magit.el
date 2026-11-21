@@ -6,6 +6,9 @@
 (require 'ol-vdiff)
 
 (require 'magit)
+(require 'magit-patch)
+(require 'magit-subtree)
+(require 'magit-gitignore)
 
 (ol-require-external "git")
 
@@ -19,6 +22,21 @@
   (display-buffer buffer))
 
 (setc magit-commit-diff-inhibit-same-window t)
+
+;; -----------------------------------------------------------------------------
+;; Tools
+;; -----------------------------------------------------------------------------
+
+(defun ol-get-current-branch ()
+  (unless (active-minibuffer-window)
+    (if-let* ((branch (magit-get-current-branch)))
+        branch
+      (if-let* ((detached-at-status (magit-git-string "status"))
+                (detached-at (ol-regexp-group "HEAD detached at \\(.+\\)"
+                                              detached-at-status 1)))
+          detached-at
+        (when-let* ((commit-id (magit-git-string "rev-parse" "HEAD")))
+          (substring commit-id 0 7))))))
 
 ;; -----------------------------------------------------------------------------
 ;; Keybinds
@@ -356,9 +374,9 @@
   ;; (when (magit-changed-files "HEAD")
   ;;   ;; Safety protection
   ;;   (user-error "Not allowed when uncommited changes exist"))
-  (let* ((range (if (string-match-p "\\.\\." magit-buffer-range-oids)
-                    magit-buffer-range-oids
-                  (format "%s..%s" magit-buffer-range-oids (magit-commit-p "HEAD"))))
+  (let* ((range (if (string-match-p "\\.\\." magit-buffer-diff-range-oids)
+                    magit-buffer-diff-range-oids
+                  (format "%s..%s" magit-buffer-diff-range-oids (magit-commit-p "HEAD"))))
          (split (string-split range "\\.\\."))
          (from (nth 0 split))
          (to (nth 1 split)))

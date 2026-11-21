@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 
 ;; This theme is originally doom-one-light from https://github.com/doomemacs/themes
 ;; But I have customized it a bit.
