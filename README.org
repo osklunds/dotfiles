@@ -113,10 +113,9 @@ These are smaller. If they break, not as critical. Can e.g. do a poor-man reimpl
 
 #+begin_src 
 vdiff
-vdiff-magit
 #+end_src
 
-These are critical, but if needed, I can tweak them myself if they break. In fact, I have already done that for vdiff-magit.
+These are critical, but if needed, I can tweak them myself if they break.
 
 *** Own
 
