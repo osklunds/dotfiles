@@ -9,17 +9,24 @@
 ;; Own faces
 ;; -----------------------------------------------------------------------------
 
+(defgroup ol-faces nil
+  "ol-faces"
+  :group 'tools)
+
 (defface ol-candidate-face
-  `((default :weight normal :foreground ,ol-black :background ,ol-white))
-  "Face for candidates in e.g. ivy and company.")
+  `((default :weight normal))
+  "Face for candidates in e.g. ivy and company."
+  :group 'ol-faces)
 
 (defface ol-match-face
   '((default :weight bold :foreground "#4078f2" :background unspecified))
-  "Face for matches in e.g. ivy and company.")
+  "Face for matches in e.g. ivy and company."
+  :group 'ol-faces)
 
 (defface ol-selection-face
   '((default :extend t :weight bold :background "#d7e4e8"))
-  "Face for current selection in e.g. ivy and company.")
+  "Face for current selection in e.g. ivy and company."
+  :group 'ol-faces)
 
 ;; -----------------------------------------------------------------------------
 ;; Fonts

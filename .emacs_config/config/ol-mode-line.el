@@ -4,20 +4,20 @@
 (require 'ol-evil)
 (require 'ol-project)
 (require 'ol-file)
-
-(require 'magit)
+(require 'ol-colors)
+(require 'ol-magit)
 
 ;; -----------------------------------------------------------------------------
 ;; Faces
 ;; -----------------------------------------------------------------------------
 
-(defface ol-evil-normal-state-mode-line-face nil "")
-(defface ol-evil-insert-state-mode-line-face nil "")
-(defface ol-evil-visual-state-mode-line-face nil "")
-(defface ol-evil-emacs-state-mode-line-face nil "")
-(defface ol-evil-operator-state-mode-line-face nil "")
-(defface ol-evil-plain-state-mode-mode-line-face nil "")
-(defface ol-buffer-name-mode-line-face nil "")
+(defface ol-evil-normal-state-mode-line-face nil "" :group 'ol-faces)
+(defface ol-evil-insert-state-mode-line-face nil "" :group 'ol-faces)
+(defface ol-evil-visual-state-mode-line-face nil "" :group 'ol-faces)
+(defface ol-evil-emacs-state-mode-line-face nil "" :group 'ol-faces)
+(defface ol-evil-operator-state-mode-line-face nil "" :group 'ol-faces)
+(defface ol-evil-plain-state-mode-mode-line-face nil "" :group 'ol-faces)
+(defface ol-buffer-name-mode-line-face nil "" :group 'ol-faces)
 
 ;; -----------------------------------------------------------------------------
 ;; Left part
@@ -43,7 +43,7 @@
      'face evil-face)))
 
 (defun ol-buffer-name-segment ()
-  (list -50 (propertize "%b" 'face 'ol-buffer-name-mode-line-face)))
+  (propertize (string-truncate-left (buffer-name) 50) 'face 'ol-buffer-name-mode-line-face))
 
 (defun ol-file-state-segment ()
   (cond
@@ -79,17 +79,6 @@
 ;; are not called
 (add-hook 'dired-mode-hook #'ol-branch-name-segment)
 (add-hook 'magit-mode-hook #'ol-branch-name-segment)
-
-(defun ol-get-current-branch ()
-  (unless (active-minibuffer-window)
-    (if-let* ((branch (magit-get-current-branch)))
-        branch
-      (if-let* ((detached-at-status (magit-git-string "status"))
-                (detached-at (ol-regexp-group "HEAD detached at \\(.+\\)"
-                                              detached-at-status 1)))
-          detached-at
-        (when-let* ((commit-id (magit-git-string "rev-parse" "HEAD")))
-          (substring commit-id 0 7))))))
 
 ;; No need to cache since (ol-project-name) already is fast and cached
 (defun ol-project-name-segment ()

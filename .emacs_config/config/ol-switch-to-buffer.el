@@ -3,6 +3,7 @@
 (require 'ol-evil)
 (require 'ol-icomplete)
 (require 'ol-util)
+(require 'ol-colors)
 
 (ol-define-key ol-override-map "C-j" #'ol-switch-to-buffer)
 
@@ -62,16 +63,19 @@ buffer last."
   (add-face-text-property 0 (length str) face nil str))
 
 (defface ol-dired-buffer-name-face
-  '((default :weight bold :inherit 'font-lock-function-name-face))
-  "Face for dired buffer name in `ol-switch-to-buffer'.")
+  '((default :weight bold :inherit font-lock-function-name-face))
+  "Face for dired buffer name in `ol-switch-to-buffer'."
+  :group 'ol-faces)
 
 (defface ol-vterm-buffer-name-face
-  '((default :weight bold :inherit 'font-lock-type-face))
-  "Face for vterm buffer name in `ol-switch-to-buffer'.")
+  '((default :weight bold :inherit font-lock-type-face))
+  "Face for vterm buffer name in `ol-switch-to-buffer'."
+  :group 'ol-faces)
 
 (defface ol-remote-buffer-name-face
   '((default :foreground "#110099"))
-  "Face for remote buffer name in `ol-switch-to-buffer'.")
+  "Face for remote buffer name in `ol-switch-to-buffer'."
+  :group 'ol-faces)
 
 (defun ol-switch-to-buffer-delete-action (selected)
   ;; Use "when" version as extra robustification, although unsure if needed
